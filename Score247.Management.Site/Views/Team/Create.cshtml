@@ -1,0 +1,50 @@
+﻿@model Score247Management.Core.Teams.Models.Team
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>New Team</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Country" class="control-label"></label>
+                <input asp-for="Country" class="form-control" />
+                <span asp-validation-for="Country" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CountryCode" class="control-label"></label>
+                <input asp-for="CountryCode" class="form-control" />
+                <span asp-validation-for="CountryCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Flag" class="control-label"></label>
+                <input asp-for="Flag" class="form-control" />
+                <span asp-validation-for="Flag" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Formation" class="control-label"></label>
+                <input asp-for="Formation" class="form-control" />
+                <span asp-validation-for="Formation" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Abbreviation" class="control-label"></label>
+                <input asp-for="Abbreviation" class="form-control" />
+                <span asp-validation-for="Abbreviation" class="text-danger"></span>
+            </div>
+            <div class="form-group row mx-auto">
+                <input type="submit" value="Save" class="btn btn-primary col-sm-3 mx-sm-1" />
+                <button asp-action="Index" value="Cancel" class="btn btn-primary col-sm-3  mx-sm-1">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+

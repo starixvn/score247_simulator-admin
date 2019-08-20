@@ -1,0 +1,96 @@
+﻿namespace Score247.Management.Site.Models.Events
+{
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+
+    public class MatchTimelineDto
+    {
+        public DateTime generated_at { get; set; }
+
+        public string schema { get; set; }
+
+        public Sport_Event sport_event { get; set; }
+
+        public Sport_Event_Status sport_event_status { get; set; }
+
+        public Sport_Event_Conditions sport_event_conditions { get; set; }
+
+        public IEnumerable<TimelineDto> timeline { get; set; }
+
+        public Statistics statistics { get; set; }
+    }
+
+    public class TimelineDto
+    {
+        public long id { get; set; }
+        public string type { get; set; }
+
+        [DataType(DataType.Date)]
+        public DateTimeOffset time { get; set; }
+
+        [DataType(DataType.Time)]
+        public TimeSpan hour { get; set; }
+        public IEnumerable<CommentaryDto> commentaries { get; set; }
+        public int period { get; set; }
+        public string period_type { get; set; }
+        public string period_name { get; set; }
+        public int match_time { get; set; }
+        public string match_clock { get; set; }
+        public string team { get; set; }
+        public int x { get; set; }
+        public int y { get; set; }
+        public int home_score { get; set; }
+        public int away_score { get; set; }
+        public Goal_Scorer goal_scorer { get; set; }
+        public Assist assist { get; set; }
+        public TimelinePlayer player { get; set; }
+        public string outcome { get; set; }
+        public Player_Out player_out { get; set; }
+        public Player_In player_in { get; set; }
+        public string stoppage_time { get; set; }
+        public int injury_time_announced { get; set; }
+        public string description { get; set; }
+        public int? shootout_home_score { get; set; }
+        public int? shootout_away_score { get; set; }
+
+        public string status { get; set; }
+    }
+
+    public class Goal_Scorer
+    {
+        public string id { get; set; }
+        public string name { get; set; }
+        public string method { get; set; }
+    }
+
+    public class Assist
+    {
+        public string id { get; set; }
+        public string type { get; set; }
+        public string name { get; set; }
+    }
+
+    public class TimelinePlayer
+    {
+        public string id { get; set; }
+        public string name { get; set; }
+    }
+
+    public class Player_Out
+    {
+        public string id { get; set; }
+        public string name { get; set; }
+    }
+
+    public class Player_In
+    {
+        public string id { get; set; }
+        public string name { get; set; }
+    }
+
+    public class CommentaryDto
+    {
+        public string text { get; set; }
+    }
+}

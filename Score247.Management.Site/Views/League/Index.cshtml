@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Score247Management.Core.Leagues.Models.League>
+
+@{
+    ViewData["Title"] = "Leagues";
+}
+
+<h1>Leagues</h1>
+<form class="form-inline">
+    <div class="form-group col-sm-3 mb-2">
+        <select class="form-control col-sm-12" id="exampleFormControlSelect1">
+            <option>Soccer</option>
+        </select>
+    </div>
+    <button asp-action="Create" class="btn btn-primary mb-2">New League</button>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Order)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Flag)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                LeagueCategory
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Order)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Flag)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LeagueCategory.Name)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

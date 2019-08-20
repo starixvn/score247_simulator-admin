@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29123.88
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Score247Management", "Score247Management\Score247Management.csproj", "{1E2DDC6C-00D3-4D96-A759-6168082A6737}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Score247Management", "Score247Management\Score247Management.csproj", "{1E2DDC6C-00D3-4D96-A759-6168082A6737}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Score247Management.Core", "Score247Management.Core\Score247Management.Core.csproj", "{855713FB-DE96-4D96-BC00-8CFD19BA4DBD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Score247Management.Core", "Score247Management.Core\Score247Management.Core.csproj", "{855713FB-DE96-4D96-BC00-8CFD19BA4DBD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Score247.Management.Site", "Score247.Management.Site\Score247.Management.Site.csproj", "{35676BDB-5F45-47C2-9DF7-5830EF094FA6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{855713FB-DE96-4D96-BC00-8CFD19BA4DBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{855713FB-DE96-4D96-BC00-8CFD19BA4DBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{855713FB-DE96-4D96-BC00-8CFD19BA4DBD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35676BDB-5F45-47C2-9DF7-5830EF094FA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35676BDB-5F45-47C2-9DF7-5830EF094FA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35676BDB-5F45-47C2-9DF7-5830EF094FA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35676BDB-5F45-47C2-9DF7-5830EF094FA6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
