@@ -1,0 +1,26 @@
+﻿<Functions>
+  <Function Name="League">
+    <Setting Key="League_GetLeague" SpName="League_GetLeague" DbName="DefaultConnection">
+      <Mapping DataField="LeagueCategoryId" ObjectProperty="Id" Class="LeagueCategory" />
+      <Mapping DataField="LeagueCategoryName" ObjectProperty="Name" Class="LeagueCategory" />
+      <Mapping DataField="LeagueCategoryCode" ObjectProperty="CountryCode" Class="LeagueCategory" />
+    </Setting>
+    <Setting Key="League_GetCategory" SpName="League_GetCategory" DbName="DefaultConnection" />
+    <Setting Key="League_InsertLeague" SpName="League_InsertLeague" DbName="DefaultConnection" />
+  </Function>
+  <Function Name="Team">
+    <Setting Key="Team_GetTeam" SpName="Team_GetTeam" DbName="DefaultConnection">
+    </Setting>
+    <Setting Key="Team_InsertTeam" SpName="Team_InsertTeam" DbName="DefaultConnection" />
+  </Function>
+  <Function Name="Matches">
+    <Setting Key="Match_GetByDateRange" SpName="Match_GetByDateRange" DbName="DevConnection" />
+    <Setting Key="Match_GetById" SpName="Match_GetById" DbName="DevConnection" />
+    <Setting Key="Match_GetTimelineEvents" SpName="Match_GetTimelineEvents" DbName="DevConnection" />
+    <Setting Key="Match_GetMatches" SpName="Match_GetMatches" DbName="DevConnection" />
+    <Setting Key="LiveMatch_GetBySportId" SpName="LiveMatch_GetBySportId" DbName="DevConnection" />
+  </Function>
+  <Function Name="Odds">
+    <Setting Key="Odds_GetOdds" SpName="Odds_GetOdds" DbName="DefaultConnection" />
+  </Function>
+</Functions>

@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Score247Management.Core.Matches.Models.TimelineEvent>
+<h4>Timelines Events:</h4>
+<hr />
+<table id="example" class="table col-sm-12">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                Type
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedTime)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type.DisplayName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedTime)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

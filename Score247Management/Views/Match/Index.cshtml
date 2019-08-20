@@ -1,0 +1,59 @@
+﻿@model IEnumerable<Score247Management.Core.Matches.Models.Match>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table id="mathes-table" class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EventDate)
+            </th>
+            <th>
+                @Html.DisplayName("Teams")
+            </th>
+            <th>
+                @Html.DisplayName("Status")
+            </th>
+            <th>
+                @Html.DisplayName("Result")
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Teams.FirstOrDefault().Name) vs @Html.DisplayFor(modelItem => item.Teams.LastOrDefault().Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MatchResult.MatchStatus.DisplayName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LatestTimeline.HomeScore) - @Html.DisplayFor(modelItem => item.LatestTimeline.AwayScore)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

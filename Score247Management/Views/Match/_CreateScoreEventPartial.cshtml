@@ -1,0 +1,100 @@
+﻿@using  Score247Management.Core._Shared.Enumerations
+
+@model Score247Management.Models.Events.MatchPushEventDto
+@{
+    List<SelectListItem> eventTypes = new List<SelectListItem>();
+    eventTypes.Add(new SelectListItem()
+    {
+        Text = "Normal Goal",
+        Value = "normal_goal"
+    });
+    eventTypes.Add(new SelectListItem()
+    {
+        Text = "Own Goal",
+        Value = "own_goal"
+    });
+    List<SelectListItem> periodTypes = new List<SelectListItem>();
+    periodTypes.Add(new SelectListItem()
+    {
+        Text = "Main time",
+        Value = "regular_period"
+    });
+    periodTypes.Add(new SelectListItem()
+    {
+        Text = "Extra Time",
+        Value = "overtime"
+    });
+}
+<div class="card">
+    <div class="card-header" id="matchScoreEventHeading">
+        <h4 class="mb-0">
+            <button class="btn btn-link" data-toggle="collapse" data-target="#matchScoreEvent" aria-expanded="true" aria-controls="matchScoreEvent">
+                Match Score Event
+            </button>
+        </h4>
+    </div>
+    <div class="col-md-12 collapse" aria-labelledby="matchScoreEventHeading" data-parent="#accordion" id="matchScoreEvent">
+        <div class="card-body">
+            <form asp-action="_CreateScoreEventPartial" asp-route-id="@ViewBag.MatchId">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="column">
+                    <div class="form-group ">
+                        <label asp-for="payload.timeline.type" class="control-label">Event Type</label>
+                        <select id="eventType" asp-for="payload.timeline.type" asp-items="eventTypes" class="form-control"></select>
+                        <span asp-validation-for="payload.timeline.type" class="text-danger"></span>
+                    </div>
+                    <div class="form-group ">
+                        <label asp-for="payload.timeline.period_type" class="control-label">Period Type</label>
+                        <select id="eventType" asp-for="payload.timeline.period_type" asp-items="periodTypes" class="form-control"></select>
+                        <span asp-validation-for="payload.timeline.period_type" class="text-danger"></span>
+                    </div>
+                    <div class="form-group ">
+                        <label asp-for="payload.timeline.time" class="control-label">Date</label>
+                        <input asp-for="payload.timeline.time" class="form-control" />
+                        <span asp-validation-for="payload.timeline.time" class="text-danger"></span>
+                    </div>
+                    <div class="form-group ">
+                        <label asp-for="payload.timeline.hour" class="control-label">Time</label>
+                        <input asp-for="payload.timeline.hour" class="form-control" />
+                        <span asp-validation-for="payload.timeline.hour" class="text-danger"></span>
+                    </div>
+                    <div class="form-group ">
+                        <label asp-for="payload.timeline.match_time" class="control-label">Match Time</label>
+                        <input asp-for="payload.timeline.match_time" class="form-control" />
+                        <span asp-validation-for="payload.timeline.match_time" class="text-danger"></span>
+                    </div>
+                    <div class="form-group ">
+                        <label asp-for="payload.timeline.match_clock" class="control-label">Match Clock</label>
+                        <input asp-for="payload.timeline.match_clock" class="form-control" />
+                        <span asp-validation-for="payload.timeline.match_clock" class="text-danger"></span>
+                    </div>
+                    <div class="form-group ">
+                        <label asp-for="payload.timeline.team" class="control-label">Team</label>
+                        <select asp-for="payload.timeline.team" class="form-control">
+                            <option value="home">Home</option>
+                            <option value="away">Away</option>
+                        </select>
+                        <span asp-validation-for="payload.timeline.team" class="text-danger"></span>
+                    </div>
+                    <div class="form-group ">
+                        <label asp-for="payload.timeline.goal_scorer.name" class="control-label">Player Scored</label>
+                        <input asp-for="payload.timeline.goal_scorer.name" class="form-control" />
+                        <span asp-validation-for="payload.timeline.goal_scorer.name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group ">
+                        <label asp-for="payload.timeline.assist.name" class="control-label">Player Assist</label>
+                        <input asp-for="payload.timeline.assist.name" class="form-control" />
+                        <span asp-validation-for="payload.timeline.assist.name" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

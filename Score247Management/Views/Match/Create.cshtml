@@ -1,0 +1,117 @@
+﻿@using  Score247Management.Core._Shared.Enumerations
+@model Score247Management.ViewModels.Match.CreateMatchViewModel
+@{
+    ViewData["Title"] = "Create";
+}
+@{
+    IEnumerable<SelectListItem> tournaments = Model.Tournaments
+                                           .Select(i => new SelectListItem()
+                                           {
+                                               Text = i.Name,
+                                               Value = i.Id
+                                           });
+    IEnumerable<SelectListItem> teams = Model.Teams
+                                           .Select(i => new SelectListItem()
+                                           {
+                                               Text = i.Name,
+                                               Value = i.Id
+                                           });
+    IEnumerable<SelectListItem> status = MatchStatus.GetAll<MatchStatus>().Select(i => new SelectListItem()
+                                           {
+                                               Text = i.DisplayName,
+                                               Value = i.DisplayName
+                                           });
+    IEnumerable<SelectListItem> leagueRoundTypes = LeagueRoundType.GetAll<LeagueRoundType>().Select(i => new SelectListItem()
+                                           {
+                                               Text = i.DisplayName,
+                                               Value = i.DisplayName
+                                           });
+}
+<h1>Create</h1>
+
+<h4>NewMatch</h4>
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="NewMatch.Status" class="control-label"></label>
+                        <select asp-for="NewMatch.Status" asp-items="status" class="form-control"></select>
+                        <span asp-validation-for="NewMatch.Status" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="NewMatch.Scheduled" class="control-label"></label>
+                        <input asp-for="NewMatch.Scheduled" class="form-control" />
+                        <span asp-validation-for="NewMatch.Scheduled" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="NewMatch.ScheduledTime" class="control-label">Time</label>
+                        <input asp-for="NewMatch.ScheduledTime" class="form-control" />
+                        <span asp-validation-for="NewMatch.ScheduledTime" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="NewMatch.Tournament.Id" class="control-label">Tournament</label>
+                        <select asp-for="NewMatch.Tournament.Id" asp-items="tournaments" class="form-control"></select>
+                        <span asp-validation-for="NewMatch.Tournament.Id" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="NewMatch.TournamentRound.Type.Value" class="control-label">Tournament Round Type</label>
+                        <select asp-for="NewMatch.TournamentRound.Type.Value" asp-items="leagueRoundTypes" class="form-control"></select>
+                        <span asp-validation-for="NewMatch.TournamentRound.Type.Value" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="NewMatch.TournamentRound.Name" class="control-label">Tournament Round Name</label>
+                        <input asp-for="NewMatch.TournamentRound.Name" class="form-control" />
+                        <span asp-validation-for="NewMatch.TournamentRound.Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="NewMatch.TournamentRound.Number" class="control-label">Tournament Round Number</label>
+                        <input asp-for="NewMatch.TournamentRound.Number" class="form-control" />
+                        <span asp-validation-for="NewMatch.TournamentRound.Number" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="NewMatch.TournamentRound.Phase" class="control-label">Tournament Round Phase</label>
+                        <input asp-for="NewMatch.TournamentRound.Phase" class="form-control" />
+                        <span asp-validation-for="NewMatch.TournamentRound.Phase" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="NewMatch.TournamentRound.Group" class="control-label">Tournament Round Group</label>
+                        <input asp-for="NewMatch.TournamentRound.Group" class="form-control" />
+                        <span asp-validation-for="NewMatch.TournamentRound.Group" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="HomeTeam.Id" class="control-label">Home</label>
+                        <select asp-for="HomeTeam.Id" asp-items="teams" class="form-control"></select>
+                        <span asp-validation-for="HomeTeam.Id" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="AwayTeam.Id" class="control-label">Away</label>
+                        <select asp-for="AwayTeam.Id" asp-items="teams" class="form-control"></select>
+                        <span asp-validation-for="AwayTeam.Id" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4 ml-1">
+                    <div class="form-group">
+                        <label asp-for="NewMatch.Venue.Name" class="control-label">Venue Name</label>
+                        <input asp-for="NewMatch.Venue.Name" class="form-control" />
+                        <span asp-validation-for="NewMatch.Venue.Name" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
