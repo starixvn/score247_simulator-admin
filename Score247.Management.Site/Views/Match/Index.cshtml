@@ -23,13 +23,16 @@
     <thead>
         <tr>
             <th>
-               Id
+                Id
             </th>
             <th>
                 Event Date
             </th>
             <th>
                 @Html.DisplayName("Teams")
+            </th>
+            <th>
+                League
             </th>
             <th>
                 @Html.DisplayName("Status")
@@ -43,28 +46,31 @@
     <tbody>
         @foreach (var item in Model.Matches)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EventDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Teams.FirstOrDefault().Name) vs @Html.DisplayFor(modelItem => item.Teams.LastOrDefault().Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MatchResult.MatchStatus.DisplayName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LatestTimeline.HomeScore) - @Html.DisplayFor(modelItem => item.LatestTimeline.AwayScore)
-                </td>
-                <td style="font-size:x-small;">
-                    @Html.ActionLink("Main Events", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Commentories", "Index", new { }) |
-                    @Html.ActionLink("Hightlights", "Index", new { })
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Teams.FirstOrDefault().Name) vs @Html.DisplayFor(modelItem => item.Teams.LastOrDefault().Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.League.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MatchResult.MatchStatus.DisplayName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LatestTimeline.HomeScore) - @Html.DisplayFor(modelItem => item.LatestTimeline.AwayScore)
+            </td>
+            <td style="font-size:x-small;">
+                @Html.ActionLink("Main Events", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Commentories", "Index", new { }) |
+                @Html.ActionLink("Hightlights", "Index", new { })
+            </td>
+        </tr>
         }
     </tbody>
 </table>
