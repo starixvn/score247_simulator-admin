@@ -49,20 +49,6 @@ namespace Score247.Management.Site.Controllers
             return View(viewModal);
         }
 
-        //public async Task<ActionResult> IndexByDate(DateTime fromDate, DateTime toDate)
-        //{
-        //    var repository = new MatchRepository();
-        //    var viewModal = new MatchViewModel();
-        //    viewModal.DateSearchModel = new DateSearchModel()
-        //    {
-        //        FromDate = fromDate,
-        //        ToDate = toDate
-        //    };
-        //    var matches = await repository.GetMatchByDataRange(viewModal.DateSearchModel);
-        //    viewModal.Matches = matches;
-        //    return View("Index", viewModal);
-        //}
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> _DateRangeSearch(IFormCollection collection)
@@ -431,8 +417,6 @@ namespace Score247.Management.Site.Controllers
                     status = "live",
                     winner_id = match.MatchResult.WinnerId
                 };
-                requestBody.payload.sport_event_status.home_score = match.LatestTimeline != null ? match.LatestTimeline.HomeScore : 0;
-                requestBody.payload.sport_event_status.away_score = match.LatestTimeline != null ? match.LatestTimeline.AwayScore : 0;
                 var eventDate = Convert.ToDateTime(collection["payload.timeline.time"]);
                 var eventTimeSpan = TimeSpan.Parse(collection["payload.timeline.hour"]);
                 var eventTime = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, eventTimeSpan.Hours, eventTimeSpan.Minutes, eventTimeSpan.Seconds);
@@ -482,6 +466,9 @@ namespace Score247.Management.Site.Controllers
                     requestBody.payload.timeline.away_score++;
                 }
 
+                requestBody.payload.sport_event_status.home_score = requestBody.payload.timeline.home_score;
+                requestBody.payload.sport_event_status.away_score = requestBody.payload.timeline.away_score;
+
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new Uri(Configuration.GetValue<string>("Simulator:Url"));
@@ -530,8 +517,6 @@ namespace Score247.Management.Site.Controllers
                     status = "live",
                     winner_id = match.MatchResult.WinnerId
                 };
-                requestBody.payload.sport_event_status.home_score = match.LatestTimeline != null ? match.LatestTimeline.HomeScore : 0;
-                requestBody.payload.sport_event_status.away_score = match.LatestTimeline != null ? match.LatestTimeline.AwayScore : 0;
                 var eventDate = Convert.ToDateTime(collection["payload.timeline.time"]);
                 var eventTimeSpan = TimeSpan.Parse(collection["payload.timeline.hour"]);
                 var eventTime = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, eventTimeSpan.Hours, eventTimeSpan.Minutes, eventTimeSpan.Seconds);
@@ -543,6 +528,9 @@ namespace Score247.Management.Site.Controllers
 
                 requestBody.payload.timeline.home_score = match.LatestTimeline != null ? match.LatestTimeline.HomeScore : 0;
                 requestBody.payload.timeline.away_score = match.LatestTimeline != null ? match.LatestTimeline.AwayScore : 0;
+
+                requestBody.payload.sport_event_status.home_score = requestBody.payload.timeline.home_score;
+                requestBody.payload.sport_event_status.away_score = requestBody.payload.timeline.away_score;
                 if (!string.IsNullOrWhiteSpace(collection["payload.timeline.goal_scorer.name"]))
                 {
                     requestBody.payload.timeline.goal_scorer = new Goal_Scorer()
@@ -605,8 +593,6 @@ namespace Score247.Management.Site.Controllers
                     status = "live",
                     winner_id = match.MatchResult.WinnerId
                 };
-                requestBody.payload.sport_event_status.home_score = match.LatestTimeline != null ? match.LatestTimeline.HomeScore : 0;
-                requestBody.payload.sport_event_status.away_score = match.LatestTimeline != null ? match.LatestTimeline.AwayScore : 0;
                 var eventDate = Convert.ToDateTime(collection["payload.timeline.time"]);
                 var eventTimeSpan = TimeSpan.Parse(collection["payload.timeline.hour"]);
                 var eventTime = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, eventTimeSpan.Hours, eventTimeSpan.Minutes, eventTimeSpan.Seconds);
@@ -623,6 +609,9 @@ namespace Score247.Management.Site.Controllers
 
                 requestBody.payload.timeline.home_score = match.LatestTimeline != null ? match.LatestTimeline.HomeScore : 0;
                 requestBody.payload.timeline.away_score = match.LatestTimeline != null ? match.LatestTimeline.AwayScore : 0;
+
+                requestBody.payload.sport_event_status.home_score = requestBody.payload.timeline.home_score;
+                requestBody.payload.sport_event_status.away_score = requestBody.payload.timeline.away_score;
                 if (!string.IsNullOrWhiteSpace(collection["payload.timeline.player.name"]))
                 {
                     requestBody.payload.timeline.player = new TimelinePlayer()
@@ -680,8 +669,6 @@ namespace Score247.Management.Site.Controllers
                     status = "live",
                     winner_id = match.MatchResult.WinnerId
                 };
-                requestBody.payload.sport_event_status.home_score = match.LatestTimeline != null ? match.LatestTimeline.HomeScore : 0;
-                requestBody.payload.sport_event_status.away_score = match.LatestTimeline != null ? match.LatestTimeline.AwayScore : 0;
                 var eventDate = Convert.ToDateTime(collection["payload.timeline.time"]);
                 var eventTimeSpan = TimeSpan.Parse(collection["payload.timeline.hour"]);
                 var eventTime = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, eventTimeSpan.Hours, eventTimeSpan.Minutes, eventTimeSpan.Seconds);
@@ -697,6 +684,9 @@ namespace Score247.Management.Site.Controllers
                 };
                 requestBody.payload.timeline.home_score = match.LatestTimeline != null ? match.LatestTimeline.HomeScore : 0;
                 requestBody.payload.timeline.away_score = match.LatestTimeline != null ? match.LatestTimeline.AwayScore : 0;
+
+                requestBody.payload.sport_event_status.home_score = requestBody.payload.timeline.home_score;
+                requestBody.payload.sport_event_status.away_score = requestBody.payload.timeline.away_score;
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new Uri(Configuration.GetValue<string>("Simulator:Url"));
