@@ -16,6 +16,7 @@ using Score247.Management.Site.ViewModels.Match;
 using Newtonsoft.Json;
 using System.Text;
 using Microsoft.Extensions.Configuration;
+using Score247.Management.Site.Models;
 
 namespace Score247.Management.Site.Controllers
 {
@@ -32,12 +33,54 @@ namespace Score247.Management.Site.Controllers
         }
 
         // GET: Match
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(DateTime fromDate, DateTime toDate)
         {
             var repository = new MatchRepository();
-            var matches = await repository.GetMatches();
-            return View(matches);
+            var viewModal = new MatchViewModel();
+            if (fromDate == DateTime.MinValue) { fromDate = DateTime.UtcNow; }
+            if (toDate == DateTime.MinValue) { toDate = DateTime.UtcNow.AddDays(1); }
+            viewModal.DateSearchModel = new DateSearchModel()
+            {
+                FromDate = fromDate,
+                ToDate = toDate
+            };
+            var matches = await repository.GetMatchByDataRange(viewModal.DateSearchModel);
+            viewModal.Matches = matches;
+            return View(viewModal);
         }
+
+        //public async Task<ActionResult> IndexByDate(DateTime fromDate, DateTime toDate)
+        //{
+        //    var repository = new MatchRepository();
+        //    var viewModal = new MatchViewModel();
+        //    viewModal.DateSearchModel = new DateSearchModel()
+        //    {
+        //        FromDate = fromDate,
+        //        ToDate = toDate
+        //    };
+        //    var matches = await repository.GetMatchByDataRange(viewModal.DateSearchModel);
+        //    viewModal.Matches = matches;
+        //    return View("Index", viewModal);
+        //}
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> _DateRangeSearch(IFormCollection collection)
+        {
+            var fromDate = DateTime.Parse(collection["FromDate"]);
+            var toDate = DateTime.Parse(collection["ToDate"]);
+            var repository = new MatchRepository();
+            var viewModal = new MatchViewModel();
+            viewModal.DateSearchModel = new DateSearchModel()
+            {
+                FromDate = fromDate,
+                ToDate = toDate
+            };
+            var matches = await repository.GetMatchByDataRange(viewModal.DateSearchModel);
+            viewModal.Matches = matches;
+            return View("Index", viewModal);
+        }
+
 
         // GET: Match/Details/5
         public async Task<ActionResult> Details(string id)
@@ -119,7 +162,7 @@ namespace Score247.Management.Site.Controllers
                     content.Schema = "Matches";
                     content.sport_events = newMatches;
                     var jsonValue = JsonConvert.SerializeObject(content);
-                    
+
                     var response = await client.PostAsync(string.Format(Configuration.GetValue<string>("Simulator:DailySchedule") + "?date={0}", newMatch.Scheduled.UtcDateTime.ToString("yyyy-MM-dd")), new StringContent(jsonValue, Encoding.UTF8, "application/json"));
                     if (!response.IsSuccessStatusCode)
                     {
@@ -339,7 +382,7 @@ namespace Score247.Management.Site.Controllers
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new Uri(Configuration.GetValue<string>("Simulator:Url"));
-                    var response = await client.PostAsJsonAsync(Configuration.GetValue<string>("Simulator:PushEvent") , requestBody);
+                    var response = await client.PostAsJsonAsync(Configuration.GetValue<string>("Simulator:PushEvent"), requestBody);
                     if (!response.IsSuccessStatusCode)
                     {
                         return RedirectToAction(nameof(Details), new { id = id });
@@ -414,8 +457,8 @@ namespace Score247.Management.Site.Controllers
                 requestBody.payload.timeline.team = collection["payload.timeline.team"];
                 requestBody.payload.timeline.match_time = Int32.Parse(collection["payload.timeline.match_time"]);
                 requestBody.payload.timeline.match_clock = collection["payload.timeline.match_clock"];
-                requestBody.payload.timeline.home_score = match.LatestTimeline != null ? match.LatestTimeline.HomeScore: 0;
-                requestBody.payload.timeline.away_score = match.LatestTimeline != null ? match.LatestTimeline.AwayScore: 0;
+                requestBody.payload.timeline.home_score = match.LatestTimeline != null ? match.LatestTimeline.HomeScore : 0;
+                requestBody.payload.timeline.away_score = match.LatestTimeline != null ? match.LatestTimeline.AwayScore : 0;
 
                 var eventType = collection["payload.timeline.type"];
                 if (eventType == "own_goal")
@@ -436,7 +479,7 @@ namespace Score247.Management.Site.Controllers
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new Uri(Configuration.GetValue<string>("Simulator:Url"));
-                    var response = await client.PostAsJsonAsync(Configuration.GetValue<string>("Simulator:PushEvent") , requestBody);
+                    var response = await client.PostAsJsonAsync(Configuration.GetValue<string>("Simulator:PushEvent"), requestBody);
                     if (!response.IsSuccessStatusCode)
                     {
                         return RedirectToAction(nameof(Details), new { id = id });
@@ -506,7 +549,7 @@ namespace Score247.Management.Site.Controllers
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new Uri(Configuration.GetValue<string>("Simulator:Url"));
-                    var response = await client.PostAsJsonAsync(Configuration.GetValue<string>("Simulator:PushEvent") , requestBody);
+                    var response = await client.PostAsJsonAsync(Configuration.GetValue<string>("Simulator:PushEvent"), requestBody);
                     if (!response.IsSuccessStatusCode)
                     {
                         return RedirectToAction(nameof(Details), new { id = id });
@@ -577,7 +620,7 @@ namespace Score247.Management.Site.Controllers
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new Uri(Configuration.GetValue<string>("Simulator:Url"));
-                    var response = await client.PostAsJsonAsync(Configuration.GetValue<string>("Simulator:PushEvent") , requestBody);
+                    var response = await client.PostAsJsonAsync(Configuration.GetValue<string>("Simulator:PushEvent"), requestBody);
                     if (!response.IsSuccessStatusCode)
                     {
                         return RedirectToAction(nameof(Details), new { id = id });
@@ -639,7 +682,7 @@ namespace Score247.Management.Site.Controllers
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new Uri(Configuration.GetValue<string>("Simulator:Url"));
-                    var response = await client.PostAsJsonAsync(Configuration.GetValue<string>("Simulator:PushEvent") , requestBody);
+                    var response = await client.PostAsJsonAsync(Configuration.GetValue<string>("Simulator:PushEvent"), requestBody);
                     if (!response.IsSuccessStatusCode)
                     {
                         return RedirectToAction(nameof(Details), new { id = id });

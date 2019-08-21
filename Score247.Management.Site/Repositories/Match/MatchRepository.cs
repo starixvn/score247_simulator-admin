@@ -5,6 +5,7 @@ using Fanex.Data.Repository;
 using Score247Management.Core.Matches.Models;
 using Score247.Management.Site.Criterias.Match;
 using Score247.Management.Site.Helpers;
+using Score247.Management.Site.Models;
 
 namespace Score247.Management.Site.Repositories.Match
 {
@@ -37,6 +38,20 @@ namespace Score247.Management.Site.Repositories.Match
         {
             var timelines = await repository.FetchAsync<TimelineEvent>(new GetMatchTimelineCriteria() { MatchId = id});
             var result = timelines.Select(x => x.DeserialValue());
+
+            return result;
+        }
+        public async Task<IEnumerable<Score247Management.Core.Matches.Models.Match>> GetMatchByDataRange(DateSearchModel dateSearchModel)
+        {
+            var criteria = new GetMatchByDateRangeCriteria()
+            {
+                SportId = 1,
+                FromDate = dateSearchModel.FromDate,
+                ToDate = dateSearchModel.ToDate,
+                Language = "en-US"
+            };
+            var matches = await repository.FetchAsync<Score247Management.Core.Matches.Models.Match>(criteria);
+            var result = matches.Select(x => x.DeserialValue());
 
             return result;
         }

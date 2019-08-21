@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Score247Management.Core.Matches.Models.Match>
+﻿@model Score247.Management.Site.ViewModels.Match.MatchViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -18,14 +18,15 @@
     </div>
     <button asp-action="Create" class="btn btn-primary mb-2">New Match</button>
 </form>
+<partial name="_DateRangeSearch" model="Model.DateSearchModel" />
 <table id="mathes-table" class="table table-striped table-bordered" style="width:100%">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id)
+               Id
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EventDate)
+                Event Date
             </th>
             <th>
                 @Html.DisplayName("Teams")
@@ -40,7 +41,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.Matches)
         {
             <tr>
                 <td>
