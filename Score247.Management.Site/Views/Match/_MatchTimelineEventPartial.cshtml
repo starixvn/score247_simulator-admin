@@ -5,30 +5,30 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.Time)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Id)
             </th>
             <th>
                 Type
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Time)
             </th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Type.DisplayName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Time)
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Time)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Type.DisplayName)
+            </td>
+        </tr>
         }
     </tbody>
 </table>
