@@ -47,7 +47,7 @@ namespace Score247.Management.Site.Controllers
             {
                 // TODO: Add insert logic here
                 var criteria = new CreateLeagueCriteria();
-                criteria.CategoryId = collection["League.Category.Id"];
+                criteria.CategoryId = collection["League.LeagueCategory.Id"];
                 criteria.LeagueId = UniqueGenerator.GetIdWithPattern("sr:tournament:");
                 criteria.LeagueName = collection["League.Name"];
                 criteria.LeagueOrder = Int32.Parse(collection["League.Order"]);

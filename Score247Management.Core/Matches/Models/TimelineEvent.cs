@@ -6,12 +6,12 @@
     using Score247Management.Core.Base;
     using Score247Management.Core._Shared.Enumerations;
     using Score247Management.Core.Teams.Models;
+    using System.ComponentModel.DataAnnotations;
 
     public class TimelineEvent : BaseEntity
     {
         public EventType Type { get; set; }
-
-        public DateTime Time { get; set; }
+        public DateTimeOffset Time { get; set; }
 
         public int MatchTime { get; set; }
 

@@ -13,14 +13,24 @@ using Score247.Management.Site.Repositories.Match;
 using Score247.Management.Site.Repositories.Match.Models;
 using Score247.Management.Site.Repositories.Team;
 using Score247.Management.Site.ViewModels.Match;
+using Newtonsoft.Json;
+using System.Text;
+using Microsoft.Extensions.Configuration;
 
 namespace Score247.Management.Site.Controllers
 {
     public class MatchController : Controller
     {
-        //public const string RequestPrefix = "";
-        public const string RequestPrefix = "http://localhost:61092";
-        public const string EventPrefix = "/api/soccer-xt3/other/stream/events/PushEvent";
+        ////public const string Configuration.GetValue<string>("Simulator:Url") = "http://ha.nexdev.net:7206/V1/";
+        //public const string Configuration.GetValue<string>("Simulator:Url") = "http://localhost:61092/";
+        //public const string Configuration.GetValue<string>("Simulator:PushEvent")  = "api/soccer-xt3/other/stream/events/PushEvent";
+        private IConfiguration Configuration { get; set; }
+
+        public MatchController(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
         // GET: Match
         public async Task<ActionResult> Index()
         {
@@ -82,8 +92,14 @@ namespace Score247.Management.Site.Controllers
                 };
                 newMatch.Tournament = leagues.FirstOrDefault(x => x.Id == collection["NewMatch.Tournament.Id"]);
                 var competitors = new List<Score247Management.Core.Teams.Models.Team>();
-                competitors.Add(teams.FirstOrDefault(x => x.Id == collection["HomeTeam.Id"]));
-                competitors.Add(teams.FirstOrDefault(x => x.Id == collection["AwayTeam.Id"]));
+                var homeTeam = teams.FirstOrDefault(x => x.Id == collection["HomeTeam.Id"]);
+                homeTeam.Statistic = new Score247Management.Core.Teams.Models.TeamStatistics();
+                homeTeam.Qualifier = "home";
+                var awayTeam = teams.FirstOrDefault(x => x.Id == collection["AwayTeam.Id"]);
+                awayTeam.Statistic = new Score247Management.Core.Teams.Models.TeamStatistics();
+                awayTeam.Qualifier = "away";
+                competitors.Add(homeTeam);
+                competitors.Add(awayTeam);
                 newMatch.Competitors = competitors;
                 var dateTime = Convert.ToDateTime(collection["NewMatch.Scheduled"]);
                 var timeSpan = TimeSpan.Parse(collection["NewMatch.ScheduledTime"]);
@@ -96,13 +112,15 @@ namespace Score247.Management.Site.Controllers
                 newMatch.TournamentRound.Group = collection["NewMatch.TournamentRound.Group"];
                 using (var client = new HttpClient())
                 {
-                    client.BaseAddress = new Uri(RequestPrefix);
+                    client.BaseAddress = new Uri(Configuration.GetValue<string>("Simulator:Url"));
                     var newMatches = new List<NewMatch> { newMatch };
                     var content = new Repositories.Match.Models.DailyScheduleDto();
                     content.GeneratedAt = DateTime.UtcNow;
                     content.Schema = "Matches";
                     content.sport_events = newMatches;
-                    var response = await client.PostAsJsonAsync(string.Format("/DailySchedule?date={0}", newMatch.Scheduled.UtcDateTime.ToShortDateString()), content);
+                    var jsonValue = JsonConvert.SerializeObject(content);
+                    
+                    var response = await client.PostAsync(string.Format(Configuration.GetValue<string>("Simulator:DailySchedule") + "?date={0}", newMatch.Scheduled.UtcDateTime.ToString("yyyy-MM-dd")), new StringContent(jsonValue, Encoding.UTF8, "application/json"));
                     if (!response.IsSuccessStatusCode)
                     {
                         return View();
@@ -320,8 +338,8 @@ namespace Score247.Management.Site.Controllers
                 }
                 using (var client = new HttpClient())
                 {
-                    client.BaseAddress = new Uri(RequestPrefix);
-                    var response = await client.PostAsJsonAsync(EventPrefix, requestBody);
+                    client.BaseAddress = new Uri(Configuration.GetValue<string>("Simulator:Url"));
+                    var response = await client.PostAsJsonAsync(Configuration.GetValue<string>("Simulator:PushEvent") , requestBody);
                     if (!response.IsSuccessStatusCode)
                     {
                         return RedirectToAction(nameof(Details), new { id = id });
@@ -398,7 +416,15 @@ namespace Score247.Management.Site.Controllers
                 requestBody.payload.timeline.match_clock = collection["payload.timeline.match_clock"];
                 requestBody.payload.timeline.home_score = match.LatestTimeline != null ? match.LatestTimeline.HomeScore: 0;
                 requestBody.payload.timeline.away_score = match.LatestTimeline != null ? match.LatestTimeline.AwayScore: 0;
-                if (requestBody.payload.timeline.team == "home")
+
+                var eventType = collection["payload.timeline.type"];
+                if (eventType == "own_goal")
+                {
+                    requestBody.payload.timeline.goal_scorer.method = "own_goal";
+                }
+
+                if ((requestBody.payload.timeline.team == "home" && eventType != "own_goal") ||
+                    (requestBody.payload.timeline.team == "away" && eventType == "own_goal"))
                 {
                     requestBody.payload.timeline.home_score++;
                 }
@@ -407,15 +433,10 @@ namespace Score247.Management.Site.Controllers
                     requestBody.payload.timeline.away_score++;
                 }
 
-                var eventType = collection["payload.timeline.type"];
-                if (eventType == "own_goal")
-                {
-                    requestBody.payload.timeline.goal_scorer.method = "own_goal";
-                }
                 using (var client = new HttpClient())
                 {
-                    client.BaseAddress = new Uri(RequestPrefix);
-                    var response = await client.PostAsJsonAsync(EventPrefix, requestBody);
+                    client.BaseAddress = new Uri(Configuration.GetValue<string>("Simulator:Url"));
+                    var response = await client.PostAsJsonAsync(Configuration.GetValue<string>("Simulator:PushEvent") , requestBody);
                     if (!response.IsSuccessStatusCode)
                     {
                         return RedirectToAction(nameof(Details), new { id = id });
@@ -484,8 +505,8 @@ namespace Score247.Management.Site.Controllers
 
                 using (var client = new HttpClient())
                 {
-                    client.BaseAddress = new Uri(RequestPrefix);
-                    var response = await client.PostAsJsonAsync(EventPrefix, requestBody);
+                    client.BaseAddress = new Uri(Configuration.GetValue<string>("Simulator:Url"));
+                    var response = await client.PostAsJsonAsync(Configuration.GetValue<string>("Simulator:PushEvent") , requestBody);
                     if (!response.IsSuccessStatusCode)
                     {
                         return RedirectToAction(nameof(Details), new { id = id });
@@ -555,8 +576,8 @@ namespace Score247.Management.Site.Controllers
                 }
                 using (var client = new HttpClient())
                 {
-                    client.BaseAddress = new Uri(RequestPrefix);
-                    var response = await client.PostAsJsonAsync(EventPrefix, requestBody);
+                    client.BaseAddress = new Uri(Configuration.GetValue<string>("Simulator:Url"));
+                    var response = await client.PostAsJsonAsync(Configuration.GetValue<string>("Simulator:PushEvent") , requestBody);
                     if (!response.IsSuccessStatusCode)
                     {
                         return RedirectToAction(nameof(Details), new { id = id });
@@ -617,8 +638,8 @@ namespace Score247.Management.Site.Controllers
                 };
                 using (var client = new HttpClient())
                 {
-                    client.BaseAddress = new Uri(RequestPrefix);
-                    var response = await client.PostAsJsonAsync(EventPrefix, requestBody);
+                    client.BaseAddress = new Uri(Configuration.GetValue<string>("Simulator:Url"));
+                    var response = await client.PostAsJsonAsync(Configuration.GetValue<string>("Simulator:PushEvent") , requestBody);
                     if (!response.IsSuccessStatusCode)
                     {
                         return RedirectToAction(nameof(Details), new { id = id });

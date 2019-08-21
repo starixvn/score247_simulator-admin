@@ -32,7 +32,7 @@ namespace Score247.Management.Site
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
+            services.AddSingleton<IConfiguration>(Configuration);
             services.AddSingleton<IDynamicRepository, DynamicRepository>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
