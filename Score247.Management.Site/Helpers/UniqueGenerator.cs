@@ -6,12 +6,13 @@
     {
         public static string GetIdWithPattern(string pattern)
         {
-            return pattern + Guid.NewGuid().GetHashCode().ToString();
+            return pattern + DateTime.Now.Ticks.ToString();
         }
 
         public static int GetIntId()
         {
-            return Guid.NewGuid().GetHashCode();
+            //return Guid.NewGuid().GetHashCode();
+            return (int)DateTime.Now.Ticks;
         }
     }
 

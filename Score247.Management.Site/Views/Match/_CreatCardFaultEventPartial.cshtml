@@ -29,6 +29,28 @@
         Text = "Extra Time",
         Value = "overtime"
     });
+
+    List<SelectListItem> matchTimePeriod = new List<SelectListItem>();
+    for (int i = 1; i < 25; i++)
+    {
+        var timeValue = (i * 5).ToString();
+        matchTimePeriod.Add(new SelectListItem()
+        {
+            Text = timeValue,
+            Value = timeValue
+        });
+    }
+
+    List<SelectListItem> matchTimeExtra = new List<SelectListItem>();
+    for (int i = 1; i < 20; i++)
+    {
+        var timeValue = i.ToString();
+        matchTimeExtra.Add(new SelectListItem()
+        {
+            Text = timeValue,
+            Value = timeValue
+        });
+    }
 }
 <div class="card">
     <div class="card-header" id="matchCardEventHeading">
@@ -65,13 +87,13 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="payload.timeline.match_time" class="control-label">Match Time</label>
-                        <input asp-for="payload.timeline.match_time" class="form-control" />
+                        <select asp-for="payload.timeline.match_time" asp-items="matchTimePeriod" class="form-control"></select>
                         <span asp-validation-for="payload.timeline.match_time" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="payload.timeline.match_clock" class="control-label">Match Clock</label>
-                        <input asp-for="payload.timeline.match_clock" class="form-control" />
-                        <span asp-validation-for="payload.timeline.match_clock" class="text-danger"></span>
+                        <label asp-for="payload.timeline.stoppage_time" class="control-label">Match Extra Time</label>
+                        <select asp-for="payload.timeline.stoppage_time" asp-items="matchTimeExtra" class="form-control"></select>
+                        <span asp-validation-for="payload.timeline.stoppage_time" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="payload.timeline.team" class="control-label">Team</label>

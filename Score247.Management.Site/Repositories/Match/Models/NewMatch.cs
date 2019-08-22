@@ -22,5 +22,22 @@ namespace Score247.Management.Site.Repositories.Match.Models
         public IEnumerable<Score247Management.Core.Teams.Models.Team> Competitors { get; set; }
         public Venue Venue { get; set; }
 
+        public NewMatch()
+        {
+            Scheduled = DateTime.Now;
+            ScheduledTime = new TimeSpan(Scheduled.Hour, 0, 0);
+            Venue = new Venue()
+            {
+                Name = "Default Venue"
+            };
+            TournamentRound = new LeagueRound()
+            {
+                Name = "Round",
+                Number = 2,
+                Phase = "Round",
+                Group = "A"
+            };
+        }
+
     }
 }
