@@ -71,6 +71,7 @@ namespace Score247.Management.Site.Controllers
         // GET: Match/Details/5
         public async Task<ActionResult> Details(string id)
         {
+            var ran = new Random();
             var repository = new MatchRepository();
             var match = await repository.GetMatchById(id);
             var timelines = await repository.GetMatchTimelines(id);
@@ -78,9 +79,21 @@ namespace Score247.Management.Site.Controllers
             viewModel.Match = match;
             viewModel.TimelineEvents = timelines;
             viewModel.MatchCardEventDto = new MatchPushEventDto(match);
+            viewModel.MatchCardEventDto.payload.timeline.player = new TimelinePlayer
+            {
+                name = "Player_" + ran.Next(909090).ToString()
+            };
             viewModel.MatchGoalEventDto = new MatchPushEventDto(match);
+            viewModel.MatchGoalEventDto.payload.timeline.goal_scorer = new Goal_Scorer
+            {
+                name = "Player_" + ran.Next(909090).ToString()
+            };
             viewModel.MatchInjuryExtraEventDto = new MatchPushEventDto(match);
             viewModel.MatchPenaltyEventDto = new MatchPushEventDto(match);
+            viewModel.MatchPenaltyEventDto.payload.timeline.goal_scorer = new Goal_Scorer
+            {
+                name = "Player_" + ran.Next(909090).ToString()
+            };
             viewModel.MatchTimeEventDto = new MatchPushEventDto(match);
             return View(viewModel);
         }

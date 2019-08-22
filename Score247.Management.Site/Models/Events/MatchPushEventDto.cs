@@ -57,7 +57,7 @@ namespace Score247.Management.Site.Models.Events
             timeline = new TimelineDto()
             {
                 time = latestTime,
-                hour = new TimeSpan(latestTime.Hour, latestTime.Minute, 0)
+                hour = new TimeSpan(latestTime.Hour, latestTime.Minute + 1, 0)
             };
         }
     }
