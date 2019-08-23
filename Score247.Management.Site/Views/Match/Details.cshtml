@@ -12,7 +12,7 @@
 <h1>Details</h1>
 
 <div>
-    <h4>Match</h4>
+    <partial name="_AutoPushEventPartial" view-data="eventViewData" />
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -57,7 +57,7 @@
         <div class="col-sm-7 search-table-outter">
             <partial name="_MatchTimelineEventPartial" model="Model.TimelineEvents" />
         </div>
-    </divid="accordion">
+    </div>
 </div>
     <div>
         <a asp-action="Index">Back to List</a>

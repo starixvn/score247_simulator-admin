@@ -17,6 +17,7 @@ using Newtonsoft.Json;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using Score247.Management.Site.Models;
+using Score247.Management.Site.Services.Matchs;
 
 namespace Score247.Management.Site.Controllers
 {
@@ -37,8 +38,8 @@ namespace Score247.Management.Site.Controllers
         {
             var repository = new MatchRepository();
             var viewModal = new MatchViewModel();
-            if (fromDate == DateTime.MinValue) { fromDate = DateTime.UtcNow; }
-            if (toDate == DateTime.MinValue) { toDate = DateTime.UtcNow.AddDays(1); }
+            if (fromDate == DateTime.MinValue) { fromDate = DateTime.UtcNow.AddDays(-1); }
+            if (toDate == DateTime.MinValue) { toDate = DateTime.UtcNow; }
             viewModal.DateSearchModel = new DateSearchModel()
             {
                 FromDate = fromDate,
@@ -724,5 +725,52 @@ namespace Score247.Management.Site.Controllers
                 return RedirectToAction(nameof(Details), new { id = id });
             }
         }
+
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AutoEventNormalMatch(string id, IFormCollection collection)
+        {
+            try
+            {
+                AutoEventService.PushNormalMatchEvents(id, Configuration.GetValue<string>("Simulator:Url"), Configuration.GetValue<string>("Simulator:PushEvent"));
+                return RedirectToAction(nameof(Details), new { id = id });
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction(nameof(Details), new { id = id });
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AutoEventOvertimeMatch(string id, IFormCollection collection)
+        {
+            try
+            {
+                AutoEventService.PushOvertimeMatchEvents(id, Configuration.GetValue<string>("Simulator:Url"), Configuration.GetValue<string>("Simulator:PushEvent"));
+                return RedirectToAction(nameof(Details), new { id = id });
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction(nameof(Details), new { id = id });
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AutoEventPenaltyMatch(string id, IFormCollection collection)
+        {
+            try
+            {
+                AutoEventService.PushPenaltyMatchEvents(id, Configuration.GetValue<string>("Simulator:Url"), Configuration.GetValue<string>("Simulator:PushEvent"));
+                return RedirectToAction(nameof(Details), new { id = id });
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction(nameof(Details), new { id = id });
+            }
+        }
+
     }
 }
