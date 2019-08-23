@@ -24,7 +24,7 @@
                 status = status
             };
 
-            matchEvent.payload.timeline.goal_scorer = new Goal_Scorer()
+            matchEvent.payload.timeline.player = new TimelinePlayer()
             {
                 id = UniqueGenerator.GetIdWithPattern("sr:player:"),
                 name = playerName

@@ -570,7 +570,7 @@ namespace Score247.Management.Site.Controllers
 
                 if (!string.IsNullOrWhiteSpace(collection["payload.timeline.goal_scorer.name"]))
                 {
-                    requestBody.payload.timeline.goal_scorer = new Goal_Scorer()
+                    requestBody.payload.timeline.player = new TimelinePlayer()
                     {
                         id = UniqueGenerator.GetIdWithPattern("sr:player:"),
                         name = collection["payload.timeline.goal_scorer.name"]
