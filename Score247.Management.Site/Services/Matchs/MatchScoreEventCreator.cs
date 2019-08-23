@@ -179,7 +179,8 @@
                 team = team,
                 match_time = matchTime,
                 match_clock = matchTime.ToString() + ":00",
-                type = EventType.ScoreChange.DisplayName
+                type = EventType.ScoreChange.DisplayName,
+                period_type = PeriodType.Overtime.DisplayName
             };
             matchEvent.payload.timeline.goal_scorer = new Goal_Scorer()
             {

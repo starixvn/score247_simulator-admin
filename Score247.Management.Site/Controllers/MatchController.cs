@@ -329,7 +329,7 @@ namespace Score247.Management.Site.Controllers
                     requestBody.payload.sport_event_status.match_status = MatchStatus.ExtraTimeHaftTime.DisplayName;
                     requestBody.payload.sport_event_status.period = 2;
                     requestBody.payload.timeline.type = EventType.BreakStart.DisplayName;
-                    requestBody.payload.timeline.period_name = MatchStatus.ExtraTimeHaftTime.DisplayName;
+                    requestBody.payload.timeline.period_name = "Extra time halftime";
                 }
                 else if (eventType == "2nd_extra_start")
                 {

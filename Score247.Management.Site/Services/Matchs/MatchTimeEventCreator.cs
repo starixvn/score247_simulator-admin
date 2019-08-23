@@ -174,7 +174,7 @@
             matchEvent.payload.sport_event_status.match_status = MatchStatus.ExtraTimeHaftTime.DisplayName;
             matchEvent.payload.sport_event_status.period = 2;
             matchEvent.payload.timeline.type = EventType.BreakStart.DisplayName;
-            matchEvent.payload.timeline.period_name = MatchStatus.ExtraTimeHaftTime.DisplayName;
+            matchEvent.payload.timeline.period_name = "Extra time halftime";
 
             return matchEvent;
         }

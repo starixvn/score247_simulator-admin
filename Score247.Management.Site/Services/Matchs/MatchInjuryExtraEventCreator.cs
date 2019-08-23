@@ -19,12 +19,14 @@
                 id = UniqueGenerator.GetIntId(),
                 time = eventTime,
                 period = 1,
+                period_name = PeriodType.RegularPeriod.DisplayName,
+                stoppage_time = "1",
                 type = EventType.InjuryTimeShown.DisplayName,
                 match_time = 45,
                 match_clock = "45:00",
                 injury_time_announced = injuryTime,
                 home_score = match.LatestTimeline != null ? match.LatestTimeline.HomeScore : 0,
-                away_score = match.LatestTimeline != null ? match.LatestTimeline.AwayScore : 0,
+                away_score = match.LatestTimeline != null ? match.LatestTimeline.AwayScore : 0
             };
 
             if (matchEvent.payload.sport_event_status.match_status == MatchStatus.SecondHaft.DisplayName)
