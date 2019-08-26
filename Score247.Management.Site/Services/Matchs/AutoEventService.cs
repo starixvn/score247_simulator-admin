@@ -434,8 +434,10 @@ namespace Score247.Management.Site.Services.Matchs
         {
             using (var client = new HttpClient())
             {
+                var matchRepository = new MatchRepository();
                 client.BaseAddress = new Uri(baseUrl);
                 var result = await client.PostAsJsonAsync(eventPath, matchEvent);
+                await matchRepository.InsertTimelineLog(matchEvent);
                 await Task.Delay(2000);
 
                 return result;

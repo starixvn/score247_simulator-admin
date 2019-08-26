@@ -79,5 +79,8 @@
 
         [JsonIgnore]
         public string Value { get; set; }
+
+        [JsonIgnore]
+        public string RequestLog { get; set; }
     }
 }

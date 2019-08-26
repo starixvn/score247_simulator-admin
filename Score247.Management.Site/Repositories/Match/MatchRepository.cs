@@ -6,6 +6,8 @@ using Score247Management.Core.Matches.Models;
 using Score247.Management.Site.Criterias.Match;
 using Score247.Management.Site.Helpers;
 using Score247.Management.Site.Models;
+using Score247.Management.Site.Models.Events;
+using Newtonsoft.Json;
 
 namespace Score247.Management.Site.Repositories.Match
 {
@@ -36,11 +38,28 @@ namespace Score247.Management.Site.Repositories.Match
         }
         public async Task<IEnumerable<TimelineEvent>> GetMatchTimelines(string id)
         {
-            var timelines = await repository.FetchAsync<TimelineEvent>(new GetMatchTimelineCriteria() { MatchId = id});
-            var result = timelines.Select(x => x.DeserialValue());
+            var timelinesLogs = await repository.FetchAsync<TimelineLog>(new GetMatchTimelineLogCriteria() { MatchId = id });
+            var timelines = await repository.FetchAsync<TimelineEvent>(new GetMatchTimelineCriteria() { MatchId = id });
+            var result = timelines.Select(x => x.DeserialValue()).ToList();
+            result.ForEach(x =>
+            {
+                var log = timelinesLogs.FirstOrDefault(y => y.TimelineId == x.Id);
+                x.RequestLog = log?.Value;
+            });
 
             return result;
         }
+
+        public async Task<int> InsertTimelineLog(MatchPushEventDto eventDto)
+        {
+            var criteria = new InsertTimelineLogCriteria();
+            criteria.Id = UniqueGenerator.GetIntId().ToString();
+            criteria.MatchId = eventDto.metadata.sport_event_id;
+            criteria.TimelineId = eventDto.payload.timeline.id;
+            criteria.Value = JsonConvert.SerializeObject(eventDto);
+            return await repository.ExecuteAsync(criteria);
+        }
+
         public async Task<IEnumerable<Score247Management.Core.Matches.Models.Match>> GetMatchByDataRange(DateSearchModel dateSearchModel)
         {
             var criteria = new GetMatchByDateRangeCriteria()

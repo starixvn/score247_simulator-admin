@@ -522,6 +522,7 @@ namespace Score247.Management.Site.Controllers
                         return RedirectToAction(nameof(Details), new { id = id });
                     }
                 }
+                await matchRepository.InsertTimelineLog(requestBody);
                 await Task.Delay(2000);
                 return RedirectToAction(nameof(Details), new { id = id });
             }
@@ -660,6 +661,7 @@ namespace Score247.Management.Site.Controllers
                         return RedirectToAction(nameof(Details), new { id = id });
                     }
                 }
+                await matchRepository.InsertTimelineLog(requestBody);
                 await Task.Delay(2000);
                 return RedirectToAction(nameof(Details), new { id = id });
             }
@@ -728,6 +730,7 @@ namespace Score247.Management.Site.Controllers
                         return RedirectToAction(nameof(Details), new { id = id });
                     }
                 }
+                await matchRepository.InsertTimelineLog(requestBody);
                 await Task.Delay(2000);
                 return RedirectToAction(nameof(Details), new { id = id });
             }
@@ -786,6 +789,7 @@ namespace Score247.Management.Site.Controllers
                         return RedirectToAction(nameof(Details), new { id = id });
                     }
                 }
+                await matchRepository.InsertTimelineLog(requestBody);
                 await Task.Delay(2000);
                 return RedirectToAction(nameof(Details), new { id = id });
             }
@@ -840,6 +844,7 @@ namespace Score247.Management.Site.Controllers
                         return RedirectToAction(nameof(Details), new { id = id });
                     }
                 }
+                await matchRepository.InsertTimelineLog(requestBody);
                 await Task.Delay(2000);
                 return RedirectToAction(nameof(Details), new { id = id });
             }

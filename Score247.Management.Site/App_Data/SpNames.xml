@@ -13,6 +13,10 @@
     </Setting>
     <Setting Key="Team_InsertTeam" SpName="Team_InsertTeam" DbName="DefaultConnection" />
   </Function>
+  <Function Name="TimelineLog">
+    <Setting Key="TimelingLog_InsertLog" SpName="TimelingLog_InsertLog" DbName="DefaultConnection"></Setting>
+    <Setting Key="TimelineLog_GetByMatchId" SpName="TimelineLog_GetByMatchId" DbName="DefaultConnection"></Setting>
+  </Function>
   <Function Name="Matches">
     <Setting Key="Match_GetByDateRange" SpName="Match_GetByDateRange" DbName="DevConnection" />
     <Setting Key="Match_GetById" SpName="Match_GetById" DbName="DevConnection" />

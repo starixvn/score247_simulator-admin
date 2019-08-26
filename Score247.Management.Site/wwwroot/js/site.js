@@ -33,3 +33,9 @@ function cardPeriodTypeChange(selectObject) {
         $('#cardExtratime').addClass('d-none');
     }
 }
+
+function OpenModalPopUp(reservationDay, reservationHour) {
+    $('.reservationDay').text(reservationDay);
+    $('.reservationHour').text(reservationHour);
+    $('#myModal').modal();
+};

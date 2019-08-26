@@ -13,25 +13,43 @@
             <th>
                 Type
             </th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.LocalTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Type.DisplayName)
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LocalTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type.DisplayName)
+                </td>
+                <td style="font-size:x-small;">
+                    <button id="reservationButton" class="btn-default btn-lg" onclick="@($"OpenModalPopUp('{item.Value}')");">Request</button>
+                </td>
+            </tr>
         }
     </tbody>
 </table>
+<div class="modal-body">
+    <div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-3">
+                    <b>Day</b>
+                </div>
+                <div class="col-xs-9">
+                    <span class="reservationDay" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

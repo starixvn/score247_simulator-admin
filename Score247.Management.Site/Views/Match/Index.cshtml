@@ -5,19 +5,7 @@
 }
 
 <h1>Matches</h1>
-<form class="form-inline">
-    <div class="form-group col-sm-3 mb-2">
-        <select class="form-control col-sm-12" id="exampleFormControlSelect1">
-            <option>Soccer</option>
-        </select>
-    </div>
-    <div class="form-group col-sm-3 mb-2">
-        <select class="form-control col-sm-12" id="exampleFormControlSelect1">
-            <option>Select Leagues</option>
-        </select>
-    </div>
-    <button asp-action="Create" class="btn btn-primary mb-2">New Match</button>
-</form>
+<button asp-action="Create" class="btn btn-primary ml-2 mb-2">New Match</button>
 <partial name="_DateRangeSearch" model="Model.DateSearchModel" />
 <table id="mathes-table" class="table table-striped table-bordered" style="width:100%">
     <thead>
