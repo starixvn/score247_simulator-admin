@@ -176,11 +176,13 @@ namespace Score247.Management.Site.Controllers
                     {
                         return View();
                     }
-                    //client.BaseAddress = new Uri(Configuration.GetValue<string>("Simulator:FetchUrl"));
-                    //var request = new HttpRequestMessage(HttpMethod.Post, "");
-                    //var keyvalue = new KeyValuePair<string, List<string>>("jobs", new List<string> { "FetchPreMatch", "FetchPostMatch", "FetchLiveMatch" });
+                    var triggerClient = new HttpClient();
+                    triggerClient.BaseAddress = new Uri(Configuration.GetValue<string>("Simulator:FetchUrl"));
+                    var request = new HttpRequestMessage(HttpMethod.Post, "");
+                    var keyvalue = new KeyValuePair<string, string>("jobs[]", "FetchPreMatch");
+                    request.Content = new FormUrlEncodedContent(new List<KeyValuePair<string, string>> { keyvalue });
+                    triggerClient.SendAsync(request);
 
-                    //request.Content = new FormUrlEncodedContent(new List<KeyValuePair<string, List<string>>> { keyvalue });
                 }
                 return RedirectToAction(nameof(Index));
             }
