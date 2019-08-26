@@ -56,8 +56,8 @@ namespace Score247.Management.Site.Models.Events
             var latestTime = match.LatestTimeline != null ? match.LatestTimeline.Time : match.EventDate;
             timeline = new TimelineDto()
             {
-                time = latestTime,
-                hour = new TimeSpan(latestTime.Hour, latestTime.Minute + 1, 0)
+                time = latestTime.ToUniversalTime(),
+                hour = new TimeSpan(latestTime.ToUniversalTime().Hour, latestTime.ToUniversalTime().Minute + 1, 0)
             };
         }
     }

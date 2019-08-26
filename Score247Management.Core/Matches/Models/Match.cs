@@ -11,6 +11,8 @@
     {
         public DateTime EventDate { get; set; }
 
+        public string DisplayDate => EventDate.ToUniversalTime().ToString();
+
         public IEnumerable<Team> Teams { get; set; }
 
         public MatchResult MatchResult { get; set; }
@@ -33,5 +35,6 @@
         public string Referee { get; set; }
 
         public string Region { get; set; }
+
     }
 }

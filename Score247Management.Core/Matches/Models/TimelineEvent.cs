@@ -13,7 +13,7 @@
         public EventType Type { get; set; }
         public DateTime Time { get; set; }
 
-        public DateTime LocalTime => Time.ToLocalTime();
+        public DateTime LocalTime => Time.ToUniversalTime();
 
         public int MatchTime { get; set; }
 

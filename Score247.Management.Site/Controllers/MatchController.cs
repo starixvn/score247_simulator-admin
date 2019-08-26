@@ -154,7 +154,7 @@ namespace Score247.Management.Site.Controllers
                 newMatch.Competitors = competitors;
                 var dateTime = Convert.ToDateTime(collection["NewMatch.Scheduled"]);
                 var timeSpan = TimeSpan.Parse(collection["NewMatch.ScheduledTime"]);
-                newMatch.Scheduled = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
+                newMatch.Scheduled = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds, DateTimeKind.Utc);
                 newMatch.TournamentRound = new Score247Management.Core.Leagues.Models.LeagueRound();
                 newMatch.TournamentRound.Type = LeagueRoundType.FromDisplayName<LeagueRoundType>(collection["NewMatch.TournamentRound.Type.Value"]);
                 newMatch.TournamentRound.Name = collection["NewMatch.TournamentRound.Name"];
@@ -254,7 +254,7 @@ namespace Score247.Management.Site.Controllers
                 var requestBody = new MatchPushEventDto(match);
                 var eventDate = Convert.ToDateTime(collection["payload.timeline.time"]);
                 var eventTimeSpan = TimeSpan.Parse(collection["payload.timeline.hour"]);
-                var eventTime = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, eventTimeSpan.Hours, eventTimeSpan.Minutes, eventTimeSpan.Seconds);
+                var eventTime = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, eventTimeSpan.Hours, eventTimeSpan.Minutes, eventTimeSpan.Seconds, DateTimeKind.Utc);
                 requestBody.payload.timeline = new TimelineDto()
                 {
                     id = UniqueGenerator.GetIntId(),
@@ -436,7 +436,7 @@ namespace Score247.Management.Site.Controllers
 
                 var eventDate = Convert.ToDateTime(collection["payload.timeline.time"]);
                 var eventTimeSpan = TimeSpan.Parse(collection["payload.timeline.hour"]);
-                var eventTime = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, eventTimeSpan.Hours, eventTimeSpan.Minutes, eventTimeSpan.Seconds);
+                var eventTime = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, eventTimeSpan.Hours, eventTimeSpan.Minutes, eventTimeSpan.Seconds, DateTimeKind.Utc);
                 requestBody.payload.timeline = new TimelineDto()
                 {
                     id = UniqueGenerator.GetIntId(),
@@ -573,7 +573,7 @@ namespace Score247.Management.Site.Controllers
                 var requestBody = new MatchPushEventDto(match);
                 var eventDate = Convert.ToDateTime(collection["payload.timeline.time"]);
                 var eventTimeSpan = TimeSpan.Parse(collection["payload.timeline.hour"]);
-                var eventTime = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, eventTimeSpan.Hours, eventTimeSpan.Minutes, eventTimeSpan.Seconds);
+                var eventTime = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, eventTimeSpan.Hours, eventTimeSpan.Minutes, eventTimeSpan.Seconds, DateTimeKind.Utc);
                 requestBody.payload.timeline = new TimelineDto()
                 {
                     id = UniqueGenerator.GetIntId(),
@@ -642,7 +642,7 @@ namespace Score247.Management.Site.Controllers
                 var requestBody = new MatchPushEventDto(match);
                 var eventDate = Convert.ToDateTime(collection["payload.timeline.time"]);
                 var eventTimeSpan = TimeSpan.Parse(collection["payload.timeline.hour"]);
-                var eventTime = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, eventTimeSpan.Hours, eventTimeSpan.Minutes, eventTimeSpan.Seconds);
+                var eventTime = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, eventTimeSpan.Hours, eventTimeSpan.Minutes, eventTimeSpan.Seconds, DateTimeKind.Utc);
                 requestBody.payload.timeline = new TimelineDto()
                 {
                     id = UniqueGenerator.GetIntId(),
@@ -703,7 +703,7 @@ namespace Score247.Management.Site.Controllers
 
                 var eventDate = Convert.ToDateTime(collection["payload.timeline.time"]);
                 var eventTimeSpan = TimeSpan.Parse(collection["payload.timeline.hour"]);
-                var eventTime = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, eventTimeSpan.Hours, eventTimeSpan.Minutes, eventTimeSpan.Seconds);
+                var eventTime = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, eventTimeSpan.Hours, eventTimeSpan.Minutes, eventTimeSpan.Seconds, DateTimeKind.Utc);
                 requestBody.payload.timeline = new TimelineDto()
                 {
                     id = UniqueGenerator.GetIntId(),
