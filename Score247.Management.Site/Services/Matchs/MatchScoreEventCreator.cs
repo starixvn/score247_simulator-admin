@@ -15,7 +15,7 @@
             matchEvent.payload.timeline = new TimelineDto()
             {
                 id = UniqueGenerator.GetIntId(),
-                time = eventTime,
+                time = eventTime.ToUniversalTime(),
                 home_score = match.LatestTimeline != null ? match.LatestTimeline.HomeScore : 0,
                 away_score = match.LatestTimeline != null ? match.LatestTimeline.AwayScore : 0,
                 team = team,
@@ -110,7 +110,7 @@
             matchEvent.payload.timeline = new TimelineDto()
             {
                 id = UniqueGenerator.GetIntId(),
-                time = eventTime,
+                time = eventTime.ToUniversalTime(),
                 home_score = match.LatestTimeline != null ? match.LatestTimeline.HomeScore : 0,
                 away_score = match.LatestTimeline != null ? match.LatestTimeline.AwayScore : 0,
                 team = team,
@@ -173,7 +173,7 @@
             matchEvent.payload.timeline = new TimelineDto()
             {
                 id = UniqueGenerator.GetIntId(),
-                time = eventTime,
+                time = eventTime.ToUniversalTime(),
                 home_score = match.LatestTimeline != null ? match.LatestTimeline.HomeScore : 0,
                 away_score = match.LatestTimeline != null ? match.LatestTimeline.AwayScore : 0,
                 team = team,

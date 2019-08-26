@@ -13,6 +13,8 @@
         public EventType Type { get; set; }
         public DateTime Time { get; set; }
 
+        public DateTime LocalTime => Time.ToLocalTime();
+
         public int MatchTime { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]

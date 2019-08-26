@@ -12,7 +12,7 @@ namespace Score247.Management.Site.Repositories.Match.Models
         public string Status { get; set; }
 
         [DataType(DataType.Date)]
-        public DateTimeOffset Scheduled { get; set; }
+        public DateTime Scheduled { get; set; }
 
         [DataType(DataType.Time)]
         public TimeSpan ScheduledTime { get; set; }

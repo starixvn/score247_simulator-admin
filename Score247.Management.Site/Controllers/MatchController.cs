@@ -171,11 +171,16 @@ namespace Score247.Management.Site.Controllers
                     content.sport_events = newMatches;
                     var jsonValue = JsonConvert.SerializeObject(content);
 
-                    var response = await client.PostAsync(string.Format(Configuration.GetValue<string>("Simulator:DailySchedule") + "?date={0}", newMatch.Scheduled.UtcDateTime.ToString("yyyy-MM-dd")), new StringContent(jsonValue, Encoding.UTF8, "application/json"));
+                    var response = await client.PostAsync(string.Format(Configuration.GetValue<string>("Simulator:DailySchedule") + "?date={0}", newMatch.Scheduled.ToString("yyyy-MM-dd")), new StringContent(jsonValue, Encoding.UTF8, "application/json"));
                     if (!response.IsSuccessStatusCode)
                     {
                         return View();
                     }
+                    //client.BaseAddress = new Uri(Configuration.GetValue<string>("Simulator:FetchUrl"));
+                    //var request = new HttpRequestMessage(HttpMethod.Post, "");
+                    //var keyvalue = new KeyValuePair<string, List<string>>("jobs", new List<string> { "FetchPreMatch", "FetchPostMatch", "FetchLiveMatch" });
+
+                    //request.Content = new FormUrlEncodedContent(new List<KeyValuePair<string, List<string>>> { keyvalue });
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -362,11 +367,11 @@ namespace Score247.Management.Site.Controllers
                     requestBody.payload.timeline.period_name = MatchStatus.Penalties.DisplayName;
                     requestBody.payload.timeline.period_type = PeriodType.Penalties.DisplayName;
                     requestBody.payload.sport_event_status.period_scores = requestBody.payload.sport_event_status.period_scores.Append(new Period_Scores
-                      {
+                    {
                         home_score = 0,
                         away_score = 0,
                         type = "penalties"
-                      });
+                    });
                 }
                 else if (eventType == "match_end_normal")
                 {
@@ -588,10 +593,11 @@ namespace Score247.Management.Site.Controllers
                 if (requestBody.payload.timeline.status == "scored")
                 {
                     var periodScoresPosition = periodScores.FindIndex(x => x.type == PeriodType.Penalties.DisplayName);
-                    if(requestBody.payload.timeline.team == "home")
+                    if (requestBody.payload.timeline.team == "home")
                     {
                         periodScores[periodScoresPosition].home_score++;
-                    } else
+                    }
+                    else
                     {
                         periodScores[periodScoresPosition].away_score++;
                     }
@@ -729,7 +735,7 @@ namespace Score247.Management.Site.Controllers
             }
         }
 
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult AutoEventNormalMatch(string id, IFormCollection collection)

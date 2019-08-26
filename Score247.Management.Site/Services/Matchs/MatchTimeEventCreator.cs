@@ -15,7 +15,7 @@
             matchEvent.payload.timeline = new TimelineDto()
             {
                 id = UniqueGenerator.GetIntId(),
-                time = eventTime,
+                time = eventTime.ToUniversalTime(),
                 home_score = 0,
                 away_score = 0
             };
@@ -35,7 +35,7 @@
             matchEvent.payload.timeline = new TimelineDto()
             {
                 id = UniqueGenerator.GetIntId(),
-                time = eventTime,
+                time = eventTime.ToUniversalTime(),
                 home_score = match.LatestTimeline != null ? match.LatestTimeline.HomeScore : 0,
                 away_score = match.LatestTimeline != null ? match.LatestTimeline.AwayScore : 0
             };
@@ -65,7 +65,7 @@
             matchEvent.payload.timeline = new TimelineDto()
             {
                 id = UniqueGenerator.GetIntId(),
-                time = eventTime,
+                time = eventTime.ToUniversalTime(),
                 home_score = match.LatestTimeline != null ? match.LatestTimeline.HomeScore : 0,
                 away_score = match.LatestTimeline != null ? match.LatestTimeline.AwayScore : 0
             };
@@ -86,7 +86,7 @@
             matchEvent.payload.timeline = new TimelineDto()
             {
                 id = UniqueGenerator.GetIntId(),
-                time = eventTime,
+                time = eventTime.ToUniversalTime(),
                 home_score = match.LatestTimeline != null ? match.LatestTimeline.HomeScore : 0,
                 away_score = match.LatestTimeline != null ? match.LatestTimeline.AwayScore : 0
             };
@@ -116,7 +116,7 @@
             matchEvent.payload.timeline = new TimelineDto()
             {
                 id = UniqueGenerator.GetIntId(),
-                time = eventTime,
+                time = eventTime.ToUniversalTime(),
                 home_score = match.LatestTimeline != null ? match.LatestTimeline.HomeScore : 0,
                 away_score = match.LatestTimeline != null ? match.LatestTimeline.AwayScore : 0
             };
@@ -136,7 +136,7 @@
             matchEvent.payload.timeline = new TimelineDto()
             {
                 id = UniqueGenerator.GetIntId(),
-                time = eventTime,
+                time = eventTime.ToUniversalTime(),
                 home_score = match.LatestTimeline != null ? match.LatestTimeline.HomeScore : 0,
                 away_score = match.LatestTimeline != null ? match.LatestTimeline.AwayScore : 0
             };
@@ -165,7 +165,7 @@
             matchEvent.payload.timeline = new TimelineDto()
             {
                 id = UniqueGenerator.GetIntId(),
-                time = eventTime,
+                time = eventTime.ToUniversalTime(),
                 home_score = match.LatestTimeline != null ? match.LatestTimeline.HomeScore : 0,
                 away_score = match.LatestTimeline != null ? match.LatestTimeline.AwayScore : 0
             };
@@ -186,7 +186,7 @@
             matchEvent.payload.timeline = new TimelineDto()
             {
                 id = UniqueGenerator.GetIntId(),
-                time = eventTime,
+                time = eventTime.ToUniversalTime(),
                 home_score = match.LatestTimeline != null ? match.LatestTimeline.HomeScore : 0,
                 away_score = match.LatestTimeline != null ? match.LatestTimeline.AwayScore : 0
             };
@@ -209,7 +209,7 @@
             matchEvent.payload.timeline = new TimelineDto()
             {
                 id = UniqueGenerator.GetIntId(),
-                time = eventTime,
+                time = eventTime.ToUniversalTime(),
                 home_score = match.LatestTimeline != null ? match.LatestTimeline.HomeScore : 0,
                 away_score = match.LatestTimeline != null ? match.LatestTimeline.AwayScore : 0
             };
@@ -230,7 +230,7 @@
             matchEvent.payload.timeline = new TimelineDto()
             {
                 id = UniqueGenerator.GetIntId(),
-                time = eventTime,
+                time = eventTime.ToUniversalTime(),
                 home_score = match.LatestTimeline != null ? match.LatestTimeline.HomeScore : 0,
                 away_score = match.LatestTimeline != null ? match.LatestTimeline.AwayScore : 0
             };
@@ -259,7 +259,7 @@
             matchEvent.payload.timeline = new TimelineDto()
             {
                 id = UniqueGenerator.GetIntId(),
-                time = eventTime,
+                time = eventTime.ToUniversalTime(),
                 home_score = match.LatestTimeline != null ? match.LatestTimeline.HomeScore : 0,
                 away_score = match.LatestTimeline != null ? match.LatestTimeline.AwayScore : 0
             };
@@ -279,7 +279,7 @@
             matchEvent.payload.timeline = new TimelineDto()
             {
                 id = UniqueGenerator.GetIntId(),
-                time = eventTime,
+                time = eventTime.ToUniversalTime(),
                 home_score = match.LatestTimeline != null ? match.LatestTimeline.HomeScore : 0,
                 away_score = match.LatestTimeline != null ? match.LatestTimeline.AwayScore : 0
             };
@@ -299,7 +299,7 @@
             matchEvent.payload.timeline = new TimelineDto()
             {
                 id = UniqueGenerator.GetIntId(),
-                time = eventTime,
+                time = eventTime.ToUniversalTime(),
                 home_score = match.LatestTimeline != null ? match.LatestTimeline.HomeScore : 0,
                 away_score = match.LatestTimeline != null ? match.LatestTimeline.AwayScore : 0
             };

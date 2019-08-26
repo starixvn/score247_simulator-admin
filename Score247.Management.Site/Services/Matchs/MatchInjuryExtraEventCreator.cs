@@ -17,7 +17,7 @@
             matchEvent.payload.timeline = new TimelineDto()
             {
                 id = UniqueGenerator.GetIntId(),
-                time = eventTime,
+                time = eventTime.ToUniversalTime(),
                 period = 1,
                 period_name = PeriodType.RegularPeriod.DisplayName,
                 stoppage_time = "1",
