@@ -9,7 +9,7 @@
 
     public sealed class Match : BaseEntity
     {
-        public DateTimeOffset EventDate { get; set; }
+        public DateTime EventDate { get; set; }
 
         public IEnumerable<Team> Teams { get; set; }
 

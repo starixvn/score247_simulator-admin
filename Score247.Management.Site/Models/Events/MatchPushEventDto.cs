@@ -53,7 +53,7 @@ namespace Score247.Management.Site.Models.Events
                 winner_id = match.MatchResult.WinnerId
             };
 
-            var latestTime = match.LatestTimeline != null ? match.LatestTimeline.Time.LocalDateTime : match.EventDate.LocalDateTime;
+            var latestTime = match.LatestTimeline != null ? match.LatestTimeline.Time : match.EventDate;
             timeline = new TimelineDto()
             {
                 time = latestTime,

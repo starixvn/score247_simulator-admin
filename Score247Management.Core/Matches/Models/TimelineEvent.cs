@@ -11,7 +11,7 @@
     public class TimelineEvent : BaseEntity
     {
         public EventType Type { get; set; }
-        public DateTimeOffset Time { get; set; }
+        public DateTime Time { get; set; }
 
         public int MatchTime { get; set; }
 

@@ -34,12 +34,13 @@ namespace Score247.Management.Site.Controllers
         }
 
         // GET: Match
-        public async Task<ActionResult> Index(DateTime fromDate, DateTime toDate)
+        public async Task<ActionResult> Index()
         {
             var repository = new MatchRepository();
             var viewModal = new MatchViewModel();
-            if (fromDate == DateTime.MinValue) { fromDate = DateTime.UtcNow.AddDays(-1); }
-            if (toDate == DateTime.MinValue) { toDate = DateTime.UtcNow; }
+            var timeNow = DateTime.Now;
+            var fromDate = new DateTime(timeNow.Year, timeNow.Month, timeNow.Day, 0, 0, 0);
+            var toDate = new DateTime(timeNow.Year, timeNow.Month, timeNow.Day, 23, 59, 59);
             viewModal.DateSearchModel = new DateSearchModel()
             {
                 FromDate = fromDate,
@@ -55,7 +56,9 @@ namespace Score247.Management.Site.Controllers
         public async Task<ActionResult> _DateRangeSearch(IFormCollection collection)
         {
             var fromDate = DateTime.Parse(collection["FromDate"]);
+            fromDate = new DateTime(fromDate.Year, fromDate.Month, fromDate.Day, 0, 0, 0);
             var toDate = DateTime.Parse(collection["ToDate"]);
+            toDate = new DateTime(toDate.Year, toDate.Month, toDate.Day, 23, 59, 59);
             var repository = new MatchRepository();
             var viewModal = new MatchViewModel();
             viewModal.DateSearchModel = new DateSearchModel()
