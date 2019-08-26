@@ -179,8 +179,13 @@ namespace Score247.Management.Site.Controllers
                     var triggerClient = new HttpClient();
                     triggerClient.BaseAddress = new Uri(Configuration.GetValue<string>("Simulator:FetchUrl"));
                     var request = new HttpRequestMessage(HttpMethod.Post, "");
-                    var keyvalue = new KeyValuePair<string, string>("jobs[]", "FetchPreMatch");
-                    request.Content = new FormUrlEncodedContent(new List<KeyValuePair<string, string>> { keyvalue });
+                    FormUrlEncodedContent fetchContent = new FormUrlEncodedContent(
+                        new[]{
+                            new KeyValuePair < string, string > ("jobs[]", "FetchPreMatch"),
+                            new KeyValuePair < string, string > ("jobs[]", "FetchPostMatch"),
+                            new KeyValuePair < string, string > ("jobs[]", "FetchLiveMatch")
+                    });
+                    request.Content = fetchContent;
                     triggerClient.SendAsync(request);
 
                 }
