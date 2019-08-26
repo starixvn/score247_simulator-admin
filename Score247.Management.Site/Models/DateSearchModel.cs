@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Score247Management.Core.Leagues.Models;
 
 namespace Score247.Management.Site.Models
 {
@@ -10,5 +12,9 @@ namespace Score247.Management.Site.Models
 
         [DataType(DataType.Date)]
         public DateTime ToDate { get; set; }
+
+        public IEnumerable<League> Leagues { get; set; }
+
+        public string SelectedLeagueId { get; set; }
     }
 }

@@ -23,9 +23,6 @@ namespace Score247.Management.Site.Controllers
 {
     public class MatchController : Controller
     {
-        ////public const string Configuration.GetValue<string>("Simulator:Url") = "http://ha.nexdev.net:7206/V1/";
-        //public const string Configuration.GetValue<string>("Simulator:Url") = "http://localhost:61092/";
-        //public const string Configuration.GetValue<string>("Simulator:PushEvent")  = "api/soccer-xt3/other/stream/events/PushEvent";
         private IConfiguration Configuration { get; set; }
 
         public MatchController(IConfiguration configuration)
@@ -37,6 +34,8 @@ namespace Score247.Management.Site.Controllers
         public async Task<ActionResult> Index()
         {
             var repository = new MatchRepository();
+            var leagueRepository = new LeagueRepository();
+            var leagues = await leagueRepository.GetLeagues();
             var viewModal = new MatchViewModel();
             var timeNow = DateTime.Now;
             var fromDate = new DateTime(timeNow.Year, timeNow.Month, timeNow.Day, 0, 0, 0);
@@ -44,7 +43,8 @@ namespace Score247.Management.Site.Controllers
             viewModal.DateSearchModel = new DateSearchModel()
             {
                 FromDate = fromDate,
-                ToDate = toDate
+                ToDate = toDate,
+                Leagues = leagues
             };
             var matches = await repository.GetMatchByDataRange(viewModal.DateSearchModel);
             viewModal.Matches = matches;
@@ -59,12 +59,17 @@ namespace Score247.Management.Site.Controllers
             fromDate = new DateTime(fromDate.Year, fromDate.Month, fromDate.Day, 0, 0, 0);
             var toDate = DateTime.Parse(collection["ToDate"]);
             toDate = new DateTime(toDate.Year, toDate.Month, toDate.Day, 23, 59, 59);
+            var selectedLeagueId = collection["SelectedLeagueId"];
             var repository = new MatchRepository();
+            var leagueRepository = new LeagueRepository();
+            var leagues = await leagueRepository.GetLeagues();
             var viewModal = new MatchViewModel();
             viewModal.DateSearchModel = new DateSearchModel()
             {
                 FromDate = fromDate,
-                ToDate = toDate
+                ToDate = toDate,
+                Leagues = leagues,
+                SelectedLeagueId = selectedLeagueId
             };
             var matches = await repository.GetMatchByDataRange(viewModal.DateSearchModel);
             viewModal.Matches = matches;
@@ -271,6 +276,13 @@ namespace Score247.Management.Site.Controllers
                     requestBody.payload.sport_event_status.match_status = MatchStatus.FirstHaft.DisplayName;
                     requestBody.payload.sport_event_status.period = 1;
                     requestBody.payload.timeline.type = EventType.MatchStarted.DisplayName;
+                    requestBody.payload.sport_event_status.period_scores = requestBody.payload.sport_event_status.period_scores.Append(new Period_Scores
+                    {
+                        home_score = 0,
+                        away_score = 0,
+                        type = "regular_period",
+                        number = 1
+                    });
                 }
                 else if (eventType == "1st_period_start")
                 {
@@ -281,13 +293,17 @@ namespace Score247.Management.Site.Controllers
                     requestBody.payload.timeline.period = 1;
                     requestBody.payload.timeline.period_name = MatchStatus.FirstHaft.DisplayName;
                     requestBody.payload.timeline.period_type = PeriodType.RegularPeriod.DisplayName;
-                    requestBody.payload.sport_event_status.period_scores = requestBody.payload.sport_event_status.period_scores.Append(new Period_Scores
+                    if(requestBody.payload.sport_event_status.period_scores?.First(x => x.number == 1 && x.type == PeriodType.RegularPeriod.DisplayName) == null)
                     {
-                        home_score = 0,
-                        away_score = 0,
-                        type = "regular_period",
-                        number = 1
-                    });
+                        requestBody.payload.sport_event_status.period_scores = requestBody.payload.sport_event_status.period_scores.Append(new Period_Scores
+                        {
+                            home_score = 0,
+                            away_score = 0,
+                            type = "regular_period",
+                            number = 1
+                        });
+                    }
+                    
                 }
                 else if (eventType == "break_start")
                 {
@@ -296,6 +312,16 @@ namespace Score247.Management.Site.Controllers
                     requestBody.payload.sport_event_status.period = 1;
                     requestBody.payload.timeline.type = EventType.BreakStart.DisplayName;
                     requestBody.payload.timeline.period_name = MatchStatus.Pause.DisplayName;
+                    if (requestBody.payload.sport_event_status.period_scores?.First(x => x.number == 1 && x.type == PeriodType.RegularPeriod.DisplayName) == null)
+                    {
+                        requestBody.payload.sport_event_status.period_scores = requestBody.payload.sport_event_status.period_scores.Append(new Period_Scores
+                        {
+                            home_score = 0,
+                            away_score = 0,
+                            type = "regular_period",
+                            number = 1
+                        });
+                    }
                 }
                 else if (eventType == "2nd_period_start")
                 {
@@ -321,6 +347,16 @@ namespace Score247.Management.Site.Controllers
                     requestBody.payload.sport_event_status.period = 1;
                     requestBody.payload.timeline.type = EventType.BreakStart.DisplayName;
                     requestBody.payload.timeline.period_name = "Awaiting extra";
+                    if (requestBody.payload.sport_event_status.period_scores?.First(x => x.type == PeriodType.Overtime.DisplayName) == null)
+                    {
+                        requestBody.payload.sport_event_status.period_scores = requestBody.payload.sport_event_status.period_scores.Append(new Period_Scores
+                        {
+                            home_score = 0,
+                            away_score = 0,
+                            type = "overtime"
+                        });
+                    }
+                    
                 }
                 else if (eventType == "1st_extra_start")
                 {
@@ -331,12 +367,15 @@ namespace Score247.Management.Site.Controllers
                     requestBody.payload.timeline.period = 1;
                     requestBody.payload.timeline.period_name = MatchStatus.FirstHaftExtra.DisplayName;
                     requestBody.payload.timeline.period_type = PeriodType.Overtime.DisplayName;
-                    requestBody.payload.sport_event_status.period_scores = requestBody.payload.sport_event_status.period_scores.Append(new Period_Scores
+                    if (requestBody.payload.sport_event_status.period_scores?.First(x => x.type == PeriodType.Overtime.DisplayName) == null)
                     {
-                        home_score = 0,
-                        away_score = 0,
-                        type = "overtime"
-                    });
+                        requestBody.payload.sport_event_status.period_scores = requestBody.payload.sport_event_status.period_scores.Append(new Period_Scores
+                        {
+                            home_score = 0,
+                            away_score = 0,
+                            type = "overtime"
+                        });
+                    }
                 }
                 else if (eventType == "break_extra")
                 {
@@ -345,6 +384,15 @@ namespace Score247.Management.Site.Controllers
                     requestBody.payload.sport_event_status.period = 2;
                     requestBody.payload.timeline.type = EventType.BreakStart.DisplayName;
                     requestBody.payload.timeline.period_name = "Extra time halftime";
+                    if (requestBody.payload.sport_event_status.period_scores?.First(x => x.type == PeriodType.Overtime.DisplayName) == null)
+                    {
+                        requestBody.payload.sport_event_status.period_scores = requestBody.payload.sport_event_status.period_scores.Append(new Period_Scores
+                        {
+                            home_score = 0,
+                            away_score = 0,
+                            type = "overtime"
+                        });
+                    }
                 }
                 else if (eventType == "2nd_extra_start")
                 {
@@ -355,6 +403,15 @@ namespace Score247.Management.Site.Controllers
                     requestBody.payload.timeline.period = 2;
                     requestBody.payload.timeline.period_name = MatchStatus.SecondHaftExtra.DisplayName;
                     requestBody.payload.timeline.period_type = PeriodType.Overtime.DisplayName;
+                    if (requestBody.payload.sport_event_status.period_scores?.First(x => x.type == PeriodType.Overtime.DisplayName) == null)
+                    {
+                        requestBody.payload.sport_event_status.period_scores = requestBody.payload.sport_event_status.period_scores.Append(new Period_Scores
+                        {
+                            home_score = 0,
+                            away_score = 0,
+                            type = "overtime"
+                        });
+                    }
                 }
                 else if (eventType == "await_penalty")
                 {
@@ -363,6 +420,15 @@ namespace Score247.Management.Site.Controllers
                     requestBody.payload.sport_event_status.period = 1;
                     requestBody.payload.timeline.type = EventType.BreakStart.DisplayName;
                     requestBody.payload.timeline.period_name = MatchStatus.AwaitingPenalties.DisplayName;
+                    if (requestBody.payload.sport_event_status.period_scores?.First(x => x.type == PeriodType.Penalties.DisplayName) == null)
+                    {
+                        requestBody.payload.sport_event_status.period_scores = requestBody.payload.sport_event_status.period_scores.Append(new Period_Scores
+                        {
+                            home_score = 0,
+                            away_score = 0,
+                            type = "penalties"
+                        });
+                    }
                 }
                 else if (eventType == "penalty_start")
                 {
@@ -373,12 +439,15 @@ namespace Score247.Management.Site.Controllers
                     requestBody.payload.timeline.period = 1;
                     requestBody.payload.timeline.period_name = MatchStatus.Penalties.DisplayName;
                     requestBody.payload.timeline.period_type = PeriodType.Penalties.DisplayName;
-                    requestBody.payload.sport_event_status.period_scores = requestBody.payload.sport_event_status.period_scores.Append(new Period_Scores
+                    if (requestBody.payload.sport_event_status.period_scores?.First(x => x.type == PeriodType.Penalties.DisplayName) == null)
                     {
-                        home_score = 0,
-                        away_score = 0,
-                        type = "penalties"
-                    });
+                        requestBody.payload.sport_event_status.period_scores = requestBody.payload.sport_event_status.period_scores.Append(new Period_Scores
+                        {
+                            home_score = 0,
+                            away_score = 0,
+                            type = "penalties"
+                        });
+                    }
                 }
                 else if (eventType == "match_end_normal")
                 {
@@ -386,6 +455,26 @@ namespace Score247.Management.Site.Controllers
                     requestBody.payload.sport_event_status.match_status = MatchStatus.Ended.DisplayName;
                     requestBody.payload.timeline.type = EventType.MatchEnded.DisplayName;
                     requestBody.payload.timeline.match_clock = "90:00";
+                    if (requestBody.payload.sport_event_status.period_scores?.First(x => x.number == 1 && x.type == PeriodType.RegularPeriod.DisplayName) == null)
+                    {
+                        requestBody.payload.sport_event_status.period_scores = requestBody.payload.sport_event_status.period_scores.Append(new Period_Scores
+                        {
+                            home_score = 0,
+                            away_score = 0,
+                            type = "regular_period",
+                            number = 1
+                        });
+                    }
+                    if (requestBody.payload.sport_event_status.period_scores?.First(x => x.number == 2 && x.type == PeriodType.RegularPeriod.DisplayName) == null)
+                    {
+                        requestBody.payload.sport_event_status.period_scores = requestBody.payload.sport_event_status.period_scores.Append(new Period_Scores
+                        {
+                            home_score = 0,
+                            away_score = 0,
+                            type = "regular_period",
+                            number = 2
+                        });
+                    }
                 }
                 else if (eventType == "match_end_extra")
                 {
@@ -393,6 +482,15 @@ namespace Score247.Management.Site.Controllers
                     requestBody.payload.sport_event_status.match_status = MatchStatus.EndedExtraTime.DisplayName;
                     requestBody.payload.timeline.type = EventType.MatchEnded.DisplayName;
                     requestBody.payload.timeline.match_clock = "120:00";
+                    if (requestBody.payload.sport_event_status.period_scores?.First(x => x.type == PeriodType.Overtime.DisplayName) == null)
+                    {
+                        requestBody.payload.sport_event_status.period_scores = requestBody.payload.sport_event_status.period_scores.Append(new Period_Scores
+                        {
+                            home_score = 0,
+                            away_score = 0,
+                            type = "overtime"
+                        });
+                    }
                 }
                 else if (eventType == "match_end_pen")
                 {
@@ -401,6 +499,15 @@ namespace Score247.Management.Site.Controllers
                     requestBody.payload.sport_event_status.period = 1;
                     requestBody.payload.timeline.type = EventType.MatchEnded.DisplayName;
                     requestBody.payload.timeline.match_clock = "120:00";
+                    if (requestBody.payload.sport_event_status.period_scores?.First(x => x.type == PeriodType.Penalties.DisplayName) == null)
+                    {
+                        requestBody.payload.sport_event_status.period_scores = requestBody.payload.sport_event_status.period_scores.Append(new Period_Scores
+                        {
+                            home_score = 0,
+                            away_score = 0,
+                            type = "penalties"
+                        });
+                    }
                 }
                 else
                 {
