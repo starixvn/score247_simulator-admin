@@ -62,14 +62,31 @@ namespace Score247.Management.Site.Repositories.Match
 
         public async Task<IEnumerable<Score247Management.Core.Matches.Models.Match>> GetMatchByDataRange(DateSearchModel dateSearchModel)
         {
-            var criteria = new GetMatchByDateRangeCriteria()
+            IEnumerable<Score247Management.Core.Matches.Models.Match> matches;
+            if (dateSearchModel.SelectedLeagueId == "all")
             {
-                SportId = 1,
-                FromDate = dateSearchModel.FromDate,
-                ToDate = dateSearchModel.ToDate,
-                Language = "en-US"
-            };
-            var matches = await repository.FetchAsync<Score247Management.Core.Matches.Models.Match>(criteria);
+                var criteria = new GetMatchByDateRangeCriteria()
+                {
+                    SportId = 1,
+                    FromDate = dateSearchModel.FromDate,
+                    ToDate = dateSearchModel.ToDate,
+                    Language = "en-US"
+                };
+                matches = await repository.FetchAsync<Score247Management.Core.Matches.Models.Match>(criteria);
+            }
+            else
+            {
+                var criteria = new GetMatchByDateRangeAndLeagueCriteria()
+                {
+                    SportId = 1,
+                    FromDate = dateSearchModel.FromDate,
+                    ToDate = dateSearchModel.ToDate,
+                    Language = "en-US",
+                    LeagueId = dateSearchModel.SelectedLeagueId
+                };
+                matches = await repository.FetchAsync<Score247Management.Core.Matches.Models.Match>(criteria);
+            }
+
             var result = matches.Select(x => x.DeserialValue());
 
             return result;

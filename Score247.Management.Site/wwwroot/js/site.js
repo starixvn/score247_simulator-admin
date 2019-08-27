@@ -34,8 +34,7 @@ function cardPeriodTypeChange(selectObject) {
     }
 }
 
-function OpenModalPopUp(reservationDay, reservationHour) {
+function OpenModalPopUp(reservationDay) {
     $('.reservationDay').text(reservationDay);
-    $('.reservationHour').text(reservationHour);
-    $('#myModal').modal();
+    $('#logRequest').modal();
 };
