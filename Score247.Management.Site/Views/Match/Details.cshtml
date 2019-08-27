@@ -42,7 +42,7 @@
             @Html.DisplayFor(model => model.Match.LatestTimeline.HomeScore) - @Html.DisplayFor(model => model.Match.LatestTimeline.AwayScore)
         </dd>
         @if (Model.Match.MatchResult.MatchStatus.DisplayName == MatchStatus.Penalties.DisplayName
-  || Model.Match.MatchResult.MatchStatus.DisplayName == MatchStatus.EndedAfterPenalties.DisplayName)
+ || Model.Match.MatchResult.MatchStatus.DisplayName == MatchStatus.EndedAfterPenalties.DisplayName)
         {
             <dt class="col-sm-2">Penalty Score:</dt>
             <dd class="col-sm-2">
@@ -65,6 +65,3 @@
         </div>
     </div>
 </div>
-    <div>
-        <a asp-action="Index">Back to List</a>
-    </div>

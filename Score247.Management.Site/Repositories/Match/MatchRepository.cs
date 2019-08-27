@@ -91,5 +91,10 @@ namespace Score247.Management.Site.Repositories.Match
 
             return result;
         }
+
+        public async Task<int> CloneMatches(MatchCloneCriteria criteria)
+        {
+            return await repository.ExecuteAsync(criteria);
+        }
     }
 }

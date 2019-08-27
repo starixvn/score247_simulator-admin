@@ -7,5 +7,7 @@ namespace Score247.Management.Site.ViewModels.Match
     {
         public IEnumerable<Score247Management.Core.Matches.Models.Match> Matches { get; set; }
         public DateSearchModel DateSearchModel { get; set; }
+
+        public CloneMatchModel CloneMatchModel { get; set; }
     }
 }

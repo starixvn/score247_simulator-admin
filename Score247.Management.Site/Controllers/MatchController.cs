@@ -18,6 +18,7 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using Score247.Management.Site.Models;
 using Score247.Management.Site.Services.Matchs;
+using Score247.Management.Site.Criterias.Match;
 
 namespace Score247.Management.Site.Controllers
 {
@@ -38,8 +39,8 @@ namespace Score247.Management.Site.Controllers
             var leagues = await leagueRepository.GetLeagues();
             var viewModal = new MatchViewModel();
             var timeNow = DateTime.Now;
-            var fromDate = new DateTime(timeNow.Year, timeNow.Month, timeNow.Day, 0, 0, 0);
-            var toDate = new DateTime(timeNow.Year, timeNow.Month, timeNow.Day, 23, 59, 59);
+            var fromDate = new DateTime(timeNow.Year, timeNow.Month, timeNow.Day, 0, 0, 0, DateTimeKind.Utc);
+            var toDate = new DateTime(timeNow.Year, timeNow.Month, timeNow.Day, 23, 59, 59, DateTimeKind.Utc);
             viewModal.DateSearchModel = new DateSearchModel()
             {
                 FromDate = fromDate,
@@ -57,9 +58,9 @@ namespace Score247.Management.Site.Controllers
         public async Task<ActionResult> _DateRangeSearch(IFormCollection collection)
         {
             var fromDate = DateTime.Parse(collection["FromDate"]);
-            fromDate = new DateTime(fromDate.Year, fromDate.Month, fromDate.Day, 0, 0, 0);
+            fromDate = new DateTime(fromDate.Year, fromDate.Month, fromDate.Day, 0, 0, 0, DateTimeKind.Utc);
             var toDate = DateTime.Parse(collection["ToDate"]);
-            toDate = new DateTime(toDate.Year, toDate.Month, toDate.Day, 23, 59, 59);
+            toDate = new DateTime(toDate.Year, toDate.Month, toDate.Day, 23, 59, 59, DateTimeKind.Utc);
             var selectedLeagueId = collection["SelectedLeagueId"];
             var repository = new MatchRepository();
             var leagueRepository = new LeagueRepository();
@@ -204,9 +205,24 @@ namespace Score247.Management.Site.Controllers
         }
 
         // GET: Match/Edit/5
-        public ActionResult Edit(int id)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CloneMatches(IFormCollection collection)
         {
-            return View();
+            try
+            {
+                var criteria = new MatchCloneCriteria();
+                var eventDate = DateTime.Parse(collection["CloneMatchModel.EventDate"]);
+                criteria.EventDate = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, 0, 0, 0, DateTimeKind.Utc);
+                criteria.LimitMatch = int.Parse(collection["CloneMatchModel.Count"]);
+                var matchRepository = new MatchRepository();
+                await matchRepository.CloneMatches(criteria);
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            return RedirectToAction(nameof(Index));
         }
 
         // POST: Match/Edit/5
