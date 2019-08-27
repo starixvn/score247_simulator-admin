@@ -44,7 +44,8 @@ namespace Score247.Management.Site.Controllers
             {
                 FromDate = fromDate,
                 ToDate = toDate,
-                Leagues = leagues
+                Leagues = leagues,
+                SelectedLeagueId = "all"
             };
             var matches = await repository.GetMatchByDataRange(viewModal.DateSearchModel);
             viewModal.Matches = matches;
