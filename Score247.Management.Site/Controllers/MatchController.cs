@@ -226,6 +226,26 @@ namespace Score247.Management.Site.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CloneLiveMatches(IFormCollection collection)
+        {
+            try
+            {
+                var criteria = new GetCloneLiveMatchesCriteria();
+                var eventDate = DateTime.Parse(collection["CloneMatchModel.EventDate"]);
+                criteria.EventDate = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, 0, 0, 0, DateTimeKind.Utc);
+                criteria.LimitMatch = int.Parse(collection["CloneMatchModel.Count"]);
+                var matchRepository = new MatchRepository();
+                await matchRepository.CloneLiveMatches(criteria, Configuration.GetValue<string>("Simulator:Url"), Configuration.GetValue<string>("Simulator:PushEvent"));
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
         // POST: Match/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -311,7 +331,7 @@ namespace Score247.Management.Site.Controllers
                     requestBody.payload.timeline.period = 1;
                     requestBody.payload.timeline.period_name = MatchStatus.FirstHaft.DisplayName;
                     requestBody.payload.timeline.period_type = PeriodType.RegularPeriod.DisplayName;
-                    if(requestBody.payload.sport_event_status.period_scores?.First(x => x.number == 1 && x.type == PeriodType.RegularPeriod.DisplayName) == null)
+                    if(requestBody.payload.sport_event_status.period_scores.FirstOrDefault(x => x.number == 1 && x.type == PeriodType.RegularPeriod.DisplayName) == null)
                     {
                         requestBody.payload.sport_event_status.period_scores = requestBody.payload.sport_event_status.period_scores.Append(new Period_Scores
                         {
@@ -330,7 +350,7 @@ namespace Score247.Management.Site.Controllers
                     requestBody.payload.sport_event_status.period = 1;
                     requestBody.payload.timeline.type = EventType.BreakStart.DisplayName;
                     requestBody.payload.timeline.period_name = MatchStatus.Pause.DisplayName;
-                    if (requestBody.payload.sport_event_status.period_scores?.First(x => x.number == 1 && x.type == PeriodType.RegularPeriod.DisplayName) == null)
+                    if (requestBody.payload.sport_event_status.period_scores.FirstOrDefault(x => x.number == 1 && x.type == PeriodType.RegularPeriod.DisplayName) == null)
                     {
                         requestBody.payload.sport_event_status.period_scores = requestBody.payload.sport_event_status.period_scores.Append(new Period_Scores
                         {
@@ -365,7 +385,7 @@ namespace Score247.Management.Site.Controllers
                     requestBody.payload.sport_event_status.period = 1;
                     requestBody.payload.timeline.type = EventType.BreakStart.DisplayName;
                     requestBody.payload.timeline.period_name = "Awaiting extra";
-                    if (requestBody.payload.sport_event_status.period_scores?.First(x => x.type == PeriodType.Overtime.DisplayName) == null)
+                    if (requestBody.payload.sport_event_status.period_scores.FirstOrDefault(x => x.type == PeriodType.Overtime.DisplayName) == null)
                     {
                         requestBody.payload.sport_event_status.period_scores = requestBody.payload.sport_event_status.period_scores.Append(new Period_Scores
                         {
@@ -385,7 +405,7 @@ namespace Score247.Management.Site.Controllers
                     requestBody.payload.timeline.period = 1;
                     requestBody.payload.timeline.period_name = MatchStatus.FirstHaftExtra.DisplayName;
                     requestBody.payload.timeline.period_type = PeriodType.Overtime.DisplayName;
-                    if (requestBody.payload.sport_event_status.period_scores?.First(x => x.type == PeriodType.Overtime.DisplayName) == null)
+                    if (requestBody.payload.sport_event_status.period_scores.FirstOrDefault(x => x.type == PeriodType.Overtime.DisplayName) == null)
                     {
                         requestBody.payload.sport_event_status.period_scores = requestBody.payload.sport_event_status.period_scores.Append(new Period_Scores
                         {
@@ -402,7 +422,7 @@ namespace Score247.Management.Site.Controllers
                     requestBody.payload.sport_event_status.period = 2;
                     requestBody.payload.timeline.type = EventType.BreakStart.DisplayName;
                     requestBody.payload.timeline.period_name = "Extra time halftime";
-                    if (requestBody.payload.sport_event_status.period_scores?.First(x => x.type == PeriodType.Overtime.DisplayName) == null)
+                    if (requestBody.payload.sport_event_status.period_scores.FirstOrDefault(x => x.type == PeriodType.Overtime.DisplayName) == null)
                     {
                         requestBody.payload.sport_event_status.period_scores = requestBody.payload.sport_event_status.period_scores.Append(new Period_Scores
                         {
@@ -421,7 +441,7 @@ namespace Score247.Management.Site.Controllers
                     requestBody.payload.timeline.period = 2;
                     requestBody.payload.timeline.period_name = MatchStatus.SecondHaftExtra.DisplayName;
                     requestBody.payload.timeline.period_type = PeriodType.Overtime.DisplayName;
-                    if (requestBody.payload.sport_event_status.period_scores?.First(x => x.type == PeriodType.Overtime.DisplayName) == null)
+                    if (requestBody.payload.sport_event_status.period_scores.FirstOrDefault(x => x.type == PeriodType.Overtime.DisplayName) == null)
                     {
                         requestBody.payload.sport_event_status.period_scores = requestBody.payload.sport_event_status.period_scores.Append(new Period_Scores
                         {
@@ -438,7 +458,7 @@ namespace Score247.Management.Site.Controllers
                     requestBody.payload.sport_event_status.period = 1;
                     requestBody.payload.timeline.type = EventType.BreakStart.DisplayName;
                     requestBody.payload.timeline.period_name = MatchStatus.AwaitingPenalties.DisplayName;
-                    if (requestBody.payload.sport_event_status.period_scores?.First(x => x.type == PeriodType.Penalties.DisplayName) == null)
+                    if (requestBody.payload.sport_event_status.period_scores.FirstOrDefault(x => x.type == PeriodType.Penalties.DisplayName) == null)
                     {
                         requestBody.payload.sport_event_status.period_scores = requestBody.payload.sport_event_status.period_scores.Append(new Period_Scores
                         {
@@ -457,7 +477,7 @@ namespace Score247.Management.Site.Controllers
                     requestBody.payload.timeline.period = 1;
                     requestBody.payload.timeline.period_name = MatchStatus.Penalties.DisplayName;
                     requestBody.payload.timeline.period_type = PeriodType.Penalties.DisplayName;
-                    if (requestBody.payload.sport_event_status.period_scores?.First(x => x.type == PeriodType.Penalties.DisplayName) == null)
+                    if (requestBody.payload.sport_event_status.period_scores.FirstOrDefault(x => x.type == PeriodType.Penalties.DisplayName) == null)
                     {
                         requestBody.payload.sport_event_status.period_scores = requestBody.payload.sport_event_status.period_scores.Append(new Period_Scores
                         {
@@ -473,7 +493,7 @@ namespace Score247.Management.Site.Controllers
                     requestBody.payload.sport_event_status.match_status = MatchStatus.Ended.DisplayName;
                     requestBody.payload.timeline.type = EventType.MatchEnded.DisplayName;
                     requestBody.payload.timeline.match_clock = "90:00";
-                    if (requestBody.payload.sport_event_status.period_scores?.First(x => x.number == 1 && x.type == PeriodType.RegularPeriod.DisplayName) == null)
+                    if (requestBody.payload.sport_event_status.period_scores.FirstOrDefault(x => x.number == 1 && x.type == PeriodType.RegularPeriod.DisplayName) == null)
                     {
                         requestBody.payload.sport_event_status.period_scores = requestBody.payload.sport_event_status.period_scores.Append(new Period_Scores
                         {
@@ -483,7 +503,7 @@ namespace Score247.Management.Site.Controllers
                             number = 1
                         });
                     }
-                    if (requestBody.payload.sport_event_status.period_scores?.First(x => x.number == 2 && x.type == PeriodType.RegularPeriod.DisplayName) == null)
+                    if (requestBody.payload.sport_event_status.period_scores.FirstOrDefault(x => x.number == 2 && x.type == PeriodType.RegularPeriod.DisplayName) == null)
                     {
                         requestBody.payload.sport_event_status.period_scores = requestBody.payload.sport_event_status.period_scores.Append(new Period_Scores
                         {
@@ -500,7 +520,7 @@ namespace Score247.Management.Site.Controllers
                     requestBody.payload.sport_event_status.match_status = MatchStatus.EndedExtraTime.DisplayName;
                     requestBody.payload.timeline.type = EventType.MatchEnded.DisplayName;
                     requestBody.payload.timeline.match_clock = "120:00";
-                    if (requestBody.payload.sport_event_status.period_scores?.First(x => x.type == PeriodType.Overtime.DisplayName) == null)
+                    if (requestBody.payload.sport_event_status.period_scores.FirstOrDefault(x => x.type == PeriodType.Overtime.DisplayName) == null)
                     {
                         requestBody.payload.sport_event_status.period_scores = requestBody.payload.sport_event_status.period_scores.Append(new Period_Scores
                         {
@@ -517,7 +537,7 @@ namespace Score247.Management.Site.Controllers
                     requestBody.payload.sport_event_status.period = 1;
                     requestBody.payload.timeline.type = EventType.MatchEnded.DisplayName;
                     requestBody.payload.timeline.match_clock = "120:00";
-                    if (requestBody.payload.sport_event_status.period_scores?.First(x => x.type == PeriodType.Penalties.DisplayName) == null)
+                    if (requestBody.payload.sport_event_status.period_scores.FirstOrDefault(x => x.type == PeriodType.Penalties.DisplayName) == null)
                     {
                         requestBody.payload.sport_event_status.period_scores = requestBody.payload.sport_event_status.period_scores.Append(new Period_Scores
                         {

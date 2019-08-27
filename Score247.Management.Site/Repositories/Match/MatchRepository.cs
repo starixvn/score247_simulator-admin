@@ -118,7 +118,7 @@ namespace Score247.Management.Site.Repositories.Match
                     MatchValue = transMatch.Value,
                     SportId = "1",
                     MatchLanguage = "en-US",
-                    EventDate = transMatch.EventDate,
+                    EventDate = transMatch.EventDate.ToUniversalTime().ToString("YYYY-MM-DD hh:mm:ss"),
                     LeagueId = transMatch.League.Id,
                     Region = transMatch.Region
                 };

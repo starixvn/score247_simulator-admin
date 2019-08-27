@@ -9,7 +9,7 @@
         public string SportId { get; set; }
         public string MatchLanguage { get; set; }
         public string LeagueId { get; set; }
-        public DateTime EventDate { get; set; }
+        public string EventDate { get; set; }
         public string Region { get; set; }
 
         public override string GetSettingKey()
