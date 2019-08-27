@@ -35,6 +35,8 @@ function cardPeriodTypeChange(selectObject) {
 }
 
 function OpenModalPopUp(reservationDay) {
-    $('.reservationDay').text(reservationDay);
+    //$('.reservationDay').text(reservationDay);
+    var tmpData = JSON.parse(reservationDay);
+    $(".reservationDay").text(JSON.stringify(tmpData, null, '\t'));
     $('#logRequest').modal();
 };

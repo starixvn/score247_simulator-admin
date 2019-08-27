@@ -194,9 +194,10 @@ namespace Score247.Management.Site.Controllers
                     });
                     request.Content = fetchContent;
                     triggerClient.SendAsync(request);
+                    await Task.Delay(2000);
 
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Details), new { id = newMatch.Id});
             }
             catch
             {

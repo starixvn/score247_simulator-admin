@@ -8,16 +8,25 @@ using Score247.Management.Site.Helpers;
 using Score247.Management.Site.Models;
 using Score247.Management.Site.Models.Events;
 using Newtonsoft.Json;
+using Score247.Management.Site.Services.Matchs;
+using Microsoft.Extensions.Configuration;
 
 namespace Score247.Management.Site.Repositories.Match
 {
     public class MatchRepository
     {
         private readonly IDynamicRepository repository;
+        private IConfiguration Configuration { get; set; }
 
         public MatchRepository()
         {
             repository = new DynamicRepository();
+        }
+
+        public MatchRepository(IConfiguration configuration)
+        {
+            repository = new DynamicRepository();
+            Configuration = configuration;
         }
 
         public async Task<IEnumerable<Score247Management.Core.Matches.Models.Match>> GetMatches()
@@ -95,6 +104,29 @@ namespace Score247.Management.Site.Repositories.Match
         public async Task<int> CloneMatches(MatchCloneCriteria criteria)
         {
             return await repository.ExecuteAsync(criteria);
+        }
+
+        public async Task CloneLiveMatches(GetCloneLiveMatchesCriteria criteria, string baseUrl, string eventPath)
+        {
+            var newLiveMatches = await repository.FetchAsync<Score247Management.Core.Matches.Models.Match>(criteria);
+            foreach (var match in newLiveMatches)
+            {
+                var transMatch = match.DeserialValue();
+                var insertCriteria = new InsertMatchCriteria()
+                {
+                    Id = transMatch.Id,
+                    MatchValue = transMatch.Value,
+                    SportId = "1",
+                    MatchLanguage = "en-US",
+                    EventDate = transMatch.EventDate,
+                    LeagueId = transMatch.League.Id,
+                    Region = transMatch.Region
+                };
+                await repository.ExecuteAsync(insertCriteria);
+                var eventStartMatch = MatchTimeEventCreator.CreateMatchStart(transMatch, transMatch.EventDate);
+                await AutoEventService.SendEvent(eventStartMatch, baseUrl, eventPath);
+            }
+
         }
     }
 }

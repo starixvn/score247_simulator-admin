@@ -7,6 +7,7 @@
     {
         public DateTime EventDate { get; set; }
         public int LimitMatch { get; set; }
+
         public override string GetSettingKey()
             => "Match_CloneDistinct";
 

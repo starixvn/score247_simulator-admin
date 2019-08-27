@@ -57,3 +57,14 @@ body {
 .search-table-outter > table{
     max-height: 400px;
 }
+#logRequest  .modal-lg {
+    max-width: 90%;
+}
+#logRequest  .modal-dialog {
+    overflow-y: initial !important
+}
+
+#logRequest  .modal-body {
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
+}
