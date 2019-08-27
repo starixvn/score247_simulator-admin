@@ -30,7 +30,7 @@
                     @Html.DisplayFor(modelItem => item.Type.DisplayName)
                 </td>
                 <td style="font-size:x-small;">
-                    <a href="#" id="reservationButton" class="btn-default btn-lg" onclick="@($"OpenModalPopUp('{item.Value}')");">Request</a>
+                    <a href="#" id="reservationButton" class="btn-default btn-lg" onclick="@($"OpenModalPopUp('{item.RequestLog}')");">Request</a>
                 </td>
             </tr>
         }
