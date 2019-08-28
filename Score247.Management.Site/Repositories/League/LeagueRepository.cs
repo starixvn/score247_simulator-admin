@@ -4,6 +4,7 @@ using Fanex.Data;
 using Fanex.Data.Repository;
 using Score247Management.Core.Leagues.Models;
 using Score247.Management.Site.Criterias.League;
+using System.Linq;
 
 namespace Score247.Management.Site.Repositories.League
 {
@@ -26,9 +27,8 @@ namespace Score247.Management.Site.Repositories.League
 
                       return league;
                   }, "LeagueCategoryId");
-                return leagues;
+                return leagues.OrderBy(x => x.Name);
             }
-            //return await repository.FetchAsync<Score247Management.Core.Leagues.Models.League>(new GetLeagueCriteria());
         }
 
         public async Task<IEnumerable<Score247Management.Core.Leagues.Models.LeagueCategory>> GetLeagueCategory()

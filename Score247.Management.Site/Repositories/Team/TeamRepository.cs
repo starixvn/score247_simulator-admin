@@ -18,7 +18,7 @@ namespace Score247.Management.Site.Repositories.Team
 
         public async Task<IEnumerable<Score247Management.Core.Teams.Models.Team>> GetTeams()
         {
-            return await repository.FetchAsync<Score247Management.Core.Teams.Models.Team>(new GetTeamsCriteria());
+            return (await repository.FetchAsync<Score247Management.Core.Teams.Models.Team>(new GetTeamsCriteria())).OrderBy(x => x.Name);
         }
 
         public async Task<int> CreateTeam(CreateTeamCriteria criteria)
