@@ -264,9 +264,21 @@ namespace Score247.Management.Site.Controllers
         }
 
         // GET: Match/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> DeleteMatchesByDate(IFormCollection collection)
         {
-            return View();
+            try
+            {
+                var eventDate = DateTime.Parse(collection["DeleteMatchByDateCriteria.DeleteDate"]);
+                var matchRepository = new MatchRepository();
+                await matchRepository.DeleteMatchByDate(eventDate);
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            
         }
 
         // POST: Match/Delete/5
