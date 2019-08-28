@@ -219,7 +219,7 @@ namespace Score247.Management.Site.Controllers
             {
                 var criteria = new MatchCloneCriteria();
                 var eventDate = DateTime.Parse(collection["CloneMatchModel.EventDate"]);
-                criteria.EventDate = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, 0, 0, 0, DateTimeKind.Utc).ToString("yyy-MM-ddThh:mm:ss");
+                criteria.EventDate = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, 0, 0, 0, DateTimeKind.Utc).ToString("yyy-MM-ddTHH:mm:sszzz");
                 //criteria.EventDate = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, 0, 0, 0, DateTimeKind.Utc);
                 criteria.LimitMatch = int.Parse(collection["CloneMatchModel.Count"]);
                 var matchRepository = new MatchRepository();
@@ -240,7 +240,7 @@ namespace Score247.Management.Site.Controllers
             {
                 var criteria = new GetCloneLiveMatchesCriteria();
                 var eventDate = DateTime.Parse(collection["CloneMatchModel.EventDate"]);
-                criteria.EventDate = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, 0, 0, 0, DateTimeKind.Utc).ToString("yyy-MM-ddThh:mm:ss");
+                criteria.EventDate = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, 0, 0, 0, DateTimeKind.Utc).ToString("yyy-MM-ddTHH:mm:sszzz");
                 criteria.LimitMatch = int.Parse(collection["CloneMatchModel.Count"]);
                 var matchRepository = new MatchRepository();
                 await matchRepository.CloneLiveMatches(criteria, Configuration.GetValue<string>("Simulator:Url"), Configuration.GetValue<string>("Simulator:PushEvent"));
