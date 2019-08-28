@@ -5,7 +5,7 @@
 
     public class GetCloneLiveMatchesCriteria : CriteriaBase
     {
-        public string EventDate { get; set; }
+        public DateTime EventDate { get; set; }
         public int LimitMatch { get; set; }
 
         public override string GetSettingKey()

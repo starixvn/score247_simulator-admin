@@ -11,6 +11,11 @@ using Newtonsoft.Json;
 using Score247.Management.Site.Services.Matchs;
 using Microsoft.Extensions.Configuration;
 using System;
+using Score247.Management.Site.Repositories.League;
+using Score247.Management.Site.Repositories.Team;
+using Score247.Management.Site.Repositories.Match.Models;
+using System.Net.Http;
+using System.Text;
 
 namespace Score247.Management.Site.Repositories.Match
 {
@@ -108,11 +113,57 @@ namespace Score247.Management.Site.Repositories.Match
 
         public async Task<int> CloneMatches(MatchCloneCriteria criteria)
         {
-            return await repository.ExecuteAsync(criteria);
+            var ran = new Random();
+            var leaguesRepository = new LeagueRepository();
+            var leagues = (await leaguesRepository.GetLeagues()).ToList();
+            var teamsRepository = new TeamRepository();
+            var teams = (await teamsRepository.GetTeams()).ToList();
+            List<NewMatch> newMatches = new List<NewMatch>();
+            for (int i = 0; i < criteria.LimitMatch; i++)
+            {
+                var newMatch = new NewMatch(leagues[ran.Next(0, leagues.Count - 1)],
+                    teams[ran.Next(0, teams.Count - 1)],
+                    teams[ran.Next(0, teams.Count - 1)],
+                    new DateTime(criteria.EventDate.Year, criteria.EventDate.Month, criteria.EventDate.Day, criteria.EventDate.Hour, criteria.EventDate.Minute, criteria.EventDate.Second, DateTimeKind.Utc));
+                newMatch.Id = UniqueGenerator.GetIdWithPattern("sr:match:");
+                newMatches.Add(newMatch);
+            }
+
+            var content = new Repositories.Match.Models.DailyScheduleDto();
+            content.GeneratedAt = DateTime.UtcNow;
+            content.Schema = "Matches";
+            content.sport_events = newMatches;
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(Configuration.GetValue<string>("Simulator:Url"));
+                var jsonValue = JsonConvert.SerializeObject(content);
+
+                var response = await client.PostAsync(string.Format(Configuration.GetValue<string>("Simulator:DailySchedule") + "?date={0}", criteria.EventDate.ToString("yyyy-MM-dd")), new StringContent(jsonValue, Encoding.UTF8, "application/json"));
+                if (!response.IsSuccessStatusCode)
+                {
+                    return -1;
+                }
+
+                var triggerClient = new HttpClient();
+                triggerClient.BaseAddress = new Uri(Configuration.GetValue<string>("Simulator:FetchUrl"));
+                var request = new HttpRequestMessage(HttpMethod.Post, "");
+                FormUrlEncodedContent fetchContent = new FormUrlEncodedContent(
+                    new[]{
+                            new KeyValuePair < string, string > ("jobs[]", "FetchPreMatch"),
+                            new KeyValuePair < string, string > ("jobs[]", "FetchPostMatch"),
+                            new KeyValuePair < string, string > ("jobs[]", "FetchLiveMatch")
+                });
+                request.Content = fetchContent;
+                await triggerClient.SendAsync(request);
+            }
+            return 1;
+            //return await repository.ExecuteAsync(criteria);
         }
 
         public async Task CloneLiveMatches(GetCloneLiveMatchesCriteria criteria, string baseUrl, string eventPath)
         {
+
             var newLiveMatches = await repository.FetchAsync<Score247Management.Core.Matches.Models.Match>(criteria);
             foreach (var match in newLiveMatches)
             {

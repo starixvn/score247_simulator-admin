@@ -39,5 +39,29 @@ namespace Score247.Management.Site.Repositories.Match.Models
             };
         }
 
+        public NewMatch(Score247Management.Core.Leagues.Models.League league, Score247Management.Core.Teams.Models.Team homeTeam, Score247Management.Core.Teams.Models.Team awayTeam, DateTime eventDate)
+        {
+            Scheduled = eventDate;
+            ScheduledTime = new TimeSpan(Scheduled.Hour, 0, 0);
+            Venue = new Venue()
+            {
+                Name = "Default Venue"
+            };
+            TournamentRound = new LeagueRound()
+            {
+                Name = "Round",
+                Number = 2,
+                Phase = "Round",
+                Group = "A"
+            };
+            Tournament = league;
+
+            homeTeam.Statistic = new Score247Management.Core.Teams.Models.TeamStatistics();
+            homeTeam.Qualifier = "home";
+            awayTeam.Statistic = new Score247Management.Core.Teams.Models.TeamStatistics();
+            awayTeam.Qualifier = "away";
+            Competitors = new List<Score247Management.Core.Teams.Models.Team>() { homeTeam, awayTeam };
+        }
+
     }
 }

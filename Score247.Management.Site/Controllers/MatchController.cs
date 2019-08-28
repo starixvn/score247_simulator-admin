@@ -57,25 +57,34 @@ namespace Score247.Management.Site.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> _DateRangeSearch(IFormCollection collection)
         {
-            var fromDate = DateTime.Parse(collection["FromDate"]);
-            fromDate = new DateTime(fromDate.Year, fromDate.Month, fromDate.Day, 0, 0, 0, DateTimeKind.Local);
-            var toDate = DateTime.Parse(collection["ToDate"]);
-            toDate = new DateTime(toDate.Year, toDate.Month, toDate.Day, 23, 59, 59, DateTimeKind.Local);
-            var selectedLeagueId = collection["SelectedLeagueId"];
-            var repository = new MatchRepository();
-            var leagueRepository = new LeagueRepository();
-            var leagues = await leagueRepository.GetLeagues();
-            var viewModal = new MatchViewModel();
-            viewModal.DateSearchModel = new DateSearchModel()
+            try
             {
-                FromDate = fromDate,
-                ToDate = toDate,
-                Leagues = leagues,
-                SelectedLeagueId = selectedLeagueId
-            };
-            var matches = await repository.GetMatchByDataRange(viewModal.DateSearchModel);
-            viewModal.Matches = matches;
-            return View("Index", viewModal);
+                var fromDate = DateTime.Parse(collection["FromDate"]);
+                fromDate = new DateTime(fromDate.Year, fromDate.Month, fromDate.Day, 0, 0, 0, DateTimeKind.Local);
+                var toDate = DateTime.Parse(collection["ToDate"]);
+                toDate = new DateTime(toDate.Year, toDate.Month, toDate.Day, 23, 59, 59, DateTimeKind.Local);
+                var selectedLeagueId = collection["SelectedLeagueId"];
+                var repository = new MatchRepository();
+                var leagueRepository = new LeagueRepository();
+                var leagues = await leagueRepository.GetLeagues();
+                var viewModal = new MatchViewModel();
+                viewModal.DateSearchModel = new DateSearchModel()
+                {
+                    FromDate = fromDate,
+                    ToDate = toDate,
+                    Leagues = leagues,
+                    SelectedLeagueId = selectedLeagueId
+                };
+                var matches = await repository.GetMatchByDataRange(viewModal.DateSearchModel);
+                viewModal.Matches = matches;
+                return View("Index", viewModal);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            
         }
 
 
@@ -219,10 +228,10 @@ namespace Score247.Management.Site.Controllers
             {
                 var criteria = new MatchCloneCriteria();
                 var eventDate = DateTime.Parse(collection["CloneMatchModel.EventDate"]);
-                criteria.EventDate = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, 0, 0, 0, DateTimeKind.Utc).ToString("yyy-MM-ddTHH:mm:sszzz");
+                criteria.EventDate = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, 0, 0, 0, DateTimeKind.Utc);
                 //criteria.EventDate = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, 0, 0, 0, DateTimeKind.Utc);
                 criteria.LimitMatch = int.Parse(collection["CloneMatchModel.Count"]);
-                var matchRepository = new MatchRepository();
+                var matchRepository = new MatchRepository(Configuration);
                 await matchRepository.CloneMatches(criteria);
             }
             catch (Exception ex)
@@ -240,7 +249,7 @@ namespace Score247.Management.Site.Controllers
             {
                 var criteria = new GetCloneLiveMatchesCriteria();
                 var eventDate = DateTime.Parse(collection["CloneMatchModel.EventDate"]);
-                criteria.EventDate = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, 0, 0, 0, DateTimeKind.Utc).ToString("yyy-MM-ddTHH:mm:sszzz");
+                criteria.EventDate = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, 0, 0, 0, DateTimeKind.Utc);
                 criteria.LimitMatch = int.Parse(collection["CloneMatchModel.Count"]);
                 var matchRepository = new MatchRepository();
                 await matchRepository.CloneLiveMatches(criteria, Configuration.GetValue<string>("Simulator:Url"), Configuration.GetValue<string>("Simulator:PushEvent"));
