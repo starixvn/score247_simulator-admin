@@ -193,13 +193,18 @@ namespace Score247.Management.Site.Controllers
                             new KeyValuePair < string, string > ("jobs[]", "FetchLiveMatch")
                     });
                     request.Content = fetchContent;
-                    triggerClient.SendAsync(request);
-                    await Task.Delay(2000);
-
+                    await triggerClient.SendAsync(request);
+                    var matchRepository = new MatchRepository();
+                    var matchCreated = await matchRepository.GetMatchById(newMatch.Id);
+                    while(matchCreated == null)
+                    {
+                        await Task.Delay(1000);
+                        matchCreated = await matchRepository.GetMatchById(newMatch.Id);
+                    }
                 }
                 return RedirectToAction(nameof(Details), new { id = newMatch.Id});
             }
-            catch
+            catch (Exception ex)
             {
                 return View();
             }

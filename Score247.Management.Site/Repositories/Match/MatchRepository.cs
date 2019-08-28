@@ -42,6 +42,10 @@ namespace Score247.Management.Site.Repositories.Match
         {
             var criteria = new GetMatchByIdCriteria { Id = id, Language = "en-US" };
             var matches = await repository.FetchAsync<Score247Management.Core.Matches.Models.Match>(criteria);
+            if(matches == null || matches.Count() == 0)
+            {
+                return null;
+            }
             var result = matches.FirstOrDefault().DeserialValue();
 
             return result;
