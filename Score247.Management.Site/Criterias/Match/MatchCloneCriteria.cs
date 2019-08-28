@@ -5,7 +5,7 @@
 
     public class MatchCloneCriteria : NonQueryCommand
     {
-        public DateTime EventDate { get; set; }
+        public string EventDate { get; set; }
         public int LimitMatch { get; set; }
 
         public override string GetSettingKey()
