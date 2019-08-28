@@ -1,10 +1,13 @@
-﻿using Fanex.Data.Repository;
-
-namespace Score247.Management.Site.Criterias.Match
+﻿namespace Score247.Management.Site.Criterias.Match
 {
+    using System;
+    using System.ComponentModel.DataAnnotations;
+    using Fanex.Data.Repository;
+
     public class DeleteMatchByDateCriteria : NonQueryCommand
     {
-        public string DeleteDate { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime DeleteDate { get; set; }
         public override string GetSettingKey()
             => "Match_DeleteMatchByDate";
 

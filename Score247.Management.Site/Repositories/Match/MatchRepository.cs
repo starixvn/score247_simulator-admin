@@ -10,6 +10,7 @@ using Score247.Management.Site.Models.Events;
 using Newtonsoft.Json;
 using Score247.Management.Site.Services.Matchs;
 using Microsoft.Extensions.Configuration;
+using System;
 
 namespace Score247.Management.Site.Repositories.Match
 {
@@ -127,6 +128,12 @@ namespace Score247.Management.Site.Repositories.Match
                 await AutoEventService.SendEvent(eventStartMatch, baseUrl, eventPath);
             }
 
+        }
+        
+        public async Task<int> DeleteMatchByDate(DateTime dateTime)
+        {
+            var criteria = new DeleteMatchByDateCriteria() { DeleteDate = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 0, 0, 0, DateTimeKind.Utc) };
+            return await repository.ExecuteAsync(criteria);
         }
     }
 }
