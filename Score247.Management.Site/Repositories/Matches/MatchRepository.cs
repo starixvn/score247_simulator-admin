@@ -124,8 +124,8 @@ namespace Score247.Management.Site.Repositories.Matches
         {
             var content = new Models.DailyScheduleDto
             {
-                GeneratedAt = DateTime.UtcNow,
-                Schema = "Matches",
+                generated_at = criteria.EventDate,
+                schema = "Matches",
                 sport_events = matches
             };
 
@@ -189,6 +189,7 @@ namespace Score247.Management.Site.Repositories.Matches
                             && !x.Name.Contains("(ET)")
                             && !x.Name.Contains("(W)")
                             && !x.Name.Contains("(R)")
+                            && !x.Name.Contains("Kick")
                             && !x.Name.Contains("Corner"))
                 .ToList();
 

@@ -180,8 +180,8 @@ namespace Score247.Management.Site.Controllers
                     var MatchEntityes = new List<MatchEntity> { MatchEntity };
                     var content = new Repositories.Matches.Models.DailyScheduleDto
                     {
-                        GeneratedAt = DateTime.UtcNow,
-                        Schema = "Matches",
+                        generated_at = DateTime.UtcNow,
+                        schema = "Matches",
                         sport_events = MatchEntityes
                     };
                     var jsonValue = JsonConvert.SerializeObject(content);
