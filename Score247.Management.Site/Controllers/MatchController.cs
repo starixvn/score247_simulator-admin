@@ -186,7 +186,10 @@ namespace Score247.Management.Site.Controllers
                     };
                     var jsonValue = JsonConvert.SerializeObject(content);
 
-                    var response = await client.PostAsync(string.Format(Configuration.GetValue<string>("Simulator:DailySchedule") + "?date={0}", MatchEntity.Scheduled.ToString("yyyy-MM-dd")), new StringContent(jsonValue, Encoding.UTF8, "application/json"));
+                    var beginDateToday = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day, 0, 0, 0, DateTimeKind.Utc);
+                    var requestPath = Configuration.GetValue<string>("Simulator:DailySchedule");
+
+                    var response = await client.PostAsync(string.Format(requestPath + "?date={0}", MatchEntity.Scheduled.ToString("yyyy-MM-dd")), new StringContent(jsonValue, Encoding.UTF8, "application/json"));
                     if (!response.IsSuccessStatusCode)
                     {
                         return View();

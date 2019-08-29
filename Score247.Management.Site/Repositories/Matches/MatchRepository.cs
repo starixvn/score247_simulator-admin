@@ -15,7 +15,9 @@ using Score247.Management.Site.Repositories.Leagues;
 using Score247.Management.Site.Repositories.Matches.Models;
 using Score247.Management.Site.Repositories.Teams;
 using Score247.Management.Site.Services.Matchs;
+using Score247Management.Core._Shared.Enumerations;
 using Score247Management.Core.Matches.Models;
+using Result = Score247.Management.Site.Repositories.Matches.Models.Result;
 
 namespace Score247.Management.Site.Repositories.Matches
 {
@@ -128,14 +130,42 @@ namespace Score247.Management.Site.Repositories.Matches
                 schema = "Matches",
                 sport_events = matches
             };
+            var jsonValue = JsonConvert.SerializeObject(content);
+
+            var beginDateToday = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day, 0, 0, 0, DateTimeKind.Utc);
+            var requestPath = Configuration.GetValue<string>("Simulator:DailySchedule");
+
+            if (criteria.EventDate < beginDateToday)
+            {
+                requestPath = Configuration.GetValue<string>("Simulator:DailyResults");
+                var dailyResults = new List<Result>();
+
+                foreach (var match in matches)
+                {
+                    var matchWithResult = new Result()
+                    {
+                        sport_event = match,
+                        sport_event_status = RandomMatchEventStatus(match.Competitors.ElementAtOrDefault(0).Id, match.Competitors.ElementAtOrDefault(1).Id)
+                    };
+
+                    dailyResults.Add(matchWithResult);
+                }
+
+                var dailyResultRequest = new Models.DailyResultDto
+                {
+                    generated_at = criteria.EventDate,
+                    schema = "Matches",
+                    results = dailyResults
+                };
+                jsonValue = JsonConvert.SerializeObject(dailyResultRequest);
+            }
 
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(Configuration.GetValue<string>("Simulator:Url"));
-                var jsonValue = JsonConvert.SerializeObject(content);
 
                 using (var response = await client.PostAsync(
-                        string.Format(Configuration.GetValue<string>("Simulator:DailySchedule") + "?date={0}",
+                        string.Format(requestPath + "?date={0}",
                         criteria.EventDate.ToString("yyyy-MM-dd")),
                         new StringContent(jsonValue, Encoding.UTF8,
                         "application/json")))
@@ -150,6 +180,40 @@ namespace Score247.Management.Site.Repositories.Matches
             }
 
             return 1;
+        }
+
+        private Sport_Event_Status RandomMatchEventStatus(string homeTeamId, string awayTeamId)
+        {
+            var ran = new Random();
+            var eventStatus = new Sport_Event_Status();
+            eventStatus.period_scores = new List<Period_Scores>()
+            {
+                new Period_Scores()
+                {
+                    away_score = ran.Next(0, 2),
+                    home_score = ran.Next(0, 2),
+                    number = 1,
+                    type = "regular_period"
+                },
+                new Period_Scores()
+                {
+                    away_score = ran.Next(0, 2),
+                    home_score = ran.Next(0, 2),
+                    number = 2,
+                    type = "regular_period"
+                }
+            };
+            eventStatus.home_score = eventStatus.period_scores.Sum(x => x.home_score);
+            eventStatus.away_score = eventStatus.period_scores.Sum(x => x.away_score);
+            eventStatus.aggregate_home_score = eventStatus.home_score;
+            eventStatus.aggregate_away_score = eventStatus.away_score;
+            eventStatus.winner_id = (eventStatus.home_score > eventStatus.away_score) ? homeTeamId : ((eventStatus.away_score > eventStatus.home_score) ? awayTeamId : null);
+            eventStatus.aggregate_winner_id = eventStatus.winner_id;
+            eventStatus.clock = new Clock() { match_time = "90:00" };
+            eventStatus.match_status = MatchStatus.Ended.DisplayName;
+            eventStatus.period = 2;
+            eventStatus.status = "closed";
+            return eventStatus;
         }
 
         private async Task StartInsertMatchesJobs()
