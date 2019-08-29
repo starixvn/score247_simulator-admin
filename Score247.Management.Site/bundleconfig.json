@@ -1,8 +1,14 @@
 [
   {
-    "outputFileName": "wwwroot/js/site.min.js",
+    "outputFileName": "assets/bundles/site.min.js",
     "inputFiles": [
-      "wwwroot/js/site.js"
+      "assets/scripts/site.js"
+    ]
+  },
+  {
+    "outputFileName": "assets/bundles/site.min.css",
+    "inputFiles": [
+      "assets/styles/site.css"
     ]
   }
 ]

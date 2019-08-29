@@ -27,6 +27,79 @@
   <ItemGroup>
     <None Include="bundleconfig.json" />
     <None Include="compilerconfig.json" />
+    <None Include="wwwroot\bundles\site.min.css" />
+    <None Include="wwwroot\bundles\site.min.js" />
+    <None Include="wwwroot\scripts\lib\bootstrap\dist\css\bootstrap-grid.css" />
+    <None Include="wwwroot\scripts\lib\bootstrap\dist\css\bootstrap-grid.css.map" />
+    <None Include="wwwroot\scripts\lib\bootstrap\dist\css\bootstrap-grid.min.css" />
+    <None Include="wwwroot\scripts\lib\bootstrap\dist\css\bootstrap-grid.min.css.map" />
+    <None Include="wwwroot\scripts\lib\bootstrap\dist\css\bootstrap-reboot.css" />
+    <None Include="wwwroot\scripts\lib\bootstrap\dist\css\bootstrap-reboot.css.map" />
+    <None Include="wwwroot\scripts\lib\bootstrap\dist\css\bootstrap-reboot.min.css" />
+    <None Include="wwwroot\scripts\lib\bootstrap\dist\css\bootstrap-reboot.min.css.map" />
+    <None Include="wwwroot\scripts\lib\bootstrap\dist\css\bootstrap.css" />
+    <None Include="wwwroot\scripts\lib\bootstrap\dist\css\bootstrap.css.map" />
+    <None Include="wwwroot\scripts\lib\bootstrap\dist\css\bootstrap.min.css" />
+    <None Include="wwwroot\scripts\lib\bootstrap\dist\css\bootstrap.min.css.map" />
+    <None Include="wwwroot\scripts\lib\bootstrap\dist\js\bootstrap.bundle.js" />
+    <None Include="wwwroot\scripts\lib\bootstrap\dist\js\bootstrap.bundle.js.map" />
+    <None Include="wwwroot\scripts\lib\bootstrap\dist\js\bootstrap.bundle.min.js" />
+    <None Include="wwwroot\scripts\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map" />
+    <None Include="wwwroot\scripts\lib\bootstrap\dist\js\bootstrap.js" />
+    <None Include="wwwroot\scripts\lib\bootstrap\dist\js\bootstrap.js.map" />
+    <None Include="wwwroot\scripts\lib\bootstrap\dist\js\bootstrap.min.js" />
+    <None Include="wwwroot\scripts\lib\bootstrap\dist\js\bootstrap.min.js.map" />
+    <None Include="wwwroot\scripts\lib\bootstrap\LICENSE" />
+    <None Include="wwwroot\scripts\lib\datatables\DataTables-1.10.18\css\dataTables.bootstrap.css" />
+    <None Include="wwwroot\scripts\lib\datatables\DataTables-1.10.18\css\dataTables.bootstrap.min.css" />
+    <None Include="wwwroot\scripts\lib\datatables\DataTables-1.10.18\css\dataTables.bootstrap4.css" />
+    <None Include="wwwroot\scripts\lib\datatables\DataTables-1.10.18\css\dataTables.bootstrap4.min.css" />
+    <None Include="wwwroot\scripts\lib\datatables\DataTables-1.10.18\css\dataTables.foundation.css" />
+    <None Include="wwwroot\scripts\lib\datatables\DataTables-1.10.18\css\dataTables.foundation.min.css" />
+    <None Include="wwwroot\scripts\lib\datatables\DataTables-1.10.18\css\dataTables.jqueryui.css" />
+    <None Include="wwwroot\scripts\lib\datatables\DataTables-1.10.18\css\dataTables.jqueryui.min.css" />
+    <None Include="wwwroot\scripts\lib\datatables\DataTables-1.10.18\css\dataTables.semanticui.css" />
+    <None Include="wwwroot\scripts\lib\datatables\DataTables-1.10.18\css\dataTables.semanticui.min.css" />
+    <None Include="wwwroot\scripts\lib\datatables\DataTables-1.10.18\css\jquery.dataTables.css" />
+    <None Include="wwwroot\scripts\lib\datatables\DataTables-1.10.18\css\jquery.dataTables.min.css" />
+    <None Include="wwwroot\scripts\lib\datatables\DataTables-1.10.18\images\sort_asc.png" />
+    <None Include="wwwroot\scripts\lib\datatables\DataTables-1.10.18\images\sort_asc_disabled.png" />
+    <None Include="wwwroot\scripts\lib\datatables\DataTables-1.10.18\images\sort_both.png" />
+    <None Include="wwwroot\scripts\lib\datatables\DataTables-1.10.18\images\sort_desc.png" />
+    <None Include="wwwroot\scripts\lib\datatables\DataTables-1.10.18\images\sort_desc_disabled.png" />
+    <None Include="wwwroot\scripts\lib\datatables\DataTables-1.10.18\js\dataTables.bootstrap.js" />
+    <None Include="wwwroot\scripts\lib\datatables\DataTables-1.10.18\js\dataTables.bootstrap.min.js" />
+    <None Include="wwwroot\scripts\lib\datatables\DataTables-1.10.18\js\dataTables.bootstrap4.js" />
+    <None Include="wwwroot\scripts\lib\datatables\DataTables-1.10.18\js\dataTables.bootstrap4.min.js" />
+    <None Include="wwwroot\scripts\lib\datatables\DataTables-1.10.18\js\dataTables.foundation.js" />
+    <None Include="wwwroot\scripts\lib\datatables\DataTables-1.10.18\js\dataTables.foundation.min.js" />
+    <None Include="wwwroot\scripts\lib\datatables\DataTables-1.10.18\js\dataTables.jqueryui.js" />
+    <None Include="wwwroot\scripts\lib\datatables\DataTables-1.10.18\js\dataTables.jqueryui.min.js" />
+    <None Include="wwwroot\scripts\lib\datatables\DataTables-1.10.18\js\dataTables.semanticui.js" />
+    <None Include="wwwroot\scripts\lib\datatables\DataTables-1.10.18\js\dataTables.semanticui.min.js" />
+    <None Include="wwwroot\scripts\lib\datatables\DataTables-1.10.18\js\jquery.dataTables.js" />
+    <None Include="wwwroot\scripts\lib\datatables\DataTables-1.10.18\js\jquery.dataTables.min.js" />
+    <None Include="wwwroot\scripts\lib\datatables\datatables.css" />
+    <None Include="wwwroot\scripts\lib\datatables\datatables.js" />
+    <None Include="wwwroot\scripts\lib\datatables\datatables.min.css" />
+    <None Include="wwwroot\scripts\lib\datatables\datatables.min.js" />
+    <None Include="wwwroot\scripts\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js" />
+    <None Include="wwwroot\scripts\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js" />
+    <None Include="wwwroot\scripts\lib\jquery-validation-unobtrusive\LICENSE.txt" />
+    <None Include="wwwroot\scripts\lib\jquery-validation\dist\additional-methods.js" />
+    <None Include="wwwroot\scripts\lib\jquery-validation\dist\additional-methods.min.js" />
+    <None Include="wwwroot\scripts\lib\jquery-validation\dist\jquery.validate.js" />
+    <None Include="wwwroot\scripts\lib\jquery-validation\dist\jquery.validate.min.js" />
+    <None Include="wwwroot\scripts\lib\jquery-validation\LICENSE.md" />
+    <None Include="wwwroot\scripts\lib\jquery\dist\jquery.js" />
+    <None Include="wwwroot\scripts\lib\jquery\dist\jquery.min.js" />
+    <None Include="wwwroot\scripts\lib\jquery\dist\jquery.min.map" />
+    <None Include="wwwroot\scripts\lib\jquery\LICENSE.txt" />
+    <None Include="wwwroot\scripts\site.js" />
+    <None Include="wwwroot\scripts\site.min.js" />
+    <None Include="wwwroot\styles\site.css" />
+    <None Include="wwwroot\styles\site.min.css" />
+    <None Include="wwwroot\styles\site.scss" />
   </ItemGroup>
 
 
@@ -69,7 +142,8 @@
 
 
   <ItemGroup>
-    <Folder Include="wwwroot\lib\datatables\" />
+    <Folder Include="wwwroot\bundles\" />
+    <Folder Include="wwwroot\styles\" />
   </ItemGroup>
 
 </Project>
