@@ -1,61 +1,67 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
-a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all; }
+﻿body {
+  color: #333;
+  font-size: 13px;
+  font-family: Arial, Helvetica, sans-serif; }
 
-/* Sticky footer styles
--------------------------------------------------- */
-html {
-  font-size: 14px; }
+header .navbar {
+  background: #06070A !important;
+  padding-top: 0;
+  padding-bottom: 0; }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px; } }
+header .navbar-nav .nav-link {
+  color: #A8ABAF;
+  text-transform: uppercase; }
+  header .navbar-nav .nav-link.active {
+    color: #fff; }
 
-.border-top {
-  border-top: 1px solid #e5e5e5; }
+.page-title {
+  font-size: 18px; }
 
-.border-bottom {
-  border-bottom: 1px solid #e5e5e5; }
+.contents {
+  padding: 16px; }
 
-.box-shadow {
-  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.05); }
-
-button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit; }
-
-/* Sticky footer styles
--------------------------------------------------- */
-html {
-  position: relative;
-  min-height: 100%; }
-
-body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px; }
-
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
+.btn-submit, .btn-default {
+  border: none;
+  cursor: pointer;
+  height: 30px;
+  outline: none;
+  margin-right: 8px;
+  padding-left: 16px;
+  padding-right: 16px;
   white-space: nowrap;
-  /* Set the fixed height of the footer here */
-  height: 60px;
-  line-height: 60px;
-  /* Vertically center the text there */ }
+  -webkit-appearance: none;
+  font-size: 13px;
+  min-width: 80px; }
+  .btn-submit:disabled, .btn-default:disabled, .btn-submit .disabled, .btn-default .disabled {
+    opacity: .4;
+    pointer-events: none; }
 
-.search-table-outter table {
-  max-height: 400px; }
+.btn-submit {
+  background-color: #F24822;
+  color: #fff; }
+  .btn-submit:hover, .btn-submit:active {
+    color: #fff;
+    background-color: #ed370e; }
+  .btn-submit:disabled, .btn-submit .disabled {
+    background-color: #F24822 !important;
+    color: #fff !important; }
 
-#logRequest .modal-lg {
-  max-width: 90%; }
+.btn-default {
+  background-color: #3EC28F;
+  color: #fff; }
+  .btn-default:hover, .btn-default:active {
+    color: #fff;
+    background-color: #37af81; }
+  .btn-default:disabled, .btn-default .disabled {
+    background-color: #3EC28F !important;
+    color: #fff !important; }
 
-#logRequest .modal-dialog {
-  overflow-y: initial !important; }
+.list-quick-action {
+  margin-bottom: 10px; }
 
-#logRequest .modal-body {
-  max-height: calc(100vh - 200px);
-  overflow-y: auto; }
+.filter {
+  padding-top: 10px;
+  padding-bottom: 10px; }
+  .filter .form-control {
+    height: 30px;
+    border-radius: 2px; }
