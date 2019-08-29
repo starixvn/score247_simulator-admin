@@ -22,9 +22,11 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm ">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="League" asp-action="Index">Score247</a>
+                <a class="navbar-brand" asp-area="" asp-controller="League" asp-action="Index">
+                    <img src="~/styles/images/logo.svg" alt="Score247" />
+                </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -32,33 +34,26 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="League" asp-action="Index">Leagues</a>
+                            <a class="nav-link active" asp-area="" asp-controller="Match" asp-action="Index">Matches</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Team" asp-action="Index">Teams</a>
+                            <a class="nav-link" asp-area="" asp-controller="League" asp-action="Index">Leagues</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Match" asp-action="Index">Matches</a>
+                            <a class="nav-link" asp-area="" asp-controller="Team" asp-action="Index">Teams</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Odds" asp-action="Index">Odds</a>
+                            <a class="nav-link" asp-area="" asp-controller="Odds" asp-action="Index">Odds</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container-fluid">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+    <main role="main" class="pb-3 contents">
+        @RenderBody()
+    </main>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2019 - Score247Management - <a asp-area="" asp-controller="League" asp-action="Index">Privacy</a>
-        </div>
-    </footer>
 
     <environment include="Development">
         <script src="~/scripts/lib/jquery/dist/jquery.js"></script>

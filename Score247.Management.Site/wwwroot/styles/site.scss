@@ -1,84 +1,98 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
-
-a.navbar-brand {
-    white-space: normal;
-    text-align: center;
-    word-break: break-all;
-}
-
-/* Sticky footer styles
--------------------------------------------------- */
-html {
-    font-size: 14px;
-}
-
-@media (min-width: 768px) {
-    html {
-        font-size: 16px;
-    }
-}
-
-.border-top {
-    border-top: 1px solid #e5e5e5;
-}
-
-.border-bottom {
-    border-bottom: 1px solid #e5e5e5;
-}
-
-.box-shadow {
-    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
-}
-
-button.accept-policy {
-    font-size: 1rem;
-    line-height: inherit;
-}
-
-/* Sticky footer styles
--------------------------------------------------- */
-html {
-    position: relative;
-    min-height: 100%;
-}
+﻿@import "_variables.scss";
 
 body {
-    /* Margin bottom by footer height */
-    margin-bottom: 60px;
+    color: #333;
+    font-size: 13px;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
-.footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
+header {
+    .navbar {
+        background: #06070A !important;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    .navbar-nav .nav-link {
+        color: #A8ABAF;
+        text-transform: uppercase;
+
+        &.active {
+            color: #fff;
+        }
+    }
+}
+
+.page-title {
+    font-size: 18px;
+}
+
+.contents {
+    padding: 16px;
+}
+
+
+%btn {
+    border: none;
+    cursor: pointer;
+    height: 30px;
+    outline: none;
+    margin-right: 8px;
+    padding-left: 16px;
+    padding-right: 16px;
     white-space: nowrap;
-    /* Set the fixed height of the footer here */
-    height: 60px;
-    line-height: 60px; /* Vertically center the text there */
-}
+    -webkit-appearance: none;
+    font-size: $font-size;
+    min-width: 80px;
 
-.search-table-outter {
-    table {
-        max-height: 400px;
+    &:disabled, .disabled {
+        opacity: .4;
+        pointer-events: none;
     }
 }
 
-#logRequest {
-    .modal-lg {
-        max-width: 90%;
+.btn-submit {
+    @extend %btn;
+    background-color: $btn-submit-bg;
+    color: $btn-submit-color;
+
+    &:hover, &:active {
+        color: $btn-submit-color-hover;
+        background-color: $btn-submit-bg-hover;
+    }
+
+    &:disabled, .disabled {
+        background-color: $btn-submit-bg !important;
+        color: $btn-submit-color !important;
     }
 }
 
-#logRequest {
-    .modal-dialog {
-        overflow-y: initial !important;
+.btn-default {
+    @extend %btn;
+    background-color: $btn-default-bg;
+    color: $btn-default-color;
+
+    &:hover, &:active {
+        color: $btn-default-color-hover;
+        background-color: $btn-default-bg-hover;
+    }
+
+    &:disabled, .disabled {
+        background-color: $btn-default-bg !important;
+        color: $btn-default-color !important;
     }
 }
 
-#logRequest {
-    .modal-body {
-        max-height: calc(100vh - 200px);
-        overflow-y: auto;
+.list-quick-action {
+    margin-bottom: 10px;
+}
+
+.filter {
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    .form-control {
+        height: 30px;
+        border-radius: 2px;
     }
 }

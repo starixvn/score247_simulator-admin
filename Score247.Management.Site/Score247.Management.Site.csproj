@@ -143,7 +143,6 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\bundles\" />
-    <Folder Include="wwwroot\styles\" />
   </ItemGroup>
 
 </Project>
