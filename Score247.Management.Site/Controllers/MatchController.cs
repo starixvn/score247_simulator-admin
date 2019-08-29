@@ -57,32 +57,24 @@ namespace Score247.Management.Site.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> _DateRangeSearch(IFormCollection collection)
         {
-            try
+            var fromDate = DateTime.Parse(collection["FromDate"]);
+            fromDate = new DateTime(fromDate.Year, fromDate.Month, fromDate.Day, 0, 0, 0, DateTimeKind.Utc);
+            var toDate = new DateTime(fromDate.Year, fromDate.Month, fromDate.Day, 23, 59, 59, DateTimeKind.Utc);
+            var selectedLeagueId = collection["SelectedLeagueId"];
+            var repository = new MatchRepository();
+            var leagueRepository = new LeagueRepository();
+            var leagues = await leagueRepository.GetLeagues();
+            var viewModal = new MatchViewModel();
+            viewModal.DateSearchModel = new DateSearchModel()
             {
-                var fromDate = DateTime.Parse(collection["FromDate"]);
-                fromDate = new DateTime(fromDate.Year, fromDate.Month, fromDate.Day, 0, 0, 0, DateTimeKind.Utc);
-                var toDate = DateTime.Parse(collection["ToDate"]);
-                toDate = new DateTime(toDate.Year, toDate.Month, toDate.Day, 23, 59, 59, DateTimeKind.Utc);
-                var selectedLeagueId = collection["SelectedLeagueId"];
-                var repository = new MatchRepository();
-                var leagueRepository = new LeagueRepository();
-                var leagues = await leagueRepository.GetLeagues();
-                var viewModal = new MatchViewModel();
-                viewModal.DateSearchModel = new DateSearchModel()
-                {
-                    FromDate = fromDate,
-                    ToDate = toDate,
-                    Leagues = leagues,
-                    SelectedLeagueId = selectedLeagueId
-                };
-                var matches = await repository.GetMatchByDataRange(viewModal.DateSearchModel);
-                viewModal.Matches = matches;
-                return View("Index", viewModal);
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
+                FromDate = fromDate,
+                ToDate = toDate,
+                Leagues = leagues,
+                SelectedLeagueId = selectedLeagueId
+            };
+            var matches = await repository.GetMatchByDataRange(viewModal.DateSearchModel);
+            viewModal.Matches = matches;
+            return View("Index", viewModal);
         }
 
         // GET: Match/Details/5
