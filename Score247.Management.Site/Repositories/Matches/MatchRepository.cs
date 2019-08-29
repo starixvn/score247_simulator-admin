@@ -257,20 +257,20 @@ namespace Score247.Management.Site.Repositories.Matches
                             && !x.Name.Contains("Corner"))
                 .ToList();
 
-            List<MatchEntity> newMatches = new List<MatchEntity>();
+            List<MatchEntity> matches = new List<MatchEntity>();
             int matchPerLeague;
             int splitTeamPosition = (teams.Count - 1) / 2;
 
             for (int i = 0; i < criteria.LimitMatch; i += matchPerLeague)
             {
                 var league = leagues[ran.Next(0, leagues.Count - 1)];
-                matchPerLeague = ran.Next(0, 15);
+                matchPerLeague = ran.Next(1, 15);
 
                 for (int j = 0; j < matchPerLeague; j++)
                 {
                     var eventDate = GetEventDate(criteria.EventDate);
 
-                    var indexHome = ran.Next(0, splitTeamPosition); 
+                    var indexHome = ran.Next(0, splitTeamPosition);
                     var homeTeam = teams[indexHome];
 
                     var indexAway = ran.Next(splitTeamPosition + 1, teams.Count - 1);
@@ -282,11 +282,11 @@ namespace Score247.Management.Site.Repositories.Matches
                         awaitTeam,
                         eventDate);
 
-                    newMatches.Add(matchEntity);
+                    matches.Add(matchEntity);
                 }
             }
 
-            return newMatches;
+            return matches.Take(criteria.LimitMatch).ToList();
         }
 
         private static DateTime GetEventDate(DateTime dateTime)
