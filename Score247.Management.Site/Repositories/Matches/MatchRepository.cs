@@ -178,15 +178,23 @@ namespace Score247.Management.Site.Repositories.Matches
             var teamsRepository = new TeamRepository();
 
             var leagues = (await leaguesRepository.GetLeagues())
-                .Where(x => !(x.Name.Contains("+") || x.Name.Contains("-")))
+                .Where(x => !x.Name.Contains("+")
+                            && !x.Name.Contains("-"))
                 .ToList();
 
             var teams = (await teamsRepository.GetTeams())
-                .Where(x => !(x.Name.Contains("+") || x.Name.Contains("-")))
+                .Where(x => !x.Name.Contains("+")
+                            && !x.Name.Contains("-")
+                            && !x.Name.Contains("(PEN)")
+                            && !x.Name.Contains("(ET)")
+                            && !x.Name.Contains("(W)")
+                            && !x.Name.Contains("(R)")
+                            && !x.Name.Contains("Corner"))
                 .ToList();
 
             List<MatchEntity> newMatches = new List<MatchEntity>();
             int matchPerLeague;
+            int splitTeamPosition = (teams.Count - 1) / 2;
 
             for (int i = 0; i < criteria.LimitMatch; i += matchPerLeague)
             {
@@ -196,18 +204,20 @@ namespace Score247.Management.Site.Repositories.Matches
                 for (int j = 0; j < matchPerLeague; j++)
                 {
                     var eventDate = GetEventDate(criteria.EventDate);
-                    var indexAway = ran.Next(0, teams.Count - 1);
-                    var awaitTeam = teams[indexAway];
 
-                    var indexHome = indexAway >= (teams.Count) ? ran.Next(1, indexAway - 1) : ran.Next(indexAway + 1, teams.Count - 1);
+                    var indexHome = ran.Next(0, splitTeamPosition); 
                     var homeTeam = teams[indexHome];
 
-                    var newMatch = new MatchEntity(
+                    var indexAway = ran.Next(splitTeamPosition + 1, teams.Count - 1);
+                    var awaitTeam = teams[indexAway];
+
+                    var matchEntity = new MatchEntity(
                         league,
                         homeTeam,
                         awaitTeam,
                         eventDate);
-                    newMatches.Add(newMatch);
+
+                    newMatches.Add(matchEntity);
                 }
             }
 

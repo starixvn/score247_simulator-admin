@@ -61,9 +61,9 @@ namespace Score247.Management.Site.Repositories.Matches.Models
 
             Id = UniqueGenerator.GetIdWithPattern("sr:match:");
             homeTeam.Statistic = new TeamStatistics();
-            homeTeam.Qualifier = "home";
+            homeTeam.qualifier = "home";
             awayTeam.Statistic = new TeamStatistics();
-            awayTeam.Qualifier = "away";
+            awayTeam.qualifier = "away";
             Competitors = new List<Team>() { homeTeam, awayTeam };
         }
     }

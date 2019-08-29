@@ -24,6 +24,7 @@
         public string Abbreviation { get; set; }
 
         public IEnumerable<Player> Substitutions { get; set; }
-        public string Qualifier { get; set; }
+        public string qualifier { get; set; }
+
     }
 }

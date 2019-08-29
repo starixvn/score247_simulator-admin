@@ -158,10 +158,10 @@ namespace Score247.Management.Site.Controllers
                 var competitors = new List<Score247Management.Core.Teams.Models.Team>();
                 var homeTeam = teams.FirstOrDefault(x => x.Id == collection["HomeTeam.Id"]);
                 homeTeam.Statistic = new Score247Management.Core.Teams.Models.TeamStatistics();
-                homeTeam.Qualifier = "home";
+                homeTeam.qualifier = "home";
                 var awayTeam = teams.FirstOrDefault(x => x.Id == collection["AwayTeam.Id"]);
                 awayTeam.Statistic = new Score247Management.Core.Teams.Models.TeamStatistics();
-                awayTeam.Qualifier = "away";
+                awayTeam.qualifier = "away";
                 competitors.Add(homeTeam);
                 competitors.Add(awayTeam);
                 MatchEntity.Competitors = competitors;
