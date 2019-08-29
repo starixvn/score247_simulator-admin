@@ -35,5 +35,13 @@
         public string Referee { get; set; }
 
         public string Region { get; set; }
+
+        public string DisplayResult { get =>
+                MatchResult.EventStatus.IsClosed() ?
+                MatchResult.HomeScore.ToString() + " - " + MatchResult.AwayScore.ToString() :
+                LatestTimeline != null ?
+                LatestTimeline.HomeScore.ToString() + " - " + LatestTimeline.AwayScore.ToString() :
+                "";
+        }
     }
 }

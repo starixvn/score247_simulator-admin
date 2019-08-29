@@ -55,7 +55,7 @@
                 @Html.DisplayFor(modelItem => item.MatchResult.MatchStatus.DisplayName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.LatestTimeline.HomeScore) - @Html.DisplayFor(modelItem => item.LatestTimeline.AwayScore)
+                @Html.DisplayFor(modelItem => item.DisplayResult)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Id)
@@ -74,7 +74,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Clone Matches</h5>
+                <h5 class="modal-title">Create Matches</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -107,7 +107,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Clone Live Matches</h5>
+                <h5 class="modal-title">Create Live Matches</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
