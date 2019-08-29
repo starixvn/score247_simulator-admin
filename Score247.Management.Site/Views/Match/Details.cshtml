@@ -44,10 +44,10 @@
         @if (Model.Match.MatchResult.MatchStatus.DisplayName == MatchStatus.Penalties.DisplayName
  || Model.Match.MatchResult.MatchStatus.DisplayName == MatchStatus.EndedAfterPenalties.DisplayName)
         {
-            <dt class="col-sm-2">Penalty Score:</dt>
-            <dd class="col-sm-2">
-                @Html.DisplayFor(model => model.Match.LatestTimeline.ShootoutHomeScore) - @Html.DisplayFor(model => model.Match.LatestTimeline.ShootoutAwayScore)
-            </dd>
+        <dt class="col-sm-2">Penalty Score:</dt>
+        <dd class="col-sm-2">
+            @Html.DisplayFor(model => model.Match.LatestTimeline.ShootoutHomeScore) - @Html.DisplayFor(model => model.Match.LatestTimeline.ShootoutAwayScore)
+        </dd>
         }
     </dl>
 

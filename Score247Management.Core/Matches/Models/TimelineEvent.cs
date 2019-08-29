@@ -3,10 +3,9 @@
     using System;
     using System.Collections.Generic;
     using Newtonsoft.Json;
-    using Score247Management.Core.Base;
     using Score247Management.Core._Shared.Enumerations;
+    using Score247Management.Core.Base;
     using Score247Management.Core.Teams.Models;
-    using System.ComponentModel.DataAnnotations;
 
     public class TimelineEvent : BaseEntity
     {

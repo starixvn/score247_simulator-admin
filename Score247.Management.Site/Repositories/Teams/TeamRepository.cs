@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Fanex.Data.Repository;
 using Score247.Management.Site.Criterias.Team;
 
-namespace Score247.Management.Site.Repositories.Team
+namespace Score247.Management.Site.Repositories.Teams
 {
     public class TeamRepository
     {

@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Score247Management.Core.Leagues.Models;
 using Score247.Management.Site.Criterias.League;
 using Score247.Management.Site.Helpers;
-using Score247.Management.Site.Repositories.League;
+using Score247.Management.Site.Repositories.Leagues;
 using Score247.Management.Site.ViewModels.League;
 
 namespace Score247.Management.Site.Controllers

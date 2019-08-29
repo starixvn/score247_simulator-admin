@@ -42,29 +42,29 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Country)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CountryCode)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Flag)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Formation)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Abbreviation)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Country)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CountryCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Flag)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Formation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Abbreviation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+        </tr>
         }
     </tbody>
 </table>

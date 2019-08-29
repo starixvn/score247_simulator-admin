@@ -8,6 +8,7 @@
     {
         [DataType(DataType.Date)]
         public DateTime DeleteDate { get; set; }
+
         public override string GetSettingKey()
             => "Match_DeleteMatchByDate";
 

@@ -3,10 +3,10 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Score247Management.Core._Shared.Enumerations;
     using Score247Management.Core._Shared.Resources;
     using Score247Management.Core.Matches.Models;
     using Score247Management.Core.Odds.Models;
-    using Score247Management.Core._Shared.Enumerations;
 
     public static class OddsMovementProcessor
     {
@@ -92,7 +92,7 @@
             IEnumerable<BetTypeOdds> betTypeOddsList,
             Match match)
         {
-            if (match.TimeLines == null 
+            if (match.TimeLines == null
                 || !match.TimeLines.Any())
             {
                 return Enumerable.Empty<OddsMovement>();

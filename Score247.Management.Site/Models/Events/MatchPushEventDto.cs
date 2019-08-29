@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Score247Management.Core.Matches.Models;
 
@@ -15,8 +14,8 @@ namespace Score247.Management.Site.Models.Events
 
         public MatchPushEventDto()
         {
-
         }
+
         public MatchPushEventDto(Match match)
         {
             payload = new PushEventPayload(match);
@@ -33,8 +32,8 @@ namespace Score247.Management.Site.Models.Events
 
         public PushEventPayload()
         {
-
         }
+
         public PushEventPayload(Match match)
         {
             var matchPeriodsScores = match.MatchResult.MatchPeriods == null ? new List<Period_Scores>() : match.MatchResult.MatchPeriods?.Select(x => new Period_Scores { home_score = x.HomeScore, away_score = x.AwayScore, number = x.Number, type = x.PeriodType.DisplayName });
@@ -74,7 +73,6 @@ namespace Score247.Management.Site.Models.Events
 
         public PushEventMetaData()
         {
-
         }
 
         public PushEventMetaData(Match match)

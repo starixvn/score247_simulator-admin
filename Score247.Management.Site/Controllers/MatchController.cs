@@ -2,23 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Score247Management.Core._Shared.Enumerations;
-using Score247.Management.Site.Helpers;
-using Score247.Management.Site.Models.Events;
-using Score247.Management.Site.Repositories.League;
-using Score247.Management.Site.Repositories.Match;
-using Score247.Management.Site.Repositories.Match.Models;
-using Score247.Management.Site.Repositories.Team;
-using Score247.Management.Site.ViewModels.Match;
-using Newtonsoft.Json;
-using System.Text;
 using Microsoft.Extensions.Configuration;
-using Score247.Management.Site.Models;
-using Score247.Management.Site.Services.Matchs;
+using Newtonsoft.Json;
 using Score247.Management.Site.Criterias.Match;
+using Score247.Management.Site.Helpers;
+using Score247.Management.Site.Models;
+using Score247.Management.Site.Models.Events;
+using Score247.Management.Site.Repositories.Leagues;
+using Score247.Management.Site.Repositories.Matches;
+using Score247.Management.Site.Repositories.Matches.Models;
+using Score247.Management.Site.Repositories.Teams;
+using Score247.Management.Site.Services.Matchs;
+using Score247.Management.Site.ViewModels.Match;
+using Score247Management.Core._Shared.Enumerations;
 
 namespace Score247.Management.Site.Controllers
 {
@@ -60,9 +60,9 @@ namespace Score247.Management.Site.Controllers
             try
             {
                 var fromDate = DateTime.Parse(collection["FromDate"]);
-                fromDate = new DateTime(fromDate.Year, fromDate.Month, fromDate.Day, 0, 0, 0, DateTimeKind.Local);
+                fromDate = new DateTime(fromDate.Year, fromDate.Month, fromDate.Day, 0, 0, 0, DateTimeKind.Utc);
                 var toDate = DateTime.Parse(collection["ToDate"]);
-                toDate = new DateTime(toDate.Year, toDate.Month, toDate.Day, 23, 59, 59, DateTimeKind.Local);
+                toDate = new DateTime(toDate.Year, toDate.Month, toDate.Day, 23, 59, 59, DateTimeKind.Utc);
                 var selectedLeagueId = collection["SelectedLeagueId"];
                 var repository = new MatchRepository();
                 var leagueRepository = new LeagueRepository();
@@ -81,12 +81,9 @@ namespace Score247.Management.Site.Controllers
             }
             catch (Exception ex)
             {
-
                 throw;
             }
-            
         }
-
 
         // GET: Match/Details/5
         public async Task<ActionResult> Details(string id)
@@ -130,7 +127,7 @@ namespace Score247.Management.Site.Controllers
             var viewModel = new CreateMatchViewModel();
             viewModel.Tournaments = leagues;
             viewModel.Teams = teams;
-            viewModel.NewMatch = new NewMatch();
+            viewModel.Match = new MatchEntity();
             return View(viewModel);
         }
 
@@ -148,16 +145,16 @@ namespace Score247.Management.Site.Controllers
                 var teamRepo = new TeamRepository();
                 var teams = await teamRepo.GetTeams();
 
-                var newMatch = new NewMatch();
-                newMatch.Id = UniqueGenerator.GetIdWithPattern("sr:match:");
-                newMatch.Status = collection["NewMatch.Status"];
-                newMatch.Venue = new Score247Management.Core.Matches.Models.Venue
+                var MatchEntity = new MatchEntity();
+                MatchEntity.Id = UniqueGenerator.GetIdWithPattern("sr:match:");
+                MatchEntity.Status = collection["MatchEntity.Status"];
+                MatchEntity.Venue = new Score247Management.Core.Matches.Models.Venue
                 {
-                    Id = "sr:venue:" + collection["NewMatch.Venue.Name"],
-                    Name = collection["NewMatch.Venue.Name"],
-                    CountryName = collection["NewMatch.Venue.CountryName"]
+                    Id = "sr:venue:" + collection["MatchEntity.Venue.Name"],
+                    Name = collection["MatchEntity.Venue.Name"],
+                    CountryName = collection["MatchEntity.Venue.CountryName"]
                 };
-                newMatch.Tournament = leagues.FirstOrDefault(x => x.Id == collection["NewMatch.Tournament.Id"]);
+                MatchEntity.Tournament = leagues.FirstOrDefault(x => x.Id == collection["MatchEntity.Tournament.Id"]);
                 var competitors = new List<Score247Management.Core.Teams.Models.Team>();
                 var homeTeam = teams.FirstOrDefault(x => x.Id == collection["HomeTeam.Id"]);
                 homeTeam.Statistic = new Score247Management.Core.Teams.Models.TeamStatistics();
@@ -167,27 +164,29 @@ namespace Score247.Management.Site.Controllers
                 awayTeam.Qualifier = "away";
                 competitors.Add(homeTeam);
                 competitors.Add(awayTeam);
-                newMatch.Competitors = competitors;
-                var dateTime = Convert.ToDateTime(collection["NewMatch.Scheduled"]);
-                var timeSpan = TimeSpan.Parse(collection["NewMatch.ScheduledTime"]);
-                newMatch.Scheduled = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds, DateTimeKind.Utc);
-                newMatch.TournamentRound = new Score247Management.Core.Leagues.Models.LeagueRound();
-                newMatch.TournamentRound.Type = LeagueRoundType.FromDisplayName<LeagueRoundType>(collection["NewMatch.TournamentRound.Type.Value"]);
-                newMatch.TournamentRound.Name = collection["NewMatch.TournamentRound.Name"];
-                newMatch.TournamentRound.Number = Int32.Parse(collection["NewMatch.TournamentRound.Number"]);
-                newMatch.TournamentRound.Phase = collection["NewMatch.TournamentRound.Phase"];
-                newMatch.TournamentRound.Group = collection["NewMatch.TournamentRound.Group"];
+                MatchEntity.Competitors = competitors;
+                var dateTime = Convert.ToDateTime(collection["MatchEntity.Scheduled"]);
+                var timeSpan = TimeSpan.Parse(collection["MatchEntity.ScheduledTime"]);
+                MatchEntity.Scheduled = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds, DateTimeKind.Utc);
+                MatchEntity.TournamentRound = new Score247Management.Core.Leagues.Models.LeagueRound();
+                MatchEntity.TournamentRound.Type = LeagueRoundType.FromDisplayName<LeagueRoundType>(collection["MatchEntity.TournamentRound.Type.Value"]);
+                MatchEntity.TournamentRound.Name = collection["MatchEntity.TournamentRound.Name"];
+                MatchEntity.TournamentRound.Number = Int32.Parse(collection["MatchEntity.TournamentRound.Number"]);
+                MatchEntity.TournamentRound.Phase = collection["MatchEntity.TournamentRound.Phase"];
+                MatchEntity.TournamentRound.Group = collection["MatchEntity.TournamentRound.Group"];
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new Uri(Configuration.GetValue<string>("Simulator:Url"));
-                    var newMatches = new List<NewMatch> { newMatch };
-                    var content = new Repositories.Match.Models.DailyScheduleDto();
-                    content.GeneratedAt = DateTime.UtcNow;
-                    content.Schema = "Matches";
-                    content.sport_events = newMatches;
+                    var MatchEntityes = new List<MatchEntity> { MatchEntity };
+                    var content = new Repositories.Matches.Models.DailyScheduleDto
+                    {
+                        GeneratedAt = DateTime.UtcNow,
+                        Schema = "Matches",
+                        sport_events = MatchEntityes
+                    };
                     var jsonValue = JsonConvert.SerializeObject(content);
 
-                    var response = await client.PostAsync(string.Format(Configuration.GetValue<string>("Simulator:DailySchedule") + "?date={0}", newMatch.Scheduled.ToString("yyyy-MM-dd")), new StringContent(jsonValue, Encoding.UTF8, "application/json"));
+                    var response = await client.PostAsync(string.Format(Configuration.GetValue<string>("Simulator:DailySchedule") + "?date={0}", MatchEntity.Scheduled.ToString("yyyy-MM-dd")), new StringContent(jsonValue, Encoding.UTF8, "application/json"));
                     if (!response.IsSuccessStatusCode)
                     {
                         return View();
@@ -204,14 +203,14 @@ namespace Score247.Management.Site.Controllers
                     request.Content = fetchContent;
                     await triggerClient.SendAsync(request);
                     var matchRepository = new MatchRepository();
-                    var matchCreated = await matchRepository.GetMatchById(newMatch.Id);
-                    while(matchCreated == null)
+                    var matchCreated = await matchRepository.GetMatchById(MatchEntity.Id);
+                    while (matchCreated == null)
                     {
                         await Task.Delay(1000);
-                        matchCreated = await matchRepository.GetMatchById(newMatch.Id);
+                        matchCreated = await matchRepository.GetMatchById(MatchEntity.Id);
                     }
                 }
-                return RedirectToAction(nameof(Details), new { id = newMatch.Id});
+                return RedirectToAction(nameof(Details), new { id = MatchEntity.Id });
             }
             catch (Exception ex)
             {
@@ -232,7 +231,7 @@ namespace Score247.Management.Site.Controllers
                 //criteria.EventDate = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, 0, 0, 0, DateTimeKind.Utc);
                 criteria.LimitMatch = int.Parse(collection["CloneMatchModel.Count"]);
                 var matchRepository = new MatchRepository(Configuration);
-                await matchRepository.CloneMatches(criteria);
+                await matchRepository.CreateMatches(criteria);
             }
             catch (Exception ex)
             {
@@ -293,7 +292,6 @@ namespace Score247.Management.Site.Controllers
             {
                 return RedirectToAction(nameof(Index));
             }
-            
         }
 
         // POST: Match/Delete/5
@@ -358,7 +356,7 @@ namespace Score247.Management.Site.Controllers
                     requestBody.payload.timeline.period = 1;
                     requestBody.payload.timeline.period_name = MatchStatus.FirstHaft.DisplayName;
                     requestBody.payload.timeline.period_type = PeriodType.RegularPeriod.DisplayName;
-                    if(requestBody.payload.sport_event_status.period_scores.FirstOrDefault(x => x.number == 1 && x.type == PeriodType.RegularPeriod.DisplayName) == null)
+                    if (requestBody.payload.sport_event_status.period_scores.FirstOrDefault(x => x.number == 1 && x.type == PeriodType.RegularPeriod.DisplayName) == null)
                     {
                         requestBody.payload.sport_event_status.period_scores = requestBody.payload.sport_event_status.period_scores.Append(new Period_Scores
                         {
@@ -368,7 +366,6 @@ namespace Score247.Management.Site.Controllers
                             number = 1
                         });
                     }
-                    
                 }
                 else if (eventType == "break_start")
                 {
@@ -421,7 +418,6 @@ namespace Score247.Management.Site.Controllers
                             type = "overtime"
                         });
                     }
-                    
                 }
                 else if (eventType == "1st_extra_start")
                 {
@@ -805,7 +801,6 @@ namespace Score247.Management.Site.Controllers
             }
         }
 
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreatCardFaultEventPartial(string id, IFormCollection collection)
@@ -830,7 +825,6 @@ namespace Score247.Management.Site.Controllers
                     home_score = match.LatestTimeline != null ? match.LatestTimeline.HomeScore : 0,
                     away_score = match.LatestTimeline != null ? match.LatestTimeline.AwayScore : 0
                 };
-
 
                 if (collection["payload.timeline.period_type"] == "overtime")
                 {
@@ -863,7 +857,6 @@ namespace Score247.Management.Site.Controllers
                 return RedirectToAction(nameof(Details), new { id = id });
             }
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -919,7 +912,6 @@ namespace Score247.Management.Site.Controllers
             }
         }
 
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult AutoEventNormalMatch(string id, IFormCollection collection)
@@ -964,6 +956,5 @@ namespace Score247.Management.Site.Controllers
                 return RedirectToAction(nameof(Details), new { id = id });
             }
         }
-
     }
 }

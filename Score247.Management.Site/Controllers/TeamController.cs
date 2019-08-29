@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Score247.Management.Site.Criterias.Team;
 using Score247.Management.Site.Helpers;
-using Score247.Management.Site.Repositories.Team;
+using Score247.Management.Site.Repositories.Teams;
 
 namespace Score247.Management.Site.Controllers
 {

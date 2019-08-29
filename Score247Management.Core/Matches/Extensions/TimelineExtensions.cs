@@ -1,8 +1,8 @@
 ﻿namespace Score247Management.Core.Matches.Extensions
 {
     using System.Collections.Generic;
-    using Score247Management.Core.Matches.Models;
     using Score247Management.Core._Shared.Enumerations;
+    using Score247Management.Core.Matches.Models;
 
     public static class TimelineExtensions
     {

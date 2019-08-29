@@ -5,7 +5,7 @@
     public class EventType : Enumeration
     {
         //break_start
-        public static readonly EventType BreakStart = new EventType(1, "break_start");        
+        public static readonly EventType BreakStart = new EventType(1, "break_start");
 
         //injury_time_shown
         public static readonly EventType InjuryTimeShown = new EventType(2, "injury_time_shown");
@@ -15,25 +15,25 @@
 
         //match_started
         public static readonly EventType MatchStarted = new EventType(4, "match_started");
-        
+
         //penalty_missed
         public static readonly EventType PenaltyMissed = new EventType(5, "penalty_missed");
 
         //penalty_shootout
-        public static readonly EventType PenaltyShootout = new EventType(6, "penalty_shootout");       
+        public static readonly EventType PenaltyShootout = new EventType(6, "penalty_shootout");
 
         //period_start
         public static readonly EventType PeriodStart = new EventType(7, "period_start");
-        
+
         //red_card
         public static readonly EventType RedCard = new EventType(8, "red_card");
 
         //score_change
         public static readonly EventType ScoreChange = new EventType(9, "score_change");
-        
+
         //substitution
         public static readonly EventType Substitution = new EventType(10, "substitution");
-        
+
         //yellow_card
         public static readonly EventType YellowCard = new EventType(11, "yellow_card");
 

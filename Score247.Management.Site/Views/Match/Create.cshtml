@@ -36,19 +36,19 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label asp-for="NewMatch.Status" class="control-label"></label>
-                        <select asp-for="NewMatch.Status" asp-items="status" class="form-control"></select>
-                        <span asp-validation-for="NewMatch.Status" class="text-danger"></span>
+                        <label asp-for="Match.Status" class="control-label"></label>
+                        <select asp-for="Match.Status" asp-items="status" class="form-control"></select>
+                        <span asp-validation-for="Match.Status" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="NewMatch.Scheduled" class="control-label">Date(UTC)</label>
-                        <input asp-for="NewMatch.Scheduled" class="form-control" />
-                        <span asp-validation-for="NewMatch.Scheduled" class="text-danger"></span>
+                        <label asp-for="Match.Scheduled" class="control-label">Date(UTC)</label>
+                        <input asp-for="Match.Scheduled" class="form-control" />
+                        <span asp-validation-for="Match.Scheduled" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="NewMatch.ScheduledTime" class="control-label">Time(UTC)</label>
-                        <input asp-for="NewMatch.ScheduledTime" class="form-control" />
-                        <span asp-validation-for="NewMatch.ScheduledTime" class="text-danger"></span>
+                        <label asp-for="Match.ScheduledTime" class="control-label">Time(UTC)</label>
+                        <input asp-for="Match.ScheduledTime" class="form-control" />
+                        <span asp-validation-for="Match.ScheduledTime" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -63,41 +63,41 @@
                         <span asp-validation-for="AwayTeam.Id" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="NewMatch.Venue.Name" class="control-label">Venue Name</label>
-                        <input asp-for="NewMatch.Venue.Name" class="form-control" />
-                        <span asp-validation-for="NewMatch.Venue.Name" class="text-danger"></span>
+                        <label asp-for="Match.Venue.Name" class="control-label">Venue Name</label>
+                        <input asp-for="Match.Venue.Name" class="form-control" />
+                        <span asp-validation-for="Match.Venue.Name" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label asp-for="NewMatch.Tournament.Id" class="control-label">League</label>
-                        <select asp-for="NewMatch.Tournament.Id" asp-items="tournaments" class="form-control"></select>
-                        <span asp-validation-for="NewMatch.Tournament.Id" class="text-danger"></span>
+                        <label asp-for="Match.Tournament.Id" class="control-label">League</label>
+                        <select asp-for="Match.Tournament.Id" asp-items="tournaments" class="form-control"></select>
+                        <span asp-validation-for="Match.Tournament.Id" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="NewMatch.TournamentRound.Type.Value" class="control-label">League Round Type</label>
-                        <select asp-for="NewMatch.TournamentRound.Type.Value" asp-items="leagueRoundTypes" class="form-control"></select>
-                        <span asp-validation-for="NewMatch.TournamentRound.Type.Value" class="text-danger"></span>
+                        <label asp-for="Match.TournamentRound.Type.Value" class="control-label">League Round Type</label>
+                        <select asp-for="Match.TournamentRound.Type.Value" asp-items="leagueRoundTypes" class="form-control"></select>
+                        <span asp-validation-for="Match.TournamentRound.Type.Value" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="NewMatch.TournamentRound.Name" class="control-label">Tournament Round Name</label>
-                        <input asp-for="NewMatch.TournamentRound.Name" class="form-control" />
-                        <span asp-validation-for="NewMatch.TournamentRound.Name" class="text-danger"></span>
+                        <label asp-for="Match.TournamentRound.Name" class="control-label">Tournament Round Name</label>
+                        <input asp-for="Match.TournamentRound.Name" class="form-control" />
+                        <span asp-validation-for="Match.TournamentRound.Name" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="NewMatch.TournamentRound.Number" class="control-label">Tournament Round Number</label>
-                        <input asp-for="NewMatch.TournamentRound.Number" class="form-control" />
-                        <span asp-validation-for="NewMatch.TournamentRound.Number" class="text-danger"></span>
+                        <label asp-for="Match.TournamentRound.Number" class="control-label">Tournament Round Number</label>
+                        <input asp-for="Match.TournamentRound.Number" class="form-control" />
+                        <span asp-validation-for="Match.TournamentRound.Number" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="NewMatch.TournamentRound.Phase" class="control-label">Tournament Round Phase</label>
-                        <input asp-for="NewMatch.TournamentRound.Phase" class="form-control" />
-                        <span asp-validation-for="NewMatch.TournamentRound.Phase" class="text-danger"></span>
+                        <label asp-for="Match.TournamentRound.Phase" class="control-label">Tournament Round Phase</label>
+                        <input asp-for="Match.TournamentRound.Phase" class="form-control" />
+                        <span asp-validation-for="Match.TournamentRound.Phase" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="NewMatch.TournamentRound.Group" class="control-label">Tournament Round Group</label>
-                        <input asp-for="NewMatch.TournamentRound.Group" class="form-control" />
-                        <span asp-validation-for="NewMatch.TournamentRound.Group" class="text-danger"></span>
+                        <label asp-for="Match.TournamentRound.Group" class="control-label">Tournament Round Group</label>
+                        <input asp-for="Match.TournamentRound.Group" class="form-control" />
+                        <span asp-validation-for="Match.TournamentRound.Group" class="text-danger"></span>
                     </div>
                 </div>
             </div>

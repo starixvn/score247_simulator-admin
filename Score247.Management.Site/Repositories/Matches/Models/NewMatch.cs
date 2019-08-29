@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Score247.Management.Site.Helpers;
 using Score247Management.Core.Leagues.Models;
 using Score247Management.Core.Matches.Models;
+using Score247Management.Core.Teams.Models;
 
-namespace Score247.Management.Site.Repositories.Match.Models
+namespace Score247.Management.Site.Repositories.Matches.Models
 {
-    public class NewMatch
+    public class MatchEntity
     {
         public string Id { get; set; }
         public string Status { get; set; }
@@ -16,13 +18,14 @@ namespace Score247.Management.Site.Repositories.Match.Models
 
         [DataType(DataType.Time)]
         public TimeSpan ScheduledTime { get; set; }
+
         public LeagueRound TournamentRound { get; set; }
         public LeagueSeason Season { get; set; }
         public Score247Management.Core.Leagues.Models.League Tournament { get; set; }
-        public IEnumerable<Score247Management.Core.Teams.Models.Team> Competitors { get; set; }
+        public IEnumerable<Team> Competitors { get; set; }
         public Venue Venue { get; set; }
 
-        public NewMatch()
+        public MatchEntity()
         {
             Scheduled = DateTime.Now;
             ScheduledTime = new TimeSpan(Scheduled.Hour, 0, 0);
@@ -39,7 +42,7 @@ namespace Score247.Management.Site.Repositories.Match.Models
             };
         }
 
-        public NewMatch(Score247Management.Core.Leagues.Models.League league, Score247Management.Core.Teams.Models.Team homeTeam, Score247Management.Core.Teams.Models.Team awayTeam, DateTime eventDate)
+        public MatchEntity(League league, Team homeTeam, Team awayTeam, DateTime eventDate)
         {
             Scheduled = eventDate;
             ScheduledTime = new TimeSpan(Scheduled.Hour, 0, 0);
@@ -56,12 +59,12 @@ namespace Score247.Management.Site.Repositories.Match.Models
             };
             Tournament = league;
 
-            homeTeam.Statistic = new Score247Management.Core.Teams.Models.TeamStatistics();
+            Id = UniqueGenerator.GetIdWithPattern("sr:match:");
+            homeTeam.Statistic = new TeamStatistics();
             homeTeam.Qualifier = "home";
-            awayTeam.Statistic = new Score247Management.Core.Teams.Models.TeamStatistics();
+            awayTeam.Statistic = new TeamStatistics();
             awayTeam.Qualifier = "away";
-            Competitors = new List<Score247Management.Core.Teams.Models.Team>() { homeTeam, awayTeam };
+            Competitors = new List<Team>() { homeTeam, awayTeam };
         }
-
     }
 }

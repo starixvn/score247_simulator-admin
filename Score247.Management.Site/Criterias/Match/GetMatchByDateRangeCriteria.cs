@@ -9,6 +9,7 @@
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
         public string Language { get; set; }
+
         public override string GetSettingKey()
          => "Match_GetByDateRange";
 

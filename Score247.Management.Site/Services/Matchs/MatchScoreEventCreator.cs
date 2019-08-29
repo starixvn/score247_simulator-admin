@@ -103,7 +103,6 @@
             return matchEvent;
         }
 
-
         public static MatchPushEventDto CreatePenaltyScore(Match match, DateTime eventTime, int matchTime, string team, string scoredPlayer)
         {
             var matchEvent = new MatchPushEventDto(match);
@@ -245,6 +244,4 @@
             return matchEvent;
         }
     }
-
-
 }

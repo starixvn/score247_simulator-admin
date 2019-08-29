@@ -30,7 +30,6 @@
 
         public static MatchPushEventDto CreateFirstPeriodStart(Match match, DateTime eventTime)
         {
-
             var matchEvent = new MatchPushEventDto(match);
             matchEvent.payload.timeline = new TimelineDto()
             {
@@ -60,7 +59,6 @@
 
         public static MatchPushEventDto CreateHalfTimeBreakStart(Match match, DateTime eventTime)
         {
-
             var matchEvent = new MatchPushEventDto(match);
             matchEvent.payload.timeline = new TimelineDto()
             {
@@ -81,7 +79,6 @@
 
         public static MatchPushEventDto CreateSecondPeriodStart(Match match, DateTime eventTime)
         {
-
             var matchEvent = new MatchPushEventDto(match);
             matchEvent.payload.timeline = new TimelineDto()
             {
@@ -111,7 +108,6 @@
 
         public static MatchPushEventDto CreateAwaitingExtra(Match match, DateTime eventTime)
         {
-
             var matchEvent = new MatchPushEventDto(match);
             matchEvent.payload.timeline = new TimelineDto()
             {
@@ -129,9 +125,9 @@
 
             return matchEvent;
         }
+
         public static MatchPushEventDto CreateFirstExtraStart(Match match, DateTime eventTime)
         {
-
             var matchEvent = new MatchPushEventDto(match);
             matchEvent.payload.timeline = new TimelineDto()
             {
@@ -160,7 +156,6 @@
 
         public static MatchPushEventDto CreateBreakExtraStart(Match match, DateTime eventTime)
         {
-
             var matchEvent = new MatchPushEventDto(match);
             matchEvent.payload.timeline = new TimelineDto()
             {
@@ -181,7 +176,6 @@
 
         public static MatchPushEventDto CreateSecondExtraStart(Match match, DateTime eventTime)
         {
-
             var matchEvent = new MatchPushEventDto(match);
             matchEvent.payload.timeline = new TimelineDto()
             {
@@ -204,7 +198,6 @@
 
         public static MatchPushEventDto CreateAwaitingPenalty(Match match, DateTime eventTime)
         {
-
             var matchEvent = new MatchPushEventDto(match);
             matchEvent.payload.timeline = new TimelineDto()
             {
@@ -225,7 +218,6 @@
 
         public static MatchPushEventDto CreatePenaltyStart(Match match, DateTime eventTime)
         {
-
             var matchEvent = new MatchPushEventDto(match);
             matchEvent.payload.timeline = new TimelineDto()
             {
@@ -254,7 +246,6 @@
 
         public static MatchPushEventDto CreateMatchEndNormal(Match match, DateTime eventTime)
         {
-
             var matchEvent = new MatchPushEventDto(match);
             matchEvent.payload.timeline = new TimelineDto()
             {
@@ -274,7 +265,6 @@
 
         public static MatchPushEventDto CreateMatchEndExtra(Match match, DateTime eventTime)
         {
-
             var matchEvent = new MatchPushEventDto(match);
             matchEvent.payload.timeline = new TimelineDto()
             {
@@ -294,7 +284,6 @@
 
         public static MatchPushEventDto CreateMatchEndPenalty(Match match, DateTime eventTime)
         {
-
             var matchEvent = new MatchPushEventDto(match);
             matchEvent.payload.timeline = new TimelineDto()
             {

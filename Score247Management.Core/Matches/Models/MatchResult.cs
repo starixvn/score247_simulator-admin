@@ -6,6 +6,7 @@
     public class MatchResult
     {
         public int Id { get; set; }
+
         // TODO: Move out
         public MatchStatus MatchStatus { get; set; }
 

@@ -15,6 +15,4 @@
             return Math.Abs((int)DateTime.Now.Ticks);
         }
     }
-
-
 }

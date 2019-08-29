@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Configuration;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Score247.Management.Site.Models.Events;
-using Score247.Management.Site.Repositories.Match;
-using Score247Management.Core.Matches.Models;
+using Score247.Management.Site.Repositories.Matches;
 
 namespace Score247.Management.Site.Services.Matchs
 {
@@ -47,7 +45,6 @@ namespace Score247.Management.Site.Services.Matchs
             eventMatch = MatchScoreEventCreator.CreateNormalScore(match, match.EventDate.AddMinutes(currentMatchTime), currentMatchTime, "home", "Player_" + rand.Next(999).ToString(), true);
             await SendEvent(eventMatch, baseUrl, eventPath);
             match = await matchRepository.GetMatchById(matchId);
-
 
             // Extra Injury Time Start
             currentMatchTime = 45;
@@ -99,8 +96,8 @@ namespace Score247.Management.Site.Services.Matchs
             // Match End Full Time
             eventMatch = MatchTimeEventCreator.CreateMatchEndNormal(match, match.EventDate.AddMinutes(currentMatchTime + breakHalfTime + extraTime));
             await SendEvent(eventMatch, baseUrl, eventPath);
-
         }
+
         public static async Task PushOvertimeMatchEvents(string matchId, string baseUrl, string eventPath)
         {
             int currentMatchTime = 0;
@@ -138,7 +135,6 @@ namespace Score247.Management.Site.Services.Matchs
             eventMatch = MatchScoreEventCreator.CreateNormalScore(match, match.EventDate.AddMinutes(currentMatchTime), currentMatchTime, "home", "Player_" + rand.Next(999).ToString(), true);
             await SendEvent(eventMatch, baseUrl, eventPath);
             match = await matchRepository.GetMatchById(matchId);
-
 
             // Extra Injury Time Start
             currentMatchTime = 45;
@@ -219,19 +215,18 @@ namespace Score247.Management.Site.Services.Matchs
 
             // Score event
             currentMatchTime = 115;
-            eventMatch = MatchScoreEventCreator.CreateOvertimeScore(match, match.EventDate.AddMinutes(currentMatchTime + breakHalfTime + extraTime+ awaitingExtra + breakExtraTime), currentMatchTime, "home", "Player_" + rand.Next(999).ToString(), false);
+            eventMatch = MatchScoreEventCreator.CreateOvertimeScore(match, match.EventDate.AddMinutes(currentMatchTime + breakHalfTime + extraTime + awaitingExtra + breakExtraTime), currentMatchTime, "home", "Player_" + rand.Next(999).ToString(), false);
             await SendEvent(eventMatch, baseUrl, eventPath);
             match = await matchRepository.GetMatchById(matchId);
 
             // Match event
             currentMatchTime = 120;
-            eventMatch = MatchTimeEventCreator.CreateMatchEndExtra(match, match.EventDate.AddMinutes(currentMatchTime + breakHalfTime + extraTime+ awaitingExtra + breakExtraTime));
+            eventMatch = MatchTimeEventCreator.CreateMatchEndExtra(match, match.EventDate.AddMinutes(currentMatchTime + breakHalfTime + extraTime + awaitingExtra + breakExtraTime));
             await SendEvent(eventMatch, baseUrl, eventPath);
-
         }
+
         public static async Task PushPenaltyMatchEvents(string matchId, string baseUrl, string eventPath)
         {
-
             int currentMatchTime = 0;
             int breakHalfTime = 15;
             int extraTime = 0;
@@ -267,7 +262,6 @@ namespace Score247.Management.Site.Services.Matchs
             eventMatch = MatchScoreEventCreator.CreateNormalScore(match, match.EventDate.AddMinutes(currentMatchTime), currentMatchTime, "home", "Player_" + rand.Next(999).ToString(), true);
             await SendEvent(eventMatch, baseUrl, eventPath);
             match = await matchRepository.GetMatchById(matchId);
-
 
             // Extra Injury Time Start
             currentMatchTime = 45;
@@ -427,7 +421,6 @@ namespace Score247.Management.Site.Services.Matchs
             currentMatchTime = 132;
             eventMatch = MatchTimeEventCreator.CreateMatchEndPenalty(match, match.EventDate.AddMinutes(currentMatchTime + breakHalfTime + extraTime + awaitingExtra + breakExtraTime + awaitPenalty));
             await SendEvent(eventMatch, baseUrl, eventPath);
-
         }
 
         public static async Task<HttpResponseMessage> SendEvent(MatchPushEventDto matchEvent, string baseUrl, string eventPath)

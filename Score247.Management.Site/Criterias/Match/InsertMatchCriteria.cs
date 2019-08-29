@@ -1,7 +1,7 @@
 ﻿namespace Score247.Management.Site.Criterias.Match
 {
-    using System;
     using Fanex.Data.Repository;
+
     public class InsertMatchCriteria : NonQueryCommand
     {
         public string Id { get; set; }

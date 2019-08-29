@@ -22,7 +22,7 @@ namespace Score247.Management.Site.Services.Matchs
                 type = eventType,
                 period = match.MatchResult.Period
             };
-            
+
             if (extraTime > 0)
             {
                 matchEvent.payload.timeline.stoppage_time = extraTime.ToString();
@@ -42,18 +42,21 @@ namespace Score247.Management.Site.Services.Matchs
 
             return matchEvent;
         }
+
         public static MatchPushEventDto CreateYellowCardEvent(Match match, DateTime eventTime, int matchTime, string team, string playerName, int extraTime)
         {
             var matchEvent = MatchCardEventCreator.CreateCardEvent(match, eventTime, matchTime, team, playerName, "yellow_card", extraTime);
 
             return matchEvent;
         }
+
         public static MatchPushEventDto CreateYellowRedCardEvent(Match match, DateTime eventTime, int matchTime, string team, string playerName, int extraTime)
         {
             var matchEvent = MatchCardEventCreator.CreateCardEvent(match, eventTime, matchTime, team, playerName, "yellow_red_card", extraTime);
 
             return matchEvent;
         }
+
         //public static MatchPushEventDto CreateRedCardEventOvertime(Match match, DateTime eventTime, int matchTime, string team, string playerName)
         //{
         //    var matchEvent = MatchCardEventCreator.CreateCardEvent(match, eventTime, matchTime, team, playerName, "red_card", extraTime);

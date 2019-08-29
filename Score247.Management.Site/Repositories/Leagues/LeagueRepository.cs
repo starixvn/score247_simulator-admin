@@ -1,16 +1,17 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Fanex.Data;
 using Fanex.Data.Repository;
-using Score247Management.Core.Leagues.Models;
 using Score247.Management.Site.Criterias.League;
-using System.Linq;
+using Score247Management.Core.Leagues.Models;
 
-namespace Score247.Management.Site.Repositories.League
+namespace Score247.Management.Site.Repositories.Leagues
 {
     public class LeagueRepository
     {
         private readonly IDynamicRepository repository;
+
         public LeagueRepository()
         {
             repository = new DynamicRepository();

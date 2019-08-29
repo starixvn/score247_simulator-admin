@@ -13,6 +13,9 @@
     </div>
     <button asp-action="Create" class="btn btn-primary mb-2">New League</button>
 </form>
+<form class="form-inline">
+    <button asp-action="SyncLeague" class="btn btn-primary mb-2">Sync League</button>
+</form>
 <table class="table">
     <thead>
         <tr>
@@ -31,7 +34,7 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @foreach (var item in Model) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Order)

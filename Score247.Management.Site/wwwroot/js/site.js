@@ -4,7 +4,13 @@
 // Write your JavaScript code.
 $(document).ready(function () {
     $('#example').DataTable();
-    $('#mathes-table').DataTable();
+    $('#mathes-table').DataTable({
+        aLengthMenu: [
+            [25, 50, 100, 200, -1],
+            [25, 50, 100, 200, "All"]
+        ],
+        iDisplayLength: -1
+    });
 });
 
 function scoreEventTypeChange(selectObject) {
@@ -39,4 +45,4 @@ function OpenModalPopUp(reservationDay) {
     var tmpData = JSON.parse(reservationDay);
     $(".reservationDay").text(JSON.stringify(tmpData, null, '\t'));
     $('#logRequest').modal();
-};
+}

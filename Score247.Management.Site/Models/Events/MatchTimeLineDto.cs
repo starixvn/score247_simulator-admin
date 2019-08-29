@@ -31,6 +31,7 @@
 
         [DataType(DataType.Time)]
         public TimeSpan hour { get; set; }
+
         public IEnumerable<CommentaryDto> commentaries { get; set; }
         public int period { get; set; }
         public string period_type { get; set; }

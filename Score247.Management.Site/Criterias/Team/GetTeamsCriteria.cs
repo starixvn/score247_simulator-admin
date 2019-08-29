@@ -1,5 +1,4 @@
-﻿using System;
-using Fanex.Data.Repository;
+﻿using Fanex.Data.Repository;
 
 namespace Score247.Management.Site.Criterias.Team
 {

@@ -10,6 +10,7 @@
         public DateTime ToDate { get; set; }
         public string Language { get; set; }
         public string LeagueId { get; set; }
+
         public override string GetSettingKey()
          => "Match_GetByDateRangeAndLeague";
 

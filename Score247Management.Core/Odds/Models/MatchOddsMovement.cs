@@ -4,11 +4,13 @@
 
     public class MatchOddsMovement
     {
-        public MatchOddsMovement() { }
+        public MatchOddsMovement()
+        {
+        }
 
         public MatchOddsMovement(
-            string matchId, 
-            Bookmaker bookmaker, 
+            string matchId,
+            Bookmaker bookmaker,
             IEnumerable<OddsMovement> oddsMovements)
         {
             MatchId = matchId;
