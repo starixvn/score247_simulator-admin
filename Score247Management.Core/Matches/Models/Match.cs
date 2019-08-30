@@ -11,7 +11,7 @@
     {
         public DateTime EventDate { get; set; }
 
-        public string DisplayDate => EventDate.ToUniversalTime().ToString();
+        public string DisplayDate => EventDate.ToUniversalTime().ToString("dd/MM/yyyy HH:mm:ss");
 
         public IEnumerable<Team> Teams { get; set; }
 
@@ -36,12 +36,14 @@
 
         public string Region { get; set; }
 
-        public string DisplayResult { get =>
-                MatchResult.EventStatus.IsClosed() ?
-                MatchResult.HomeScore.ToString() + " - " + MatchResult.AwayScore.ToString() :
-                LatestTimeline != null ?
-                LatestTimeline.HomeScore.ToString() + " - " + LatestTimeline.AwayScore.ToString() :
-                "";
+        public string DisplayResult
+        {
+            get =>
+MatchResult.EventStatus.IsClosed() ?
+MatchResult.HomeScore.ToString() + " - " + MatchResult.AwayScore.ToString() :
+LatestTimeline != null ?
+LatestTimeline.HomeScore.ToString() + " - " + LatestTimeline.AwayScore.ToString() :
+"";
         }
     }
 }

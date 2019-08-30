@@ -23,7 +23,6 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm ">
-            <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="League" asp-action="Index">
                     <img src="~/styles/images/logo.svg" alt="Score247" />
                 </a>
@@ -31,8 +30,8 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
+                <div class="navbar-collapse collapse">
+                    <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
                             <a class="nav-link active" asp-area="" asp-controller="Match" asp-action="Index">Matches</a>
                         </li>
@@ -46,8 +45,41 @@
                             <a class="nav-link" asp-area="" asp-controller="Odds" asp-action="Index">Odds</a>
                         </li>
                     </ul>
+                    <form class="form-inline my-2 my-lg-0">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="inputTimezone">Timezone</label>
+                            </div>
+                            <select class="custom-select" id="inputTimezone" onchange="timezoneChange(this)">
+                                <option value="-12">-12:00</option>
+                                <option value="-11">-11:00</option>
+                                <option value="-10">-10:00</option>
+                                <option value="-9">-09:00</option>
+                                <option value="-8">-08:00</option>
+                                <option value="-7">-07:00</option>
+                                <option value="-6">-06:00</option>
+                                <option value="-5">-05:00</option>
+                                <option value="-4">-04:00</option>
+                                <option value="-3">-03:00</option>
+                                <option value="-2">-02:00</option>
+                                <option value="-1">-01:00</option>
+                                <option value="0">+00:00</option>
+                                <option value="1">+01:00</option>
+                                <option value="2">+02:00</option>
+                                <option value="3">+03:00</option>
+                                <option value="4">+04:00</option>
+                                <option value="5">+05:00</option>
+                                <option value="6">+06:00</option>
+                                <option value="7">+07:00</option>
+                                <option value="8">+08:00</option>
+                                <option value="9">+09:00</option>
+                                <option value="10">+10:00</option>
+                                <option value="11">+11:00</option>
+                                <option value="12">+12:00</option>
+                            </select>
+                        </div>
+                    </form>
                 </div>
-            </div>
         </nav>
     </header>
     <main role="main" class="pb-3 contents">

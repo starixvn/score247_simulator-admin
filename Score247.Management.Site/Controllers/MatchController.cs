@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Hanssens.Net;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -25,10 +26,12 @@ namespace Score247.Management.Site.Controllers
     public class MatchController : Controller
     {
         private IConfiguration Configuration { get; set; }
+        private LocalStorage LocalStorage { get; set; }
 
         public MatchController(IConfiguration configuration)
         {
             Configuration = configuration;
+            var storage = new LocalStorage();
         }
 
         // GET: Match

@@ -3,6 +3,7 @@
 
 // Write your JavaScript code.
 $(document).ready(function () {
+    $('#inputTimezone').val(localStorage.getItem("currentTimezone"));
     $('#example').DataTable();
     var t = $('#mathes-table').DataTable({
         "columnDefs": [{
@@ -28,6 +29,10 @@ $(document).ready(function () {
         });
     }).draw();
 });
+
+function timezoneChange(selectTimezone) {
+    localStorage.setItem("currentTimezone", selectTimezone.value);
+}
 
 function scoreEventTypeChange(selectObject) {
     console.log(selectObject.value);

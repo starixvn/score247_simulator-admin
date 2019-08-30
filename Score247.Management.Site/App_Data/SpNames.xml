@@ -26,8 +26,6 @@
     <Setting Key="Match_GetByDateRangeAndLeague" SpName="Match_GetByDateRangeAndLeague" DbName="DevConnection" />
     <Setting Key="Match_DeleteMatchByDate" SpName="Match_DeleteMatchByDate" DbName="DevConnection" />
     <Setting Key="LiveMatch_GetBySportId" SpName="LiveMatch_GetBySportId" DbName="DevConnection" />
-    <Setting Key="Match_CloneDistinct" SpName="Match_CloneDistinct" DbName="DevConnection" />
-    <Setting Key="LiveMatch_GetCloneMatches" SpName="LiveMatch_GetCloneMatches" DbName="DevConnection" />
   </Function>
   <Function Name="Odds">
     <Setting Key="Odds_GetOdds" SpName="Odds_GetOdds" DbName="DefaultConnection" />
