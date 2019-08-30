@@ -67,6 +67,16 @@ $(document).ready(function () {
             cell.innerHTML = i + 1;
         });
     }).draw();
+
+    $('input[name="EventDate"]').daterangepicker({
+        locale: { format: 'DD/MM/YYYY' },
+        singleDatePicker: true,
+        showDropdowns: true,
+        minYear: 1901,
+        maxYear: parseInt(moment().format('YYYY'), 10)
+    }, function (start, end, label) {
+        var years = moment().diff(start, 'years');
+    });
 });
 
 function timezoneChange(selectTimezone) {
