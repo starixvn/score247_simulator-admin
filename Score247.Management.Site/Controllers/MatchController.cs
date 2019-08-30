@@ -4,10 +4,10 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Hanssens.Net;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
 using Score247.Management.Site.Criterias.Match;
 using Score247.Management.Site.Helpers;
@@ -26,12 +26,10 @@ namespace Score247.Management.Site.Controllers
     public class MatchController : Controller
     {
         private IConfiguration Configuration { get; set; }
-        private LocalStorage LocalStorage { get; set; }
 
         public MatchController(IConfiguration configuration)
         {
             Configuration = configuration;
-            var storage = new LocalStorage();
         }
 
         // GET: Match
@@ -226,16 +224,21 @@ namespace Score247.Management.Site.Controllers
                 var criteria = new MatchCloneCriteria();
                 var eventDate = DateTime.Parse(collection["CloneMatchModel.EventDate"]);
                 criteria.EventDate = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, 0, 0, 0, DateTimeKind.Utc);
-                //criteria.EventDate = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, 0, 0, 0, DateTimeKind.Utc);
                 criteria.LimitMatch = int.Parse(collection["CloneMatchModel.Count"]);
                 var matchRepository = new MatchRepository(Configuration);
                 await matchRepository.CreateMatches(criteria);
+
+                var datas = new Dictionary<string, StringValues>();
+                datas.Add("FromDate", eventDate.ToShortDateString());
+                datas.Add("SelectedLeagueId", "all");
+                FormCollection requestCollection = new FormCollection(datas);
+
+                return await _DateRangeSearch(requestCollection);
             }
             catch (Exception ex)
             {
                 return RedirectToAction(nameof(Index));
             }
-            return RedirectToAction(nameof(Index));
         }
 
         [HttpPost]
@@ -249,13 +252,19 @@ namespace Score247.Management.Site.Controllers
                 criteria.EventDate = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, 0, 0, 0, DateTimeKind.Utc);
                 criteria.LimitMatch = int.Parse(collection["CloneMatchModel.Count"]);
                 var matchRepository = new MatchRepository();
-                await matchRepository.CloneLiveMatches(criteria, Configuration.GetValue<string>("Simulator:Url"), Configuration.GetValue<string>("Simulator:PushEvent"));
+                //await matchRepository.CloneLiveMatches(criteria, Configuration.GetValue<string>("Simulator:Url"), Configuration.GetValue<string>("Simulator:PushEvent"));
+
+                var datas = new Dictionary<string, StringValues>();
+                datas.Add("FromDate", eventDate.ToShortDateString());
+                datas.Add("SelectedLeagueId", "all");
+                FormCollection requestCollection = new FormCollection(datas);
+
+                return await _DateRangeSearch(requestCollection);
             }
             catch (Exception ex)
             {
                 return RedirectToAction(nameof(Index));
             }
-            return RedirectToAction(nameof(Index));
         }
 
         // POST: Match/Edit/5

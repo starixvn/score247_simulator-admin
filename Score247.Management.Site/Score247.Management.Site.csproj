@@ -107,7 +107,6 @@
     <PackageReference Include="Fanex.Data.MySql" Version="4.0.1" />
     <PackageReference Include="Fanex.Data.Repository" Version="4.0.1" />
     <PackageReference Include="Fanex.Logging.Sentry.RavenClient" Version="1.0.1" />
-    <PackageReference Include="LocalStorage" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
@@ -119,6 +118,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="appsettings.local-dev.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="appsettings.Development.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
