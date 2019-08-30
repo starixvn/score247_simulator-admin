@@ -16,17 +16,15 @@
 <form class="form-inline">
     <button asp-action="SyncLeague" class="btn btn-primary mb-2">Sync League</button>
 </form>
-<table class="table">
+<table id="leagues-table" class="table table-striped table-bordered" style="width:100%">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Order)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Flag)
-            </th>
+            <th></th>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Order)
             </th>
             <th>
                 LeagueCategory
@@ -36,14 +34,12 @@
     <tbody>
         @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Order)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Flag)
-            </td>
+            <td></td>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Order)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.LeagueCategory.Name)

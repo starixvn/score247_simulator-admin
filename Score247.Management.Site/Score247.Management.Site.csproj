@@ -128,10 +128,10 @@
     <Content Update="appsettings.local-acceptance-test.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="appsettings.local-dev-machine.json">
+    <Content Update="appsettings.local-dev1.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="appsettings.local-dev.json">
+    <Content Update="appsettings.local-dev2.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="appsettings.local-main.json">

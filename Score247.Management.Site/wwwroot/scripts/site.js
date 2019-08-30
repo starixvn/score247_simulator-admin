@@ -5,14 +5,56 @@
 $(document).ready(function () {
     $('#inputTimezone').val(localStorage.getItem("currentTimezone"));
     $('#example').DataTable();
-    var t = $('#mathes-table').DataTable({
+    var m = $('#mathes-table').DataTable({
         "columnDefs": [{
             "searchable": false,
             "orderable": false,
             "targets": 0
         }],
         "order": [[1, 'asc']],
-        "dom": '<"top"if>rt<"bottom"lp><"clear">',
+        "dom": '<"top"if>rt<"bottom"><"clear">',
+        aLengthMenu: [
+            [25, 50, 100, 200, -1],
+            [25, 50, 100, 200, "All"]
+        ],
+        iDisplayLength: -1
+    });
+
+    m.on('order.dt search.dt', function () {
+        m.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+            cell.innerHTML = i + 1;
+        });
+    }).draw();
+
+    var lt = $('#leagues-table').DataTable({
+        "columnDefs": [{
+            "searchable": false,
+            "orderable": false,
+            "targets": 0
+        }],
+        "order": [[1, 'asc']],
+        "dom": '<"top"if>rt<"bottom"><"clear">',
+        aLengthMenu: [
+            [25, 50, 100, 200, -1],
+            [25, 50, 100, 200, "All"]
+        ],
+        iDisplayLength: -1
+    });
+
+    lt.on('order.dt search.dt', function () {
+        lt.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+            cell.innerHTML = i + 1;
+        });
+    }).draw();
+
+    var t = $('#teams-table').DataTable({
+        "columnDefs": [{
+            "searchable": false,
+            "orderable": false,
+            "targets": 0
+        }],
+        "order": [[1, 'asc']],
+        "dom": '<"top"if>rt<"bottom"><"clear">',
         aLengthMenu: [
             [25, 50, 100, 200, -1],
             [25, 50, 100, 200, "All"]
