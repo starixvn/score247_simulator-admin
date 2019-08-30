@@ -102,11 +102,11 @@
     <None Include="wwwroot\styles\site.scss" />
   </ItemGroup>
 
-
   <ItemGroup>
     <PackageReference Include="Fanex.Data" Version="4.0.1" />
     <PackageReference Include="Fanex.Data.MySql" Version="4.0.1" />
     <PackageReference Include="Fanex.Data.Repository" Version="4.0.1" />
+    <PackageReference Include="Fanex.Logging.Sentry.RavenClient" Version="1.0.1" />
     <PackageReference Include="LocalStorage" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
@@ -114,11 +114,9 @@
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
   </ItemGroup>
 
-
   <ItemGroup>
     <ProjectReference Include="..\Score247Management.Core\Score247Management.Core.csproj" />
   </ItemGroup>
-
 
   <ItemGroup>
     <Content Update="appsettings.Development.json">
@@ -144,9 +142,7 @@
     </Content>
   </ItemGroup>
 
-
   <ItemGroup>
     <Folder Include="wwwroot\bundles\" />
   </ItemGroup>
-
 </Project>

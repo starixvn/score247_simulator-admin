@@ -4,12 +4,15 @@ using System.Linq;
 using Fanex.Data;
 using Fanex.Data.MySql;
 using Fanex.Data.Repository;
+using Fanex.Logging;
+using Fanex.Logging.Sentry.RavenClient;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SharpRaven;
 
 namespace Score247.Management.Site
 {
@@ -51,6 +54,19 @@ namespace Score247.Management.Site
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            LogManager
+             .SetDefaultLogCategory(Configuration.GetValue<string>("Sentry:DefaultCategory"))
+             .Use(new List<ILogEngine>
+             {
+                 new SentryLogging(new SentryEngineOptions
+                 {
+                     Dsn = new Dsn(Configuration.GetValue<string>("Sentry:Url")),
+                     Release = "{Your-release-key}", // In case you want to keep track new issue for your releases
+                     // You need to set FrontEndDsn in case your front-end side accesses to different Sentry endpoint with back-end side, if you dont config, Dns config above will be used for FrontEndDsn
+                     FrontEndDsn = new Dsn(Configuration.GetValue<string>("Sentry:Url"))
+                 })
+             });
 
             Dictionary<string, ConnectionConfiguration> connections = Configuration
                  .GetSection("ConnectionStrings")
