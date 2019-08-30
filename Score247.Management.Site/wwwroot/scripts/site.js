@@ -12,10 +12,7 @@ $(document).ready(function () {
             "targets": 0
         }],
         "order": [[1, 'asc']],
-        select: {
-            style: 'os',
-            selector: 'td:first-child'
-        },
+        "dom": '<"top"if>rt<"bottom"lp><"clear">',
         aLengthMenu: [
             [25, 50, 100, 200, -1],
             [25, 50, 100, 200, "All"]
