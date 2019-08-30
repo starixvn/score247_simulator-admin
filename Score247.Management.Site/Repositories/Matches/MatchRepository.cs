@@ -74,11 +74,13 @@ namespace Score247.Management.Site.Repositories.Matches
 
         public async Task<int> InsertTimelineLog(MatchPushEventDto eventDto)
         {
-            var criteria = new InsertTimelineLogCriteria();
-            criteria.Id = UniqueGenerator.GetIntId().ToString();
-            criteria.MatchId = eventDto.metadata.sport_event_id;
-            criteria.TimelineId = eventDto.payload.timeline.id;
-            criteria.RequestBody = JsonConvert.SerializeObject(eventDto);
+            var criteria = new InsertTimelineLogCriteria
+            {
+                Id = UniqueGenerator.GetIntId().ToString(),
+                MatchId = eventDto.metadata.sport_event_id,
+                TimelineId = eventDto.payload.timeline.id,
+                RequestBody = JsonConvert.SerializeObject(eventDto)
+            };
             return await repository.ExecuteAsync(criteria);
         }
 
@@ -116,10 +118,24 @@ namespace Score247.Management.Site.Repositories.Matches
 
         public async Task<int> CreateMatches(MatchCloneCriteria criteria)
         {
+            await SendCleanExistData();
             var matches = await GenerateMatches(criteria);
             Func<Task> triggerTask = StartInsertMatchesJobs;
 
             return await SendCreateMatchesRequest(criteria, matches, triggerTask);
+        }
+
+        private async Task SendCleanExistData()
+        {
+            using (var triggerClient = new HttpClient
+            {
+                BaseAddress = new Uri(Configuration.GetValue<string>("Simulator:Url"))
+            })
+            {
+                var request = new HttpRequestMessage(HttpMethod.Post, Configuration.GetValue<string>("Simulator:CleanMatch"));
+
+                await triggerClient.SendAsync(request);
+            }
         }
 
         private async Task<int> SendCreateMatchesRequest(MatchCloneCriteria criteria, List<MatchEntity> matches, Func<Task> triggerTask)
