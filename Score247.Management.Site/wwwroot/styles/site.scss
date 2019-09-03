@@ -129,7 +129,11 @@ header {
 
 
 .list-quick-action {
+    display: flex;
     margin-bottom: 10px;
+    [class^="btn"]:not(:last-child) {
+        margin-right: 16px;
+    }
 }
 
 .filter, .create-form {

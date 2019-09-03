@@ -1,20 +1,14 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
-<div class="row">
-    <form asp-action="AutoEventNormalMatch" class="mx-1" asp-route-id="@ViewBag.MatchId">
-        <div class="form-group">
-            <input type="submit" value="Auto Events Normal Match" class="btn-default" />
-        </div>
+<div class="list-quick-action">
+    <form asp-action="AutoEventNormalMatch" asp-route-id="@ViewBag.MatchId">
+        <input type="submit" value="Auto Events Normal Match" class="btn-default" />
     </form>
-    <form asp-action="AutoEventOvertimeMatch" class="mx-1" asp-route-id="@ViewBag.MatchId">
-        <div class="form-group">
-            <input type="submit" value="Auto Events Overtime Match" class="btn-default" />
-        </div>
+    <form asp-action="AutoEventOvertimeMatch" asp-route-id="@ViewBag.MatchId">
+        <input type="submit" value="Auto Events Overtime Match" class="btn-default" />
     </form>
-    <form asp-action="AutoEventPenaltyMatch" class="mx-1" asp-route-id="@ViewBag.MatchId">
-        <div class="form-group">
-            <input type="submit" value="Auto Events Penalty Match" class="btn-default" />
-        </div>
+    <form asp-action="AutoEventPenaltyMatch" asp-route-id="@ViewBag.MatchId">
+        <input type="submit" value="Auto Events Penalty Match" class="btn-default" />
     </form>
 </div>

@@ -89,7 +89,10 @@ header {
     color: #fff !important; }
 
 .list-quick-action {
+  display: flex;
   margin-bottom: 10px; }
+  .list-quick-action [class^="btn"]:not(:last-child) {
+    margin-right: 16px; }
 
 .filter, .create-form {
   padding-top: 10px;

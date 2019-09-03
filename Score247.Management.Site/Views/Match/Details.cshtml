@@ -16,44 +16,49 @@
 <h1 class="page-title">Details</h1>
 <div>
     <partial name="_AutoPushEventPartial" view-data="eventViewData" />
-    <div class="match-area">
-        <div class="match-info">
-            <label class="match-info-name">@Html.DisplayNameFor(model => model.Match.Id):</label>
-            <label class="match-value">@Html.DisplayFor(model => model.Match.Id)</label>
-        </div>
-        <div class="match-info">
-            <label class="match-info-name">Teams:</label>
-            <label class="match-value">@Html.DisplayFor(model => model.Match.Teams.FirstOrDefault().Name) vs @Html.DisplayFor(model => model.Match.Teams.LastOrDefault().Name)</label>
-        </div>
-        <div class="match-info">
-            <label class="match-info-name">Kick Off Time(UTC):</label>
-            <label class="match-value">@Html.DisplayFor(model => model.Match.DisplayDate)</label>
-        </div>
-        @if (Model.Match.MatchResult.MatchStatus.DisplayName == MatchStatus.Penalties.DisplayName
-|| Model.Match.MatchResult.MatchStatus.DisplayName == MatchStatus.EndedAfterPenalties.DisplayName)
-        {
-            <div class="match-info">
-                <label class="match-info-name">Penalty Score:</label>
-                <label class="match-value">
-                    @Html.DisplayFor(model => model.Match.LatestTimeline.ShootoutHomeScore) - @Html.DisplayFor(model => model.Match.LatestTimeline.ShootoutAwayScore)
-                </label>
-            </div>
-        }
-        <div class="match-info">
-            <label class="match-info-name">Current Score:</label>
-            <label class="match-value">
-                <span class="score">
-                    @Html.DisplayFor(model => model.Match.LatestTimeline.HomeScore) - @Html.DisplayFor(model => model.Match.LatestTimeline.AwayScore)
-                </span>
-            </label>
-        </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="match-area">
+                <div class="match-info">
+                    <label class="match-info-name">@Html.DisplayNameFor(model => model.Match.Id):</label>
+                    <label class="match-value">@Html.DisplayFor(model => model.Match.Id)</label>
+                </div>
+                <div class="match-info">
+                    <label class="match-info-name">Teams:</label>
+                    <label class="match-value">@Html.DisplayFor(model => model.Match.Teams.FirstOrDefault().Name) vs @Html.DisplayFor(model => model.Match.Teams.LastOrDefault().Name)</label>
+                </div>
+                <div class="match-info">
+                    <label class="match-info-name">Kick Off Time(UTC):</label>
+                    <label class="match-value">@Html.DisplayFor(model => model.Match.DisplayDate)</label>
+                </div>
+                @if (Model.Match.MatchResult.MatchStatus.DisplayName == MatchStatus.Penalties.DisplayName
+       || Model.Match.MatchResult.MatchStatus.DisplayName == MatchStatus.EndedAfterPenalties.DisplayName)
+                {
+                    <div class="match-info">
+                        <label class="match-info-name">Penalty Score:</label>
+                        <label class="match-value">
+                            @Html.DisplayFor(model => model.Match.LatestTimeline.ShootoutHomeScore) - @Html.DisplayFor(model => model.Match.LatestTimeline.ShootoutAwayScore)
+                        </label>
+                    </div>
+                }
+                <div class="match-info">
+                    <label class="match-info-name">Current Score:</label>
+                    <label class="match-value">
+                        <span class="score">
+                            @Html.DisplayFor(model => model.Match.LatestTimeline.HomeScore) - @Html.DisplayFor(model => model.Match.LatestTimeline.AwayScore)
+                        </span>
+                    </label>
+                </div>
 
-        <div class="match-info">
-            <label class="match-info-name">Match Status:</label>
-            <label class="match-value">@Html.DisplayFor(model => model.Match.MatchResult.MatchStatus.DisplayName) - @Html.DisplayFor(model => model.Match.MatchResult.MatchTime)'</label>
+                <div class="match-info">
+                    <label class="match-info-name">Match Status:</label>
+                    <label class="match-value">@Html.DisplayFor(model => model.Match.MatchResult.MatchStatus.DisplayName) - @Html.DisplayFor(model => model.Match.MatchResult.MatchTime)'</label>
+                </div>
+
+            </div>
         </div>
-        
     </div>
+    
     <div class="row">
         <div id="accordion" class="col-sm-4">
             <partial name="_CreateTimeEventPartial" model="Model.MatchTimeEventDto" view-data="eventViewData" />
