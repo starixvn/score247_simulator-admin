@@ -14,13 +14,13 @@
     <form asp-action="_DateRangeSearch">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="row col-md-12">
-            <div class="form-group col-sm-1 mb-2">
+            <div class="form-group">
                 <label class="control-label">Sport:</label>
                 <select class="form-control col-sm-12" id="exampleFormControlSelect1">
                     <option>Soccer</option>
                 </select>
             </div>
-            <div class="form-group col-sm-2 mb-2">
+            <div class="form-group">
                 <label asp-for="SelectedLeagueId" class="control-label">League:</label>
                 <select class="form-control col-sm-12" id="exampleFormControlSelect1" asp-for="SelectedLeagueId" asp-items="leagueOptions"></select>
             </div>

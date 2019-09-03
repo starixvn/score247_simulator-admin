@@ -1,36 +1,40 @@
 ﻿body {
   color: #333;
   font-size: 13px;
-  font-family: Arial, Helvetica, sans-serif; }
+  font-family: Arial, Helvetica, sans-serif;
+  padding-top: 56px; }
 
 a {
   font-size: 13px; }
 
-header .navbar {
-  background: #06070A !important;
-  padding-top: 0;
-  padding-bottom: 0; }
-
-header .navbar-nav .nav-link {
-  color: #A8ABAF;
-  text-transform: uppercase; }
-  header .navbar-nav .nav-link.active {
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 56px; }
+  header .navbar {
+    background: #06070A !important;
+    padding-top: 0;
+    padding-bottom: 0; }
+  header .navbar-nav .nav-link {
+    color: #A8ABAF;
+    text-transform: uppercase; }
+    header .navbar-nav .nav-link.active {
+      color: #fff; }
+  header .input-group-text {
+    border: none;
+    line-height: 30px;
+    padding-top: 0;
+    padding-bottom: 0;
+    background-color: transparent;
     color: #fff; }
-
-header .input-group-text {
-  border: none;
-  line-height: 30px;
-  padding-top: 0;
-  padding-bottom: 0;
-  background-color: transparent;
-  color: #fff; }
-
-header .custom-select {
-  height: 30px;
-  line-height: 30px;
-  padding-top: 0;
-  padding-bottom: 0;
-  border-radius: 2px; }
+  header .custom-select {
+    height: 30px;
+    line-height: 30px;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-radius: 2px; }
 
 .page-title {
   font-size: 18px; }
@@ -103,6 +107,9 @@ header .custom-select {
 .create-form .form-row > [class*="col-"] {
   padding-right: 8px;
   padding-left: 8px; }
+
+.create-form [class^="btn"]:not(:last-child) {
+  margin-right: 16px; }
 
 .dataTables_wrapper .top {
   display: flex;
