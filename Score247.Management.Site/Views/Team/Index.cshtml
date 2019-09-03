@@ -4,14 +4,20 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Teams</h1>
-<form class="form-inline">
+<h1 class="page-title">Teams</h1>
+<div class="list-quick-action">
+    <button asp-action="Create" class="btn-default">New Team</button>
+</div>
+
+
+<form class="row filter">
     <div class="form-group col-sm-3 mb-2">
+        <label class="control-label">Sport:</label>
         <select class="form-control col-sm-12" id="exampleFormControlSelect1">
             <option>Soccer</option>
         </select>
     </div>
-    <button asp-action="Create" class="btn btn-primary mb-2">New Team</button>
+
 </form>
 <table id="teams-table" class="table table-striped table-bordered" style="width:100%">
     <thead>

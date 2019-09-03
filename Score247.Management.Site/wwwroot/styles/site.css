@@ -29,7 +29,8 @@ header .custom-select {
   height: 30px;
   line-height: 30px;
   padding-top: 0;
-  padding-bottom: 0; }
+  padding-bottom: 0;
+  border-radius: 2px; }
 
 .page-title {
   font-size: 18px; }
