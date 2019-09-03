@@ -171,10 +171,10 @@ namespace Score247.Management.Site.Repositories.Matches
             return matches.Select(x => x.DeserialValue(offset));
         }
 
-        public async Task<int> CreateMatches(MatchCloneCriteria criteria)
+        public async Task<int> CreateMatches(MatchCloneCriteria criteria, TimeSpan offset)
         {
             await SendCleanExistData();
-            var matches = await GenerateMatches(criteria);
+            var matches = await GenerateMatches(criteria, offset);
             Func<Task> triggerTask = StartInsertMatchesJobs;
 
             return await SendCreateMatchesRequest(criteria, matches, triggerTask);
@@ -306,7 +306,7 @@ namespace Score247.Management.Site.Repositories.Matches
             await triggerClient.SendAsync(request);
         }
 
-        private static async Task<List<MatchEntity>> GenerateMatches(MatchCloneCriteria criteria)
+        private static async Task<List<MatchEntity>> GenerateMatches(MatchCloneCriteria criteria, TimeSpan offset)
         {
             var ran = new Random();
             var leaguesRepository = new LeagueRepository();
@@ -339,7 +339,7 @@ namespace Score247.Management.Site.Repositories.Matches
 
                 for (int j = 0; j < matchPerLeague; j++)
                 {
-                    var eventDate = GetEventDate(criteria.EventDate);
+                    var eventDate = GetEventDate(criteria.EventDate, offset);
 
                     var indexHome = ran.Next(0, splitTeamPosition);
                     var homeTeam = teams[indexHome];
@@ -360,13 +360,13 @@ namespace Score247.Management.Site.Repositories.Matches
             return matches.Take(criteria.LimitMatch).ToList();
         }
 
-        private static DateTime GetEventDate(DateTime dateTime)
+        private static DateTime GetEventDate(DateTime dateTime, TimeSpan offset)
         {
             var ran = new Random();
             var hour = ran.Next(0, 23);
             var minute = ran.Next(0, 12) * 5;
 
-            return new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, hour, minute, 0, DateTimeKind.Utc);
+            return new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, hour, minute, 0, DateTimeKind.Utc).Add(offset);
         }
 
         public async Task CloneLiveMatches(GetCloneLiveMatchesCriteria criteria, string baseUrl, string eventPath)

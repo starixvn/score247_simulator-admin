@@ -42,8 +42,8 @@ namespace Score247.Management.Site.Controllers
             TimeSpan.TryParse(HttpContext.Session.GetString("Timezone"), out offset);
             var viewModal = new MatchViewModel();
             var timeNow = DateTime.Now;
-            var fromDate = new DateTime(timeNow.Year, timeNow.Month, timeNow.Day, 0, 0, 0, DateTimeKind.Utc).Add(offset);
-            var toDate = new DateTime(timeNow.Year, timeNow.Month, timeNow.Day, 23, 59, 59, DateTimeKind.Utc).Add(offset);
+            var fromDate = new DateTime(timeNow.Year, timeNow.Month, timeNow.Day, 0, 0, 0, DateTimeKind.Utc).Subtract(offset);
+            var toDate = new DateTime(timeNow.Year, timeNow.Month, timeNow.Day, 23, 59, 59, DateTimeKind.Utc).Subtract(offset);
             viewModal.DateSearchModel = new DateSearchModel()
             {
                 FromDate = fromDate,
@@ -63,8 +63,8 @@ namespace Score247.Management.Site.Controllers
             var eventDate = DateTime.Parse(collection["FromDate"]);
             TimeSpan offset;
             TimeSpan.TryParse(HttpContext.Session.GetString("Timezone"), out offset);
-            var fromDate = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, 0, 0, 0, DateTimeKind.Utc).Add(offset);
-            var toDate = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, 23, 59, 59, DateTimeKind.Utc).Add(offset);
+            var fromDate = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, 0, 0, 0, DateTimeKind.Utc).Subtract(offset);
+            var toDate = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, 23, 59, 59, DateTimeKind.Utc).Subtract(offset);
             var selectedLeagueId = collection["SelectedLeagueId"];
             var repository = new MatchRepository();
             var leagueRepository = new LeagueRepository();
@@ -238,11 +238,13 @@ namespace Score247.Management.Site.Controllers
             try
             {
                 var criteria = new MatchCloneCriteria();
+                TimeSpan offset;
+                TimeSpan.TryParse(HttpContext.Session.GetString("Timezone"), out offset);
                 var eventDate = DateTime.Parse(collection["CloneMatchModel.EventDate"]);
                 criteria.EventDate = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, 0, 0, 0, DateTimeKind.Utc);
                 criteria.LimitMatch = int.Parse(collection["CloneMatchModel.Count"]);
                 var matchRepository = new MatchRepository(Configuration);
-                await matchRepository.CreateMatches(criteria);
+                await matchRepository.CreateMatches(criteria, offset);
 
                 var datas = new Dictionary<string, StringValues>();
                 datas.Add("FromDate", eventDate.ToShortDateString());
