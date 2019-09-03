@@ -3,7 +3,13 @@
 
 // Write your JavaScript code.
 $(document).ready(function () {
-    $('#inputTimezone').val(localStorage.getItem("currentTimezone"));
+    var timezone = sessionStorage.getItem("Timezone");
+    if (timezone === null) {
+        $('#inputTimezone').val("00:00:00");
+    } else {
+        $('#inputTimezone').val(timezone);
+    }
+    $('#inputTimezone').val();
     $('#example').DataTable();
     var m = $('#mathes-table').DataTable({
         "columnDefs": [{
@@ -77,10 +83,14 @@ $(document).ready(function () {
     }, function (start, end, label) {
         var years = moment().diff(start, 'years');
     });
+
+    $('.timezone-hidden').val(sessionStorage.getItem("Timezone"));
 });
 
 function timezoneChange(selectTimezone) {
-    localStorage.setItem("currentTimezone", selectTimezone.value);
+    sessionStorage.setItem("Timezone", selectTimezone.value);
+    $('.timezone-hidden').val(sessionStorage.getItem("Timezone"));
+    $('#timezoneSelection').submit();
 }
 
 function scoreEventTypeChange(selectObject) {

@@ -11,5 +11,6 @@ namespace Score247.Management.Site.ViewModels.Match
 
         public CloneMatchModel CloneMatchModel { get; set; }
         public DeleteMatchByDateCriteria DeleteMatchByDateCriteria { get; set; }
+        public string TimeOffsetString { get; set; }
     }
 }

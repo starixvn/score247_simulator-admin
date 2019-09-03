@@ -17,15 +17,15 @@
                                                Value = i.Id
                                            });
     IEnumerable<SelectListItem> status = MatchStatus.GetAll<MatchStatus>().Select(i => new SelectListItem()
-                                           {
-                                               Text = i.DisplayName,
-                                               Value = i.DisplayName
-                                           });
+    {
+        Text = i.DisplayName,
+        Value = i.DisplayName
+    });
     IEnumerable<SelectListItem> leagueRoundTypes = LeagueRoundType.GetAll<LeagueRoundType>().Select(i => new SelectListItem()
-                                           {
-                                               Text = i.DisplayName,
-                                               Value = i.DisplayName
-                                           });
+    {
+        Text = i.DisplayName,
+        Value = i.DisplayName
+    });
 }
 <h1 class="page-title">New Match</h1>
 <div class="row create-form">

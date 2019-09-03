@@ -38,10 +38,12 @@ namespace Score247.Management.Site.Controllers
             var repository = new MatchRepository();
             var leagueRepository = new LeagueRepository();
             var leagues = await leagueRepository.GetLeagues();
+            TimeSpan offset;
+            TimeSpan.TryParse(HttpContext.Session.GetString("Timezone"), out offset);
             var viewModal = new MatchViewModel();
             var timeNow = DateTime.Now;
-            var fromDate = new DateTime(timeNow.Year, timeNow.Month, timeNow.Day, 0, 0, 0, DateTimeKind.Utc);
-            var toDate = new DateTime(timeNow.Year, timeNow.Month, timeNow.Day, 23, 59, 59, DateTimeKind.Utc);
+            var fromDate = new DateTime(timeNow.Year, timeNow.Month, timeNow.Day, 0, 0, 0, DateTimeKind.Utc).Add(offset);
+            var toDate = new DateTime(timeNow.Year, timeNow.Month, timeNow.Day, 23, 59, 59, DateTimeKind.Utc).Add(offset);
             viewModal.DateSearchModel = new DateSearchModel()
             {
                 FromDate = fromDate,
@@ -58,23 +60,30 @@ namespace Score247.Management.Site.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> _DateRangeSearch(IFormCollection collection)
         {
-            var fromDate = DateTime.Parse(collection["FromDate"]);
-            fromDate = new DateTime(fromDate.Year, fromDate.Month, fromDate.Day, 0, 0, 0, DateTimeKind.Utc);
-            var toDate = new DateTime(fromDate.Year, fromDate.Month, fromDate.Day, 23, 59, 59, DateTimeKind.Utc);
+            var eventDate = DateTime.Parse(collection["FromDate"]);
+            TimeSpan offset;
+            TimeSpan.TryParse(HttpContext.Session.GetString("Timezone"), out offset);
+            var fromDate = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, 0, 0, 0, DateTimeKind.Utc).Add(offset);
+            var toDate = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, 23, 59, 59, DateTimeKind.Utc).Add(offset);
             var selectedLeagueId = collection["SelectedLeagueId"];
             var repository = new MatchRepository();
             var leagueRepository = new LeagueRepository();
             var leagues = await leagueRepository.GetLeagues();
-            var viewModal = new MatchViewModel();
-            viewModal.DateSearchModel = new DateSearchModel()
+            var viewModal = new MatchViewModel
             {
-                FromDate = fromDate,
-                ToDate = toDate,
-                Leagues = leagues,
-                SelectedLeagueId = selectedLeagueId
+                DateSearchModel = new DateSearchModel()
+                {
+                    FromDate = fromDate,
+                    ToDate = toDate,
+                    Leagues = leagues,
+                    SelectedLeagueId = selectedLeagueId
+                }
             };
-            var matches = await repository.GetMatchByDataRange(viewModal.DateSearchModel);
+
+            var matches = await repository.GetMatchByDataRangeWithOffset(viewModal.DateSearchModel, offset);
+            viewModal.DateSearchModel.FromDate = eventDate;
             viewModal.Matches = matches;
+
             return View("Index", viewModal);
         }
 
@@ -83,28 +92,32 @@ namespace Score247.Management.Site.Controllers
         {
             var ran = new Random();
             var repository = new MatchRepository();
-            var match = await repository.GetMatchById(id);
-            var timelines = await repository.GetMatchTimelines(id);
+
+            HttpContext.Session.GetString("Timezone");
+            TimeSpan offset;
+            TimeSpan.TryParse(HttpContext.Session.GetString("Timezone"), out offset);
+            var match = await repository.GetMatchById(id, offset);
+            var timelines = await repository.GetMatchTimelines(id, offset);
             var viewModel = new EventMatchViewModel();
             viewModel.Match = match;
             viewModel.TimelineEvents = timelines;
-            viewModel.MatchCardEventDto = new MatchPushEventDto(match);
+            viewModel.MatchCardEventDto = new MatchPushEventDto(match, offset);
             viewModel.MatchCardEventDto.payload.timeline.player = new TimelinePlayer
             {
                 name = "Player_" + ran.Next(909090).ToString()
             };
-            viewModel.MatchGoalEventDto = new MatchPushEventDto(match);
+            viewModel.MatchGoalEventDto = new MatchPushEventDto(match, offset);
             viewModel.MatchGoalEventDto.payload.timeline.goal_scorer = new Goal_Scorer
             {
                 name = "Player_" + ran.Next(909090).ToString()
             };
-            viewModel.MatchInjuryExtraEventDto = new MatchPushEventDto(match);
-            viewModel.MatchPenaltyEventDto = new MatchPushEventDto(match);
+            viewModel.MatchInjuryExtraEventDto = new MatchPushEventDto(match, offset);
+            viewModel.MatchPenaltyEventDto = new MatchPushEventDto(match, offset);
             viewModel.MatchPenaltyEventDto.payload.timeline.goal_scorer = new Goal_Scorer
             {
                 name = "Player_" + ran.Next(909090).ToString()
             };
-            viewModel.MatchTimeEventDto = new MatchPushEventDto(match);
+            viewModel.MatchTimeEventDto = new MatchPushEventDto(match, offset);
             return View(viewModel);
         }
 
@@ -131,23 +144,23 @@ namespace Score247.Management.Site.Controllers
         {
             try
             {
-                // TODO: Add insert logic here
                 var leagueRepo = new LeagueRepository();
-                var leagues = await leagueRepo.GetLeagues();
+                string leagueId = collection["Match.Tournament.Id"];
+                var league = await leagueRepo.GetLeagueById(leagueId);
 
                 var teamRepo = new TeamRepository();
                 var teams = await teamRepo.GetTeams();
 
                 var MatchEntity = new MatchEntity();
                 MatchEntity.Id = UniqueGenerator.GetIdWithPattern("sr:match:");
-                MatchEntity.Status = collection["MatchEntity.Status"];
+                MatchEntity.Status = collection["Match.Status"];
                 MatchEntity.Venue = new Score247Management.Core.Matches.Models.Venue
                 {
-                    Id = "sr:venue:" + collection["MatchEntity.Venue.Name"],
-                    Name = collection["MatchEntity.Venue.Name"],
-                    CountryName = collection["MatchEntity.Venue.CountryName"]
+                    Id = "sr:venue:" + collection["Match.Venue.Name"],
+                    Name = collection["Match.Venue.Name"],
+                    CountryName = collection["Match.Venue.CountryName"]
                 };
-                MatchEntity.Tournament = leagues.FirstOrDefault(x => x.Id == collection["MatchEntity.Tournament.Id"]);
+                MatchEntity.Tournament = league;
                 var competitors = new List<Score247Management.Core.Teams.Models.Team>();
                 var homeTeam = teams.FirstOrDefault(x => x.Id == collection["HomeTeam.Id"]);
                 homeTeam.Statistic = new Score247Management.Core.Teams.Models.TeamStatistics();
@@ -158,15 +171,19 @@ namespace Score247.Management.Site.Controllers
                 competitors.Add(homeTeam);
                 competitors.Add(awayTeam);
                 MatchEntity.Competitors = competitors;
-                var dateTime = Convert.ToDateTime(collection["MatchEntity.Scheduled"]);
-                var timeSpan = TimeSpan.Parse(collection["MatchEntity.ScheduledTime"]);
-                MatchEntity.Scheduled = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds, DateTimeKind.Utc);
+
+                TimeSpan offset;
+                TimeSpan.TryParse(HttpContext.Session.GetString("Timezone"), out offset);
+
+                var dateTime = Convert.ToDateTime(collection["Match.Scheduled"]);
+                var timeSpan = TimeSpan.Parse(collection["Match.ScheduledTime"]);
+                MatchEntity.Scheduled = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds, DateTimeKind.Utc).Subtract(offset);
                 MatchEntity.TournamentRound = new Score247Management.Core.Leagues.Models.LeagueRound();
-                MatchEntity.TournamentRound.Type = LeagueRoundType.FromDisplayName<LeagueRoundType>(collection["MatchEntity.TournamentRound.Type.Value"]);
-                MatchEntity.TournamentRound.Name = collection["MatchEntity.TournamentRound.Name"];
-                MatchEntity.TournamentRound.Number = Int32.Parse(collection["MatchEntity.TournamentRound.Number"]);
-                MatchEntity.TournamentRound.Phase = collection["MatchEntity.TournamentRound.Phase"];
-                MatchEntity.TournamentRound.Group = collection["MatchEntity.TournamentRound.Group"];
+                MatchEntity.TournamentRound.Type = LeagueRoundType.FromDisplayName<LeagueRoundType>(collection["Match.TournamentRound.Type.Value"]);
+                MatchEntity.TournamentRound.Name = collection["Match.TournamentRound.Name"];
+                MatchEntity.TournamentRound.Number = Int32.Parse(collection["Match.TournamentRound.Number"]);
+                MatchEntity.TournamentRound.Phase = collection["Match.TournamentRound.Phase"];
+                MatchEntity.TournamentRound.Group = collection["Match.TournamentRound.Group"];
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new Uri(Configuration.GetValue<string>("Simulator:Url"));
@@ -179,7 +196,6 @@ namespace Score247.Management.Site.Controllers
                     };
                     var jsonValue = JsonConvert.SerializeObject(content);
 
-                    var beginDateToday = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day, 0, 0, 0, DateTimeKind.Utc);
                     var requestPath = Configuration.GetValue<string>("Simulator:DailySchedule");
 
                     var response = await client.PostAsync(string.Format(requestPath + "?date={0}", MatchEntity.Scheduled.ToString("yyyy-MM-dd")), new StringContent(jsonValue, Encoding.UTF8, "application/json"));
@@ -206,7 +222,7 @@ namespace Score247.Management.Site.Controllers
                         matchCreated = await matchRepository.GetMatchById(MatchEntity.Id);
                     }
                 }
-                return RedirectToAction(nameof(Details), new { id = MatchEntity.Id });
+                return RedirectToAction(nameof(Details), new { id = MatchEntity.Id, timeSpan = collection["Timezone"].ToString() });
             }
             catch (Exception ex)
             {
@@ -329,7 +345,9 @@ namespace Score247.Management.Site.Controllers
                 var requestBody = new MatchPushEventDto(match);
                 var eventDate = Convert.ToDateTime(collection["payload.timeline.time"]);
                 var eventTimeSpan = TimeSpan.Parse(collection["payload.timeline.hour"]);
-                var eventTime = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, eventTimeSpan.Hours, eventTimeSpan.Minutes, eventTimeSpan.Seconds, DateTimeKind.Utc);
+                TimeSpan offset;
+                TimeSpan.TryParse(HttpContext.Session.GetString("Timezone"), out offset);
+                var eventTime = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, eventTimeSpan.Hours, eventTimeSpan.Minutes, eventTimeSpan.Seconds, DateTimeKind.Utc).Subtract(offset).ToUniversalTime();
                 requestBody.payload.timeline = new TimelineDto()
                 {
                     id = UniqueGenerator.GetIntId(),
@@ -612,7 +630,9 @@ namespace Score247.Management.Site.Controllers
 
                 var eventDate = Convert.ToDateTime(collection["payload.timeline.time"]);
                 var eventTimeSpan = TimeSpan.Parse(collection["payload.timeline.hour"]);
-                var eventTime = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, eventTimeSpan.Hours, eventTimeSpan.Minutes, eventTimeSpan.Seconds, DateTimeKind.Utc);
+                TimeSpan offset;
+                TimeSpan.TryParse(HttpContext.Session.GetString("Timezone"), out offset);
+                var eventTime = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, eventTimeSpan.Hours, eventTimeSpan.Minutes, eventTimeSpan.Seconds, DateTimeKind.Utc).Subtract(offset).ToUniversalTime();
                 requestBody.payload.timeline = new TimelineDto()
                 {
                     id = UniqueGenerator.GetIntId(),
@@ -750,7 +770,9 @@ namespace Score247.Management.Site.Controllers
                 var requestBody = new MatchPushEventDto(match);
                 var eventDate = Convert.ToDateTime(collection["payload.timeline.time"]);
                 var eventTimeSpan = TimeSpan.Parse(collection["payload.timeline.hour"]);
-                var eventTime = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, eventTimeSpan.Hours, eventTimeSpan.Minutes, eventTimeSpan.Seconds, DateTimeKind.Utc);
+                TimeSpan offset;
+                TimeSpan.TryParse(HttpContext.Session.GetString("Timezone"), out offset);
+                var eventTime = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, eventTimeSpan.Hours, eventTimeSpan.Minutes, eventTimeSpan.Seconds, DateTimeKind.Utc).Subtract(offset).ToUniversalTime();
                 requestBody.payload.timeline = new TimelineDto()
                 {
                     id = UniqueGenerator.GetIntId(),
@@ -819,7 +841,9 @@ namespace Score247.Management.Site.Controllers
                 var requestBody = new MatchPushEventDto(match);
                 var eventDate = Convert.ToDateTime(collection["payload.timeline.time"]);
                 var eventTimeSpan = TimeSpan.Parse(collection["payload.timeline.hour"]);
-                var eventTime = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, eventTimeSpan.Hours, eventTimeSpan.Minutes, eventTimeSpan.Seconds, DateTimeKind.Utc);
+                TimeSpan offset;
+                TimeSpan.TryParse(HttpContext.Session.GetString("Timezone"), out offset);
+                var eventTime = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, eventTimeSpan.Hours, eventTimeSpan.Minutes, eventTimeSpan.Seconds, DateTimeKind.Utc).Subtract(offset).ToUniversalTime();
                 requestBody.payload.timeline = new TimelineDto()
                 {
                     id = UniqueGenerator.GetIntId(),
@@ -879,7 +903,9 @@ namespace Score247.Management.Site.Controllers
 
                 var eventDate = Convert.ToDateTime(collection["payload.timeline.time"]);
                 var eventTimeSpan = TimeSpan.Parse(collection["payload.timeline.hour"]);
-                var eventTime = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, eventTimeSpan.Hours, eventTimeSpan.Minutes, eventTimeSpan.Seconds, DateTimeKind.Utc);
+                TimeSpan offset;
+                TimeSpan.TryParse(HttpContext.Session.GetString("Timezone"), out offset);
+                var eventTime = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, eventTimeSpan.Hours, eventTimeSpan.Minutes, eventTimeSpan.Seconds, DateTimeKind.Utc).Subtract(offset).ToUniversalTime();
                 requestBody.payload.timeline = new TimelineDto()
                 {
                     id = UniqueGenerator.GetIntId(),
@@ -962,6 +988,14 @@ namespace Score247.Management.Site.Controllers
             {
                 return RedirectToAction(nameof(Details), new { id = id });
             }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SetUpTimezone(IFormCollection collection)
+        {
+            HttpContext.Session.SetString("Timezone", collection["Timezone"]);
+            return RedirectToAction(nameof(Index));
         }
     }
 }

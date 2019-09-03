@@ -5,6 +5,8 @@
       <Mapping DataField="LeagueCategoryName" ObjectProperty="Name" Class="LeagueCategory" />
       <Mapping DataField="LeagueCategoryCode" ObjectProperty="CountryCode" Class="LeagueCategory" />
     </Setting>
+    <Setting Key="League_GetLeagueById" SpName="League_GetLeagueById" DbName="DefaultConnection">
+    </Setting>
     <Setting Key="League_GetCategory" SpName="League_GetCategory" DbName="DefaultConnection" />
     <Setting Key="League_InsertLeague" SpName="League_InsertLeague" DbName="DefaultConnection" />
   </Function>

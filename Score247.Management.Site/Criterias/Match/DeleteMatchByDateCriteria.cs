@@ -7,7 +7,6 @@
     public class DeleteMatchByDateCriteria : NonQueryCommand
     {
         [DataType(DataType.Date)]
-
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime DeleteDate { get; set; }
 

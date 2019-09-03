@@ -21,6 +21,12 @@ namespace Score247.Management.Site.Models.Events
             payload = new PushEventPayload(match);
             metadata = new PushEventMetaData(match);
         }
+
+        public MatchPushEventDto(Match match, TimeSpan offset)
+        {
+            payload = new PushEventPayload(match, offset);
+            metadata = new PushEventMetaData(match);
+        }
     }
 
     public class PushEventPayload
@@ -53,6 +59,32 @@ namespace Score247.Management.Site.Models.Events
             };
 
             var latestTime = match.LatestTimeline != null ? match.LatestTimeline.Time : match.EventDate;
+            timeline = new TimelineDto()
+            {
+                time = latestTime.ToUniversalTime(),
+                hour = new TimeSpan(latestTime.ToUniversalTime().Hour, latestTime.ToUniversalTime().Minute + 1, 0)
+            };
+        }
+
+        public PushEventPayload(Match match, TimeSpan offset)
+        {
+            var matchPeriodsScores = match.MatchResult.MatchPeriods == null ? new List<Period_Scores>() : match.MatchResult.MatchPeriods?.Select(x => new Period_Scores { home_score = x.HomeScore, away_score = x.AwayScore, number = x.Number, type = x.PeriodType.DisplayName });
+            sport_event_status = new Sport_Event_Status()
+            {
+                aggregate_away_score = match.LatestTimeline != null ? match.LatestTimeline.AwayScore : 0,
+                aggregate_home_score = match.LatestTimeline != null ? match.LatestTimeline.HomeScore : 0,
+                aggregate_winner_id = match.MatchResult.AggregateWinnerId,
+                away_score = match.LatestTimeline != null ? match.LatestTimeline.AwayScore : 0,
+                clock = new Clock { match_time = "00:00" },
+                home_score = match.LatestTimeline != null ? match.LatestTimeline.HomeScore : 0,
+                match_status = match.MatchResult.MatchStatus.DisplayName,
+                period = match.MatchResult.Period,
+                period_scores = matchPeriodsScores,
+                status = "live",
+                winner_id = match.MatchResult.WinnerId
+            };
+
+            var latestTime = match.LatestTimeline != null ? match.LatestTimeline.Time.Add(offset) : match.EventDate;
             timeline = new TimelineDto()
             {
                 time = latestTime.ToUniversalTime(),

@@ -32,6 +32,11 @@ namespace Score247.Management.Site.Repositories.Leagues
             }
         }
 
+        public async Task<Score247Management.Core.Leagues.Models.League> GetLeagueById(string id)
+        {
+            return (await repository.FetchAsync<Score247Management.Core.Leagues.Models.League>(new GetLeagueByIdCriteria() { Id = id })).FirstOrDefault();
+        }
+
         public async Task<IEnumerable<Score247Management.Core.Leagues.Models.LeagueCategory>> GetLeagueCategory()
         {
             return await repository.FetchAsync<Score247Management.Core.Leagues.Models.LeagueCategory>(new GetLeagueCategoryCriteria());

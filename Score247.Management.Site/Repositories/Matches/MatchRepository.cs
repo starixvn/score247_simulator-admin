@@ -37,9 +37,9 @@ namespace Score247.Management.Site.Repositories.Matches
             Configuration = configuration;
         }
 
-        public async Task<IEnumerable<Score247Management.Core.Matches.Models.Match>> GetMatches()
+        public async Task<IEnumerable<Match>> GetMatches()
         {
-            var matches = await repository.FetchAsync<Score247Management.Core.Matches.Models.Match>(new GetMatchesCriteria());
+            var matches = await repository.FetchAsync<Match>(new GetMatchesCriteria());
             var result = matches.Select(x => x.DeserialValue());
 
             return result;
@@ -58,11 +58,38 @@ namespace Score247.Management.Site.Repositories.Matches
             return result;
         }
 
+        public async Task<Match> GetMatchById(string id, TimeSpan offset)
+        {
+            var criteria = new GetMatchByIdCriteria { Id = id, Language = "en-US" };
+            var matches = await repository.FetchAsync<Match>(criteria);
+            if (matches == null || !matches.Any())
+            {
+                return null;
+            }
+            var result = matches.FirstOrDefault().DeserialValue(offset);
+
+            return result;
+        }
+
         public async Task<IEnumerable<TimelineEvent>> GetMatchTimelines(string id)
         {
             var timelinesLogs = await repository.FetchAsync<TimelineLog>(new GetMatchTimelineLogCriteria() { MatchId = id });
             var timelines = await repository.FetchAsync<TimelineEvent>(new GetMatchTimelineCriteria() { MatchId = id });
             var result = timelines.Select(x => x.DeserialValue()).ToList();
+            result.ForEach(x =>
+            {
+                var log = timelinesLogs.FirstOrDefault(y => y.TimelineId == x.Id);
+                x.RequestLog = log?.Value;
+            });
+
+            return result;
+        }
+
+        public async Task<IEnumerable<TimelineEvent>> GetMatchTimelines(string id, TimeSpan offset)
+        {
+            var timelinesLogs = await repository.FetchAsync<TimelineLog>(new GetMatchTimelineLogCriteria() { MatchId = id });
+            var timelines = await repository.FetchAsync<TimelineEvent>(new GetMatchTimelineCriteria() { MatchId = id });
+            var result = timelines.Select(x => x.DeserialValue(offset)).ToList();
             result.ForEach(x =>
             {
                 var log = timelinesLogs.FirstOrDefault(y => y.TimelineId == x.Id);
@@ -84,7 +111,7 @@ namespace Score247.Management.Site.Repositories.Matches
             return await repository.ExecuteAsync(criteria);
         }
 
-        public async Task<IEnumerable<Score247Management.Core.Matches.Models.Match>> GetMatchByDataRange(DateSearchModel dateSearchModel)
+        public async Task<IEnumerable<Match>> GetMatchByDataRange(DateSearchModel dateSearchModel)
         {
             IEnumerable<Score247Management.Core.Matches.Models.Match> matches;
             if (dateSearchModel.SelectedLeagueId == "all")
@@ -96,7 +123,7 @@ namespace Score247.Management.Site.Repositories.Matches
                     ToDate = dateSearchModel.ToDate,
                     Language = "en-US"
                 };
-                matches = await repository.FetchAsync<Score247Management.Core.Matches.Models.Match>(criteria);
+                matches = await repository.FetchAsync<Match>(criteria);
             }
             else
             {
@@ -108,12 +135,40 @@ namespace Score247.Management.Site.Repositories.Matches
                     Language = "en-US",
                     LeagueId = dateSearchModel.SelectedLeagueId
                 };
-                matches = await repository.FetchAsync<Score247Management.Core.Matches.Models.Match>(criteria);
+                matches = await repository.FetchAsync<Match>(criteria);
             }
 
-            var result = matches.Select(x => x.DeserialValue());
+            return matches.Select(x => x.DeserialValue());
+        }
 
-            return result;
+        public async Task<IEnumerable<Match>> GetMatchByDataRangeWithOffset(DateSearchModel dateSearchModel, TimeSpan offset)
+        {
+            IEnumerable<Match> matches;
+            if (dateSearchModel.SelectedLeagueId == "all")
+            {
+                var criteria = new GetMatchByDateRangeCriteria()
+                {
+                    SportId = 1,
+                    FromDate = dateSearchModel.FromDate,
+                    ToDate = dateSearchModel.ToDate,
+                    Language = "en-US"
+                };
+                matches = await repository.FetchAsync<Match>(criteria);
+            }
+            else
+            {
+                var criteria = new GetMatchByDateRangeAndLeagueCriteria()
+                {
+                    SportId = 1,
+                    FromDate = dateSearchModel.FromDate,
+                    ToDate = dateSearchModel.ToDate,
+                    Language = "en-US",
+                    LeagueId = dateSearchModel.SelectedLeagueId
+                };
+                matches = await repository.FetchAsync<Match>(criteria);
+            }
+
+            return matches.Select(x => x.DeserialValue(offset));
         }
 
         public async Task<int> CreateMatches(MatchCloneCriteria criteria)
