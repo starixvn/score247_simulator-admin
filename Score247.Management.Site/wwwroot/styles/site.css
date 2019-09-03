@@ -3,6 +3,9 @@
   font-size: 13px;
   font-family: Arial, Helvetica, sans-serif; }
 
+a {
+  font-size: 13px; }
+
 header .navbar {
   background: #06070A !important;
   padding-top: 0;
@@ -14,13 +17,27 @@ header .navbar-nav .nav-link {
   header .navbar-nav .nav-link.active {
     color: #fff; }
 
+header .input-group-text {
+  border: none;
+  line-height: 30px;
+  padding-top: 0;
+  padding-bottom: 0;
+  background-color: transparent;
+  color: #fff; }
+
+header .custom-select {
+  height: 30px;
+  line-height: 30px;
+  padding-top: 0;
+  padding-bottom: 0; }
+
 .page-title {
   font-size: 18px; }
 
 .contents {
   padding: 16px; }
 
-.btn-submit, .btn-default {
+.btn-submit, .btn-default, .btn-cancel {
   border: none;
   cursor: pointer;
   height: 30px;
@@ -32,7 +49,7 @@ header .navbar-nav .nav-link {
   -webkit-appearance: none;
   font-size: 13px;
   min-width: 80px; }
-  .btn-submit:disabled, .btn-default:disabled, .btn-submit .disabled, .btn-default .disabled {
+  .btn-submit:disabled, .btn-default:disabled, .btn-cancel:disabled, .btn-submit .disabled, .btn-default .disabled, .btn-cancel .disabled {
     opacity: .4;
     pointer-events: none; }
 
@@ -56,12 +73,62 @@ header .navbar-nav .nav-link {
     background-color: #3EC28F !important;
     color: #fff !important; }
 
+.btn-cancel {
+  background-color: #82878E;
+  color: #fff; }
+  .btn-cancel:hover, .btn-cancel:active {
+    color: #fff;
+    background-color: #757a81; }
+  .btn-cancel:disabled, .btn-cancel .disabled {
+    background-color: #82878E !important;
+    color: #fff !important; }
+
 .list-quick-action {
   margin-bottom: 10px; }
 
-.filter {
+.filter, .create-form {
   padding-top: 10px;
   padding-bottom: 10px; }
-  .filter .form-control {
+  .filter .form-control, .create-form .form-control {
     height: 30px;
+    line-height: 30px;
+    padding-top: 0;
+    padding-bottom: 0;
     border-radius: 2px; }
+
+.filter .form-group {
+  margin-right: 16px; }
+
+.create-form .form-row > [class*="col-"] {
+  padding-right: 8px;
+  padding-left: 8px; }
+
+.dataTables_wrapper .top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; }
+
+.dataTables_wrapper .dataTables_filter label {
+  display: flex;
+  align-items: center; }
+  .dataTables_wrapper .dataTables_filter label .form-control {
+    width: auto;
+    border-radius: 2px;
+    height: 30px;
+    margin-left: 4px; }
+
+.modal-header {
+  align-items: center;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+  padding-top: 8px;
+  padding-bottom: 8px; }
+  .modal-header .modal-title {
+    font-size: 13px; }
+
+.match-info {
+  display: flex;
+  align-items: center; }
+  .match-info .match-value {
+    font-weight: bold;
+    margin-left: 8px; }

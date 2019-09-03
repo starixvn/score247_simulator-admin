@@ -2,5 +2,9 @@
   {
     "outputFile": "wwwroot/styles/site.css",
     "inputFile": "wwwroot/styles/site.scss"
+  },
+  {
+    "outputFile": "wwwroot/styles/match-details.css",
+    "inputFile": "wwwroot/styles/match-details.scss"
   }
 ]

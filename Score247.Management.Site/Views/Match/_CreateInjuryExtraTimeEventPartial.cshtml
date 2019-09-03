@@ -27,14 +27,12 @@
 }
 <div class="card">
     <div class="card-header" id="matchInjuryTimeExtraEventHeading">
-        <h4 class="mb-0">
-            <button class="btn btn-link" data-toggle="collapse" data-target="#matchInjuryTimeExtraEvent" aria-expanded="true" aria-controls="matchInjuryTimeExtraEvent">
-                Injury Time Extra Event
-            </button>
-        </h4>
+        <div class="card-title collapsed" data-toggle="collapse" data-target="#matchInjuryTimeExtraEvent" aria-expanded="true" aria-controls="matchInjuryTimeExtraEvent">
+            Injury Time Extra Event
+        </div>
     </div>
-    <div class="col-md-12 collapse" aria-labelledby="matchInjuryTimeExtraEventHeading" data-parent="#accordion" id="matchInjuryTimeExtraEvent">
-        <div class="card-body">
+    <div class="collapse" aria-labelledby="matchInjuryTimeExtraEventHeading" data-parent="#accordion" id="matchInjuryTimeExtraEvent">
+        <div class="card-body create-form">
             <form asp-action="CreateInjuryExtraTimeEventPartial" asp-route-id="@ViewBag.MatchId">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="column">
@@ -60,7 +58,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-primary" />
+                    <input type="submit" value="Create" class="btn-submit" />
                 </div>
             </form>
         </div>

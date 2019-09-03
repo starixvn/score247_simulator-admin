@@ -79,7 +79,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body filter">
                 <form asp-action="CloneMatches">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="column">
@@ -95,8 +95,8 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <input type="submit" value="Create" class="btn btn-primary" />
-                        <input type="button" data-dismiss="modal" value="Cancel" class="btn btn-primary" />
+                        <input type="submit" value="Create" class="btn-submit" />
+                        <input type="button" data-dismiss="modal" value="Cancel" class="btn-cancel" />
                     </div>
                 </form>
             </div>
@@ -112,7 +112,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body filter">
                 <form asp-action="CloneLiveMatches">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="column">
@@ -128,8 +128,8 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <input type="submit" value="Create" class="btn btn-primary" />
-                        <input type="button" data-dismiss="modal" value="Cancel" class="btn btn-primary" />
+                        <input type="submit" value="Create" class="btn-submit" />
+                        <input type="button" data-dismiss="modal" value="Cancel" class="btn-cancel" />
                     </div>
                 </form>
             </div>
@@ -145,7 +145,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body filter">
                 <form asp-action="DeleteMatchesByDate">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="column">
@@ -156,8 +156,8 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <input type="submit" value="Delete" class="btn btn-primary" />
-                        <input type="button" data-dismiss="modal" value="Cancel" class="btn btn-primary" />
+                        <input type="submit" value="Delete" class="btn-submit" />
+                        <input type="button" data-dismiss="modal" value="Cancel" class="btn-cancel" />
                     </div>
                 </form>
             </div>
