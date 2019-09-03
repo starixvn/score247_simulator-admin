@@ -20,6 +20,7 @@ using Score247.Management.Site.Repositories.Teams;
 using Score247.Management.Site.Services.Matchs;
 using Score247.Management.Site.ViewModels.Match;
 using Score247Management.Core._Shared.Enumerations;
+using Score247Management.Core.Matches.Models;
 
 namespace Score247.Management.Site.Controllers
 {
@@ -35,6 +36,7 @@ namespace Score247.Management.Site.Controllers
         // GET: Match
         public async Task<ActionResult> Index()
         {
+            DateTime a = DateTime.Parse("2019-09-03T00:05:00+00:00");
             var repository = new MatchRepository();
             var leagueRepository = new LeagueRepository();
             var leagues = await leagueRepository.GetLeagues();

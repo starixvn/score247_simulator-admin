@@ -10,6 +10,7 @@
     <button type="button" class="btn-default" data-toggle="modal" data-target="#cloneMatches">Create Matches</button>
     <button type="button" class="btn-default" data-toggle="modal" data-target="#cloneLiveMatches">Create Live Matches</button>
     <button type="button" class="btn-default" data-toggle="modal" data-target="#deleteMatchesByDate">Delete Matches</button>
+    <button type="button" class="btn-default" data-toggle="modal" data-target="#CreateDeleteMatchesByDate">Create/Delete Matches</button>
 </form>
 <partial name="_DateRangeSearch" model="Model.DateSearchModel" />
 <table id="mathes-table" class="table table-striped table-bordered" style="width:100%">
@@ -162,6 +163,66 @@
                     <div class="form-group">
                         <input type="submit" value="Delete" class="btn-submit" />
                         <input type="button" data-dismiss="modal" value="Cancel" class="btn-cancel" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="deleteMatchesByDate" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete Matches</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body filter">
+                <form asp-action="DeleteMatchesByDate">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="column">
+                        <div class="form-group">
+                            <label asp-for="DeleteMatchByDateCriteria.DeleteDate" class="control-label">Date</label>
+                            <input asp-for="DeleteMatchByDateCriteria.DeleteDate" class="form-control" />
+                            <span asp-validation-for="DeleteMatchByDateCriteria.DeleteDate" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Delete" class="btn-submit" />
+                        <input type="button" data-dismiss="modal" value="Cancel" class="btn-cancel" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="CreateDeleteMatchesByDate" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete Matches</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body filter">
+                <form>
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="column">
+                        <div class="form-group row">
+                            <input asp-for="DeleteMatchByDateCriteria.DeleteDate" class="mr-sm-2 ml-sm-1" />
+                            <input type="number" name="Count" value="0" class="mr-sm-2" />
+                            <input type="button" data-dismiss="modal" value="Create" class="btn-cancel mr-sm-2" />
+                            <input type="button" data-dismiss="modal" value="Delete" class="btn-cancel mr-sm-1" />
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="form-group text-center">
+                        <input type="button" value="Create All Sites" class="btn-submit" />
+                        <input type="button" data-dismiss="modal" value="Delete All" class="btn-submit" />
                     </div>
                 </form>
             </div>

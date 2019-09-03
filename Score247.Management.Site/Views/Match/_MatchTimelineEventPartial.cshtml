@@ -1,8 +1,9 @@
 ﻿@model IEnumerable<Score247Management.Core.Matches.Models.TimelineEvent>
 <h4 class="page-title">Timelines Events</h4>
-<table id="example" class="table col-sm-12">
+<table id="TimelineTable" class="table col-sm-12 table-striped table-bordered">
     <thead>
         <tr>
+            <th></th>
             <th>
                 @Html.DisplayNameFor(model => model.Time)
             </th>
@@ -18,20 +19,21 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.LocalTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Type.DisplayName)
-            </td>
-            <td style="font-size:x-small;">
-                <a href="#" id="reservationButton" class="btn-default btn-lg" onclick="@($"OpenModalPopUp('{item.RequestLog}')");">Request</a>
-            </td>
-        </tr>
+            <tr>
+                <td></td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LocalTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type.DisplayName)
+                </td>
+                <td style="font-size:x-small;">
+                    <a href="#" id="reservationButton" class="btn-default btn-lg" onclick="@($"OpenModalPopUp('{item.RequestLog}')");">Request</a>
+                </td>
+            </tr>
         }
     </tbody>
 </table>
