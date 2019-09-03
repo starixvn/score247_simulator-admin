@@ -132,9 +132,9 @@ header {
     .form-control {
         height: 30px;
         line-height: 30px;
-        padding-top: 0;
-        padding-bottom: 0;
+        padding: 0 8px;
         border-radius: 2px;
+        font-size: $font-size;
     }
 }
 
@@ -177,17 +177,5 @@ header {
 
     .modal-title {
         font-size: $font-size;
-    }
-}
-
-// Details
-
-.match-info {
-    display: flex;
-    align-items: center;
-
-    .match-value {
-        font-weight: bold;
-        margin-left: 8px;
     }
 }

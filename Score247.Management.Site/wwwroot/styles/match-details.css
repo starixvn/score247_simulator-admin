@@ -1,6 +1,13 @@
 ﻿.match-area {
   margin-bottom: 20px; }
 
+.match-info {
+  display: flex;
+  align-items: center; }
+  .match-info .match-value {
+    font-weight: bold;
+    margin-left: 8px; }
+
 .score {
   background: #f24822;
   border-radius: 2px;
