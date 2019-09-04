@@ -3,6 +3,12 @@
 
 // Write your JavaScript code.
 $(document).ready(function () {
+    $('input[name="CustomCreateMatchesDate"]').daterangepicker({
+        singleDatePicker: true,
+        locale: {
+            format: 'DD/MM/YYYY'
+        }
+    });
     var timezone = sessionStorage.getItem("Timezone");
     if (timezone === null) {
         $('#inputTimezone').val("00:00:00");

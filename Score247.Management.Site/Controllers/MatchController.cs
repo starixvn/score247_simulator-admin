@@ -55,6 +55,7 @@ namespace Score247.Management.Site.Controllers
             };
             var matches = await repository.GetMatchByDataRange(viewModal.DateSearchModel);
             viewModal.Matches = matches;
+            viewModal.CreateDeleteMatchesModels = CreateDeleteMatchesModel.CreateFromToDay();
             return View(viewModal);
         }
 
@@ -85,7 +86,7 @@ namespace Score247.Management.Site.Controllers
             var matches = await repository.GetMatchByDataRangeWithOffset(viewModal.DateSearchModel, offset);
             viewModal.DateSearchModel.FromDate = eventDate;
             viewModal.Matches = matches;
-
+            viewModal.CreateDeleteMatchesModels = CreateDeleteMatchesModel.CreateFromToDay();
             return View("Index", viewModal);
         }
 
@@ -232,7 +233,6 @@ namespace Score247.Management.Site.Controllers
             }
         }
 
-        // GET: Match/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CloneMatches(IFormCollection collection)
@@ -254,6 +254,20 @@ namespace Score247.Management.Site.Controllers
                 FormCollection requestCollection = new FormCollection(datas);
 
                 return await _DateRangeSearch(requestCollection);
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreateMatchesByDate(IFormCollection collection)
+        {
+            try
+            {
+                return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {

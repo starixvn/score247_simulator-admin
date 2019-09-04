@@ -209,17 +209,89 @@
                 </button>
             </div>
             <div class="modal-body filter">
+                <div class="column">
+                    <form>
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group row">
+                            <label class="mr-sm-2 ml-sm-1 col-sm-4">Live</label>
+                            <input name="LiveCount" type="number" value="0" class="mr-sm-3 col-sm-2" />
+                            <input type="button" data-dismiss="modal" value="Create" class="btn-cancel mr-sm-2  col-sm-2" />
+                            <input type="button" data-dismiss="modal" value="Delete" class="btn-cancel mr-sm-1  col-sm-2" />
+                        </div>
+                    </form>
+                    <form>
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group row">
+                            <label class="mr-sm-2 ml-sm-1 col-sm-4">@Model.CreateDeleteMatchesModels[0].DisplayDate</label>
+                            <input asp-for="CreateDeleteMatchesModels[0].EventDate" class="d-none" />
+                            <input asp-for="CreateDeleteMatchesModels[0].Count" class="mr-sm-3 col-sm-2" />
+                            <input type="button" asp-action="CreateMatchesByDate" value="Create" class="btn-cancel mr-sm-2 col-sm-2" />
+                            <input type="button" asp-action="DeleteMatchesByDate" value="Delete" class="btn-cancel mr-sm-1 col-sm-2" />
+                        </div>
+                    </form>
+                    <form>
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group row">
+                            <label class="mr-sm-2 ml-sm-1 col-sm-4">@Model.CreateDeleteMatchesModels[1].DisplayDate</label>
+                            <input asp-for="CreateDeleteMatchesModels[1].EventDate" class="d-none" />
+                            <input asp-for="CreateDeleteMatchesModels[1].Count" class="mr-sm-3 col-sm-2" />
+                            <input type="button" asp-action="CreateMatchesByDate" value="Create" class="btn-cancel mr-sm-2 col-sm-2" />
+                            <input type="button" asp-action="DeleteMatchesByDate" value="Delete" class="btn-cancel mr-sm-1 col-sm-2" />
+                        </div>
+                    </form>
+                    <form>
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group row">
+                            <label class="mr-sm-2 ml-sm-1 col-sm-4">@Model.CreateDeleteMatchesModels[2].DisplayDate</label>
+                            <input asp-for="CreateDeleteMatchesModels[2].EventDate" class="d-none" />
+                            <input asp-for="CreateDeleteMatchesModels[2].Count" class="mr-sm-3 col-sm-2" />
+                            <input type="button" asp-action="CreateMatchesByDate" value="Create" class="btn-cancel mr-sm-2 col-sm-2" />
+                            <input type="button" asp-action="DeleteMatchesByDate" value="Delete" class="btn-cancel mr-sm-1 col-sm-2" />
+                        </div>
+                    </form>
+                    <form>
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group row">
+                            <label class="mr-sm-2 ml-sm-1 col-sm-4">@Model.CreateDeleteMatchesModels[3].DisplayDate</label>
+                            <input asp-for="CreateDeleteMatchesModels[3].EventDate" class="d-none" />
+                            <input asp-for="CreateDeleteMatchesModels[3].Count" class="mr-sm-3 col-sm-2" />
+                            <input type="button" asp-action="CreateMatchesByDate" value="Create" class="btn-cancel mr-sm-2 col-sm-2" />
+                            <input type="button" asp-action="DeleteMatchesByDate" value="Delete" class="btn-cancel mr-sm-1 col-sm-2" />
+                        </div>
+                    </form>
+                    <form>
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group row">
+                            <label class="mr-sm-2 ml-sm-1 col-sm-4">@Model.CreateDeleteMatchesModels[4].DisplayDate</label>
+                            <input asp-for="CreateDeleteMatchesModels[4].EventDate" class="d-none" />
+                            <input asp-for="CreateDeleteMatchesModels[4].Count" class="mr-sm-3 col-sm-2" />
+                            <input type="button" asp-action="CreateMatchesByDate" value="Create" class="btn-cancel mr-sm-2 col-sm-2" />
+                            <input type="button" asp-action="DeleteMatchesByDate" value="Delete" class="btn-cancel mr-sm-1 col-sm-2" />
+                        </div>
+                    </form>
+                    <form>
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group row">
+                            <label class="mr-sm-2 ml-sm-1 col-sm-4">@Model.CreateDeleteMatchesModels[5].DisplayDate</label>
+                            <input asp-for="CreateDeleteMatchesModels[5].EventDate" class="d-none" />
+                            <input asp-for="CreateDeleteMatchesModels[5].Count" class="mr-sm-3 col-sm-2" />
+                            <input type="button" asp-action="CreateMatchesByDate" value="Create" class="btn-cancel mr-sm-2 col-sm-2" />
+                            <input type="button" asp-action="DeleteMatchesByDate" value="Delete" class="btn-cancel mr-sm-1 col-sm-2" />
+                        </div>
+                    </form>
+                    <form>
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group row">
+                            <input name="CustomCreateMatchesDate" class="mr-sm-2 ml-sm-1 col-sm-4" />
+                            <input asp-for="CreateDeleteMatchesModels[5].Count" class="mr-sm-3 col-sm-2" />
+                            <input type="button" data-dismiss="modal" value="Create" class="btn-cancel mr-sm-2 col-sm-2" />
+                            <input type="button" data-dismiss="modal" value="Delete" class="btn-cancel mr-sm-1 col-sm-2" />
+                        </div>
+                    </form>
+                </div>
+                <hr />
                 <form>
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="column">
-                        <div class="form-group row">
-                            <input asp-for="DeleteMatchByDateCriteria.DeleteDate" class="mr-sm-2 ml-sm-1" />
-                            <input type="number" name="Count" value="0" class="mr-sm-2" />
-                            <input type="button" data-dismiss="modal" value="Create" class="btn-cancel mr-sm-2" />
-                            <input type="button" data-dismiss="modal" value="Delete" class="btn-cancel mr-sm-1" />
-                        </div>
-                    </div>
-                    <hr/>
                     <div class="form-group text-center">
                         <input type="button" value="Create All Sites" class="btn-submit" />
                         <input type="button" data-dismiss="modal" value="Delete All" class="btn-submit" />
