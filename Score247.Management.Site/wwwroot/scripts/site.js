@@ -95,10 +95,10 @@ $(document).ready(function () {
     }).draw();
 
     $('input[name="EventDate"]').daterangepicker({
-        locale: { format: 'DD/MM/YYYY' },
+        locale: { format: 'MM/DD/YYYY' },
         singleDatePicker: true,
         showDropdowns: true,
-        minYear: 1901,
+        minYear: 2010,
         maxYear: parseInt(moment().format('YYYY'), 10)
     }, function (start, end, label) {
         var years = moment().diff(start, 'years');
@@ -145,4 +145,48 @@ function OpenModalPopUp(reservationDay) {
     var tmpData = JSON.parse(reservationDay);
     $(".reservationDay").text(JSON.stringify(tmpData, null, '\t'));
     $('#logRequest').modal();
+}
+
+function SendCreateALlDateMatches() {
+    console.log("Begin Send Post");
+    let createDeleteMatchesModels = [
+        {
+            EventDate: $('#3rePostEventDate').val(),
+            Count: $('#3rePostCount').val()
+        },
+        {
+            EventDate: $('#2ndPostEventDate').val(),
+            Count: $('#2ndPostCount').val()
+        },
+        {
+            EventDate: $('#1stPostEventDate').val(),
+            Count: $('#1stPostCount').val()
+        },
+        {
+            EventDate: $('#todayEventDate').val(),
+            Count: $('#todayCount').val()
+        },
+        {
+            EventDate: $('#1stPreEventDate').val(),
+            Count: $('#1stPreCount').val()
+        },
+        {
+            EventDate: $('#2ndPreEventDate').val(),
+            Count: $('#2ndPreCount').val()
+        }
+    ];
+    console.log("Post with Data", JSON.stringify(createDeleteMatchesModels));
+    $.ajax({
+        type: "POST",
+        url: "/Match/CreateAllSiteMatches",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify(createDeleteMatchesModels),
+        success: function (d) {
+            console.log(d);
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            // TODO: Show error
+        }
+    });
 }

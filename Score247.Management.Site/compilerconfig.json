@@ -6,5 +6,9 @@
   {
     "outputFile": "wwwroot/styles/match-details.css",
     "inputFile": "wwwroot/styles/match-details.scss"
+  },
+  {
+    "outputFile": "wwwroot/scripts/site.es5.js",
+    "inputFile": "wwwroot/scripts/site.js"
   }
 ]

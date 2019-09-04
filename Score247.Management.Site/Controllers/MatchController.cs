@@ -233,72 +233,65 @@ namespace Score247.Management.Site.Controllers
             }
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CloneMatches(IFormCollection collection)
+        public async Task<ActionResult> CreateMatchesByDate(DateTime EventDate, int Count)
         {
-            try
-            {
-                var criteria = new MatchCloneCriteria();
-                TimeSpan offset;
-                TimeSpan.TryParse(HttpContext.Session.GetString("Timezone"), out offset);
-                var eventDate = DateTime.Parse(collection["CloneMatchModel.EventDate"]);
-                criteria.EventDate = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, 0, 0, 0, DateTimeKind.Utc);
-                criteria.LimitMatch = int.Parse(collection["CloneMatchModel.Count"]);
-                var matchRepository = new MatchRepository(Configuration);
-                await matchRepository.CreateMatches(criteria, offset);
+            TimeSpan.TryParse(HttpContext.Session.GetString("Timezone"), out TimeSpan offset);
 
-                var datas = new Dictionary<string, StringValues>();
-                datas.Add("FromDate", eventDate.ToShortDateString());
-                datas.Add("SelectedLeagueId", "all");
-                FormCollection requestCollection = new FormCollection(datas);
+            var createDate = new DateTime(EventDate.Year, EventDate.Month, EventDate.Day, 0, 0, 0, DateTimeKind.Utc);
 
-                return await _DateRangeSearch(requestCollection);
-            }
-            catch (Exception ex)
-            {
-                return RedirectToAction(nameof(Index));
-            }
+            var matchRepository = new MatchRepository(Configuration);
+            await matchRepository.SendCleanExistData();
+            await matchRepository.CreateMatches(createDate, Count, offset);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<ActionResult> CreateLiveMatches(int Count)
+        {
+            var matchRepository = new MatchRepository(Configuration);
+            await matchRepository.SendCleanExistData();
+            await matchRepository.CreateLiveMatches(Count, Configuration.GetValue<string>("Simulator:Url"), Configuration.GetValue<string>("Simulator:PushEvent"));
+
+            return RedirectToAction(nameof(Index));
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateMatchesByDate(IFormCollection collection)
+        public async Task<ActionResult> CreateAllSiteMatches([FromBody] List<CreateDeleteMatchesModel> createDeleteMatchesModels)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch (Exception ex)
-            {
-                return RedirectToAction(nameof(Index));
-            }
+            var matchRepository = new MatchRepository(Configuration);
+            await matchRepository.SendCleanExistData();
+
+            TimeSpan.TryParse(HttpContext.Session.GetString("Timezone"), out TimeSpan offset);
+            await matchRepository.CreateAllMatchesSite(createDeleteMatchesModels, offset);
+
+            return RedirectToAction(nameof(Index));
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CloneLiveMatches(IFormCollection collection)
+        public async Task<ActionResult> DeleteMatchesByDate(DateTime EventDate, int Count)
         {
-            try
-            {
-                var criteria = new GetCloneLiveMatchesCriteria();
-                var eventDate = DateTime.Parse(collection["CloneMatchModel.EventDate"]);
-                criteria.EventDate = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, 0, 0, 0, DateTimeKind.Utc);
-                criteria.LimitMatch = int.Parse(collection["CloneMatchModel.Count"]);
-                var matchRepository = new MatchRepository();
-                //await matchRepository.CloneLiveMatches(criteria, Configuration.GetValue<string>("Simulator:Url"), Configuration.GetValue<string>("Simulator:PushEvent"));
+            TimeSpan.TryParse(HttpContext.Session.GetString("Timezone"), out TimeSpan offset);
+            var matchRepository = new MatchRepository();
+            var fromDate = new DateTime(EventDate.Year, EventDate.Month, EventDate.Day, 0, 0, 0, DateTimeKind.Utc).Subtract(offset);
+            var toDate = new DateTime(EventDate.Year, EventDate.Month, EventDate.Day, 23, 59, 59, DateTimeKind.Utc).Subtract(offset);
+            await matchRepository.DeleteMatchByDate(fromDate, toDate, Count);
 
-                var datas = new Dictionary<string, StringValues>();
-                datas.Add("FromDate", eventDate.ToShortDateString());
-                datas.Add("SelectedLeagueId", "all");
-                FormCollection requestCollection = new FormCollection(datas);
+            return RedirectToAction(nameof(Index));
+        }
 
-                return await _DateRangeSearch(requestCollection);
-            }
-            catch (Exception ex)
-            {
-                return RedirectToAction(nameof(Index));
-            }
+        public async Task<ActionResult> DeleteLiveMatches(int Count)
+        {
+            var matchRepository = new MatchRepository();
+            await matchRepository.DeleteLiveMatches(Count);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<ActionResult> DeleteAllMatches()
+        {
+            var matchRepository = new MatchRepository();
+            await matchRepository.DeleteAllMatches();
+
+            return RedirectToAction(nameof(Index));
         }
 
         // POST: Match/Edit/5
@@ -315,23 +308,6 @@ namespace Score247.Management.Site.Controllers
             catch
             {
                 return View();
-            }
-        }
-
-        // GET: Match/Delete/5
-        public async Task<ActionResult> DeleteMatchesByDate(IFormCollection collection)
-        {
-            try
-            {
-                var eventDate = DateTime.Parse(collection["DeleteMatchByDateCriteria.DeleteDate"]);
-                var matchRepository = new MatchRepository();
-                await matchRepository.DeleteMatchByDate(eventDate);
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch (Exception ex)
-            {
-                return RedirectToAction(nameof(Index));
             }
         }
 
