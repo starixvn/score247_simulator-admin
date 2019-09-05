@@ -304,7 +304,7 @@ function SendCreateMatchesByDate(prefixType) {
 
     $.ajax({
         type: "POST",
-        url: "/Match/CreateMatchesByDate",
+        url: urlPrefix() + "/Match/CreateMatchesByDate",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         data: JSON.stringify(createDeleteMatchesRequest),
@@ -328,7 +328,7 @@ function SendDeleteMatchesByDate(prefixType) {
 
     $.ajax({
         type: "POST",
-        url: "/Match/DeleteMatchesByDate",
+        url: urlPrefix() + "/Match/DeleteMatchesByDate",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         data: JSON.stringify(createDeleteMatchesRequest),
@@ -350,7 +350,7 @@ function SendCreateLiveMatches() {
 
     $.ajax({
         type: "POST",
-        url: "/Match/CreateLiveMatches",
+        url: urlPrefix() + "/Match/CreateLiveMatches",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         data: JSON.stringify(createDeleteMatchesRequest),
@@ -372,7 +372,7 @@ function SendDeleteLiveMatches() {
 
     $.ajax({
         type: "POST",
-        url: "/Match/DeleteLiveMatches",
+        url: urlPrefix() + "/Match/DeleteLiveMatches",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         data: JSON.stringify(createDeleteMatchesRequest),
@@ -406,7 +406,7 @@ function ShortcutSearchByDate(searchDate) {
 
     $.ajax({
         type: "POST",
-        url: "/Match/ShortcutSearchByDate",
+        url: urlPrefix() + "/Match/ShortcutSearchByDate",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         data: JSON.stringify(searchRequest),
