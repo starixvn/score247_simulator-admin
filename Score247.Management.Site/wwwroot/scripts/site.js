@@ -387,7 +387,7 @@ function SendDeleteLiveMatches() {
 function SendDeleteAllMatches() {
     $.ajax({
         type: "POST",
-        url: urlPrefix() + "Match/DeleteAllMatches",
+        url: urlPrefix() + "/Match/DeleteAllMatches",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function () {
