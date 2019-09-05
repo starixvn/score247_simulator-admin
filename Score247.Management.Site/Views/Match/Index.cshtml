@@ -1,9 +1,14 @@
-﻿@model Score247.Management.Site.ViewModels.Match.MatchViewModel
+﻿@using Microsoft.Extensions.Configuration
 
+@model Score247.Management.Site.ViewModels.Match.MatchViewModel
+@inject IConfiguration Configuration
 @{
     ViewData["Title"] = "Index";
 }
 
+<div class="d-none">
+    <input type="text" id="urlPrefix" name="urlPrefix" value="@Configuration["PagePathPrefix"]" />
+</div>
 <h1 class="page-title">Matches</h1>
 <form class="list-quick-action">
     <button asp-action="Create" class="btn-default">New Match</button>
