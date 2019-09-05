@@ -141,18 +141,35 @@ namespace Score247.Management.Site.Repositories.Matches
             return matches.Select(x => x.DeserialValue(offset));
         }
 
-        public async Task<int> CreateMatches(DateTime createDate, int limitMatches, TimeSpan offset)
+        public async Task<int> CreateMatches(DateTime createDate, int limitMatches, TimeSpan offset, int limitLeagues)
         {
-            var matches = await GenerateMatches(createDate, limitMatches, offset);
+            var matches = await GenerateMatches(createDate, limitMatches, offset, limitLeagues);
             Func<Task> triggerTask = StartInsertMatchesJobs;
 
-            return await SendCreateMatchesRequest(matches, triggerTask);
+            await SendCreateMatchesRequest(matches, triggerTask);
+            return await CheckIfMatchInserted(matches.LastOrDefault());
         }
 
-        public async Task<int> CreateLiveMatches(int count, string baseUrl, string eventPath)
+        private async Task<int> CheckIfMatchInserted(MatchEntity match)
+        {
+            if (match == null)
+            {
+                return 1;
+            }
+            var insertedMatch = await GetMatchById(match.Id);
+            while (insertedMatch == null)
+            {
+                await Task.Delay(300);
+                insertedMatch = await GetMatchById(match.Id);
+            }
+
+            return 1;
+        }
+
+        public async Task<int> CreateLiveMatches(int count, int limitLeagues, string baseUrl, string eventPath)
         {
             var createDate = DateTime.UtcNow;
-            var matches = await GenerateMatches(createDate, count, TimeSpan.Zero);
+            var matches = await GenerateMatches(createDate, count, TimeSpan.Zero, limitLeagues);
             Func<Task> triggerTask = StartInsertMatchesJobs;
 
             await SendCreateMatchesRequest(matches, triggerTask);
@@ -165,7 +182,7 @@ namespace Score247.Management.Site.Repositories.Matches
             foreach (var model in createDeleteMatchesModels)
             {
                 var createDate = new DateTime(model.EventDate.Year, model.EventDate.Month, model.EventDate.Day, 0, 0, 0, DateTimeKind.Utc);
-                var newMatches = await GenerateMatches(createDate, model.Count, offset);
+                var newMatches = await GenerateMatches(createDate, model.Count, offset, model.LeagueLimit);
                 matches.AddRange(newMatches);
             }
             await SendCreateMatchesRequest(matches, null);
@@ -188,7 +205,7 @@ namespace Score247.Management.Site.Repositories.Matches
                     var existMatch = await GetMatchById(match.Id);
                     while (existMatch == null)
                     {
-                        await Task.Delay(500);
+                        await Task.Delay(300);
                         existMatch = await GetMatchById(match.Id);
                     }
                     MatchPushEventDto eventStartMatch = MatchTimeEventCreator.CreateMatchStart(existMatch, existMatch.EventDate);
@@ -343,7 +360,7 @@ namespace Score247.Management.Site.Repositories.Matches
             return await repository.ExecuteAsync(new DeleteAllMatchesCriteria());
         }
 
-        private static async Task<List<MatchEntity>> GenerateMatches(DateTime createDate, int limitMatches, TimeSpan offset)
+        private static async Task<List<MatchEntity>> GenerateMatches(DateTime createDate, int limitMatches, TimeSpan offset, int limitLeagues)
         {
             var ran = new Random();
             var leaguesRepository = new LeagueRepository();
@@ -352,6 +369,7 @@ namespace Score247.Management.Site.Repositories.Matches
             var leagues = (await leaguesRepository.GetLeagues())
                 .Where(x => !x.Name.Contains("+")
                             && !x.Name.Contains("-"))
+                .OrderBy(arg => Guid.NewGuid()).Take(limitLeagues)
                 .ToList();
 
             var teams = (await teamsRepository.GetTeams())

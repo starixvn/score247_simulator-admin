@@ -19,6 +19,7 @@ using Score247.Management.Site.Repositories.Teams;
 using Score247.Management.Site.Services.Matchs;
 using Score247.Management.Site.ViewModels.Match;
 using Score247Management.Core._Shared.Enumerations;
+using Score247Management.Core.Matches.Models;
 
 namespace Score247.Management.Site.Controllers
 {
@@ -51,7 +52,23 @@ namespace Score247.Management.Site.Controllers
             var matches = await repository.GetMatchByDataRangeWithOffset(fromDate, toDate, "all", offset);
             viewModal.Matches = matches;
             viewModal.CreateDeleteMatchesModels = CreateDeleteMatchesModel.CreateFromToDay();
+            viewModal.QuickDateSelectOptions = GenerateQuickDateSelectOptions(offset);
             return View(viewModal);
+        }
+
+        private List<string> GenerateQuickDateSelectOptions(TimeSpan offset)
+        {
+            var options = new List<string>();
+            var today = DateTime.UtcNow;
+            options.Add(today.AddDays(-3).Add(offset).ToShortDateString());
+            options.Add(today.AddDays(-2).Add(offset).ToShortDateString());
+            options.Add(today.AddDays(-1).Add(offset).ToShortDateString());
+            options.Add(today.Add(offset).ToShortDateString());
+            options.Add(today.AddDays(1).Add(offset).ToShortDateString());
+            options.Add(today.AddDays(2).Add(offset).ToShortDateString());
+            options.Add(today.AddDays(3).Add(offset).ToShortDateString());
+
+            return options;
         }
 
         [HttpPost]
@@ -59,26 +76,44 @@ namespace Score247.Management.Site.Controllers
         public async Task<ActionResult> _DateRangeSearch(IFormCollection collection)
         {
             var eventDate = DateTime.Parse(collection["SearchDate"]);
-            TimeSpan.TryParse(HttpContext.Session.GetString("Timezone"), out TimeSpan offset);
-            var fromDate = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, 0, 0, 0, DateTimeKind.Utc).Subtract(offset);
-            var toDate = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, 23, 59, 59, DateTimeKind.Utc).Subtract(offset);
             var selectedLeagueId = collection["SelectedLeagueId"];
+            return await ProcessToDateSearchView(eventDate, selectedLeagueId);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ShortcutSearchByDate(DateSearchModel searchRequest)
+        {
+            return await ProcessToDateSearchView(searchRequest.SearchDate, searchRequest.SelectedLeagueId);
+        }
+
+        private async Task<IEnumerable<Match>> SearchMatchByDateAndLeague(DateTime dateSearch, string leagueId, TimeSpan offset)
+        {
             var repository = new MatchRepository();
+            var fromDate = new DateTime(dateSearch.Year, dateSearch.Month, dateSearch.Day, 0, 0, 0, DateTimeKind.Utc).Subtract(offset);
+            var toDate = new DateTime(dateSearch.Year, dateSearch.Month, dateSearch.Day, 23, 59, 59, DateTimeKind.Utc).Subtract(offset);
+
+            return await repository.GetMatchByDataRangeWithOffset(fromDate, toDate, leagueId, offset);
+        }
+
+        private async Task<ActionResult> ProcessToDateSearchView(DateTime searchDate, string selectedLeagueId)
+        {
+            TimeSpan.TryParse(HttpContext.Session.GetString("Timezone"), out TimeSpan offset);
             var leagueRepository = new LeagueRepository();
             var leagues = await leagueRepository.GetLeagues();
             var viewModal = new MatchViewModel
             {
                 DateSearchModel = new DateSearchModel()
                 {
-                    SearchDate = eventDate,
+                    SearchDate = searchDate,
                     Leagues = leagues,
                     SelectedLeagueId = selectedLeagueId
                 }
             };
 
-            var matches = await repository.GetMatchByDataRangeWithOffset(fromDate, toDate, selectedLeagueId, offset);
+            var matches = await SearchMatchByDateAndLeague(searchDate, selectedLeagueId, offset);
             viewModal.Matches = matches;
             viewModal.CreateDeleteMatchesModels = CreateDeleteMatchesModel.CreateFromToDay();
+            viewModal.QuickDateSelectOptions = GenerateQuickDateSelectOptions(offset);
             return View("Index", viewModal);
         }
 
@@ -225,30 +260,32 @@ namespace Score247.Management.Site.Controllers
             }
         }
 
-        public async Task<ActionResult> CreateMatchesByDate(DateTime EventDate, int Count)
+        [HttpPost]
+        public async Task<JsonResult> CreateMatchesByDate([FromBody] CreateDeleteMatchesModel createDeleteMatchesRequest)
         {
             TimeSpan.TryParse(HttpContext.Session.GetString("Timezone"), out TimeSpan offset);
 
-            var createDate = new DateTime(EventDate.Year, EventDate.Month, EventDate.Day, 0, 0, 0, DateTimeKind.Utc);
+            var createDate = new DateTime(createDeleteMatchesRequest.EventDate.Year, createDeleteMatchesRequest.EventDate.Month, createDeleteMatchesRequest.EventDate.Day, 0, 0, 0, DateTimeKind.Utc);
 
             var matchRepository = new MatchRepository(Configuration);
             await matchRepository.SendCleanExistData();
-            await matchRepository.CreateMatches(createDate, Count, offset);
+            await matchRepository.CreateMatches(createDate, createDeleteMatchesRequest.Count, offset, createDeleteMatchesRequest.LeagueLimit);
 
-            return RedirectToAction(nameof(Index));
-        }
-
-        public async Task<ActionResult> CreateLiveMatches(int Count)
-        {
-            var matchRepository = new MatchRepository(Configuration);
-            await matchRepository.SendCleanExistData();
-            await matchRepository.CreateLiveMatches(Count, Configuration.GetValue<string>("Simulator:Url"), Configuration.GetValue<string>("Simulator:PushEvent"));
-
-            return RedirectToAction(nameof(Index));
+            return Json(true);
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateAllSiteMatches([FromBody] List<CreateDeleteMatchesModel> createDeleteMatchesModels)
+        public async Task<JsonResult> CreateLiveMatches([FromBody] CreateDeleteMatchesModel createDeleteMatchesRequest)
+        {
+            var matchRepository = new MatchRepository(Configuration);
+            await matchRepository.SendCleanExistData();
+            await matchRepository.CreateLiveMatches(createDeleteMatchesRequest.Count, createDeleteMatchesRequest.LeagueLimit, Configuration.GetValue<string>("Simulator:Url"), Configuration.GetValue<string>("Simulator:PushEvent"));
+
+            return Json(true);
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> CreateAllSiteMatches([FromBody] List<CreateDeleteMatchesModel> createDeleteMatchesModels)
         {
             var matchRepository = new MatchRepository(Configuration);
             await matchRepository.SendCleanExistData();
@@ -256,34 +293,37 @@ namespace Score247.Management.Site.Controllers
             TimeSpan.TryParse(HttpContext.Session.GetString("Timezone"), out TimeSpan offset);
             await matchRepository.CreateAllMatchesSite(createDeleteMatchesModels, offset);
 
-            return RedirectToAction(nameof(Index));
+            return Json(true);
         }
 
-        public async Task<ActionResult> DeleteMatchesByDate(DateTime EventDate, int Count)
+        [HttpPost]
+        public async Task<JsonResult> DeleteMatchesByDate([FromBody] CreateDeleteMatchesModel createDeleteMatchesRequest)
         {
             TimeSpan.TryParse(HttpContext.Session.GetString("Timezone"), out TimeSpan offset);
             var matchRepository = new MatchRepository();
-            var fromDate = new DateTime(EventDate.Year, EventDate.Month, EventDate.Day, 0, 0, 0, DateTimeKind.Utc).Subtract(offset);
-            var toDate = new DateTime(EventDate.Year, EventDate.Month, EventDate.Day, 23, 59, 59, DateTimeKind.Utc).Subtract(offset);
-            await matchRepository.DeleteMatchByDate(fromDate, toDate, Count);
+            var fromDate = new DateTime(createDeleteMatchesRequest.EventDate.Year, createDeleteMatchesRequest.EventDate.Month, createDeleteMatchesRequest.EventDate.Day, 0, 0, 0, DateTimeKind.Utc).Subtract(offset);
+            var toDate = new DateTime(createDeleteMatchesRequest.EventDate.Year, createDeleteMatchesRequest.EventDate.Month, createDeleteMatchesRequest.EventDate.Day, 23, 59, 59, DateTimeKind.Utc).Subtract(offset);
+            await matchRepository.DeleteMatchByDate(fromDate, toDate, createDeleteMatchesRequest.Count);
 
-            return RedirectToAction(nameof(Index));
+            return Json(true);
         }
 
-        public async Task<ActionResult> DeleteLiveMatches(int Count)
+        [HttpPost]
+        public async Task<JsonResult> DeleteLiveMatches([FromBody] CreateDeleteMatchesModel createDeleteMatchesRequest)
         {
             var matchRepository = new MatchRepository();
-            await matchRepository.DeleteLiveMatches(Count);
+            await matchRepository.DeleteLiveMatches(createDeleteMatchesRequest.Count);
 
-            return RedirectToAction(nameof(Index));
+            return Json(true);
         }
 
-        public async Task<ActionResult> DeleteAllMatches()
+        [HttpPost]
+        public async Task<JsonResult> DeleteAllMatches()
         {
             var matchRepository = new MatchRepository();
             await matchRepository.DeleteAllMatches();
 
-            return RedirectToAction(nameof(Index));
+            return Json(true);
         }
 
         // POST: Match/Edit/5

@@ -94,7 +94,7 @@ $(document).ready(function () {
         });
     }).draw();
 
-    $('input[name="EventDate"]').daterangepicker({
+    $('input[name="CustomEventDate"]').daterangepicker({
         locale: { format: 'MM/DD/YYYY' },
         singleDatePicker: true,
         showDropdowns: true,
@@ -105,6 +105,146 @@ $(document).ready(function () {
     });
 
     $('.timezone-hidden').val(sessionStorage.getItem("Timezone"));
+
+    $('#btnCreateAllSiteMatches').click(function (event) {
+        $("#CreateMatchesSpinner").removeClass("d-none");
+        event.preventDefault();
+        console.log("Begin Send Post");
+        var leagueLimit = $('#LeagueInputLimit').val();
+        let createDeleteMatchesModels = [
+            {
+                EventDate: $('#3rePostEventDate').val(),
+                Count: $('#3rePostCount').val(),
+                LeagueLimit: leagueLimit
+            },
+            {
+                EventDate: $('#2ndPostEventDate').val(),
+                Count: $('#2ndPostCount').val(),
+                LeagueLimit: leagueLimit
+            },
+            {
+                EventDate: $('#1stPostEventDate').val(),
+                Count: $('#1stPostCount').val(),
+                LeagueLimit: leagueLimit
+            },
+            {
+                EventDate: $('#todayEventDate').val(),
+                Count: $('#todayCount').val(),
+                LeagueLimit: leagueLimit
+            },
+            {
+                EventDate: $('#1stPreEventDate').val(),
+                Count: $('#1stPreCount').val(),
+                LeagueLimit: leagueLimit
+            },
+            {
+                EventDate: $('#2ndPreEventDate').val(),
+                Count: $('#2ndPreCount').val(),
+                LeagueLimit: leagueLimit
+            }
+        ];
+        console.log("Post with Data", JSON.stringify(createDeleteMatchesModels));
+        $.ajax({
+            type: "POST",
+            url: "/Match/CreateAllSiteMatches",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify(createDeleteMatchesModels),
+            success: function (d) {
+                $("#CreateMatchesSpinner").addClass("d-none");
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                // TODO: Show error
+            }
+        });
+    });
+
+    $('#btnCreateMatch3rdPost').click(function (event) {
+        $("#CreateMatchesSpinner").removeClass("d-none");
+        event.preventDefault();
+        SendCreateMatchesByDate("3rdPost");
+    });
+    $('#btnCreateMatch2ndPost').click(function (event) {
+        $("#CreateMatchesSpinner").removeClass("d-none");
+        event.preventDefault();
+        SendCreateMatchesByDate("2ndPost");
+    });
+    $('#btnCreateMatch1stPost').click(function (event) {
+        $("#CreateMatchesSpinner").removeClass("d-none");
+        event.preventDefault();
+        SendCreateMatchesByDate("1stPost");
+    });
+    $('#btnCreateMatchToday').click(function (event) {
+        $("#CreateMatchesSpinner").removeClass("d-none");
+        event.preventDefault();
+        SendCreateMatchesByDate("Today");
+    });
+    $('#btnCreateMatch1stPre').click(function (event) {
+        $("#CreateMatchesSpinner").removeClass("d-none");
+        event.preventDefault();
+        SendCreateMatchesByDate("1stPre");
+    });
+    $('#btnCreateMatch2ndPre').click(function (event) {
+        $("#CreateMatchesSpinner").removeClass("d-none");
+        event.preventDefault();
+        SendCreateMatchesByDate("2ndPre");
+    });
+    $('#btnCreateMatchCustom').click(function (event) {
+        $("#CreateMatchesSpinner").removeClass("d-none");
+        event.preventDefault();
+        SendCreateMatchesByDate("Custom");
+    });
+
+    $('#btnDeleteMatch3rdPost').click(function (event) {
+        $("#CreateMatchesSpinner").removeClass("d-none");
+        event.preventDefault();
+        SendDeleteMatchesByDate("3rdPost");
+    });
+    $('#btnDeleteMatch2ndPost').click(function (event) {
+        $("#CreateMatchesSpinner").removeClass("d-none");
+        event.preventDefault();
+        SendDeleteMatchesByDate("2ndPost");
+    });
+    $('#btnDeleteMatch1stPost').click(function (event) {
+        $("#CreateMatchesSpinner").removeClass("d-none");
+        event.preventDefault();
+        SendDeleteMatchesByDate("1stPost");
+    });
+    $('#btnDeleteMatchToday').click(function (event) {
+        $("#CreateMatchesSpinner").removeClass("d-none");
+        event.preventDefault();
+        SendDeleteMatchesByDate("Today");
+    });
+    $('#btnDeleteMatch1stPre').click(function (event) {
+        $("#CreateMatchesSpinner").removeClass("d-none");
+        event.preventDefault();
+        SendDeleteMatchesByDate("1stPre");
+    });
+    $('#btnDeleteMatch2ndPre').click(function (event) {
+        $("#CreateMatchesSpinner").removeClass("d-none");
+        event.preventDefault();
+        SendDeleteMatchesByDate("2ndPre");
+    });
+    $('#btnDeleteMatchCustom').click(function (event) {
+        $("#CreateMatchesSpinner").removeClass("d-none");
+        event.preventDefault();
+        SendDeleteMatchesByDate("Custom");
+    });
+
+    $('#btnCreateLiveMatches').click(function (event) {
+        $("#CreateMatchesSpinner").removeClass("d-none");
+        event.preventDefault();
+        SendCreateLiveMatches();
+    });
+    $('#btnDeleteLiveMatches').click(function (event) {
+        $("#CreateMatchesSpinner").removeClass("d-none");
+        event.preventDefault();
+        SendDeleteLiveMatches();
+    });
+
+    $('#btnConfirmDeleteAllMatches').click(function () {
+        SendDeleteAllMatches();
+    });
 });
 
 function timezoneChange(selectTimezone) {
@@ -147,46 +287,132 @@ function OpenModalPopUp(reservationDay) {
     $('#logRequest').modal();
 }
 
-function SendCreateALlDateMatches() {
-    console.log("Begin Send Post");
-    let createDeleteMatchesModels = [
-        {
-            EventDate: $('#3rePostEventDate').val(),
-            Count: $('#3rePostCount').val()
-        },
-        {
-            EventDate: $('#2ndPostEventDate').val(),
-            Count: $('#2ndPostCount').val()
-        },
-        {
-            EventDate: $('#1stPostEventDate').val(),
-            Count: $('#1stPostCount').val()
-        },
-        {
-            EventDate: $('#todayEventDate').val(),
-            Count: $('#todayCount').val()
-        },
-        {
-            EventDate: $('#1stPreEventDate').val(),
-            Count: $('#1stPreCount').val()
-        },
-        {
-            EventDate: $('#2ndPreEventDate').val(),
-            Count: $('#2ndPreCount').val()
-        }
-    ];
-    console.log("Post with Data", JSON.stringify(createDeleteMatchesModels));
+function UpdateLimitMatchInput(limitCount) {
+    console.log(limitCount);
+    $('.LeagueLimit').val(limitCount);
+}
+
+function SendCreateMatchesByDate(prefixType) {
+    var eventDate = $('#' + prefixType + 'EventDate').val();
+    var limitMatches = $('#' + prefixType + 'Count').val();
+    var leagueLimit = $('#LeagueInputLimit').val();
+    var createDeleteMatchesRequest = {
+        EventDate: eventDate,
+        Count: limitMatches,
+        LeagueLimit: leagueLimit
+    };
+
     $.ajax({
         type: "POST",
-        url: "/Match/CreateAllSiteMatches",
+        url: "/Match/CreateMatchesByDate",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
-        data: JSON.stringify(createDeleteMatchesModels),
-        success: function (d) {
-            console.log(d);
+        data: JSON.stringify(createDeleteMatchesRequest),
+        success: function () {
+            $("#CreateMatchesSpinner").addClass("d-none");
         },
-        error: function (xhr, textStatus, errorThrown) {
-            // TODO: Show error
+        error: function () {
+        }
+    });
+}
+
+function SendDeleteMatchesByDate(prefixType) {
+    var eventDate = $('#' + prefixType + 'EventDate').val();
+    var limitMatches = $('#' + prefixType + 'Count').val();
+    var leagueLimit = $('#LeagueInputLimit').val();
+    var createDeleteMatchesRequest = {
+        EventDate: eventDate,
+        Count: limitMatches,
+        LeagueLimit: leagueLimit
+    };
+
+    $.ajax({
+        type: "POST",
+        url: "/Match/DeleteMatchesByDate",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify(createDeleteMatchesRequest),
+        success: function () {
+            $("#CreateMatchesSpinner").addClass("d-none");
+        },
+        error: function () {
+        }
+    });
+}
+
+function SendCreateLiveMatches() {
+    var limitMatches = $('#LiveCount').val();
+    var leagueLimit = $('#LeagueInputLimit').val();
+    var createDeleteMatchesRequest = {
+        Count: limitMatches,
+        LeagueLimit: leagueLimit
+    };
+
+    $.ajax({
+        type: "POST",
+        url: "/Match/CreateLiveMatches",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify(createDeleteMatchesRequest),
+        success: function () {
+            $("#CreateMatchesSpinner").addClass("d-none");
+        },
+        error: function () {
+        }
+    });
+}
+
+function SendDeleteLiveMatches() {
+    var limitMatches = $('#LiveCount').val();
+    var leagueLimit = $('#LeagueInputLimit').val();
+    var createDeleteMatchesRequest = {
+        Count: limitMatches,
+        LeagueLimit: leagueLimit
+    };
+
+    $.ajax({
+        type: "POST",
+        url: "/Match/DeleteLiveMatches",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify(createDeleteMatchesRequest),
+        success: function () {
+            $("#CreateMatchesSpinner").addClass("d-none");
+        },
+        error: function () {
+        }
+    });
+}
+
+function SendDeleteAllMatches() {
+    $.ajax({
+        type: "POST",
+        url: "/Match/DeleteAllMatches",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function () {
+        },
+        error: function () {
+        }
+    });
+}
+
+function ShortcutSearchByDate(searchDate) {
+    var selectedLeagueId = $('#leagueFilterId').val();
+    var searchRequest = {
+        SearchDate: searchDate,
+        SelectedLeagueId: selectedLeagueId
+    };
+
+    $.ajax({
+        type: "POST",
+        url: "/Match/ShortcutSearchByDate",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify(searchRequest),
+        success: function () {
+        },
+        error: function () {
         }
     });
 }

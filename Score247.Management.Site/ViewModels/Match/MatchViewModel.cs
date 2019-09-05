@@ -1,5 +1,6 @@
 ﻿namespace Score247.Management.Site.ViewModels.Match
 {
+    using System;
     using System.Collections.Generic;
     using Score247.Management.Site.Criterias.Match;
     using Score247.Management.Site.Models;
@@ -14,5 +15,8 @@
         public string TimeOffsetString { get; set; }
 
         public List<CreateDeleteMatchesModel> CreateDeleteMatchesModels { get; set; }
+        public string CreateMatchLeagueLimit { get; set; }
+
+        public List<string> QuickDateSelectOptions { get; set; }
     }
 }
