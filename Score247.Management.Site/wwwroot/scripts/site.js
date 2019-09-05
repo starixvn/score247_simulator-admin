@@ -387,7 +387,7 @@ function SendDeleteLiveMatches() {
 function SendDeleteAllMatches() {
     $.ajax({
         type: "POST",
-        url: "/Match/DeleteAllMatches",
+        url: getRootUrl() + "Match/DeleteAllMatches",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function () {
@@ -415,4 +415,15 @@ function ShortcutSearchByDate(searchDate) {
         error: function () {
         }
     });
+}
+
+function getRootUrl() {
+    return window.location.origin
+        ? window.location.origin + '/'
+        : window.location.protocol + '/' + window.location.host + '/';
+}
+
+function getBaseUrl() {
+    var re = new RegExp(/^.*\//);
+    document.getElementById('baseresult').innerHTML += re.exec(window.location.href);
 }
