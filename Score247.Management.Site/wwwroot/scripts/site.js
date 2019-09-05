@@ -387,7 +387,7 @@ function SendDeleteLiveMatches() {
 function SendDeleteAllMatches() {
     $.ajax({
         type: "POST",
-        url: getRootUrl() + "Match/DeleteAllMatches",
+        url: getBaseUrl() + "Match/DeleteAllMatches",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function () {
@@ -425,5 +425,5 @@ function getRootUrl() {
 
 function getBaseUrl() {
     var re = new RegExp(/^.*\//);
-    document.getElementById('baseresult').innerHTML += re.exec(window.location.href);
+    return re.exec(window.location.href);
 }
