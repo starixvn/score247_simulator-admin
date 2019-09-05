@@ -113,8 +113,8 @@ $(document).ready(function () {
         var leagueLimit = $('#LeagueInputLimit').val();
         let createDeleteMatchesModels = [
             {
-                EventDate: $('#3rePostEventDate').val(),
-                Count: $('#3rePostCount').val(),
+                EventDate: $('#3rdPostEventDate').val(),
+                Count: $('#3rdPostCount').val(),
                 LeagueLimit: leagueLimit
             },
             {
@@ -128,8 +128,8 @@ $(document).ready(function () {
                 LeagueLimit: leagueLimit
             },
             {
-                EventDate: $('#todayEventDate').val(),
-                Count: $('#todayCount').val(),
+                EventDate: $('#TodayEventDate').val(),
+                Count: $('#TodayCount').val(),
                 LeagueLimit: leagueLimit
             },
             {
