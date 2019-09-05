@@ -317,7 +317,7 @@ namespace Score247.Management.Site.Controllers
             return Json(true);
         }
 
-        [HttpPost("/Match/DeleteAllMatches")]
+        [HttpPost("Match/DeleteAllMatches")]
         public async Task<JsonResult> DeleteAllMatches()
         {
             var matchRepository = new MatchRepository();
