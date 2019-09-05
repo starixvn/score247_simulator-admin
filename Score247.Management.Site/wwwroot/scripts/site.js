@@ -424,5 +424,5 @@ function getRootUrl() {
 }
 
 function urlPrefix() {
-    return $('#urlPrefix').val();
+    return getRootUrl() + $('#urlPrefix').val();
 }
