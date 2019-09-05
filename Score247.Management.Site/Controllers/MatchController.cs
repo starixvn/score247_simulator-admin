@@ -80,7 +80,7 @@ namespace Score247.Management.Site.Controllers
             return await ProcessToDateSearchView(eventDate, selectedLeagueId);
         }
 
-        [HttpPost]
+        [HttpPost("/Match/ShortcutSearchByDate")]
         public async Task<ActionResult> ShortcutSearchByDate(DateSearchModel searchRequest)
         {
             return await ProcessToDateSearchView(searchRequest.SearchDate, searchRequest.SelectedLeagueId);
@@ -260,7 +260,7 @@ namespace Score247.Management.Site.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost("/Match/CreateMatchesByDate")]
         public async Task<JsonResult> CreateMatchesByDate([FromBody] CreateDeleteMatchesModel createDeleteMatchesRequest)
         {
             TimeSpan.TryParse(HttpContext.Session.GetString("Timezone"), out TimeSpan offset);
@@ -274,7 +274,7 @@ namespace Score247.Management.Site.Controllers
             return Json(true);
         }
 
-        [HttpPost]
+        [HttpPost("/Match/CreateLiveMatches")]
         public async Task<JsonResult> CreateLiveMatches([FromBody] CreateDeleteMatchesModel createDeleteMatchesRequest)
         {
             var matchRepository = new MatchRepository(Configuration);
@@ -284,7 +284,7 @@ namespace Score247.Management.Site.Controllers
             return Json(true);
         }
 
-        [HttpPost]
+        [HttpPost("/Match/CreateAllSiteMatches")]
         public async Task<JsonResult> CreateAllSiteMatches([FromBody] List<CreateDeleteMatchesModel> createDeleteMatchesModels)
         {
             var matchRepository = new MatchRepository(Configuration);
@@ -296,7 +296,7 @@ namespace Score247.Management.Site.Controllers
             return Json(true);
         }
 
-        [HttpPost]
+        [HttpPost("/Match/DeleteMatchesByDate")]
         public async Task<JsonResult> DeleteMatchesByDate([FromBody] CreateDeleteMatchesModel createDeleteMatchesRequest)
         {
             TimeSpan.TryParse(HttpContext.Session.GetString("Timezone"), out TimeSpan offset);
@@ -308,7 +308,7 @@ namespace Score247.Management.Site.Controllers
             return Json(true);
         }
 
-        [HttpPost]
+        [HttpPost("/Match/DeleteLiveMatches")]
         public async Task<JsonResult> DeleteLiveMatches([FromBody] CreateDeleteMatchesModel createDeleteMatchesRequest)
         {
             var matchRepository = new MatchRepository();
@@ -317,7 +317,7 @@ namespace Score247.Management.Site.Controllers
             return Json(true);
         }
 
-        [HttpPost]
+        [HttpPost("/Match/DeleteAllMatches")]
         public async Task<JsonResult> DeleteAllMatches()
         {
             var matchRepository = new MatchRepository();
