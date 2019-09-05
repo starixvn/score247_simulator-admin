@@ -26,7 +26,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="SearchDate" class="control-label">Search Date:</label>
-                <input asp-for="SearchDate" class="form-control" />
+                <input value="@Model.SearchDate" name="SearchDate" class="form-control customDatepicker" />
                 <span asp-validation-for="SearchDate" class="text-danger"></span>
             </div>
             <div class="form-group mx-2 d-none">
