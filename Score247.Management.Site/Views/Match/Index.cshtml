@@ -63,8 +63,9 @@
                 </td>
                 <td style="font-size:x-small;">
                     @Html.ActionLink("Main Events", "Details", new { id = item.Id, timeSpan = Model.TimeOffsetString }) |
-                    @Html.ActionLink("Commentories", "Index", new { }) |
-                    @Html.ActionLink("Hightlights", "Index", new { })
+                    @*@Html.ActionLink("Commentories", "Index", new { }) |
+                        @Html.ActionLink("Hightlights", "Index", new { })  |*@
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
                 </td>
             </tr>
         }
@@ -73,129 +74,6 @@
 <div class="form d-none">
     <div class="form-group">
         <input asp-for="TimeOffsetString" class="timezone-hidden" />
-    </div>
-</div>
-<div id="cloneMatches" class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Create Matches</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body filter">
-                <form asp-action="CloneMatches">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="column">
-                        <div class="form-group">
-                            <label asp-for="CloneMatchModel.EventDate" class="control-label">Date</label>
-                            <input asp-for="CloneMatchModel.EventDate" class="form-control" />
-                            <span asp-validation-for="CloneMatchModel.EventDate" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="CloneMatchModel.Count" class="control-label">Count</label>
-                            <input asp-for="CloneMatchModel.Count" class="form-control" />
-                            <span asp-validation-for="CloneMatchModel.Count" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" value="Create" class="btn-submit" />
-                        <input type="button" data-dismiss="modal" value="Cancel" class="btn-cancel" />
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-<div id="cloneLiveMatches" class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Create Live Matches</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body filter">
-                <form asp-action="CloneLiveMatches">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="column">
-                        <div class="form-group">
-                            <label asp-for="CloneMatchModel.EventDate" class="control-label">Date</label>
-                            <input asp-for="CloneMatchModel.EventDate" class="form-control" />
-                            <span asp-validation-for="CloneMatchModel.EventDate" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="CloneMatchModel.Count" class="control-label">Count</label>
-                            <input asp-for="CloneMatchModel.Count" class="form-control" />
-                            <span asp-validation-for="CloneMatchModel.Count" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" value="Create" class="btn-submit" />
-                        <input type="button" data-dismiss="modal" value="Cancel" class="btn-cancel" />
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-<div id="deleteMatchesByDate" class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Delete Matches</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body filter">
-                <form asp-action="DeleteMatchesByDate">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="column">
-                        <div class="form-group">
-                            <label asp-for="DeleteMatchByDateCriteria.FromDate" class="control-label">Date</label>
-                            <input asp-for="DeleteMatchByDateCriteria.FromDate" class="form-control" />
-                            <span asp-validation-for="DeleteMatchByDateCriteria.FromDate" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" value="Delete" class="btn-submit" />
-                        <input type="button" data-dismiss="modal" value="Cancel" class="btn-cancel" />
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id="deleteMatchesByDate" class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Delete Matches</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body filter">
-                <form asp-action="DeleteMatchesByDate">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="column">
-                        <div class="form-group">
-                            <label asp-for="DeleteMatchByDateCriteria.FromDate" class="control-label">Date</label>
-                            <input asp-for="DeleteMatchByDateCriteria.FromDate" class="form-control" />
-                            <span asp-validation-for="DeleteMatchByDateCriteria.FromDate" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" value="Delete" class="btn-submit" />
-                        <input type="button" data-dismiss="modal" value="Cancel" class="btn-cancel" />
-                    </div>
-                </form>
-            </div>
-        </div>
     </div>
 </div>
 

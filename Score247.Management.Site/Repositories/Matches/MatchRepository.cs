@@ -111,46 +111,16 @@ namespace Score247.Management.Site.Repositories.Matches
             return await repository.ExecuteAsync(criteria);
         }
 
-        public async Task<IEnumerable<Match>> GetMatchByDataRange(DateSearchModel dateSearchModel)
-        {
-            IEnumerable<Score247Management.Core.Matches.Models.Match> matches;
-            if (dateSearchModel.SelectedLeagueId == "all")
-            {
-                var criteria = new GetMatchByDateRangeCriteria()
-                {
-                    SportId = 1,
-                    FromDate = dateSearchModel.FromDate,
-                    ToDate = dateSearchModel.ToDate,
-                    Language = "en-US"
-                };
-                matches = await repository.FetchAsync<Match>(criteria);
-            }
-            else
-            {
-                var criteria = new GetMatchByDateRangeAndLeagueCriteria()
-                {
-                    SportId = 1,
-                    FromDate = dateSearchModel.FromDate,
-                    ToDate = dateSearchModel.ToDate,
-                    Language = "en-US",
-                    LeagueId = dateSearchModel.SelectedLeagueId
-                };
-                matches = await repository.FetchAsync<Match>(criteria);
-            }
-
-            return matches.Select(x => x.DeserialValue());
-        }
-
-        public async Task<IEnumerable<Match>> GetMatchByDataRangeWithOffset(DateSearchModel dateSearchModel, TimeSpan offset)
+        public async Task<IEnumerable<Match>> GetMatchByDataRangeWithOffset(DateTime fromDate, DateTime toDate, string leagueId, TimeSpan offset)
         {
             IEnumerable<Match> matches;
-            if (dateSearchModel.SelectedLeagueId == "all")
+            if (leagueId == "all")
             {
                 var criteria = new GetMatchByDateRangeCriteria()
                 {
                     SportId = 1,
-                    FromDate = dateSearchModel.FromDate,
-                    ToDate = dateSearchModel.ToDate,
+                    FromDate = fromDate,
+                    ToDate = toDate,
                     Language = "en-US"
                 };
                 matches = await repository.FetchAsync<Match>(criteria);
@@ -160,10 +130,10 @@ namespace Score247.Management.Site.Repositories.Matches
                 var criteria = new GetMatchByDateRangeAndLeagueCriteria()
                 {
                     SportId = 1,
-                    FromDate = dateSearchModel.FromDate,
-                    ToDate = dateSearchModel.ToDate,
+                    FromDate = fromDate,
+                    ToDate = toDate,
                     Language = "en-US",
-                    LeagueId = dateSearchModel.SelectedLeagueId
+                    LeagueId = leagueId
                 };
                 matches = await repository.FetchAsync<Match>(criteria);
             }
@@ -176,7 +146,7 @@ namespace Score247.Management.Site.Repositories.Matches
             var matches = await GenerateMatches(createDate, limitMatches, offset);
             Func<Task> triggerTask = StartInsertMatchesJobs;
 
-            return await SendCreateMatchesRequest(createDate, matches, triggerTask);
+            return await SendCreateMatchesRequest(matches, triggerTask);
         }
 
         public async Task<int> CreateLiveMatches(int count, string baseUrl, string eventPath)
@@ -185,19 +155,20 @@ namespace Score247.Management.Site.Repositories.Matches
             var matches = await GenerateMatches(createDate, count, TimeSpan.Zero);
             Func<Task> triggerTask = StartInsertMatchesJobs;
 
-            await SendCreateMatchesRequest(createDate, matches, triggerTask);
+            await SendCreateMatchesRequest(matches, triggerTask);
             return await SendTriggerEventForMatches(matches, baseUrl, eventPath);
         }
 
         public async Task<int> CreateAllMatchesSite(List<CreateDeleteMatchesModel> createDeleteMatchesModels, TimeSpan offset)
         {
+            var matches = new List<MatchEntity>();
             foreach (var model in createDeleteMatchesModels)
             {
                 var createDate = new DateTime(model.EventDate.Year, model.EventDate.Month, model.EventDate.Day, 0, 0, 0, DateTimeKind.Utc);
-                var matches = await GenerateMatches(createDate, model.Count, offset);
-
-                await SendCreateMatchesRequest(createDate, matches, null);
+                var newMatches = await GenerateMatches(createDate, model.Count, offset);
+                matches.AddRange(newMatches);
             }
+            await SendCreateMatchesRequest(matches, null);
             await StartInsertMatchesJobs();
 
             return 1;
@@ -245,63 +216,70 @@ namespace Score247.Management.Site.Repositories.Matches
             }
         }
 
-        private async Task<int> SendCreateMatchesRequest(DateTime createDate, List<MatchEntity> matches, Func<Task> triggerTask)
+        private async Task<int> SendCreateMatchesRequest(List<MatchEntity> allMatches, Func<Task> triggerTask)
         {
-            var content = new Models.DailyScheduleDto
+            var matchByDateUTCGroup = allMatches.GroupBy(d => d.Scheduled.Date);
+            foreach (var matchByDate in matchByDateUTCGroup)
             {
-                generated_at = createDate,
-                schema = "Matches",
-                sport_events = matches
-            };
-            var jsonValue = JsonConvert.SerializeObject(content);
-
-            var beginDateToday = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day, 0, 0, 0, DateTimeKind.Utc);
-            var requestPath = Configuration.GetValue<string>("Simulator:DailySchedule");
-
-            if (createDate < beginDateToday)
-            {
-                requestPath = Configuration.GetValue<string>("Simulator:DailyResults");
-                var dailyResults = new List<Result>();
-
-                foreach (var match in matches)
-                {
-                    var matchWithResult = new Result()
-                    {
-                        sport_event = match,
-                        sport_event_status = RandomMatchEventStatus(match.Competitors.ElementAtOrDefault(0).Id, match.Competitors.ElementAtOrDefault(1).Id)
-                    };
-
-                    dailyResults.Add(matchWithResult);
-                }
-
-                var dailyResultRequest = new Models.DailyResultDto
+                var createDate = matchByDate.Key;
+                var matches = matchByDate.ToList();
+                var content = new Models.DailyScheduleDto
                 {
                     generated_at = createDate,
                     schema = "Matches",
-                    results = dailyResults
+                    sport_events = matches
                 };
-                jsonValue = JsonConvert.SerializeObject(dailyResultRequest);
-            }
+                var jsonValue = JsonConvert.SerializeObject(content);
 
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(Configuration.GetValue<string>("Simulator:Url"));
+                var beginDateToday = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day, 0, 0, 0, DateTimeKind.Utc);
+                var requestPath = Configuration.GetValue<string>("Simulator:DailySchedule");
 
-                using (var response = await client.PostAsync(
-                        string.Format(requestPath + "?date={0}",
-                        createDate.ToString("yyyy-MM-dd")),
-                        new StringContent(jsonValue, Encoding.UTF8,
-                        "application/json")))
+                if (createDate < beginDateToday)
                 {
-                    if (!response.IsSuccessStatusCode)
+                    requestPath = Configuration.GetValue<string>("Simulator:DailyResults");
+                    var dailyResults = new List<Result>();
+
+                    foreach (var match in matches)
                     {
-                        return -1;
+                        var matchWithResult = new Result()
+                        {
+                            sport_event = match,
+                            sport_event_status = RandomMatchEventStatus(match.Competitors.ElementAtOrDefault(0).Id, match.Competitors.ElementAtOrDefault(1).Id)
+                        };
+
+                        dailyResults.Add(matchWithResult);
+                    }
+
+                    var dailyResultRequest = new Models.DailyResultDto
+                    {
+                        generated_at = createDate,
+                        schema = "Matches",
+                        results = dailyResults
+                    };
+                    jsonValue = JsonConvert.SerializeObject(dailyResultRequest);
+                }
+
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri(Configuration.GetValue<string>("Simulator:Url"));
+
+                    using (var response = await client.PostAsync(
+                            string.Format(requestPath + "?date={0}",
+                            createDate.ToString("yyyy-MM-dd")),
+                            new StringContent(jsonValue, Encoding.UTF8,
+                            "application/json")))
+                    {
+                        if (!response.IsSuccessStatusCode)
+                        {
+                            return -1;
+                        }
                     }
                 }
-                if (triggerTask != null)
-                {
-                    await triggerTask.Invoke();
-                }
+            }
+
+            if (triggerTask != null)
+            {
+                await triggerTask.Invoke();
             }
 
             return 1;
@@ -394,7 +372,7 @@ namespace Score247.Management.Site.Repositories.Matches
             for (int i = 0; i < limitMatches; i += matchPerLeague)
             {
                 var league = leagues[ran.Next(0, leagues.Count - 1)];
-                matchPerLeague = ran.Next(1, 15);
+                matchPerLeague = ran.Next(1, (int)Math.Sqrt(limitMatches));
 
                 for (int j = 0; j < matchPerLeague; j++)
                 {
@@ -425,7 +403,7 @@ namespace Score247.Management.Site.Repositories.Matches
             var hour = ran.Next(0, 23);
             var minute = ran.Next(0, 12) * 5;
 
-            return new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, hour, minute, 0, DateTimeKind.Utc).Add(offset);
+            return new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, hour, minute, 0, DateTimeKind.Utc).Subtract(offset);
         }
 
         public async Task CloneLiveMatches(GetCloneLiveMatchesCriteria criteria, string baseUrl, string eventPath)
@@ -454,6 +432,11 @@ namespace Score247.Management.Site.Repositories.Matches
         {
             var criteria = new DeleteMatchByDateCriteria() { FromDate = fromDate, ToDate = toDate, LimitCount = limitCount };
             return await repository.ExecuteAsync(criteria);
+        }
+
+        public async Task<int> DeleteMatchByIds(List<string> ids)
+        {
+            return await repository.ExecuteAsync(new DeleteMatchByIdCriteria() { Ids = ids });
         }
     }
 }

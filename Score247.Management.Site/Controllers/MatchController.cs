@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
-using Score247.Management.Site.Criterias.Match;
 using Score247.Management.Site.Helpers;
 using Score247.Management.Site.Models;
 using Score247.Management.Site.Models.Events;
@@ -20,7 +19,6 @@ using Score247.Management.Site.Repositories.Teams;
 using Score247.Management.Site.Services.Matchs;
 using Score247.Management.Site.ViewModels.Match;
 using Score247Management.Core._Shared.Enumerations;
-using Score247Management.Core.Matches.Models;
 
 namespace Score247.Management.Site.Controllers
 {
@@ -36,24 +34,21 @@ namespace Score247.Management.Site.Controllers
         // GET: Match
         public async Task<ActionResult> Index()
         {
-            DateTime a = DateTime.Parse("2019-09-03T00:05:00+00:00");
             var repository = new MatchRepository();
             var leagueRepository = new LeagueRepository();
             var leagues = await leagueRepository.GetLeagues();
-            TimeSpan offset;
-            TimeSpan.TryParse(HttpContext.Session.GetString("Timezone"), out offset);
+            TimeSpan.TryParse(HttpContext.Session.GetString("Timezone"), out TimeSpan offset);
             var viewModal = new MatchViewModel();
-            var timeNow = DateTime.Now;
+            var timeNow = DateTime.UtcNow.Add(offset);
             var fromDate = new DateTime(timeNow.Year, timeNow.Month, timeNow.Day, 0, 0, 0, DateTimeKind.Utc).Subtract(offset);
             var toDate = new DateTime(timeNow.Year, timeNow.Month, timeNow.Day, 23, 59, 59, DateTimeKind.Utc).Subtract(offset);
             viewModal.DateSearchModel = new DateSearchModel()
             {
-                FromDate = fromDate,
-                ToDate = toDate,
+                SearchDate = timeNow,
                 Leagues = leagues,
                 SelectedLeagueId = "all"
             };
-            var matches = await repository.GetMatchByDataRange(viewModal.DateSearchModel);
+            var matches = await repository.GetMatchByDataRangeWithOffset(fromDate, toDate, "all", offset);
             viewModal.Matches = matches;
             viewModal.CreateDeleteMatchesModels = CreateDeleteMatchesModel.CreateFromToDay();
             return View(viewModal);
@@ -63,9 +58,8 @@ namespace Score247.Management.Site.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> _DateRangeSearch(IFormCollection collection)
         {
-            var eventDate = DateTime.Parse(collection["FromDate"]);
-            TimeSpan offset;
-            TimeSpan.TryParse(HttpContext.Session.GetString("Timezone"), out offset);
+            var eventDate = DateTime.Parse(collection["SearchDate"]);
+            TimeSpan.TryParse(HttpContext.Session.GetString("Timezone"), out TimeSpan offset);
             var fromDate = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, 0, 0, 0, DateTimeKind.Utc).Subtract(offset);
             var toDate = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, 23, 59, 59, DateTimeKind.Utc).Subtract(offset);
             var selectedLeagueId = collection["SelectedLeagueId"];
@@ -76,15 +70,13 @@ namespace Score247.Management.Site.Controllers
             {
                 DateSearchModel = new DateSearchModel()
                 {
-                    FromDate = fromDate,
-                    ToDate = toDate,
+                    SearchDate = eventDate,
                     Leagues = leagues,
                     SelectedLeagueId = selectedLeagueId
                 }
             };
 
-            var matches = await repository.GetMatchByDataRangeWithOffset(viewModal.DateSearchModel, offset);
-            viewModal.DateSearchModel.FromDate = eventDate;
+            var matches = await repository.GetMatchByDataRangeWithOffset(fromDate, toDate, selectedLeagueId, offset);
             viewModal.Matches = matches;
             viewModal.CreateDeleteMatchesModels = CreateDeleteMatchesModel.CreateFromToDay();
             return View("Index", viewModal);
@@ -311,21 +303,13 @@ namespace Score247.Management.Site.Controllers
             }
         }
 
-        // POST: Match/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> Delete(string id)
         {
-            try
-            {
-                // TODO: Add delete logic here
+            var repository = new MatchRepository();
+            List<string> ids = new List<string> { id };
+            //await repository.DeleteMatchByIds(ids);
 
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            return RedirectToAction(nameof(Index));
         }
 
         [HttpPost]
