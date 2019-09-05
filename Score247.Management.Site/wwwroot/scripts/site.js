@@ -146,7 +146,7 @@ $(document).ready(function () {
         console.log("Post with Data", JSON.stringify(createDeleteMatchesModels));
         $.ajax({
             type: "POST",
-            url: "/Match/CreateAllSiteMatches",
+            url: urlPrefix() + "/Match/CreateAllSiteMatches",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             data: JSON.stringify(createDeleteMatchesModels),
