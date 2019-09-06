@@ -33,8 +33,8 @@ $(document).ready(function () {
     }).draw();
     var m = $('#mathes-table').DataTable({
         "columnDefs": [{
-            "searchable": false,
-            "orderable": false,
+            "searchable": true,
+            "orderable": true,
             "targets": 0
         }],
         "order": [[1, 'asc']],
@@ -54,8 +54,8 @@ $(document).ready(function () {
 
     var lt = $('#leagues-table').DataTable({
         "columnDefs": [{
-            "searchable": false,
-            "orderable": false,
+            "searchable": true,
+            "orderable": true,
             "targets": 0
         }],
         "order": [[1, 'asc']],
@@ -75,8 +75,8 @@ $(document).ready(function () {
 
     var t = $('#teams-table').DataTable({
         "columnDefs": [{
-            "searchable": false,
-            "orderable": false,
+            "searchable": true,
+            "orderable": true,
             "targets": 0
         }],
         "order": [[1, 'asc']],
