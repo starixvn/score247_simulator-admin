@@ -1,6 +1,5 @@
 ﻿namespace Score247.Management.Site.ViewModels.Match
 {
-    using System;
     using System.Collections.Generic;
     using Score247.Management.Site.Criterias.Match;
     using Score247.Management.Site.Models;

@@ -34,12 +34,12 @@
                 @if (Model.Match.MatchResult.MatchStatus.DisplayName == MatchStatus.Penalties.DisplayName
        || Model.Match.MatchResult.MatchStatus.DisplayName == MatchStatus.EndedAfterPenalties.DisplayName)
                 {
-                    <div class="match-info">
-                        <label class="match-info-name">Penalty Score:</label>
-                        <label class="match-value">
-                            @Html.DisplayFor(model => model.Match.LatestTimeline.ShootoutHomeScore) - @Html.DisplayFor(model => model.Match.LatestTimeline.ShootoutAwayScore)
-                        </label>
-                    </div>
+                <div class="match-info">
+                    <label class="match-info-name">Penalty Score:</label>
+                    <label class="match-value">
+                        @Html.DisplayFor(model => model.Match.LatestTimeline.ShootoutHomeScore) - @Html.DisplayFor(model => model.Match.LatestTimeline.ShootoutAwayScore)
+                    </label>
+                </div>
                 }
                 <div class="match-info">
                     <label class="match-info-name">Current Score:</label>
@@ -54,11 +54,10 @@
                     <label class="match-info-name">Match Status:</label>
                     <label class="match-value">@Html.DisplayFor(model => model.Match.MatchResult.MatchStatus.DisplayName) - @Html.DisplayFor(model => model.Match.MatchResult.MatchTime)'</label>
                 </div>
-
             </div>
         </div>
     </div>
-    
+
     <div class="row">
         <div id="accordion" class="col-sm-4">
             <partial name="_CreateTimeEventPartial" model="Model.MatchTimeEventDto" view-data="eventViewData" />

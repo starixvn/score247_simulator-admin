@@ -59,7 +59,6 @@ header {
     padding: 16px;
 }
 
-
 %btn {
     border: none;
     cursor: pointer;
@@ -127,10 +126,10 @@ header {
     }
 }
 
-
 .list-quick-action {
     display: flex;
     margin-bottom: 10px;
+
     [class^="btn"]:not(:last-child) {
         margin-right: 16px;
     }

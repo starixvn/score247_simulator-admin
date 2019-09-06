@@ -21,7 +21,7 @@
 <form class="list-quick-action">
     @foreach (var item in Model.QuickDateSelectOptions)
     {
-        <button type="button" class="btn-default mr-3" onclick="ShortcutSearchByDate(@item)">@item</button>
+        <button type="button" onclick="location.href='@Url.Action("ShortcutSearchByDate", "Match", new {searchDate = item, leagueId = Model.DateSearchModel.SelectedLeagueId})'" class="btn-default mr-3">@item</button>
     }
 </form>
 <table id="mathes-table" class="table table-striped table-bordered" style="width:100%">

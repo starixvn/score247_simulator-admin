@@ -25,6 +25,5 @@
 
         public IEnumerable<Player> Substitutions { get; set; }
         public string qualifier { get; set; }
-
     }
 }

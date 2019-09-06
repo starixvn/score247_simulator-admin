@@ -60,13 +60,13 @@ namespace Score247.Management.Site.Controllers
         {
             var options = new List<string>();
             var today = DateTime.UtcNow;
-            options.Add(today.AddDays(-3).Add(offset).ToShortDateString());
-            options.Add(today.AddDays(-2).Add(offset).ToShortDateString());
-            options.Add(today.AddDays(-1).Add(offset).ToShortDateString());
-            options.Add(today.Add(offset).ToShortDateString());
-            options.Add(today.AddDays(1).Add(offset).ToShortDateString());
-            options.Add(today.AddDays(2).Add(offset).ToShortDateString());
-            options.Add(today.AddDays(3).Add(offset).ToShortDateString());
+            options.Add(today.AddDays(-3).Add(offset).ToString("MM/dd/yyyy"));
+            options.Add(today.AddDays(-2).Add(offset).ToString("MM/dd/yyyy"));
+            options.Add(today.AddDays(-1).Add(offset).ToString("MM/dd/yyyy"));
+            options.Add(today.Add(offset).ToString("MM/dd/yyyy"));
+            options.Add(today.AddDays(1).Add(offset).ToString("MM/dd/yyyy"));
+            options.Add(today.AddDays(2).Add(offset).ToString("MM/dd/yyyy"));
+            options.Add(today.AddDays(3).Add(offset).ToString("MM/dd/yyyy"));
 
             return options;
         }
@@ -80,10 +80,9 @@ namespace Score247.Management.Site.Controllers
             return await ProcessToDateSearchView(eventDate, selectedLeagueId);
         }
 
-        [HttpPost("/Match/ShortcutSearchByDate")]
-        public async Task<ActionResult> ShortcutSearchByDate(DateSearchModel searchRequest)
+        public async Task<ActionResult> ShortcutSearchByDate(string searchDate, string leagueId)
         {
-            return await ProcessToDateSearchView(searchRequest.SearchDate, searchRequest.SelectedLeagueId);
+            return await ProcessToDateSearchView(DateTime.ParseExact(searchDate, "MM/dd/yyyy", null), leagueId);
         }
 
         private async Task<IEnumerable<Match>> SearchMatchByDateAndLeague(DateTime dateSearch, string leagueId, TimeSpan offset)

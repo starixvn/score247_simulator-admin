@@ -407,9 +407,10 @@ function SendDeleteAllMatches() {
 }
 
 function ShortcutSearchByDate(searchDate) {
+    console.log(searchDate);
     var selectedLeagueId = $('#leagueFilterId').val();
     var searchRequest = {
-        SearchDate: searchDate,
+        SearchDate: moment(searchDate, "MM/DD/YYYY"),
         SelectedLeagueId: selectedLeagueId
     };
 

@@ -1,7 +1,6 @@
 ﻿namespace Score247.Management.Site.Criterias.Match
 {
     using System;
-    using System.ComponentModel.DataAnnotations;
     using Fanex.Data.Repository;
 
     public class DeleteMatchByDateCriteria : NonQueryCommand

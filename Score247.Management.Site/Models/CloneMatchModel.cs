@@ -8,7 +8,6 @@
         public int Count { get; set; }
 
         [DataType(DataType.Date)]
-
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime EventDate { get; set; }
     }
