@@ -311,10 +311,21 @@ namespace Score247.Management.Site.Repositories.Matches
             };
             eventStatus.home_score = eventStatus.period_scores.Sum(x => x.home_score);
             eventStatus.away_score = eventStatus.period_scores.Sum(x => x.away_score);
-            eventStatus.aggregate_home_score = eventStatus.home_score;
-            eventStatus.aggregate_away_score = eventStatus.away_score;
-            eventStatus.winner_id = (eventStatus.home_score > eventStatus.away_score) ? homeTeamId : ((eventStatus.away_score > eventStatus.home_score) ? awayTeamId : null);
-            eventStatus.aggregate_winner_id = eventStatus.winner_id;
+            if (eventStatus.home_score > eventStatus.away_score)
+            {
+                eventStatus.winner_id = homeTeamId;
+            }
+            if (eventStatus.away_score > eventStatus.home_score)
+            {
+                eventStatus.winner_id = awayTeamId;
+            }
+
+            if (ran.Next(100) > 50)
+            {
+                eventStatus.aggregate_winner_id = eventStatus.winner_id;
+                eventStatus.aggregate_home_score = eventStatus.home_score;
+                eventStatus.aggregate_away_score = eventStatus.away_score;
+            }
             eventStatus.clock = new Clock() { match_time = "90:00" };
             eventStatus.match_status = MatchStatus.Ended.DisplayName;
             eventStatus.period = 2;
