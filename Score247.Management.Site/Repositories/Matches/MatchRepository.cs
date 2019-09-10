@@ -14,6 +14,7 @@ using Score247.Management.Site.Models.Events;
 using Score247.Management.Site.Repositories.Leagues;
 using Score247.Management.Site.Repositories.Matches.Models;
 using Score247.Management.Site.Repositories.Teams;
+using Score247.Management.Site.Services;
 using Score247.Management.Site.Services.Matchs;
 using Score247Management.Core._Shared.Enumerations;
 using Score247Management.Core.Matches.Models;
@@ -144,9 +145,8 @@ namespace Score247.Management.Site.Repositories.Matches
         public async Task<int> CreateMatches(DateTime createDate, int limitMatches, TimeSpan offset, int limitLeagues)
         {
             var matches = await GenerateMatches(createDate, limitMatches, offset, limitLeagues);
-            Func<Task> triggerTask = StartInsertMatchesJobs;
 
-            await SendCreateMatchesRequest(matches, triggerTask);
+            await SendCreateMatchesRequest(matches, true);
             return await CheckIfMatchInserted(matches.LastOrDefault());
         }
 
@@ -170,9 +170,8 @@ namespace Score247.Management.Site.Repositories.Matches
         {
             var createDate = DateTime.UtcNow;
             var matches = await GenerateMatches(createDate, count, TimeSpan.Zero, limitLeagues);
-            Func<Task> triggerTask = StartInsertMatchesJobs;
 
-            await SendCreateMatchesRequest(matches, triggerTask);
+            await SendCreateMatchesRequest(matches, true);
             return await SendTriggerEventForMatches(matches, baseUrl, eventPath);
         }
 
@@ -185,8 +184,8 @@ namespace Score247.Management.Site.Repositories.Matches
                 var newMatches = await GenerateMatches(createDate, model.Count, offset, model.LeagueLimit);
                 matches.AddRange(newMatches);
             }
-            await SendCreateMatchesRequest(matches, null);
-            await StartInsertMatchesJobs();
+            await SendCreateMatchesRequest(matches, false);
+            await SimulatorService.StartInsertMatchesJobs(Configuration);
 
             return 1;
         }
@@ -220,20 +219,7 @@ namespace Score247.Management.Site.Repositories.Matches
             return 1;
         }
 
-        public async Task SendCleanExistData()
-        {
-            using (var triggerClient = new HttpClient
-            {
-                BaseAddress = new Uri(Configuration.GetValue<string>("Simulator:Url"))
-            })
-            {
-                var request = new HttpRequestMessage(HttpMethod.Post, Configuration.GetValue<string>("Simulator:CleanMatch"));
-
-                await triggerClient.SendAsync(request);
-            }
-        }
-
-        private async Task<int> SendCreateMatchesRequest(List<MatchEntity> allMatches, Func<Task> triggerTask)
+        private async Task<int> SendCreateMatchesRequest(List<MatchEntity> allMatches, bool requiredTriggerInsertMatch)
         {
             var matchByDateUTCGroup = allMatches.GroupBy(d => d.Scheduled.Date);
             foreach (var matchByDate in matchByDateUTCGroup)
@@ -294,9 +280,9 @@ namespace Score247.Management.Site.Repositories.Matches
                 }
             }
 
-            if (triggerTask != null)
+            if (requiredTriggerInsertMatch)
             {
-                await triggerTask.Invoke();
+                await SimulatorService.StartInsertMatchesJobs(Configuration);
             }
 
             return 1;
@@ -334,25 +320,6 @@ namespace Score247.Management.Site.Repositories.Matches
             eventStatus.period = 2;
             eventStatus.status = "closed";
             return eventStatus;
-        }
-
-        private async Task StartInsertMatchesJobs()
-        {
-            var triggerClient = new HttpClient
-            {
-                BaseAddress = new Uri(Configuration.GetValue<string>("Simulator:FetchUrl"))
-            };
-
-            var request = new HttpRequestMessage(HttpMethod.Post, "");
-
-            var fetchContent = new FormUrlEncodedContent(new[]{
-                            new KeyValuePair < string, string > ("jobs[]", "FetchPreMatch"),
-                            new KeyValuePair < string, string > ("jobs[]", "FetchPostMatch"),
-                            new KeyValuePair < string, string > ("jobs[]", "FetchLiveMatch")});
-
-            request.Content = fetchContent;
-
-            await triggerClient.SendAsync(request);
         }
 
         public async Task<int> DeleteAllMatches()
@@ -452,9 +419,9 @@ namespace Score247.Management.Site.Repositories.Matches
             return await repository.ExecuteAsync(criteria);
         }
 
-        public async Task<int> DeleteMatchByIds(List<string> ids)
+        public async Task<int> DeleteMatchById(string id)
         {
-            return await repository.ExecuteAsync(new DeleteMatchByIdCriteria() { Ids = ids });
+            return await repository.ExecuteAsync(new DeleteMatchByIdCriteria() { Id = id });
         }
     }
 }

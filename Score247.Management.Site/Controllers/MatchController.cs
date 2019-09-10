@@ -16,6 +16,7 @@ using Score247.Management.Site.Repositories.Leagues;
 using Score247.Management.Site.Repositories.Matches;
 using Score247.Management.Site.Repositories.Matches.Models;
 using Score247.Management.Site.Repositories.Teams;
+using Score247.Management.Site.Services;
 using Score247.Management.Site.Services.Matchs;
 using Score247.Management.Site.ViewModels.Match;
 using Score247Management.Core._Shared.Enumerations;
@@ -26,10 +27,12 @@ namespace Score247.Management.Site.Controllers
     public class MatchController : Controller
     {
         private IConfiguration Configuration { get; set; }
+        private CreateMatchesService CreateMatchesService { get; set; }
 
         public MatchController(IConfiguration configuration)
         {
             Configuration = configuration;
+            CreateMatchesService = new CreateMatchesServiceImpl();
         }
 
         // GET: Match
@@ -173,87 +176,11 @@ namespace Score247.Management.Site.Controllers
         {
             try
             {
-                var leagueRepo = new LeagueRepository();
-                string leagueId = collection["Match.Tournament.Id"];
-                var league = await leagueRepo.GetLeagueById(leagueId);
-
-                var teamRepo = new TeamRepository();
-                var teams = await teamRepo.GetTeams();
-
-                var MatchEntity = new MatchEntity();
-                MatchEntity.Id = UniqueGenerator.GetIdWithPattern("sr:match:");
-                MatchEntity.Status = collection["Match.Status"];
-                MatchEntity.Venue = new Score247Management.Core.Matches.Models.Venue
-                {
-                    Id = "sr:venue:" + collection["Match.Venue.Name"],
-                    Name = collection["Match.Venue.Name"],
-                    CountryName = collection["Match.Venue.CountryName"]
-                };
-                MatchEntity.Tournament = league;
-                var competitors = new List<Score247Management.Core.Teams.Models.Team>();
-                var homeTeam = teams.FirstOrDefault(x => x.Id == collection["HomeTeam.Id"]);
-                homeTeam.Statistic = new Score247Management.Core.Teams.Models.TeamStatistics();
-                homeTeam.qualifier = "home";
-                var awayTeam = teams.FirstOrDefault(x => x.Id == collection["AwayTeam.Id"]);
-                awayTeam.Statistic = new Score247Management.Core.Teams.Models.TeamStatistics();
-                awayTeam.qualifier = "away";
-                competitors.Add(homeTeam);
-                competitors.Add(awayTeam);
-                MatchEntity.Competitors = competitors;
-
-                TimeSpan offset;
-                TimeSpan.TryParse(HttpContext.Session.GetString("Timezone"), out offset);
-
-                var dateTime = Convert.ToDateTime(collection["Match.Scheduled"]);
-                var timeSpan = TimeSpan.Parse(collection["Match.ScheduledTime"]);
-                MatchEntity.Scheduled = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds, DateTimeKind.Utc).Subtract(offset);
-                MatchEntity.TournamentRound = new Score247Management.Core.Leagues.Models.LeagueRound();
-                MatchEntity.TournamentRound.Type = LeagueRoundType.FromDisplayName<LeagueRoundType>(collection["Match.TournamentRound.Type.Value"]);
-                MatchEntity.TournamentRound.Name = collection["Match.TournamentRound.Name"];
-                MatchEntity.TournamentRound.Number = Int32.Parse(collection["Match.TournamentRound.Number"]);
-                MatchEntity.TournamentRound.Phase = collection["Match.TournamentRound.Phase"];
-                MatchEntity.TournamentRound.Group = collection["Match.TournamentRound.Group"];
-                using (var client = new HttpClient())
-                {
-                    client.BaseAddress = new Uri(Configuration.GetValue<string>("Simulator:Url"));
-                    var MatchEntityes = new List<MatchEntity> { MatchEntity };
-                    var content = new Repositories.Matches.Models.DailyScheduleDto
-                    {
-                        generated_at = DateTime.UtcNow,
-                        schema = "Matches",
-                        sport_events = MatchEntityes
-                    };
-                    var jsonValue = JsonConvert.SerializeObject(content);
-
-                    var requestPath = Configuration.GetValue<string>("Simulator:DailySchedule");
-
-                    var response = await client.PostAsync(string.Format(requestPath + "?date={0}", MatchEntity.Scheduled.ToString("yyyy-MM-dd")), new StringContent(jsonValue, Encoding.UTF8, "application/json"));
-                    if (!response.IsSuccessStatusCode)
-                    {
-                        return View();
-                    }
-                    var triggerClient = new HttpClient();
-                    triggerClient.BaseAddress = new Uri(Configuration.GetValue<string>("Simulator:FetchUrl"));
-                    var request = new HttpRequestMessage(HttpMethod.Post, "");
-                    FormUrlEncodedContent fetchContent = new FormUrlEncodedContent(
-                        new[]{
-                            new KeyValuePair < string, string > ("jobs[]", "FetchPreMatch"),
-                            new KeyValuePair < string, string > ("jobs[]", "FetchPostMatch"),
-                            new KeyValuePair < string, string > ("jobs[]", "FetchLiveMatch")
-                    });
-                    request.Content = fetchContent;
-                    await triggerClient.SendAsync(request);
-                    var matchRepository = new MatchRepository();
-                    var matchCreated = await matchRepository.GetMatchById(MatchEntity.Id);
-                    while (matchCreated == null)
-                    {
-                        await Task.Delay(1000);
-                        matchCreated = await matchRepository.GetMatchById(MatchEntity.Id);
-                    }
-                }
-                return RedirectToAction(nameof(Details), new { id = MatchEntity.Id, timeSpan = collection["Timezone"].ToString() });
+                TimeSpan.TryParse(HttpContext.Session.GetString("Timezone"), out TimeSpan offset);
+                var matchId = await CreateMatchesService.CreateMatcheWithForm(collection, offset, Configuration);
+                return RedirectToAction(nameof(Details), new { id = matchId, timeSpan = collection["Timezone"].ToString() });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return View();
             }
@@ -263,31 +190,22 @@ namespace Score247.Management.Site.Controllers
         public async Task<JsonResult> CreateMatchesByDate([FromBody] CreateDeleteMatchesModel createDeleteMatchesRequest)
         {
             TimeSpan.TryParse(HttpContext.Session.GetString("Timezone"), out TimeSpan offset);
-
-            var createDate = new DateTime(createDeleteMatchesRequest.EventDate.Year, createDeleteMatchesRequest.EventDate.Month, createDeleteMatchesRequest.EventDate.Day, 0, 0, 0, DateTimeKind.Utc);
-
-            var matchRepository = new MatchRepository(Configuration);
-            await matchRepository.SendCleanExistData();
-            await matchRepository.CreateMatches(createDate, createDeleteMatchesRequest.Count, offset, createDeleteMatchesRequest.LeagueLimit);
-
-            return Json(true);
+            var result = await CreateMatchesService.CreateMatchesByDate(createDeleteMatchesRequest, offset, Configuration);
+            return Json(result);
         }
 
         [HttpPost("/Match/CreateLiveMatches")]
         public async Task<JsonResult> CreateLiveMatches([FromBody] CreateDeleteMatchesModel createDeleteMatchesRequest)
         {
-            var matchRepository = new MatchRepository(Configuration);
-            await matchRepository.SendCleanExistData();
-            await matchRepository.CreateLiveMatches(createDeleteMatchesRequest.Count, createDeleteMatchesRequest.LeagueLimit, Configuration.GetValue<string>("Simulator:Url"), Configuration.GetValue<string>("Simulator:PushEvent"));
-
-            return Json(true);
+            var result = await CreateMatchesService.CreateLiveMatches(createDeleteMatchesRequest, Configuration);
+            return Json(result);
         }
 
         [HttpPost("/Match/CreateAllSiteMatches")]
         public async Task<JsonResult> CreateAllSiteMatches([FromBody] List<CreateDeleteMatchesModel> createDeleteMatchesModels)
         {
             var matchRepository = new MatchRepository(Configuration);
-            await matchRepository.SendCleanExistData();
+            await SimulatorService.SendCleanExistData(Configuration);
 
             TimeSpan.TryParse(HttpContext.Session.GetString("Timezone"), out TimeSpan offset);
             await matchRepository.CreateAllMatchesSite(createDeleteMatchesModels, offset);
@@ -342,13 +260,11 @@ namespace Score247.Management.Site.Controllers
             }
         }
 
-        public async Task<ActionResult> Delete(string id)
+        public async Task<ActionResult> Delete(string id, DateTime searchDate, string leagueId)
         {
             var repository = new MatchRepository();
-            List<string> ids = new List<string> { id };
-            //await repository.DeleteMatchByIds(ids);
-
-            return RedirectToAction(nameof(Index));
+            await repository.DeleteMatchById(id);
+            return await ProcessToDateSearchView(searchDate, leagueId);
         }
 
         [HttpPost]

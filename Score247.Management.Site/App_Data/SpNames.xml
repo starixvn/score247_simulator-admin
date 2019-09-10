@@ -29,6 +29,7 @@
     <Setting Key="Match_DeleteMatchByDate" SpName="Match_DeleteMatchByDate" DbName="DevConnection" />
     <Setting Key="Match_DeleteLiveMatch" SpName="Match_DeleteLiveMatch" DbName="DevConnection" />
     <Setting Key="Match_DeleteAll" SpName="Match_DeleteAll" DbName="DevConnection" />
+    <Setting Key="Match_DeleteById" SpName="Match_DeleteById" DbName="DevConnection" />
     <Setting Key="LiveMatch_GetBySportId" SpName="LiveMatch_GetBySportId" DbName="DevConnection" />
   </Function>
   <Function Name="Odds">

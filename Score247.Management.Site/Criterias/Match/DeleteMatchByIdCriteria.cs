@@ -5,12 +5,12 @@
 
     public class DeleteMatchByIdCriteria : NonQueryCommand
     {
-        public List<string> Ids { get; set; }
+        public string Id { get; set; }
 
         public override string GetSettingKey()
-            => "Match_DeleteByIds";
+            => "Match_DeleteById";
 
         public override bool IsValid()
-            => Ids.Count > 0;
+            => Id != "";
     }
 }
