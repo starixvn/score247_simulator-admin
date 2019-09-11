@@ -16,11 +16,51 @@
                                                Text = i.Name,
                                                Value = i.Id
                                            });
-    IEnumerable<SelectListItem> status = MatchStatus.GetAll<MatchStatus>().Select(i => new SelectListItem()
+    List<SelectListItem> status = new List<SelectListItem>();
+    status.Add(new SelectListItem()
     {
-        Text = i.DisplayName,
-        Value = i.DisplayName
+        Text = "Not Start",
+        Value = "not_started"
     });
+    status.Add(new SelectListItem()
+    {
+        Text = "Postponed",
+        Value = "postponed"
+    });
+    status.Add(new SelectListItem()
+    {
+        Text = "Start Delayed",
+        Value = "start_delayed"
+    });
+    status.Add(new SelectListItem()
+    {
+        Text = "Cancelled",
+        Value = "cancelled"
+    });
+    status.Add(new SelectListItem()
+    {
+        Text = "Abadoned",
+        Value = "abandoned"
+    });
+
+    status.Add(new SelectListItem()
+    {
+        Text = "Ended Normal",
+        Value = "closed"
+    });
+
+    status.Add(new SelectListItem()
+    {
+        Text = "Ended After Extratime",
+        Value = "aet"
+    });
+
+    status.Add(new SelectListItem()
+    {
+        Text = "Ended After Penalty",
+        Value = "ap"
+    });
+
     IEnumerable<SelectListItem> leagueRoundTypes = LeagueRoundType.GetAll<LeagueRoundType>().Select(i => new SelectListItem()
     {
         Text = i.DisplayName,
@@ -33,6 +73,10 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-row">
+                @*<div class="form-group col-md-12">
+                        <input type="checkbox" class="form-check-input ml-2" name="Match.IsPostMatch" onchange="IsPreMatchChanged(this)" id="isPreMatch">
+                        <label class="form-check-label ml-5" for="isPreMatch">Is Post Match</label>
+                    </div>*@
                 <div class="form-group col-md-6">
                     <label asp-for="Match.Tournament.Id" class="control-label">League</label>
                     <select asp-for="Match.Tournament.Id" asp-items="tournaments" class="form-control"></select>
@@ -76,7 +120,7 @@
 
                 <div class="form-group col-md-6">
                     <label asp-for="Match.Status" class="control-label"></label>
-                    <select asp-for="Match.Status" asp-items="status" class="form-control"></select>
+                    <select id="newMatchStatus" asp-for="Match.Status" asp-items="status" class="form-control"></select>
                     <span asp-validation-for="Match.Status" class="text-danger"></span>
                 </div>
                 <div class="form-group col-md-6">

@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Score247.Management.Site.Helpers;
 using Score247.Management.Site.Models;
+using Score247.Management.Site.Models.Events;
 using Score247.Management.Site.Repositories.Leagues;
 using Score247.Management.Site.Repositories.Matches;
 using Score247.Management.Site.Repositories.Matches.Models;
@@ -63,6 +64,7 @@ namespace Score247.Management.Site.Services.Matchs
             {
                 Id = UniqueGenerator.GetIdWithPattern("sr:match:"),
                 Status = collection["Match.Status"],
+                MatchStatus = collection["Match.Status"],
                 Venue = new Score247Management.Core.Matches.Models.Venue
                 {
                     Id = "sr:venue:" + collection["Match.Venue.Name"],
@@ -71,7 +73,7 @@ namespace Score247.Management.Site.Services.Matchs
                 },
                 Tournament = league
             };
-            var competitors = new List<Team>();
+            var competitors = new List<Score247Management.Core.Teams.Models.Team>();
             var homeTeam = teams.FirstOrDefault(x => x.Id == collection["HomeTeam.Id"]);
             homeTeam.Statistic = new Score247Management.Core.Teams.Models.TeamStatistics();
             homeTeam.qualifier = "home";
@@ -93,6 +95,79 @@ namespace Score247.Management.Site.Services.Matchs
                 Phase = collection["Match.TournamentRound.Phase"],
                 Group = collection["Match.TournamentRound.Group"]
             };
+            var beginingUTCToday = DateTimeHelper.GetBeginingOfDate(DateTime.UtcNow);
+            if (newMatch.Scheduled < beginingUTCToday)
+            {
+                using (HttpResponseMessage response = await SendCreatePostMatch(configuration, newMatch))
+                {
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        return "";
+                    }
+                }
+            }
+            else
+            {
+                using (HttpResponseMessage response = await SendCreatePreMatch(configuration, newMatch))
+                {
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        return "";
+                    }
+                }
+            }
+
+            await SendTriggerCreateMatches(configuration, newMatch);
+
+            return newMatch.Id;
+        }
+
+        private static async Task SendTriggerCreateMatches(IConfiguration configuration, MatchEntity newMatch)
+        {
+            await SimulatorService.StartInsertMatchesJobs(configuration);
+
+            var matchRepository = new MatchRepository();
+            var matchCreated = await matchRepository.GetMatchById(newMatch.Id);
+            while (matchCreated == null)
+            {
+                await Task.Delay(1000);
+                matchCreated = await matchRepository.GetMatchById(newMatch.Id);
+            }
+        }
+
+        private static async Task<HttpResponseMessage> SendCreatePostMatch(IConfiguration configuration, MatchEntity newMatch)
+        {
+            var dailyResults = new List<Repositories.Matches.Models.Result>();
+
+            var matchWithResult = new Repositories.Matches.Models.Result()
+            {
+                sport_event = newMatch,
+                sport_event_status = GenerateDefaultEventStatusFromMatchEntity(newMatch)
+            };
+
+            dailyResults.Add(matchWithResult);
+            var dailyResultRequest = new Repositories.Matches.Models.DailyResultDto
+            {
+                generated_at = newMatch.Scheduled,
+                schema = "Matches",
+                results = dailyResults
+            };
+            var jsonValue = JsonConvert.SerializeObject(dailyResultRequest);
+            var requestPath = configuration.GetValue<string>("Simulator:DailyResults");
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(configuration.GetValue<string>("Simulator:Url"));
+
+                return await client.PostAsync(
+                        string.Format(requestPath + "?date={0}",
+                        newMatch.Scheduled.ToString("yyyy-MM-dd")),
+                        new StringContent(jsonValue, Encoding.UTF8,
+                        "application/json"));
+            }
+        }
+
+        private static async Task<HttpResponseMessage> SendCreatePreMatch(IConfiguration configuration, MatchEntity newMatch)
+        {
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(configuration.GetValue<string>("Simulator:Url"));
@@ -107,26 +182,51 @@ namespace Score247.Management.Site.Services.Matchs
 
                 var requestPath = configuration.GetValue<string>("Simulator:DailySchedule");
 
-                using (HttpResponseMessage response = await client.PostAsync(string.Format(requestPath + "?date={0}", newMatch.Scheduled.ToString("yyyy-MM-dd")), new StringContent(jsonValue, Encoding.UTF8, "application/json")))
-                {
-                    if (!response.IsSuccessStatusCode)
-                    {
-                        return "";
-                    }
-                }
+                return await client.PostAsync(string.Format(requestPath + "?date={0}", newMatch.Scheduled.ToString("yyyy-MM-dd")), new StringContent(jsonValue, Encoding.UTF8, "application/json"));
+            }
+        }
 
-                await SimulatorService.StartInsertMatchesJobs(configuration);
+        private static Sport_Event_Status GenerateDefaultEventStatusFromMatchEntity(MatchEntity matchEntity)
+        {
+            var result = new Sport_Event_Status()
+            {
+                match_status = matchEntity.MatchStatus,
+                aggregate_away_score = 0,
+                aggregate_home_score = 0,
+                aggregate_winner_id = null,
+                away_score = 0,
+                home_score = 0,
+                clock = new Clock(),
+                period = 1,
+                period_scores = null,
+                status = GetEventStatusFromMatchStatus(matchEntity.Status),
+                winner_id = null
+            };
 
-                var matchRepository = new MatchRepository();
-                var matchCreated = await matchRepository.GetMatchById(newMatch.Id);
-                while (matchCreated == null)
-                {
-                    await Task.Delay(1000);
-                    matchCreated = await matchRepository.GetMatchById(newMatch.Id);
-                }
+            return result;
+        }
+
+        private static string GetEventStatusFromMatchStatus(string matchStatus)
+        {
+            if (matchStatus == MatchStatus.Ended.DisplayName
+                || matchStatus == MatchStatus.EndedAfterPenalties.DisplayName
+                || matchStatus == MatchStatus.EndedExtraTime.DisplayName
+                || matchStatus == MatchStatus.Closed.DisplayName
+                || matchStatus == MatchStatus.FullTime.DisplayName)
+            {
+                return MatchStatus.Closed.DisplayName;
+            }
+            else if (matchStatus == MatchStatus.NotStarted.DisplayName
+                || matchStatus == MatchStatus.Postponed.DisplayName
+                || matchStatus == MatchStatus.Cancelled.DisplayName
+                || matchStatus == MatchStatus.StartDelayed.DisplayName
+                || matchStatus == MatchStatus.Abandoned.DisplayName
+                || matchStatus == MatchStatus.Pause.DisplayName)
+            {
+                return matchStatus;
             }
 
-            return newMatch.Id;
+            return MatchStatus.Live.DisplayName;
         }
     }
 }

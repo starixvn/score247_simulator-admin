@@ -12,6 +12,7 @@ namespace Score247.Management.Site.Repositories.Matches.Models
     {
         public string Id { get; set; }
         public string Status { get; set; }
+        public string MatchStatus { get; set; }
 
         [DataType(DataType.Date)]
         public DateTime Scheduled { get; set; }

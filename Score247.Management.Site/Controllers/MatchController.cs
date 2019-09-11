@@ -178,6 +178,10 @@ namespace Score247.Management.Site.Controllers
             {
                 TimeSpan.TryParse(HttpContext.Session.GetString("Timezone"), out TimeSpan offset);
                 var matchId = await CreateMatchesService.CreateMatcheWithForm(collection, offset, Configuration);
+                if (string.IsNullOrEmpty(matchId))
+                {
+                    return View();
+                }
                 return RedirectToAction(nameof(Details), new { id = matchId, timeSpan = collection["Timezone"].ToString() });
             }
             catch (Exception)
