@@ -299,6 +299,16 @@
             matchEvent.payload.timeline.type = EventType.MatchEnded.DisplayName;
             matchEvent.payload.timeline.match_clock = "120:00";
 
+            var penaltyResult = matchEvent.payload.sport_event_status.period_scores.FirstOrDefault(x => x.type == PeriodType.Penalties.DisplayName);
+            if (penaltyResult.home_score > penaltyResult.away_score)
+            {
+                matchEvent.payload.sport_event_status.winner_id = match.Teams.FirstOrDefault(x => x.IsHome).Id;
+            }
+            else
+            {
+                matchEvent.payload.sport_event_status.winner_id = match.Teams.FirstOrDefault(x => !x.IsHome).Id;
+            }
+
             return matchEvent;
         }
     }

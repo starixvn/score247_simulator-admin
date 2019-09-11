@@ -531,6 +531,16 @@ namespace Score247.Management.Site.Controllers
                             type = "penalties"
                         });
                     }
+
+                    var penaltyResult = requestBody.payload.sport_event_status.period_scores.FirstOrDefault(x => x.type == PeriodType.Penalties.DisplayName);
+                    if (penaltyResult.home_score > penaltyResult.away_score)
+                    {
+                        requestBody.payload.sport_event_status.winner_id = match.Teams.FirstOrDefault(x => x.IsHome).Id;
+                    }
+                    else
+                    {
+                        requestBody.payload.sport_event_status.winner_id = match.Teams.FirstOrDefault(x => !x.IsHome).Id;
+                    }
                 }
                 else
                 {
