@@ -3,7 +3,7 @@
 <form class="list-quick-action" asp-action="CreateScenario" asp-route-matchId="@ViewBag.MatchId">
     <div class="form-group mx-sm-3 my-auto">
         <label for="scenarioName" class="sr-only">Scenario name:</label>
-        <input type="text" class="form-control" id="scenarioName" placeholder="Scenario Name" name="scenarioName">
+        <input type="text" class="form-control" id="scenarioName" required placeholder="Scenario Name" name="scenarioName">
     </div>
     <input type="submit" value="Create Scenario" class="btn-default my-auto" />
 </form>
