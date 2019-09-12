@@ -21,7 +21,7 @@
 
 <h1 class="page-title">Details</h1>
 <div>
-    <partial name="_AutoPushEventPartial" view-data="eventViewData" />
+    @*<partial name="_AutoPushEventPartial" view-data="eventViewData" />*@
     <form class="form form-inline" asp-action="ApplyScenario" asp-route-matchId="@Model.Match.Id">
         <div class="form-group col-md-2">
             <label class="control-label">Choose Scenario:</label>
@@ -47,7 +47,7 @@
                     <label class="match-value">@Html.DisplayFor(model => model.Match.DisplayDate)</label>
                 </div>
                 @if (Model.Match.MatchResult.MatchStatus.DisplayName == MatchStatus.Penalties.DisplayName
-     || Model.Match.MatchResult.MatchStatus.DisplayName == MatchStatus.EndedAfterPenalties.DisplayName)
+|| Model.Match.MatchResult.MatchStatus.DisplayName == MatchStatus.EndedAfterPenalties.DisplayName)
                 {
                     <div class="match-info">
                         <label class="match-info-name">Penalty Score:</label>
