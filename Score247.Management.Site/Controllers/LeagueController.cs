@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Score247.Management.Site.Criterias.League;
 using Score247.Management.Site.Helpers;
 using Score247.Management.Site.Repositories.Leagues;
+using Score247.Management.Site.Services.Crawlers;
 using Score247.Management.Site.ViewModels.League;
 
 namespace Score247.Management.Site.Controllers
@@ -96,6 +97,20 @@ namespace Score247.Management.Site.Controllers
             try
             {
                 // TODO: Add delete logic here
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        public async Task<ActionResult> SyncFlagLeague(IFormCollection collection)
+        {
+            try
+            {
+                var manifest = await CountryFlagCrawlerService.GetCountryImageManifest();
 
                 return RedirectToAction(nameof(Index));
             }

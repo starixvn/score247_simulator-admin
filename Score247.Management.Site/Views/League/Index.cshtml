@@ -5,9 +5,9 @@
 }
 
 <h1 class="page-title">Leagues</h1>
-<form class="form-inline list-quick-action">
+<form class="list-quick-action">
     <button asp-action="Create" class="btn-default">New League</button>
-    <button asp-action="SyncLeague" class="btn-default">Sync League</button>
+    <button asp-action="SyncFlagLeague" class="btn-default">Sync Flag League</button>
 </form>
 <form class="row filter">
     <div class="form-group col-sm-3">
@@ -36,22 +36,23 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model) {
-        <tr>
-            <td></td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Order)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LeagueCategory.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LeagueCategory.CountryCode)
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td></td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Order)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LeagueCategory.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LeagueCategory.CountryCode)
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

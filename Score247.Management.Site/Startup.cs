@@ -32,10 +32,8 @@ namespace Score247.Management.Site
 
             services.AddSession(options =>
             {
-                // Set a short timeout for easy testing.
-                options.IdleTimeout = TimeSpan.FromSeconds(36000);
-                options.Cookie.HttpOnly = true;
-                // Make the session cookie essential
+                options.Cookie.Name = ".Score247.Session";
+                options.IdleTimeout = TimeSpan.FromSeconds(3600);
                 options.Cookie.IsEssential = true;
             });
             services.Configure<CookiePolicyOptions>(options =>
@@ -47,6 +45,7 @@ namespace Score247.Management.Site
 
             services.AddSingleton<IConfiguration>(Configuration);
             services.AddSingleton<IDynamicRepository, DynamicRepository>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 

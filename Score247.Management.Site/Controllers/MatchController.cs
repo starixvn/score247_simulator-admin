@@ -43,7 +43,7 @@ namespace Score247.Management.Site.Controllers
             var repository = new MatchRepository();
             var leagueRepository = new LeagueRepository();
             var leagues = await leagueRepository.GetLeagues();
-            TimeSpan.TryParse(HttpContext.Session.GetString("Timezone"), out TimeSpan offset);
+            TimeSpan.TryParse(GetTimezone(), out TimeSpan offset);
             var viewModal = new MatchViewModel();
             var timeNow = DateTime.UtcNow.Add(offset);
             var fromDate = new DateTime(timeNow.Year, timeNow.Month, timeNow.Day, 0, 0, 0, DateTimeKind.Utc).Subtract(offset);
@@ -101,7 +101,7 @@ namespace Score247.Management.Site.Controllers
 
         private async Task<ActionResult> ProcessToDateSearchView(DateTime searchDate, string selectedLeagueId)
         {
-            TimeSpan.TryParse(HttpContext.Session.GetString("Timezone"), out TimeSpan offset);
+            TimeSpan.TryParse(GetTimezone(), out TimeSpan offset);
             var leagueRepository = new LeagueRepository();
             var leagues = await leagueRepository.GetLeagues();
             var viewModal = new MatchViewModel
@@ -128,9 +128,9 @@ namespace Score247.Management.Site.Controllers
             var repository = new MatchRepository();
             var scenarioRepo = new ScenarioRepository();
 
-            HttpContext.Session.GetString("Timezone");
+            GetTimezone();
             TimeSpan offset;
-            TimeSpan.TryParse(HttpContext.Session.GetString("Timezone"), out offset);
+            TimeSpan.TryParse(GetTimezone(), out offset);
             var match = await repository.GetMatchById(id, offset);
             var timelines = await repository.GetMatchTimelines(id, offset);
             var viewModel = new EventMatchViewModel();
@@ -180,7 +180,7 @@ namespace Score247.Management.Site.Controllers
         {
             try
             {
-                TimeSpan.TryParse(HttpContext.Session.GetString("Timezone"), out TimeSpan offset);
+                TimeSpan.TryParse(GetTimezone(), out TimeSpan offset);
                 var matchId = await CreateMatchesService.CreateMatcheWithForm(collection, offset, Configuration);
                 if (string.IsNullOrEmpty(matchId))
                 {
@@ -197,7 +197,7 @@ namespace Score247.Management.Site.Controllers
         [HttpPost("/Match/CreateMatchesByDate")]
         public async Task<JsonResult> CreateMatchesByDate([FromBody] CreateDeleteMatchesModel createDeleteMatchesRequest)
         {
-            TimeSpan.TryParse(HttpContext.Session.GetString("Timezone"), out TimeSpan offset);
+            TimeSpan.TryParse(GetTimezone(), out TimeSpan offset);
             var result = await CreateMatchesService.CreateMatchesByDate(createDeleteMatchesRequest, offset, Configuration);
             return Json(result);
         }
@@ -215,7 +215,7 @@ namespace Score247.Management.Site.Controllers
             var matchRepository = new MatchRepository(Configuration);
             await SimulatorService.SendCleanExistData(Configuration);
 
-            TimeSpan.TryParse(HttpContext.Session.GetString("Timezone"), out TimeSpan offset);
+            TimeSpan.TryParse(GetTimezone(), out TimeSpan offset);
             await matchRepository.CreateAllMatchesSite(createDeleteMatchesModels, offset);
 
             return Json(true);
@@ -224,7 +224,7 @@ namespace Score247.Management.Site.Controllers
         [HttpPost("/Match/DeleteMatchesByDate")]
         public async Task<JsonResult> DeleteMatchesByDate([FromBody] CreateDeleteMatchesModel createDeleteMatchesRequest)
         {
-            TimeSpan.TryParse(HttpContext.Session.GetString("Timezone"), out TimeSpan offset);
+            TimeSpan.TryParse(GetTimezone(), out TimeSpan offset);
             var matchRepository = new MatchRepository();
             var fromDate = new DateTime(createDeleteMatchesRequest.EventDate.Year, createDeleteMatchesRequest.EventDate.Month, createDeleteMatchesRequest.EventDate.Day, 0, 0, 0, DateTimeKind.Utc).Subtract(offset);
             var toDate = new DateTime(createDeleteMatchesRequest.EventDate.Year, createDeleteMatchesRequest.EventDate.Month, createDeleteMatchesRequest.EventDate.Day, 23, 59, 59, DateTimeKind.Utc).Subtract(offset);
@@ -287,7 +287,7 @@ namespace Score247.Management.Site.Controllers
                 var eventDate = Convert.ToDateTime(collection["payload.timeline.time"]);
                 var eventTimeSpan = TimeSpan.Parse(collection["payload.timeline.hour"]);
                 TimeSpan offset;
-                TimeSpan.TryParse(HttpContext.Session.GetString("Timezone"), out offset);
+                TimeSpan.TryParse(GetTimezone(), out offset);
                 var eventTime = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, eventTimeSpan.Hours, eventTimeSpan.Minutes, eventTimeSpan.Seconds, DateTimeKind.Utc).Subtract(offset).ToUniversalTime();
                 requestBody.payload.timeline = new TimelineDto()
                 {
@@ -582,7 +582,7 @@ namespace Score247.Management.Site.Controllers
                 var eventDate = Convert.ToDateTime(collection["payload.timeline.time"]);
                 var eventTimeSpan = TimeSpan.Parse(collection["payload.timeline.hour"]);
                 TimeSpan offset;
-                TimeSpan.TryParse(HttpContext.Session.GetString("Timezone"), out offset);
+                TimeSpan.TryParse(GetTimezone(), out offset);
                 var eventTime = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, eventTimeSpan.Hours, eventTimeSpan.Minutes, eventTimeSpan.Seconds, DateTimeKind.Utc).Subtract(offset).ToUniversalTime();
                 requestBody.payload.timeline = new TimelineDto()
                 {
@@ -722,7 +722,7 @@ namespace Score247.Management.Site.Controllers
                 var eventDate = Convert.ToDateTime(collection["payload.timeline.time"]);
                 var eventTimeSpan = TimeSpan.Parse(collection["payload.timeline.hour"]);
                 TimeSpan offset;
-                TimeSpan.TryParse(HttpContext.Session.GetString("Timezone"), out offset);
+                TimeSpan.TryParse(GetTimezone(), out offset);
                 var eventTime = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, eventTimeSpan.Hours, eventTimeSpan.Minutes, eventTimeSpan.Seconds, DateTimeKind.Utc).Subtract(offset).ToUniversalTime();
                 requestBody.payload.timeline = new TimelineDto()
                 {
@@ -793,7 +793,7 @@ namespace Score247.Management.Site.Controllers
                 var eventDate = Convert.ToDateTime(collection["payload.timeline.time"]);
                 var eventTimeSpan = TimeSpan.Parse(collection["payload.timeline.hour"]);
                 TimeSpan offset;
-                TimeSpan.TryParse(HttpContext.Session.GetString("Timezone"), out offset);
+                TimeSpan.TryParse(GetTimezone(), out offset);
                 var eventTime = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, eventTimeSpan.Hours, eventTimeSpan.Minutes, eventTimeSpan.Seconds, DateTimeKind.Utc).Subtract(offset).ToUniversalTime();
                 requestBody.payload.timeline = new TimelineDto()
                 {
@@ -855,7 +855,7 @@ namespace Score247.Management.Site.Controllers
                 var eventDate = Convert.ToDateTime(collection["payload.timeline.time"]);
                 var eventTimeSpan = TimeSpan.Parse(collection["payload.timeline.hour"]);
                 TimeSpan offset;
-                TimeSpan.TryParse(HttpContext.Session.GetString("Timezone"), out offset);
+                TimeSpan.TryParse(GetTimezone(), out offset);
                 var eventTime = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, eventTimeSpan.Hours, eventTimeSpan.Minutes, eventTimeSpan.Seconds, DateTimeKind.Utc).Subtract(offset).ToUniversalTime();
                 requestBody.payload.timeline = new TimelineDto()
                 {
@@ -1003,6 +1003,16 @@ namespace Score247.Management.Site.Controllers
             }
 
             return RedirectToAction(nameof(Details), new { id = matchId });
+        }
+
+        private string GetTimezone()
+        {
+            var result = HttpContext.Session.GetString("Timezone");
+            if (string.IsNullOrEmpty(result))
+            {
+                result = "07:00:00";
+            }
+            return result;
         }
     }
 }

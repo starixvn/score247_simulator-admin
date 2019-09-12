@@ -1,4 +1,13 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    var Timezone = @HttpContextAccessor.HttpContext.Session.GetString("Timezone");
+    if (string.IsNullOrEmpty(Timezone))
+    {
+        Timezone = "07:00:00";
+    }
+}
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -20,6 +29,7 @@
     <link rel="stylesheet" href="~/bundles/site.min.css" />
     @RenderSection("Styles", required: false)
 </head>
+
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm ">
@@ -46,11 +56,11 @@
                     </li>
                 </ul>
                 <form class="form-inline" id="timezoneSelection" asp-action="SetUpTimezone" asp-controller="Match">
-                    <div class="input-group">
+                    <div class="input-group"
                         <div class="input-group-prepend">
                             <label class="input-group-text" for="inputTimezone">Timezone</label>
                         </div>
-                        <select class="custom-select" id="inputTimezone" name="Timezone" onchange="timezoneChange(this)">
+                        <select class="custom-select" id="inputTimezone" name="Timezone" asp-for="@Timezone" onchange="timezoneChange(this)">
                             <option value="-12:00:00">(GMT -12:00) Eniwetok, Kwajalein</option>
                             <option value="-11:00:00">(GMT -11:00) Midway Island, Samoa</option>
                             <option value="-10:00:00">(GMT -10:00) Hawaii</option>
@@ -66,7 +76,7 @@
                             <option value="-03:00:00">(GMT -3:00) Brazil, Buenos Aires, Georgetown</option>
                             <option value="-02:00:00">(GMT -2:00) Mid-Atlantic</option>
                             <option value="-01:00:00">(GMT -1:00) Azores, Cape Verde Islands</option>
-                            <option value="00:00:00" selected="selected">(GMT) Western Europe Time, London, Lisbon, Casablanca</option>
+                            <option value="00:00:00">(GMT) Western Europe Time, London, Lisbon, Casablanca</option>
                             <option value="01:00:00">(GMT +1:00) Brussels, Copenhagen, Madrid, Paris</option>
                             <option value="02:00:00">(GMT +2:00) Kaliningrad, South Africa</option>
                             <option value="03:00:00">(GMT +3:00) Baghdad, Riyadh, Moscow, St. Petersburg</option>
@@ -118,7 +128,6 @@
                 integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o">
         </script>
     </environment>
-
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <script src="~/scripts/lib/datatables/datatables.min.js"></script>

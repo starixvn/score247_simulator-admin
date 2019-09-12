@@ -9,12 +9,12 @@ $(document).ready(function () {
             format: 'DD/MM/YYYY'
         }
     });
-    var timezone = sessionStorage.getItem("Timezone");
-    if (timezone === null) {
-        $('#inputTimezone').val("00:00:00");
-    } else {
-        $('#inputTimezone').val(timezone);
-    }
+    //var timezone = sessionStorage.getItem("Timezone");
+    //if (timezone === null) {
+    //    $('#inputTimezone').val("00:00:00");
+    //} else {
+    //    $('#inputTimezone').val(timezone);
+    //}
     $('#inputTimezone').val();
     var tlt = $('#TimelineTable').DataTable({
         "columnDefs": [{
@@ -111,8 +111,7 @@ $(document).ready(function () {
         maxYear: parseInt(moment().format('YYYY'), 10)
     }, function (start, end, label) {
         var years = moment().diff(start, 'years');
-        });
-
+    });
 
     $('.timezone-hidden').val(sessionStorage.getItem("Timezone"));
 
