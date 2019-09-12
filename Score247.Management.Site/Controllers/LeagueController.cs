@@ -106,17 +106,17 @@ namespace Score247.Management.Site.Controllers
             }
         }
 
-        public async Task<ActionResult> SyncFlagLeague(IFormCollection collection)
+        public ActionResult SyncFlagLeague(IFormCollection collection)
         {
             try
             {
-                var manifest = await CountryFlagCrawlerService.GetCountryImageManifest();
+                CountryFlagCrawlerService.GetAndInsertImageToDataBase();
 
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                return RedirectToAction(nameof(Index));
             }
         }
     }

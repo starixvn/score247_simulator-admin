@@ -26,6 +26,9 @@
     <Setting Key="Scenario_GetScenarioEvents" SpName="Scenario_GetScenarioEvents" DbName="DefaultConnection"></Setting>
     <Setting Key="Scenario_GetAll" SpName="Scenario_GetAll" DbName="DefaultConnection"></Setting>
   </Function>
+  <Function Name="Image">
+    <Setting Key="Image_Insert" SpName="Image_Insert" DbName="DefaultConnection"></Setting>
+  </Function>
   <Function Name="Matches">
     <Setting Key="Match_GetByDateRange" SpName="Match_GetByDateRange" DbName="DevConnection" />
     <Setting Key="Match_GetById" SpName="Match_GetById" DbName="DevConnection" />

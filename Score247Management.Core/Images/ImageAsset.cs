@@ -14,5 +14,7 @@ namespace Score247Management.Core.Images
         public string copyright { get; set; }
         public string type { get; set; }
         public IEnumerable<ImageLink> links { get; set; }
+
+        public IEnumerable<ImageReference> refs { get; set; }
     }
 }
