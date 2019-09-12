@@ -19,6 +19,13 @@
     <Setting Key="TimelineLog_InsertLog" SpName="TimelineLog_InsertLog" DbName="DefaultConnection"></Setting>
     <Setting Key="TimelineLog_GetByMatchId" SpName="TimelineLog_GetByMatchId" DbName="DefaultConnection"></Setting>
   </Function>
+  <Function Name="Scenario">
+    <Setting Key="Scenario_Insert" SpName="Scenario_Insert" DbName="DefaultConnection"></Setting>
+    <Setting Key="Scenario_InsertTimeline" SpName="Scenario_InsertTimeline" DbName="DefaultConnection"></Setting>
+    <Setting Key="Scenario_GetById" SpName="Scenario_GetById" DbName="DefaultConnection"></Setting>
+    <Setting Key="Scenario_GetScenarioEvents" SpName="Scenario_GetScenarioEvents" DbName="DefaultConnection"></Setting>
+    <Setting Key="Scenario_GetAll" SpName="Scenario_GetAll" DbName="DefaultConnection"></Setting>
+  </Function>
   <Function Name="Matches">
     <Setting Key="Match_GetByDateRange" SpName="Match_GetByDateRange" DbName="DevConnection" />
     <Setting Key="Match_GetById" SpName="Match_GetById" DbName="DevConnection" />

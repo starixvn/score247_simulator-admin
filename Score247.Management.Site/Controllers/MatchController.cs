@@ -9,12 +9,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
+using Score247.Management.Site.Criterias.Scenarios;
 using Score247.Management.Site.Helpers;
 using Score247.Management.Site.Models;
 using Score247.Management.Site.Models.Events;
 using Score247.Management.Site.Repositories.Leagues;
 using Score247.Management.Site.Repositories.Matches;
 using Score247.Management.Site.Repositories.Matches.Models;
+using Score247.Management.Site.Repositories.Scenarios;
 using Score247.Management.Site.Repositories.Teams;
 using Score247.Management.Site.Services;
 using Score247.Management.Site.Services.Matchs;
@@ -124,6 +126,7 @@ namespace Score247.Management.Site.Controllers
         {
             var ran = new Random();
             var repository = new MatchRepository();
+            var scenarioRepo = new ScenarioRepository();
 
             HttpContext.Session.GetString("Timezone");
             TimeSpan offset;
@@ -150,6 +153,7 @@ namespace Score247.Management.Site.Controllers
                 name = "Player_" + ran.Next(909090).ToString()
             };
             viewModel.MatchTimeEventDto = new MatchPushEventDto(match, offset);
+            viewModel.Scenarios = await scenarioRepo.GetScenarios();
             return View(viewModel);
         }
 
@@ -773,7 +777,7 @@ namespace Score247.Management.Site.Controllers
             }
             catch (Exception ex)
             {
-                return RedirectToAction(nameof(Details), new { id = id });
+                return RedirectToAction(nameof(Details), new { id });
             }
         }
 
@@ -943,6 +947,62 @@ namespace Score247.Management.Site.Controllers
         {
             HttpContext.Session.SetString("Timezone", collection["Timezone"]);
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreateScenario(string matchId, IFormCollection collection)
+        {
+            var matchRepo = new MatchRepository();
+            var scenarioRepo = new ScenarioRepository();
+            var match = await matchRepo.GetMatchById(matchId);
+            var timelines = await matchRepo.GetMatchTimelines(matchId);
+
+            var id = UniqueGenerator.GetIntId();
+            var homeId = match.Teams.FirstOrDefault(x => x.IsHome).Id;
+            var awayId = match.Teams.FirstOrDefault(x => !x.IsHome).Id;
+            var criteria = new CreateScenarioCriteria() { Id = id, Name = collection["scenarioName"], AwayId = awayId, HomeId = homeId, EventDate = match.EventDate };
+            await scenarioRepo.CreateNewScenario(criteria);
+            for (int i = 0; i < timelines.Count(); i++)
+            {
+                var timeline = timelines.ElementAt(i);
+                await scenarioRepo.AddEventToScenario(id, i + 1, timeline.RequestLog);
+            }
+            return RedirectToAction(nameof(Details), new { id = matchId });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ApplyScenario(string matchId, IFormCollection collection)
+        {
+            var matchRepo = new MatchRepository();
+            var scenarioRepo = new ScenarioRepository();
+            var match = await matchRepo.GetMatchById(matchId);
+            var homeId = match.Teams.FirstOrDefault(x => x.IsHome).Id;
+            var awayId = match.Teams.FirstOrDefault(x => !x.IsHome).Id;
+            var scenario = await scenarioRepo.GetScenario(int.Parse(collection["scenarioId"]));
+            var differTime = match.EventDate - scenario.EventDate;
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(Configuration.GetValue<string>("Simulator:Url"));
+                foreach (var scenarioEvent in scenario.ScenarioEvents)
+                {
+                    MatchPushEventDto preEvent = JsonConvert.DeserializeObject<MatchPushEventDto>(scenarioEvent.EventRequest);
+                    preEvent.metadata.sport_event_id = match.Id;
+                    preEvent.metadata.tournament_id = match.League.Id;
+                    preEvent.payload.timeline.time = preEvent.payload.timeline.time + differTime;
+                    if (preEvent.payload.sport_event_status.aggregate_winner_id == scenario.HomeId) preEvent.payload.sport_event_status.aggregate_winner_id = homeId;
+                    if (preEvent.payload.sport_event_status.winner_id == scenario.HomeId) preEvent.payload.sport_event_status.winner_id = homeId;
+                    if (preEvent.payload.sport_event_status.aggregate_winner_id == scenario.AwayId) preEvent.payload.sport_event_status.aggregate_winner_id = awayId;
+                    if (preEvent.payload.sport_event_status.winner_id == scenario.AwayId) preEvent.payload.sport_event_status.winner_id = awayId;
+
+                    await client.PostAsJsonAsync(Configuration.GetValue<string>("Simulator:PushEvent"), preEvent);
+
+                    await matchRepo.InsertTimelineLog(preEvent);
+                }
+            }
+
+            return RedirectToAction(nameof(Details), new { id = matchId });
         }
     }
 }

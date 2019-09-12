@@ -12,9 +12,6 @@
 <h1 class="page-title">Matches</h1>
 <form class="list-quick-action">
     <button asp-action="Create" class="btn-default">New Match</button>
-    @*<button type="button" class="btn-default" data-toggle="modal" data-target="#cloneMatches">Create Matches</button>*@
-    @*<button type="button" class="btn-default" data-toggle="modal" data-target="#cloneLiveMatches">Create Live Matches</button>*@
-    @*<button type="button" class="btn-default" data-toggle="modal" data-target="#deleteMatchesByDate">Delete Matches</button>*@
     <button type="button" class="btn-default" data-toggle="modal" data-target="#CreateDeleteMatchesByDate">Create/Delete Matches</button>
 </form>
 <partial name="_DateRangeSearch" model="Model.DateSearchModel" />

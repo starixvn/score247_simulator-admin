@@ -7,6 +7,12 @@
 }
 @{
     var eventViewData = new ViewDataDictionary(new Microsoft.AspNetCore.Mvc.ModelBinding.EmptyModelMetadataProvider(), new Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary()) { { "MatchId", Model.Match.Id } };
+    IEnumerable<SelectListItem> scenariosSelected = Model.Scenarios
+                                           .Select(i => new SelectListItem()
+                                           {
+                                               Text = i.Name,
+                                               Value = i.Id.ToString()
+                                           });
 }
 
 @section Styles {
@@ -16,6 +22,15 @@
 <h1 class="page-title">Details</h1>
 <div>
     <partial name="_AutoPushEventPartial" view-data="eventViewData" />
+    <form class="form form-inline" asp-action="ApplyScenario" asp-route-matchId="@Model.Match.Id">
+        <div class="form-group col-md-2">
+            <label class="control-label">Choose Scenario:</label>
+            <select name="scenarioId" asp-items="scenariosSelected" class="form-control ml-2"></select>
+        </div>
+        <div class="form-group mt-auto my-auto">
+            <input type="submit" value="Apply" class="btn-submit" />
+        </div>
+    </form>
     <div class="row">
         <div class="col-sm-4">
             <div class="match-area">
@@ -32,14 +47,14 @@
                     <label class="match-value">@Html.DisplayFor(model => model.Match.DisplayDate)</label>
                 </div>
                 @if (Model.Match.MatchResult.MatchStatus.DisplayName == MatchStatus.Penalties.DisplayName
-       || Model.Match.MatchResult.MatchStatus.DisplayName == MatchStatus.EndedAfterPenalties.DisplayName)
+     || Model.Match.MatchResult.MatchStatus.DisplayName == MatchStatus.EndedAfterPenalties.DisplayName)
                 {
-                <div class="match-info">
-                    <label class="match-info-name">Penalty Score:</label>
-                    <label class="match-value">
-                        @Html.DisplayFor(model => model.Match.LatestTimeline.ShootoutHomeScore) - @Html.DisplayFor(model => model.Match.LatestTimeline.ShootoutAwayScore)
-                    </label>
-                </div>
+                    <div class="match-info">
+                        <label class="match-info-name">Penalty Score:</label>
+                        <label class="match-value">
+                            @Html.DisplayFor(model => model.Match.LatestTimeline.ShootoutHomeScore) - @Html.DisplayFor(model => model.Match.LatestTimeline.ShootoutAwayScore)
+                        </label>
+                    </div>
                 }
                 <div class="match-info">
                     <label class="match-info-name">Current Score:</label>
@@ -67,7 +82,7 @@
             <partial name="_CreatCardFaultEventPartial" model="Model.MatchCardEventDto" view-data="eventViewData" />
         </div>
         <div class="col-sm-8 search-table-outter">
-            <partial name="_MatchTimelineEventPartial" model="Model.TimelineEvents" />
+            <partial name="_MatchTimelineEventPartial" model="Model.TimelineEvents" view-data="eventViewData" />
         </div>
     </div>
 </div>
