@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 22.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [
+	<!ENTITY ns_extend "http://ns.adobe.com/Extensibility/1.0/">
+	<!ENTITY ns_ai "http://ns.adobe.com/AdobeIllustrator/10.0/">
+	<!ENTITY ns_graphs "http://ns.adobe.com/Graphs/1.0/">
+	<!ENTITY ns_vars "http://ns.adobe.com/Variables/1.0/">
+	<!ENTITY ns_imrep "http://ns.adobe.com/ImageReplacement/1.0/">
+	<!ENTITY ns_sfw "http://ns.adobe.com/SaveForWeb/1.0/">
+	<!ENTITY ns_custom "http://ns.adobe.com/GenericCustomNamespace/1.0/">
+	<!ENTITY ns_adobe_xpath "http://ns.adobe.com/XPath/1.0/">
+]>
+<svg version="1.1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1200px" height="800px"
+	 viewBox="0 0 1200 800" enable-background="new 0 0 1200 800" xml:space="preserve">
+<metadata>
+	<sfw  xmlns="&ns_sfw;">
+		<slices></slices>
+		<sliceSourceBounds  bottomLeftOrigin="true" height="800" width="1200" x="0" y="-850"></sliceSourceBounds>
+		<optimizationSettings>
+			<targetSettings  fileFormat="PNG24Format" targetSettingsID="0">
+				<PNG24Format  filtered="false" interlaced="false" matteColor="#FFFFFF" noMatteColor="false" transparency="true">
+					</PNG24Format>
+			</targetSettings>
+		</optimizationSettings>
+	</sfw>
+</metadata>
+<g id="Bounding_Box">
+	<rect fill="none" width="1200" height="800"/>
+</g>
+<g id="CIV_x5F__x5F_COTEDIVOIRE">
+	<g>
+		<path fill="#F77F00" d="M400.164,800c-133.294,0-266.589,0-399.883,0c0-266.589,0-533.177,0-799.766
+			c133.294,0,266.589,0,399.883,0c0.591,1.67,0.326,3.402,0.326,5.105c0.013,263.024,0.013,526.049-0.002,789.073
+			C400.488,796.275,400.277,798.137,400.164,800z"/>
+		<path fill="#FFFFFF" d="M400.164,800c0.113-1.863,0.324-3.725,0.324-5.588c0.015-263.024,0.015-526.049,0.002-789.073
+			c0-1.702,0.266-3.435-0.326-5.105c133.294,0,266.589,0,399.883,0c0.016,2.028,0.046,4.055,0.046,6.083
+			c0.002,262.068,0.002,524.136,0,786.204c0,2.493-0.03,4.986-0.046,7.479C666.753,800,533.458,800,400.164,800z"/>
+		<path fill="#009E60" d="M800.047,800c0.016-2.493,0.046-4.986,0.046-7.479c0.002-262.068,0.002-524.136,0-786.204
+			c0-2.028-0.03-4.055-0.046-6.083c132.982,0,265.964,0,398.946,0c0,266.589,0,533.177,0,799.766
+			C1066.011,800,933.029,800,800.047,800z"/>
+	</g>
+</g>
+</svg>

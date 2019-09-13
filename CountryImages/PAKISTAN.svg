@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 22.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [
+	<!ENTITY ns_extend "http://ns.adobe.com/Extensibility/1.0/">
+	<!ENTITY ns_ai "http://ns.adobe.com/AdobeIllustrator/10.0/">
+	<!ENTITY ns_graphs "http://ns.adobe.com/Graphs/1.0/">
+	<!ENTITY ns_vars "http://ns.adobe.com/Variables/1.0/">
+	<!ENTITY ns_imrep "http://ns.adobe.com/ImageReplacement/1.0/">
+	<!ENTITY ns_sfw "http://ns.adobe.com/SaveForWeb/1.0/">
+	<!ENTITY ns_custom "http://ns.adobe.com/GenericCustomNamespace/1.0/">
+	<!ENTITY ns_adobe_xpath "http://ns.adobe.com/XPath/1.0/">
+]>
+<svg version="1.1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1200px" height="800px"
+	 viewBox="0 0 1200 800" enable-background="new 0 0 1200 800" xml:space="preserve">
+<metadata>
+	<sfw  xmlns="&ns_sfw;">
+		<slices></slices>
+		<sliceSourceBounds  bottomLeftOrigin="true" height="800" width="1200" x="0" y="-850"></sliceSourceBounds>
+		<optimizationSettings>
+			<targetSettings  fileFormat="PNG24Format" targetSettingsID="0">
+				<PNG24Format  filtered="false" interlaced="false" matteColor="#FFFFFF" noMatteColor="false" transparency="true">
+					</PNG24Format>
+			</targetSettings>
+		</optimizationSettings>
+	</sfw>
+</metadata>
+<g id="Bounding_Box">
+	<rect fill="none" width="1200" height="800"/>
+</g>
+<g id="PAK_x5F__x5F_PAKISTAN">
+	<g>
+		<rect fill="#01411C" width="1200" height="799.8"/>
+		<rect fill="#FEFEFE" width="299.4" height="799.8"/>
+		<path fill="#FEFEFE" d="M974.982,494.975c0.519,1.118-0.362,1.906-0.771,2.717c-34.761,68.857-89.295,113.371-164.654,130.31
+			c-89.092,20.026-178.752-11.404-237.006-81.651c-28.775-34.699-46.47-74.557-52.355-119.301
+			c-8.775-66.714,7.22-127.119,48.275-180.449c29.285-38.041,67.169-64.486,112.581-80.106c0.543-0.187,1.127-0.256,1.97,0.04
+			c-1.103,0.913-2.208,1.824-3.309,2.74c-41.538,34.556-67.631,78.348-77.109,131.519c-16.382,91.9,26.265,182.812,107.192,229.474
+			c26.9,15.51,55.891,24.974,86.835,27.788c67.876,6.172,126.565-14.441,176.121-61.187c0.705-0.665,1.202-1.607,2.25-1.868
+			L974.982,494.975z"/>
+	</g>
+	<polygon fill="#FCFCFC" points="948.627,328.375 891.642,315.595 861.878,365.843 856.423,307.697 799.437,294.918 
+		853.051,271.761 847.595,213.615 886.186,257.45 939.8,234.293 910.037,284.541 	"/>
+</g>
+</svg>

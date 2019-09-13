@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 22.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [
+	<!ENTITY ns_extend "http://ns.adobe.com/Extensibility/1.0/">
+	<!ENTITY ns_ai "http://ns.adobe.com/AdobeIllustrator/10.0/">
+	<!ENTITY ns_graphs "http://ns.adobe.com/Graphs/1.0/">
+	<!ENTITY ns_vars "http://ns.adobe.com/Variables/1.0/">
+	<!ENTITY ns_imrep "http://ns.adobe.com/ImageReplacement/1.0/">
+	<!ENTITY ns_sfw "http://ns.adobe.com/SaveForWeb/1.0/">
+	<!ENTITY ns_custom "http://ns.adobe.com/GenericCustomNamespace/1.0/">
+	<!ENTITY ns_adobe_xpath "http://ns.adobe.com/XPath/1.0/">
+]>
+<svg version="1.1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1200px" height="800px"
+	 viewBox="0 0 1200 800" enable-background="new 0 0 1200 800" xml:space="preserve">
+<metadata>
+	<sfw  xmlns="&ns_sfw;">
+		<slices></slices>
+		<sliceSourceBounds  bottomLeftOrigin="true" height="800" width="1200" x="0" y="-850"></sliceSourceBounds>
+		<optimizationSettings>
+			<targetSettings  fileFormat="PNG24Format" targetSettingsID="0">
+				<PNG24Format  filtered="false" interlaced="false" matteColor="#FFFFFF" noMatteColor="false" transparency="true">
+					</PNG24Format>
+			</targetSettings>
+		</optimizationSettings>
+	</sfw>
+</metadata>
+<g id="Bounding_Box">
+	<rect fill="none" width="1200" height="800"/>
+</g>
+<g id="FIN_x5F__x5F_FINLAND">
+	<rect fill="#FEFEFE" width="1200" height="800"/>
+	<g>
+		<path fill="#003580" d="M1200,290.671c0,72.886,0,145.772,0,218.658c-0.994-0.061-1.987-0.177-2.981-0.177
+			c-220.164-0.008-440.328-0.001-660.492-0.08c-2.686-0.001-3.226,0.759-3.223,3.578c0.076,80.074,0.059,160.148,0.062,240.222
+			c0.001,15.709,0.022,31.418,0.033,47.127c-66.6,0-133.2,0-199.8,0c-0.081-1.404-0.232-2.808-0.232-4.212
+			c-0.011-94.134-0.008-188.268-0.017-282.401c0-4.791,0.507-4.234-3.771-4.234c-108.767-0.009-217.534-0.008-326.3,0
+			c-1.093,0-2.187,0.115-3.28,0.177c0-72.886,0-145.772,0-218.658c1.093,0.061,2.187,0.176,3.28,0.177
+			c108.767,0.008,217.533,0.01,326.3,0c4.278,0,3.77,0.558,3.771-4.234c0.009-94.134,0.005-188.268,0.017-282.401
+			c0-1.404,0.152-2.808,0.232-4.212c66.6,0,133.2,0,199.8,0c-0.012,0.981-0.033,1.963-0.033,2.944
+			c-0.002,94.693,0.014,189.385-0.07,284.078c-0.003,3.104,0.597,3.913,3.531,3.912c219.964-0.087,439.928-0.079,659.892-0.087
+			C1197.813,290.848,1198.906,290.732,1200,290.671z"/>
+	</g>
+</g>
+</svg>

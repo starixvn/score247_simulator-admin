@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 22.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [
+	<!ENTITY ns_extend "http://ns.adobe.com/Extensibility/1.0/">
+	<!ENTITY ns_ai "http://ns.adobe.com/AdobeIllustrator/10.0/">
+	<!ENTITY ns_graphs "http://ns.adobe.com/Graphs/1.0/">
+	<!ENTITY ns_vars "http://ns.adobe.com/Variables/1.0/">
+	<!ENTITY ns_imrep "http://ns.adobe.com/ImageReplacement/1.0/">
+	<!ENTITY ns_sfw "http://ns.adobe.com/SaveForWeb/1.0/">
+	<!ENTITY ns_custom "http://ns.adobe.com/GenericCustomNamespace/1.0/">
+	<!ENTITY ns_adobe_xpath "http://ns.adobe.com/XPath/1.0/">
+]>
+<svg version="1.1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1200px" height="800px"
+	 viewBox="0 0 1200 800" enable-background="new 0 0 1200 800" xml:space="preserve">
+<metadata>
+	<sfw  xmlns="&ns_sfw;">
+		<slices></slices>
+		<sliceSourceBounds  bottomLeftOrigin="true" height="800" width="1200" x="0" y="-850"></sliceSourceBounds>
+		<optimizationSettings>
+			<targetSettings  fileFormat="PNG24Format" targetSettingsID="0">
+				<PNG24Format  filtered="false" interlaced="false" matteColor="#FFFFFF" noMatteColor="false" transparency="true">
+					</PNG24Format>
+			</targetSettings>
+		</optimizationSettings>
+	</sfw>
+</metadata>
+<g id="Bounding_Box">
+	<rect fill="none" width="1200" height="800"/>
+</g>
+<g id="GRC_x5F__x5F_GREECE">
+	<g>
+		<rect x="0" fill="#0D5EAE" width="1200" height="799"/>
+		<path fill="#FEFEFE" d="M0,616.949c1.198-0.027,2.396-0.079,3.594-0.079c397.604-0.003,795.207-0.003,1192.811,0
+			c1.198,0,2.396,0.051,3.594,0.079c0,29.35,0,58.7,0,88.051c-1-0.011-1.999-0.032-2.998-0.032
+			c-398.001-0.001-796.002-0.001-1194.003,0c-0.999,0-1.999,0.021-2.998,0.032C0,675.65,0,646.3,0,616.949z"/>
+		<path fill="#FEFEFE" d="M444.633,176.125c-0.046-0.988-0.13-1.975-0.131-2.963c-0.007-27.268,0.043-54.535-0.078-81.802
+			c-0.013-2.827,0.864-3.328,3.488-3.327c249.396,0.058,498.792,0.054,748.189,0.052c1.3,0,2.599-0.023,3.899-0.035
+			c0,29.35,0,58.7,0,88.051c-1.098,0.028-2.196,0.079-3.294,0.079c-249.612,0.004-499.225,0.004-748.837-0.001
+			c-1.097,0-2.194-0.07-3.29-0.107L444.633,176.125z"/>
+		<path fill="#FEFEFE" d="M444.579,264.122c1.193,0.057,2.386,0.165,3.58,0.165c249.419,0.007,498.837,0.007,748.256,0.001
+			c1.195,0,2.39-0.089,3.585-0.137c0,29.35,0,58.7,0,88.051c-1.189,0.075-2.378,0.215-3.568,0.215
+			c-249.387,0.01-498.774,0.002-748.161,0.085c-3.206,0.001-3.857-0.899-3.844-3.908c0.119-27.068,0.069-54.136,0.073-81.204
+			C444.5,266.301,444.552,265.212,444.579,264.122z"/>
+	</g>
+	<polygon fill="#FEFEFE" points="267,441 267,264 445,264 445,176 267,176 267,0 178,0 178,176 0,176 0,264 178,264 178,441 0,441 
+		0,529 178,529 267,529 1200,529 1200,441 	"/>
+</g>
+</svg>

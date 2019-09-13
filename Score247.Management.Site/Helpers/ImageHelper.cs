@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 
 namespace Score247.Management.Site.Helpers
 {
