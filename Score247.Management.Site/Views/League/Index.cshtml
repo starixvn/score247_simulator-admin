@@ -5,10 +5,12 @@
 }
 
 <h1 class="page-title">Leagues</h1>
-<form class="list-quick-action">
-    <button asp-action="Create" class="btn-default">New League</button>
-    <button asp-action="SyncFlagLeague" class="btn-default">Sync Flag League</button>
-</form>
+<div class="row">
+    <form class="list-quick-action col-sm-1">
+        <button asp-action="Create" class="btn-default">New League</button>
+    </form>
+    <button class="list-quick-action btn-danger" data-toggle="modal" data-target="#confirmCloneAndSyncCountryFlag">Sync Flag League</button>
+</div>
 <form class="row filter">
     <div class="form-group col-sm-3">
         <label class="control-label">Sport:</label>
@@ -33,6 +35,9 @@
             <th>
                 CountryCode
             </th>
+            <th>
+                Flag
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -52,7 +57,29 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.LeagueCategory.CountryCode)
                 </td>
+                <td>
+                    <img style="max-height: 25px;" src="@item.LeagueCategory.FlagSource" />
+                </td>
             </tr>
         }
     </tbody>
 </table>
+<div id="confirmCloneAndSyncCountryFlag" class="modal fade" role="dialog" style="z-index: 1600;">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Confirm Delete All Matches</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <span>Do you really want to delete all country images and crawl new images?</span>
+            </div>
+            <div class="modal-footer">
+                <button asp-action="SyncFlagLeague" type="button" class="btn btn-danger" data-dismiss="modal">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>

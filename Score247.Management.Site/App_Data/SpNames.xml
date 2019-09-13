@@ -4,6 +4,8 @@
       <Mapping DataField="LeagueCategoryId" ObjectProperty="Id" Class="LeagueCategory" />
       <Mapping DataField="LeagueCategoryName" ObjectProperty="Name" Class="LeagueCategory" />
       <Mapping DataField="LeagueCategoryCode" ObjectProperty="CountryCode" Class="LeagueCategory" />
+      <Mapping DataField="Country3Code" ObjectProperty="Country3Code" Class="LeagueCategory" />
+      <Mapping DataField="FlagData" ObjectProperty="FlagData" Class="LeagueCategory" />
     </Setting>
     <Setting Key="League_GetLeagueById" SpName="League_GetLeagueById" DbName="DefaultConnection">
     </Setting>
@@ -28,6 +30,7 @@
   </Function>
   <Function Name="Image">
     <Setting Key="Image_Insert" SpName="Image_Insert" DbName="DefaultConnection"></Setting>
+    <Setting Key="Image_GetCountryImages" SpName="Image_GetCountryImages" DbName="DefaultConnection"></Setting>
   </Function>
   <Function Name="Matches">
     <Setting Key="Match_GetByDateRange" SpName="Match_GetByDateRange" DbName="DevConnection" />

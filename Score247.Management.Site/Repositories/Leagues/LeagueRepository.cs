@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using Fanex.Data;
 using Fanex.Data.Repository;
 using Score247.Management.Site.Criterias.League;
+using Score247.Management.Site.Helpers;
+using Score247.Management.Site.Repositories.Images;
 using Score247Management.Core.Leagues.Models;
 
 namespace Score247.Management.Site.Repositories.Leagues
@@ -19,6 +21,7 @@ namespace Score247.Management.Site.Repositories.Leagues
 
         public async Task<IEnumerable<Score247Management.Core.Leagues.Models.League>> GetLeagues()
         {
+            var imageRepository = new ImageRepository();
             using (var objectDb = ObjectDbFactory.CreateInstance("League_GetLeague"))
             {
                 IEnumerable<Score247Management.Core.Leagues.Models.League> leagues = objectDb.Query<Score247Management.Core.Leagues.Models.League, LeagueCategory, Score247Management.Core.Leagues.Models.League>(
@@ -28,6 +31,15 @@ namespace Score247.Management.Site.Repositories.Leagues
 
                       return league;
                   }, "LeagueCategoryId");
+
+                foreach (var league in leagues)
+                {
+                    if (league.LeagueCategory.FlagData != null)
+                    {
+                        league.LeagueCategory.FlagSource = ImageHelper.ConvertImageToStringData(league.LeagueCategory.FlagData);
+                    }
+                }
+
                 return leagues.OrderBy(x => x.Name);
             }
         }
