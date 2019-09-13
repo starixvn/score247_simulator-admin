@@ -130,12 +130,12 @@
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label asp-for="Match.Scheduled" class="control-label">Date(UTC)</label>
+                    <label asp-for="Match.Scheduled" class="control-label">Date:</label>
                     <input value="@Model.Match.Scheduled" name="Match.Scheduled" class="form-control customDatepicker" />
                     <span asp-validation-for="Match.Scheduled" class="text-danger"></span>
                 </div>
                 <div class="form-group col-md-6">
-                    <label asp-for="Match.ScheduledTime" class="control-label">Time(UTC)</label>
+                    <label asp-for="Match.ScheduledTime" class="control-label">Time</label>
                     <input asp-for="Match.ScheduledTime" class="form-control" />
                     <span asp-validation-for="Match.ScheduledTime" class="text-danger"></span>
                 </div>

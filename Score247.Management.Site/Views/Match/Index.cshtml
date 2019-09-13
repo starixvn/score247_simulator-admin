@@ -35,7 +35,10 @@
                 League
             </th>
             <th>
-                @Html.DisplayName("Status")
+                @Html.DisplayName("Event Status")
+            </th>
+            <th>
+                @Html.DisplayName("Match Status")
             </th>
             <th>
                 @Html.DisplayName("Result")
@@ -49,33 +52,36 @@
     <tbody>
         @foreach (var item in Model.Matches)
         {
-            <tr>
-                <td></td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DisplayDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Teams.FirstOrDefault().Name) vs @Html.DisplayFor(modelItem => item.Teams.LastOrDefault().Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.League.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MatchResult.MatchStatus.DisplayName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DisplayResult)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td style="font-size:x-small;">
-                    @Html.ActionLink("Main Events", "Details", new { id = item.Id, timeSpan = Model.TimeOffsetString }) |
-                    @*@Html.ActionLink("Commentories", "Index", new { }) |
-                        @Html.ActionLink("Hightlights", "Index", new { })  |*@
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id, searchDate = Model.DateSearchModel.SearchDate, leagueId = Model.DateSearchModel.SelectedLeagueId })
-                </td>
-            </tr>
+        <tr>
+            <td></td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DisplayDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Teams.FirstOrDefault().Name) vs @Html.DisplayFor(modelItem => item.Teams.LastOrDefault().Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.League.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MatchResult.EventStatus.DisplayName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MatchResult.MatchStatus.DisplayName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DisplayResult)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td style="font-size:x-small;">
+                @Html.ActionLink("Main Events", "Details", new { id = item.Id, timeSpan = Model.TimeOffsetString }) |
+                @*@Html.ActionLink("Commentories", "Index", new { }) |
+            @Html.ActionLink("Hightlights", "Index", new { })  |*@
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id, searchDate = Model.DateSearchModel.SearchDate, leagueId = Model.DateSearchModel.SelectedLeagueId })
+            </td>
+        </tr>
         }
     </tbody>
 </table>

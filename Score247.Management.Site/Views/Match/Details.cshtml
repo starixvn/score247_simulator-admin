@@ -43,8 +43,12 @@
                     <label class="match-value">@Html.DisplayFor(model => model.Match.Teams.FirstOrDefault().Name) vs @Html.DisplayFor(model => model.Match.Teams.LastOrDefault().Name)</label>
                 </div>
                 <div class="match-info">
-                    <label class="match-info-name">Kick Off Time(UTC):</label>
+                    <label class="match-info-name">Kick Off Time:</label>
                     <label class="match-value">@Html.DisplayFor(model => model.Match.DisplayDate)</label>
+                </div>
+                <div class="match-info">
+                    <label class="match-info-name">Event Status:</label>
+                    <label class="match-value">@Html.DisplayFor(model => model.Match.MatchResult.EventStatus.DisplayName)</label>
                 </div>
                 @if (Model.Match.MatchResult.MatchStatus.DisplayName == MatchStatus.Penalties.DisplayName
 || Model.Match.MatchResult.MatchStatus.DisplayName == MatchStatus.EndedAfterPenalties.DisplayName)
