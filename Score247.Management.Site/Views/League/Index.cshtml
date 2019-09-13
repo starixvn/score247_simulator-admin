@@ -9,7 +9,7 @@
     <form class="list-quick-action col-sm-1">
         <button asp-action="Create" class="btn-default">New League</button>
     </form>
-    <button class="list-quick-action btn-danger" data-toggle="modal" data-target="#confirmCloneAndSyncCountryFlag">Sync Flag League</button>
+    @*<button class="list-quick-action btn-danger" data-toggle="modal" data-target="#confirmCloneAndSyncCountryFlag">Sync Flag League</button>*@
 </div>
 <form class="row filter">
     <div class="form-group col-sm-3">
@@ -75,7 +75,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <span>Do you really want to delete all country images and crawl new images?</span>
+                <span>Do you really want to delete all country images and crawl new images? It wil take times</span>
             </div>
             <div class="modal-footer">
                 <button asp-action="SyncFlagLeague" type="button" class="btn btn-danger" data-dismiss="modal">Yes</button>
