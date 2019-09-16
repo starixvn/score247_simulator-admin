@@ -1,11 +1,15 @@
 ﻿@model IEnumerable<Score247Management.Core.Matches.Models.TimelineEvent>
 <h4 class="page-title">Timelines Events</h4>
-<form class="list-quick-action" asp-action="CreateScenario" asp-route-matchId="@ViewBag.MatchId">
-    <div class="form-group mx-sm-3 my-auto">
-        <label for="scenarioName" class="sr-only">Scenario name:</label>
-        <input type="text" class="form-control" id="scenarioName" required placeholder="Scenario Name" name="scenarioName">
+<form class="filter" asp-action="CreateScenario" asp-route-matchId="@ViewBag.MatchId">
+    <div class="d-flex">
+        <div class="form-group">
+            <label for="scenarioName">Scenario name:</label>
+            <input type="text" class="form-control" id="scenarioName" required placeholder="Scenario Name" name="scenarioName">
+        </div>
+        <div class="form-group mt-auto">
+            <input type="submit" value="Create Scenario" class="btn-default" />
+        </div>
     </div>
-    <input type="submit" value="Create Scenario" class="btn-default my-auto" />
 </form>
 <table id="TimelineTable" class="table col-sm-12 table-striped table-bordered">
     <thead>
