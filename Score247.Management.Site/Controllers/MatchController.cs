@@ -65,13 +65,11 @@ namespace Score247.Management.Site.Controllers
         {
             var options = new List<string>();
             var today = DateTime.UtcNow;
-            options.Add(today.AddDays(-3).Add(offset).ToString("MM/dd/yyyy"));
             options.Add(today.AddDays(-2).Add(offset).ToString("MM/dd/yyyy"));
             options.Add(today.AddDays(-1).Add(offset).ToString("MM/dd/yyyy"));
             options.Add(today.Add(offset).ToString("MM/dd/yyyy"));
             options.Add(today.AddDays(1).Add(offset).ToString("MM/dd/yyyy"));
             options.Add(today.AddDays(2).Add(offset).ToString("MM/dd/yyyy"));
-            options.Add(today.AddDays(3).Add(offset).ToString("MM/dd/yyyy"));
 
             return options;
         }
@@ -556,16 +554,16 @@ namespace Score247.Management.Site.Controllers
                     var response = await client.PostAsJsonAsync(Configuration.GetValue<string>("Simulator:PushEvent"), requestBody);
                     if (!response.IsSuccessStatusCode)
                     {
-                        return RedirectToAction(nameof(Details), new { id = id });
+                        return RedirectToAction(nameof(Details), new { id });
                     }
                 }
                 await matchRepository.InsertTimelineLog(requestBody);
                 await Task.Delay(2000);
-                return RedirectToAction(nameof(Details), new { id = id });
+                return RedirectToAction(nameof(Details), new { id });
             }
             catch (Exception ex)
             {
-                return RedirectToAction(nameof(Details), new { id = id });
+                return RedirectToAction(nameof(Details), new { id });
             }
         }
 

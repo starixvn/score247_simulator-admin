@@ -40,8 +40,12 @@
                 <label class="match-value">@Html.DisplayFor(model => model.Match.Id)</label>
             </div>
             <div class="match-info">
+                <label class="match-info-name">League:</label>
+                <label class="match-value">@Html.DisplayFor(model => model.Match.League.Name) (@Html.DisplayFor(model => model.Match.League.Id))</label>
+            </div>
+            <div class="match-info">
                 <label class="match-info-name">Teams:</label>
-                <label class="match-value">@Html.DisplayFor(model => model.Match.Teams.FirstOrDefault().Name) vs @Html.DisplayFor(model => model.Match.Teams.LastOrDefault().Name)</label>
+                <label class="match-value">@Html.DisplayFor(model => model.Match.Teams.FirstOrDefault().Name) (@Html.DisplayFor(model => model.Match.Teams.FirstOrDefault().Id)) vs @Html.DisplayFor(model => model.Match.Teams.LastOrDefault().Name) (@Html.DisplayFor(model => model.Match.Teams.LastOrDefault().Id))</label>
             </div>
             <div class="match-info">
                 <label class="match-info-name">Kick Off Time:</label>

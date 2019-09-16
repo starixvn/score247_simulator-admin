@@ -20,13 +20,6 @@
             result.Add(new CreateDeleteMatchesModel()
             {
                 Count = 0,
-                EventDate = today.AddDays(-3),
-                DisplayDate = today.AddDays(-3).ToString("ddd, dd MMM"),
-                LeagueLimit = 100
-            });
-            result.Add(new CreateDeleteMatchesModel()
-            {
-                Count = 0,
                 EventDate = today.AddDays(-2),
                 DisplayDate = today.AddDays(-2).ToString("ddd, dd MMM"),
                 LeagueLimit = 100
