@@ -271,6 +271,16 @@ function scoreEventTypeChange(selectObject) {
     }
 }
 
+
+function scoreTimeEventTypeChange(selectObject) {
+    console.log(selectObject.value);
+    if (selectObject.value === 'match_end_pen' || selectObject.value === 'match_end_normal' || selectObject.value === 'match_end_extra') {
+        $('#aggregate_input').removeClass('d-none');
+    } else {
+        $('#aggregate_input').addClass('d-none');
+    }
+}
+
 function scorePeriodTypeChange(selectObject) {
     console.log(selectObject.value);
     if (selectObject.value === 'extra_time') {

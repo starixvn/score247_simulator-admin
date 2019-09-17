@@ -68,6 +68,24 @@
         Text = "Match End Penalty",
         Value = "match_end_pen"
     });
+
+    List<SelectListItem> homeOrAway = new List<SelectListItem>();
+
+    homeOrAway.Add(new SelectListItem()
+    {
+        Text = "None",
+        Value = "null"
+    });
+    homeOrAway.Add(new SelectListItem()
+    {
+        Text = "Home",
+        Value = "home"
+    });
+    homeOrAway.Add(new SelectListItem()
+    {
+        Text = "Away",
+        Value = "away"
+    });
 }
 <div class="card">
     <div class="card-header" id="matchTimeEventHeading">
@@ -82,8 +100,16 @@
                 <div class="column">
                     <div class="form-group">
                         <label asp-for="payload.timeline.type" class="control-label">Event Type</label>
-                        <select asp-for="payload.timeline.type" asp-items="eventTypes" class="form-control"></select>
+                        <select asp-for="payload.timeline.type" asp-items="eventTypes" class="form-control" onchange="scoreTimeEventTypeChange(this)"></select>
                         <span asp-validation-for="payload.timeline.type" class="text-danger"></span>
+                    </div>
+                    <div id="aggregate_input" class="form-group row d-none">
+                        <label for="aggregate_winner_id" class="control-label col-sm-2">Aggregate Winner:</label>
+                        <select name="aggregate_winner_id" asp-items="homeOrAway" class="form-control  col-sm-2"></select>
+                        <label for="aggregate_home_score" class="control-label col-sm-2">Aggregate Home Score:</label>
+                        <input name="aggregate_home_score" type="number" value="0" class="form-control  col-sm-2" />
+                        <label for="aggregate_away_score" class="control-label col-sm-2">Aggregate Away Score:</label>
+                        <input name="aggregate_away_score" type="number" value="0" class="form-control  col-sm-2" />
                     </div>
                     <div class="form-group">
                         <label asp-for="payload.timeline.time" class="control-label">Date</label>

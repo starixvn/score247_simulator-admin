@@ -295,6 +295,23 @@ namespace Score247.Management.Site.Controllers
                 requestBody.payload.timeline.home_score = match.LatestTimeline != null ? match.LatestTimeline.HomeScore : 0;
                 requestBody.payload.timeline.away_score = match.LatestTimeline != null ? match.LatestTimeline.AwayScore : 0;
 
+                requestBody.payload.sport_event_status.aggregate_away_score = int.Parse(collection["aggregate_away_score"]);
+                requestBody.payload.sport_event_status.aggregate_home_score = int.Parse(collection["aggregate_home_score"]);
+                if (collection["aggregate_winner_id"] == "home")
+                {
+                    requestBody.payload.sport_event_status.aggregate_winner_id = match.Teams.FirstOrDefault(x => x.IsHome).Id;
+                }
+                else if (collection["aggregate_winner_id"] == "away")
+                {
+                    requestBody.payload.sport_event_status.aggregate_winner_id = match.Teams.FirstOrDefault(x => !x.IsHome).Id;
+                }
+                else
+                {
+                    requestBody.payload.sport_event_status.aggregate_winner_id = null;
+                    requestBody.payload.sport_event_status.aggregate_away_score = 0;
+                    requestBody.payload.sport_event_status.aggregate_home_score = 0;
+                }
+
                 var eventType = collection["payload.timeline.type"];
 
                 if (eventType == "match_started")
