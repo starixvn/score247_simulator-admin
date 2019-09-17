@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -191,6 +190,13 @@ namespace Score247.Management.Site.Controllers
                 return View();
             }
         }
+
+        [HttpGet("/Match/AutoCreateMatch")]
+        public async Task<JsonResult> AutoCreateMatch(DateTimeOffset? dateTimeOffset)
+            => Json(new
+            {
+                matchId = await CreateMatchesService.AutoCreateMatch(dateTimeOffset, Configuration)
+            });
 
         [HttpPost("/Match/CreateMatchesByDate")]
         public async Task<JsonResult> CreateMatchesByDate([FromBody] CreateDeleteMatchesModel createDeleteMatchesRequest)

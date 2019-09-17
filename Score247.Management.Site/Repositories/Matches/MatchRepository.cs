@@ -150,6 +150,16 @@ namespace Score247.Management.Site.Repositories.Matches
             return await CheckIfMatchInserted(matches.LastOrDefault());
         }
 
+        public async Task<string> AutoCreateMatche(DateTimeOffset? createDate)
+        {
+            var matches = await GenerateMatches(createDate.HasValue ? createDate.Value.DateTime : DateTime.Now, 1, new TimeSpan(0, 0, 0), 1);
+
+            await SendCreateMatchesRequest(matches, true);
+            await CheckIfMatchInserted(matches.LastOrDefault());
+
+            return matches.First().Id;
+        }
+
         private async Task<int> CheckIfMatchInserted(MatchEntity match)
         {
             if (match == null)
