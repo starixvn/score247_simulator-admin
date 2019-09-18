@@ -41,7 +41,7 @@ namespace Score247.Management.Site.Repositories.Matches
         public async Task<IEnumerable<Match>> GetMatches()
         {
             var matches = await repository.FetchAsync<Match>(new GetMatchesCriteria());
-            var result = matches.Select(x => x.DeserialValue());
+            var result = matches.Select(x => x.DeserialValue()).OrderBy(x => x.League.Order).ThenBy(x => x.EventDate);
 
             return result;
         }
@@ -139,7 +139,17 @@ namespace Score247.Management.Site.Repositories.Matches
                 matches = await repository.FetchAsync<Match>(criteria);
             }
 
-            return matches.Select(x => x.DeserialValue(offset));
+            var leageRepository = new LeagueRepository();
+            var leagues = await leageRepository.GetLeagues();
+
+            var result = matches.Select(x =>
+            {
+                var match = x.DeserialValue(offset);
+                match.League = leagues.FirstOrDefault(league => league.Id == match.League.Id);
+                return match;
+            });
+
+            return result.OrderBy(x => x.League.Order).ThenBy(x => x.EventDate);
         }
 
         public async Task<int> CreateMatches(DateTime createDate, int limitMatches, TimeSpan offset, int limitLeagues)

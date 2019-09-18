@@ -16,6 +16,6 @@
         public List<CreateDeleteMatchesModel> CreateDeleteMatchesModels { get; set; }
         public string CreateMatchLeagueLimit { get; set; }
 
-        public List<string> QuickDateSelectOptions { get; set; }
+        public List<QuickDateSelectOption> QuickDateSelectOptions { get; set; }
     }
 }

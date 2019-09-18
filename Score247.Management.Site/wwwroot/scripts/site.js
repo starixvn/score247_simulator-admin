@@ -37,7 +37,6 @@ $(document).ready(function () {
             "orderable": true,
             "targets": 0
         }],
-        "order": [[1, 'asc']],
         "dom": '<"top"if>rt<"bottom"><"clear">',
         aLengthMenu: [
             [25, 50, 100, 200, -1],
@@ -58,7 +57,7 @@ $(document).ready(function () {
             "orderable": true,
             "targets": 0
         }],
-        "order": [[1, 'asc']],
+        "order": [[2, 'asc']],
         "dom": '<"top"if>rt<"bottom"><"clear">',
         aLengthMenu: [
             [25, 50, 100, 200, -1],

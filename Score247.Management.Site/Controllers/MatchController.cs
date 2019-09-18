@@ -60,15 +60,16 @@ namespace Score247.Management.Site.Controllers
             return View(viewModal);
         }
 
-        private List<string> GenerateQuickDateSelectOptions(TimeSpan offset)
+        private List<QuickDateSelectOption> GenerateQuickDateSelectOptions(TimeSpan offset)
         {
-            var options = new List<string>();
+            var options = new List<QuickDateSelectOption>();
             var today = DateTime.UtcNow;
-            options.Add(today.AddDays(-2).Add(offset).ToString("MM/dd/yyyy"));
-            options.Add(today.AddDays(-1).Add(offset).ToString("MM/dd/yyyy"));
-            options.Add(today.Add(offset).ToString("MM/dd/yyyy"));
-            options.Add(today.AddDays(1).Add(offset).ToString("MM/dd/yyyy"));
-            options.Add(today.AddDays(2).Add(offset).ToString("MM/dd/yyyy"));
+            options.Add(new QuickDateSelectOption() { DisplayName = "Live", Value = today.Add(offset).ToString("MM/dd/yyyy") });
+            options.Add(new QuickDateSelectOption(today.AddDays(-2).Add(offset)));
+            options.Add(new QuickDateSelectOption(today.AddDays(-1).Add(offset)));
+            options.Add(new QuickDateSelectOption() { DisplayName = "Today, " + today.Add(offset).ToString("MMMM dd"), Value = today.Add(offset).ToString("MM/dd/yyyy") });
+            options.Add(new QuickDateSelectOption(today.AddDays(1).Add(offset)));
+            options.Add(new QuickDateSelectOption(today.AddDays(2).Add(offset)));
 
             return options;
         }
