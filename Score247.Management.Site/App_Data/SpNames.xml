@@ -33,12 +33,13 @@
     <Setting Key="Image_GetCountryImages" SpName="Image_GetCountryImages" DbName="DefaultConnection"></Setting>
   </Function>
   <Function Name="Matches">
-    <Setting Key="Match_GetByDateRange" SpName="Match_GetByDateRange" DbName="DevConnection" />
+    <Setting Key="Match_GetByDateRange" SpName="Match_GetByDateRange" DbName="DevConnection">
+      <Mapping DataField="League" ObjectProperty="LeagueId" Class="League" />
+    </Setting>
     <Setting Key="Match_GetById" SpName="Match_GetById" DbName="DevConnection" />
     <Setting Key="Match_GetTimelineEvents" SpName="Match_GetTimelineEvents" DbName="DevConnection" />
     <Setting Key="Match_GetMatches" SpName="Match_GetMatches" DbName="DevConnection" />
     <Setting Key="Match_InsertMatch" SpName="Match_InsertMatch" DbName="DevConnection" />
-    <Setting Key="Match_GetByDateRangeAndLeague" SpName="Match_GetByDateRangeAndLeague" DbName="DevConnection" />
     <Setting Key="Match_DeleteMatchByDate" SpName="Match_DeleteMatchByDate" DbName="DevConnection" />
     <Setting Key="Match_DeleteLiveMatch" SpName="Match_DeleteLiveMatch" DbName="DevConnection" />
     <Setting Key="Match_DeleteAll" SpName="Match_DeleteAll" DbName="DevConnection" />

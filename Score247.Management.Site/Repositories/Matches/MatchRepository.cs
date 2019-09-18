@@ -115,46 +115,37 @@ namespace Score247.Management.Site.Repositories.Matches
         public async Task<IEnumerable<Match>> GetMatchByDataRangeWithOffset(DateTime fromDate, DateTime toDate, string leagueId, TimeSpan offset)
         {
             IEnumerable<Match> matches;
-            if (leagueId == "all")
+            var criteria = new GetMatchByDateRangeCriteria()
             {
-                var criteria = new GetMatchByDateRangeCriteria()
-                {
-                    SportId = 1,
-                    FromDate = fromDate,
-                    ToDate = toDate,
-                    Language = "en-US"
-                };
-                matches = await repository.FetchAsync<Match>(criteria);
-            }
-            else
+                SportId = 1,
+                FromDate = fromDate,
+                ToDate = toDate,
+                Language = "en-US"
+            };
+            matches = await repository.FetchAsync<Match>(criteria);
+
+            var result = matches.Select(x => x.DeserialValue(offset));
+
+            if (leagueId != "all")
             {
-                var criteria = new GetMatchByDateRangeAndLeagueCriteria()
-                {
-                    SportId = 1,
-                    FromDate = fromDate,
-                    ToDate = toDate,
-                    Language = "en-US",
-                    LeagueId = leagueId
-                };
-                matches = await repository.FetchAsync<Match>(criteria);
+                result = result.Where(x => x.League.Id == leagueId);
             }
 
             var leageRepository = new LeagueRepository();
             var leagues = await leageRepository.GetLeagues();
 
-            var result = matches.Select(x =>
+            result = result.Select(x =>
             {
-                var match = x.DeserialValue(offset);
-                var fullLeague = leagues.FirstOrDefault(league => league.Id == match.League.Id);
+                var fullLeague = leagues.FirstOrDefault(league => league.Id == x.League.Id);
                 if (fullLeague != null)
                 {
-                    match.League = fullLeague;
+                    x.League = fullLeague;
                 }
 
-                return match;
+                return x;
             });
 
-            return result.OrderBy(x => x.League?.Order).ThenBy(x => x.EventDate);
+            return result;
         }
 
         public async Task<int> CreateMatches(DateTime createDate, int limitMatches, TimeSpan offset, int limitLeagues)
