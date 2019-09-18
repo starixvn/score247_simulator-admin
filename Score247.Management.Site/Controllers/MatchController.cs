@@ -19,7 +19,7 @@ using Score247.Management.Site.Repositories.Scenarios;
 using Score247.Management.Site.Repositories.Teams;
 using Score247.Management.Site.Services;
 using Score247.Management.Site.Services.Matchs;
-using Score247.Management.Site.ViewModels.Match;
+using Score247.Management.Site.ViewModels.Matches;
 using Score247Management.Core._Shared.Enumerations;
 using Score247Management.Core.Matches.Models;
 
@@ -152,6 +152,19 @@ namespace Score247.Management.Site.Controllers
             };
             viewModel.MatchTimeEventDto = new MatchPushEventDto(match, offset);
             viewModel.Scenarios = await scenarioRepo.GetScenarios();
+            return View(viewModel);
+        }
+
+        public async Task<ActionResult> Odds(string id)
+        {
+            var repository = new MatchRepository();
+
+            TimeSpan offset;
+            TimeSpan.TryParse(GetTimezone(), out offset);
+            var match = await repository.GetMatchById(id, offset);
+            var viewModel = new OddsEventViewModel();
+            viewModel.Match = match;
+
             return View(viewModel);
         }
 

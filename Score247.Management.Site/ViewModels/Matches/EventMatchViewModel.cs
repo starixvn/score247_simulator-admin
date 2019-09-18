@@ -1,4 +1,4 @@
-﻿namespace Score247.Management.Site.ViewModels.Match
+﻿namespace Score247.Management.Site.ViewModels.Matches
 {
     using System.Collections.Generic;
     using Score247.Management.Site.Models.Events;
@@ -7,7 +7,7 @@
 
     public class EventMatchViewModel
     {
-        public Score247Management.Core.Matches.Models.Match Match { get; set; }
+        public Match Match { get; set; }
         public MatchPushEventDto MatchTimeEventDto { get; set; }
         public MatchPushEventDto MatchCardEventDto { get; set; }
         public MatchPushEventDto MatchPenaltyEventDto { get; set; }

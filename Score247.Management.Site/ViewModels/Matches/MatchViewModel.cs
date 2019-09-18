@@ -1,4 +1,4 @@
-﻿namespace Score247.Management.Site.ViewModels.Match
+﻿namespace Score247.Management.Site.ViewModels.Matches
 {
     using System.Collections.Generic;
     using Score247.Management.Site.Criterias.Match;

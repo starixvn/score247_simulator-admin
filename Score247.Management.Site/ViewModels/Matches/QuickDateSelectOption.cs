@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Score247.Management.Site.ViewModels.Match
+namespace Score247.Management.Site.ViewModels.Matches
 {
     public class QuickDateSelectOption
     {

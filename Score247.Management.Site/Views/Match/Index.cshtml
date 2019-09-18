@@ -1,6 +1,6 @@
 ﻿@using Microsoft.Extensions.Configuration
 
-@model Score247.Management.Site.ViewModels.Match.MatchViewModel
+@model Score247.Management.Site.ViewModels.Matches.MatchViewModel
 @inject IConfiguration Configuration
 @{
     ViewData["Title"] = "Index";
@@ -77,8 +77,8 @@
                 </td>
                 <td style="font-size:x-small;">
                     @Html.ActionLink("Main Events", "Details", new { id = item.Id, timeSpan = Model.TimeOffsetString }) |
-                    @*@Html.ActionLink("Commentories", "Index", new { }) |
-                        @Html.ActionLink("Hightlights", "Index", new { })  |*@
+                    @Html.ActionLink("Odds", "Odds", new { id = item.Id, timeSpan = Model.TimeOffsetString }) |
+                        @*@Html.ActionLink("Hightlights", "Index", new { })  |*@
                     @Html.ActionLink("Delete", "Delete", new { id = item.Id, searchDate = Model.DateSearchModel.SearchDate, leagueId = Model.DateSearchModel.SelectedLeagueId })
                 </td>
             </tr>

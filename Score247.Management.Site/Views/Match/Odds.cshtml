@@ -1,0 +1,259 @@
+﻿@using  Score247Management.Core._Shared.Enumerations
+
+@model Score247.Management.Site.ViewModels.Matches.OddsEventViewModel
+
+@{
+    ViewData["Title"] = "Odds Events";
+}
+
+@section Styles {
+    <link href="~/styles/match-details.css" rel="stylesheet" />
+}
+
+<div class="row">
+    <div class="col-sm-4">
+        <div class="match-area">
+            <div class="match-info">
+                <label class="match-info-name">@Html.DisplayNameFor(model => model.Match.Id):</label>
+                <label class="match-value">@Html.DisplayFor(model => model.Match.Id)</label>
+            </div>
+            <div class="match-info">
+                <label class="match-info-name">League:</label>
+                <label class="match-value">@Html.DisplayFor(model => model.Match.League.Name) (@Html.DisplayFor(model => model.Match.League.Id))</label>
+            </div>
+            <div class="match-info">
+                <label class="match-info-name">Teams:</label>
+                <label class="match-value">@Html.DisplayFor(model => model.Match.Teams.FirstOrDefault().Name) (@Html.DisplayFor(model => model.Match.Teams.FirstOrDefault().Id)) vs @Html.DisplayFor(model => model.Match.Teams.LastOrDefault().Name) (@Html.DisplayFor(model => model.Match.Teams.LastOrDefault().Id))</label>
+            </div>
+            <div class="match-info">
+                <label class="match-info-name">Kick Off Time:</label>
+                <label class="match-value">@Html.DisplayFor(model => model.Match.DisplayDate)</label>
+            </div>
+            <div class="match-info">
+                <label class="match-info-name">Event Status:</label>
+                <label class="match-value">@Html.DisplayFor(model => model.Match.MatchResult.EventStatus.DisplayName)</label>
+            </div>
+            @if (Model.Match.MatchResult.MatchStatus.DisplayName == MatchStatus.Penalties.DisplayName
+|| Model.Match.MatchResult.MatchStatus.DisplayName == MatchStatus.EndedAfterPenalties.DisplayName)
+            {
+                <div class="match-info">
+                    <label class="match-info-name">Penalty Score:</label>
+                    <label class="match-value">
+                        @Html.DisplayFor(model => model.Match.LatestTimeline.ShootoutHomeScore) - @Html.DisplayFor(model => model.Match.LatestTimeline.ShootoutAwayScore)
+                    </label>
+                </div>
+            }
+            <div class="match-info">
+                <label class="match-info-name">Current Score:</label>
+                <label class="match-value">
+                    <span class="score">
+                        @Html.DisplayFor(model => model.Match.LatestTimeline.HomeScore) - @Html.DisplayFor(model => model.Match.LatestTimeline.AwayScore)
+                    </span>
+                </label>
+            </div>
+
+            <div class="match-info">
+                <label class="match-info-name">Match Status:</label>
+                <label class="match-value">@Html.DisplayFor(model => model.Match.MatchResult.MatchStatus.DisplayName) - @Html.DisplayFor(model => model.Match.MatchResult.MatchTime)'</label>
+            </div>
+        </div>
+        <div class="OddsChangeArea">
+            <div class="card">
+                <div class="card-header" id="oddsEventHeading">
+                    <div class="card-title" data-toggle="collapse" data-target="#oddsEvent" aria-expanded="true" aria-controls="oddsEvent">
+                        Odds Change
+                    </div>
+                </div>
+                <div aria-labelledby="oddsEventHeading" data-parent="#accordion" id="oddsEvent">
+                    <div class="card-body create-form">
+                        <form asp-action="_CreateTimeEventPartial" asp-route-id="@ViewBag.MatchId">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="column">
+                                <div class="form-group">
+                                    <label for="bookmaker" class="control-label">Event Type</label>
+                                    <select name="bookmaker" class="form-control">
+                                        <option>Bet365</option>
+                                        <option>Bet365</option>
+                                        <option>Bet365</option>
+                                        <option>Bet365</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="bookmaker" class="control-label">Event Type</label>
+                                    <select name="bookmaker" class="form-control">
+                                        <option>0.81</option>
+                                        <option>0.81</option>
+                                        <option>0.81</option>
+                                        <option>0.81</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="bookmaker" class="control-label">Event Type</label>
+                                    <select name="bookmaker" class="form-control">
+                                        <option>0.75</option>
+                                        <option>0.75</option>
+                                        <option>0.75</option>
+                                        <option>0.75</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="bookmaker" class="control-label">Event Type</label>
+                                    <select name="bookmaker" class="form-control">
+                                        <option>-1</option>
+                                        <option>-1</option>
+                                        <option>-1</option>
+                                        <option>-1</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Last Update:</label>
+                                    <input name="updateTime" class="form-control customDatepicker" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="Create" class="btn-submit" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-8">
+        <h4>Odds Comparison:</h4>
+        <table class="table table-bordered table-dark">
+            <thead>
+                <tr>
+                    <th scope="col" rowspan="2">Bookmaker</th>
+                    <th scope="col" colspan="3">Live Odds</th>
+                    <th scope="col" colspan="3">Opening Odds</th>
+                </tr>
+                <tr>
+                    <th scope="col">Home</th>
+                    <th scope="col">HDP</th>
+                    <th scope="col">Away</th>
+                    <th scope="col">Home</th>
+                    <th scope="col">HDP</th>
+                    <th scope="col">Away</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Macauslot</td>
+                    <td>0.81</td>
+                    <td>0.81</td>
+                    <td>0.81</td>
+                    <td>0.81</td>
+                    <td>0.81</td>
+                    <td>0.81</td>
+                </tr>
+                <tr>
+                    <td>Bet365</td>
+                    <td>0.81</td>
+                    <td>0.81</td>
+                    <td>0.81</td>
+                    <td>0.81</td>
+                    <td>0.81</td>
+                    <td>0.81</td>
+                </tr>
+                <tr>
+                    <td>Easybet</td>
+                    <td>0.81</td>
+                    <td>0.81</td>
+                    <td>0.81</td>
+                    <td>0.81</td>
+                    <td>0.81</td>
+                    <td>0.81</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h4>Odds Movement:</h4>
+        <table class="table table-bordered table-dark">
+            <thead>
+                <tr>
+                    <th scope="col">Time</th>
+                    <th scope="col">Score</th>
+                    <th scope="col">Home</th>
+                    <th scope="col">HDP</th>
+                    <th scope="col">Away</th>
+                    <th scope="col">Last Updated</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>78'</td>
+                    <td>1 - 1</td>
+                    <td>0.81</td>
+                    <td>-2</td>
+                    <td>0.81</td>
+                    <td>20-07 16:33</td>
+                </tr>
+                <tr>
+                    <td>66'</td>
+                    <td>1 - 1</td>
+                    <td>0.81</td>
+                    <td>-2</td>
+                    <td>0.81</td>
+                    <td>20-07 16:33</td>
+                </tr>
+                <tr>
+                    <td>65'</td>
+                    <td>1 - 1</td>
+                    <td>0.81</td>
+                    <td>-2</td>
+                    <td>0.81</td>
+                    <td>20-07 16:33</td>
+                </tr>
+                <tr>
+                    <td>60'</td>
+                    <td>1 - 1</td>
+                    <td>0.81</td>
+                    <td>-2</td>
+                    <td>0.81</td>
+                    <td>20-07 16:33</td>
+                </tr>
+                <tr>
+                    <td>57'</td>
+                    <td>1 - 1</td>
+                    <td>0.81</td>
+                    <td>-2</td>
+                    <td>0.81</td>
+                    <td>20-07 16:33</td>
+                </tr>
+                <tr>
+                    <td>55'</td>
+                    <td>1 - 1</td>
+                    <td>0.81</td>
+                    <td>-2</td>
+                    <td>0.81</td>
+                    <td>20-07 16:33</td>
+                </tr>
+                <tr>
+                    <td>50'</td>
+                    <td>1 - 1</td>
+                    <td>0.81</td>
+                    <td>-2</td>
+                    <td>0.81</td>
+                    <td>20-07 16:33</td>
+                </tr>
+                <tr>
+                    <td>49'</td>
+                    <td>1 - 1</td>
+                    <td>0.81</td>
+                    <td>-2</td>
+                    <td>0.81</td>
+                    <td>20-07 16:33</td>
+                </tr>
+                <tr>
+                    <td>47'</td>
+                    <td>1 - 1</td>
+                    <td>0.81</td>
+                    <td>-2</td>
+                    <td>0.81</td>
+                    <td>20-07 16:33</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

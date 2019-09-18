@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Score247.Management.Site.Repositories.Matches.Models;
 
-namespace Score247.Management.Site.ViewModels.Match
+namespace Score247.Management.Site.ViewModels.Matches
 {
     public class CreateMatchViewModel
     {
