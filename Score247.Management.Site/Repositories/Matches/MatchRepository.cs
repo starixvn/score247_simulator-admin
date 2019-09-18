@@ -145,11 +145,16 @@ namespace Score247.Management.Site.Repositories.Matches
             var result = matches.Select(x =>
             {
                 var match = x.DeserialValue(offset);
-                match.League = leagues.FirstOrDefault(league => league.Id == match.League.Id);
+                var fullLeague = leagues.FirstOrDefault(league => league.Id == match.League.Id);
+                if (fullLeague != null)
+                {
+                    match.League = fullLeague;
+                }
+
                 return match;
             });
 
-            return result.OrderBy(x => x.League.Order).ThenBy(x => x.EventDate);
+            return result.OrderBy(x => x.League?.Order).ThenBy(x => x.EventDate);
         }
 
         public async Task<int> CreateMatches(DateTime createDate, int limitMatches, TimeSpan offset, int limitLeagues)
