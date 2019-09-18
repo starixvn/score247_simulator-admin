@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using Score247.Management.Site.Helpers;
 using Score247Management.Core.Matches.Models;
 
 namespace Score247.Management.Site.Models.Events
@@ -62,7 +63,9 @@ namespace Score247.Management.Site.Models.Events
             timeline = new TimelineDto()
             {
                 time = latestTime.ToUniversalTime(),
-                hour = new TimeSpan(latestTime.ToUniversalTime().Hour, latestTime.ToUniversalTime().Minute + 1, 0)
+                hour = new TimeSpan(latestTime.ToUniversalTime().Hour, latestTime.ToUniversalTime().Minute + 1, 0),
+                period_type = "regular_period",
+                period = match.MatchResult.Period
             };
         }
 

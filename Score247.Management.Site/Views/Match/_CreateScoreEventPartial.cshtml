@@ -26,7 +26,7 @@
     });
     periodTypes.Add(new SelectListItem()
     {
-        Text = "Injury Extra Time",
+        Text = "Injury Time",
         Value = "extra_time"
     });
 
@@ -95,7 +95,7 @@
                         <span asp-validation-for="payload.timeline.match_time" class="text-danger"></span>
                     </div>
                     <div class="form-group d-none" id="scoreExtratime">
-                        <label asp-for="payload.timeline.stoppage_time" class="control-label">Match Extra Time</label>
+                        <label asp-for="payload.timeline.stoppage_time" class="control-label">Match Injury Time</label>
                         <select asp-for="payload.timeline.stoppage_time" asp-items="matchTimeExtra" class="form-control"></select>
                         <span asp-validation-for="payload.timeline.stoppage_time" class="text-danger"></span>
                     </div>

@@ -1,6 +1,7 @@
 ﻿using System;
 using Score247.Management.Site.Helpers;
 using Score247.Management.Site.Models.Events;
+using Score247Management.Core._Shared.Enumerations;
 using Score247Management.Core.Matches.Models;
 
 namespace Score247.Management.Site.Services.Matchs
@@ -20,7 +21,8 @@ namespace Score247.Management.Site.Services.Matchs
                 match_time = matchTime,
                 match_clock = matchTime.ToString() + ":00",
                 type = eventType,
-                period = match.MatchResult.Period
+                period = match.MatchResult.Period,
+                period_type = PeriodType.RegularPeriod.DisplayName
             };
 
             if (extraTime > 0)
