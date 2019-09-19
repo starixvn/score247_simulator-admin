@@ -112,6 +112,17 @@ $(document).ready(function () {
         var years = moment().diff(start, 'years');
     });
 
+    $('.customDateTimepicker').daterangepicker({
+        locale: { format: 'MM/DD/YYYY HH:mm:ss' },
+        singleDatePicker: true,
+        showDropdowns: true,
+        minYear: 2010,
+        timePicker: true,
+        maxYear: parseInt(moment().format('YYYY'), 10)
+    }, function (start, end, label) {
+            $('#ui-datepicker-div table td a').attr('href', 'javascript:;');
+    });
+
     $('.timezone-hidden').val(sessionStorage.getItem("Timezone"));
 
     $('#btnCreateAllSiteMatches').click(function (event) {
@@ -269,7 +280,6 @@ function scoreEventTypeChange(selectObject) {
         $('#scoreAssist').addClass('d-none');
     }
 }
-
 
 function scoreTimeEventTypeChange(selectObject) {
     console.log(selectObject.value);

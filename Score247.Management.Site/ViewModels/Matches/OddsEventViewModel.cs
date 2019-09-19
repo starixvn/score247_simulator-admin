@@ -1,9 +1,12 @@
-﻿using Score247Management.Core.Matches.Models;
-
-namespace Score247.Management.Site.ViewModels.Matches
+﻿namespace Score247.Management.Site.ViewModels.Matches
 {
+    using Score247Management.Core.Matches.Models;
+    using Score247Management.Core.Odds.Models;
+
     public class OddsEventViewModel
     {
         public Match Match { get; set; }
+
+        public MatchOdds MatchOdds { get; set; }
     }
 }

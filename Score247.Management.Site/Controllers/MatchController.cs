@@ -155,19 +155,6 @@ namespace Score247.Management.Site.Controllers
             return View(viewModel);
         }
 
-        public async Task<ActionResult> Odds(string id)
-        {
-            var repository = new MatchRepository();
-
-            TimeSpan offset;
-            TimeSpan.TryParse(GetTimezone(), out offset);
-            var match = await repository.GetMatchById(id, offset);
-            var viewModel = new OddsEventViewModel();
-            viewModel.Match = match;
-
-            return View(viewModel);
-        }
-
         // GET: Match/Create
         public async Task<ActionResult> Create()
         {

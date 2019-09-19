@@ -1,89 +1,40 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Score247.Management.Site.Repositories.Matches;
+using Score247.Management.Site.Services.Odds;
+using Score247.Management.Site.ViewModels.Matches;
 
 namespace Score247.Management.Site.Controllers
 {
     public class OddsController : Controller
     {
-        // GET: Odds
-        public ActionResult Index()
+        private IOddsService oddsService { get; }
+
+        public OddsController(IOddsService oddsService)
         {
-            return View();
+            this.oddsService = oddsService;
         }
 
-        // GET: Odds/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Index(string id)
         {
-            return View();
+            TimeSpan offset;
+            TimeSpan.TryParse(GetTimezone(), out offset);
+
+            var viewModel = await oddsService.CreateOddsViewModel(id, offset);
+
+            return View(viewModel);
         }
 
-        // GET: Odds/Create
-        public ActionResult Create()
+        private string GetTimezone()
         {
-            return View();
-        }
-
-        // POST: Odds/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
+            var result = HttpContext.Session.GetString("Timezone");
+            if (string.IsNullOrEmpty(result))
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction(nameof(Index));
+                result = "07:00:00";
             }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Odds/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Odds/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Odds/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Odds/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            return result;
         }
     }
 }
