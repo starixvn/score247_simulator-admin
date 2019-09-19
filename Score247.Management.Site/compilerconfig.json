@@ -10,5 +10,9 @@
   {
     "outputFile": "wwwroot/scripts/site.es5.js",
     "inputFile": "wwwroot/scripts/site.js"
+  },
+  {
+    "outputFile": "wwwroot/styles/odds.css",
+    "inputFile": "wwwroot/styles/odds.scss"
   }
 ]

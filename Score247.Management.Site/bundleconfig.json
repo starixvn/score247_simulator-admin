@@ -8,6 +8,7 @@
   {
     "outputFileName": "wwwroot/bundles/site.min.css",
     "inputFiles": [
+      "wwwroot/styles/livescore/style.css",
       "wwwroot/styles/site.css"
     ]
   }

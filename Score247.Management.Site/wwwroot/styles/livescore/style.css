@@ -1,0 +1,175 @@
+@font-face {
+  font-family: 'livescore';
+  src:  url('fonts/livescore.eot?g13nzo');
+  src:  url('fonts/livescore.eot?g13nzo#iefix') format('embedded-opentype'),
+    url('fonts/livescore.ttf?g13nzo') format('truetype'),
+    url('fonts/livescore.woff?g13nzo') format('woff'),
+    url('fonts/livescore.svg?g13nzo#livescore') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'livescore' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-tab-tv:before {
+  content: "\e925";
+  color: #999;
+}
+.icon-home:before {
+  content: "\e924";
+  color: #f24822;
+}
+.icon-red-card:before {
+  content: "\e923";
+  color: #ff3030;
+}
+.icon-arrow-down:before {
+  content: "\e902";
+  color: #f24822;
+}
+.icon-tab-info:before {
+  content: "\e905";
+  color: #999;
+}
+.icon-tab-table:before {
+  content: "\e90b";
+  color: #999;
+}
+.icon-tab-tracker:before {
+  content: "\e90e";
+  color: #999;
+}
+.icon-tab-social:before {
+  content: "\e90f";
+  color: #999;
+}
+.icon-tab-lineup:before {
+  content: "\e910";
+  color: #999;
+}
+.icon-tab-odds:before {
+  content: "\e911";
+  color: #999;
+}
+.icon-tab-stats:before {
+  content: "\e915";
+  color: #999;
+}
+.icon-tab-h2h:before {
+  content: "\e918";
+  color: #999;
+}
+.icon-calendar:before {
+  content: "\e919";
+  color: #c4c4c4;
+}
+.icon-live-match:before {
+  content: "\e91a";
+  color: #30c2ff;
+}
+.icon-match-status-extra-time:before {
+  content: "\e91c";
+  color: #fff;
+}
+.icon-match-status-live:before {
+  content: "\e91e";
+  color: #fff;
+}
+.icon-favorite:before {
+  content: "\e91f";
+  color: #999;
+}
+.icon-second-leg-winner:before {
+  content: "\e920";
+  color: #fff;
+}
+.icon-penalty-winner:before {
+  content: "\e921";
+  color: #fff;
+}
+.icon-bookmaker-details:before {
+  content: "\e922";
+  color: #30c2ff;
+}
+.icon-night-mode:before {
+  content: "\e91b";
+  color: #fff;
+}
+.icon-close:before {
+  content: "\e916";
+  color: #939393;
+}
+.icon-flag:before {
+  content: "\e917";
+  color: #666;
+}
+.icon-checked:before {
+  content: "\e914";
+  color: #3ec28f;
+}
+.icon-search:before {
+  content: "\e91d";
+  color: #939393;
+}
+.icon-arrow-left:before {
+  content: "\e912";
+  color: #636886;
+}
+.icon-arrow-right:before {
+  content: "\e913";
+  color: #fff;
+}
+.icon-alert:before {
+  content: "\e903";
+  color: #fff;
+}
+.icon-clear:before {
+  content: "\e904";
+  color: #fff;
+}
+.icon-contact:before {
+  content: "\e906";
+  color: #fff;
+}
+.icon-default-sport:before {
+  content: "\e907";
+  color: #fff;
+}
+.icon-faq:before {
+  content: "\e908";
+  color: #fff;
+}
+.icon-friend:before {
+  content: "\e909";
+  color: #fff;
+}
+.icon-language:before {
+  content: "\e90a";
+  color: #fff;
+}
+.icon-refresh:before {
+  content: "\e90d";
+  color: #fff;
+}
+.icon-basketball:before {
+  content: "\e900";
+  color: #fff;
+}
+.icon-e-sports:before {
+  content: "\e901";
+  color: #fff;
+}

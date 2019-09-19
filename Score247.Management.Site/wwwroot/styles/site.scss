@@ -136,6 +136,22 @@ header {
     }
 }
 
+.btn-delete {
+    @extend %btn;
+    background-color: $btn-delete-bg;
+    color: $btn-delete-color;
+
+    &:hover, &:active {
+        color: $btn-delete-color-hover;
+        background-color: $btn-delete-bg-hover;
+    }
+
+    &:disabled, .disabled {
+        background-color: $btn-delete-bg !important;
+        color: $btn-delete-color !important;
+    }
+}
+
 .list-quick-action {
     display: flex;
     margin-bottom: 10px;

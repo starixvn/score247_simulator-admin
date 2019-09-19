@@ -48,7 +48,7 @@ header {
 .contents {
   padding: 16px; }
 
-.btn-submit, .btn-default, .btn-cancel {
+.btn-submit, .btn-default, .btn-cancel, .btn-delete {
   border: none;
   cursor: pointer;
   height: 30px;
@@ -61,7 +61,7 @@ header {
   white-space: nowrap;
   -webkit-appearance: none;
   font-size: 13px; }
-  .btn-submit:disabled, .btn-default:disabled, .btn-cancel:disabled, .btn-submit .disabled, .btn-default .disabled, .btn-cancel .disabled {
+  .btn-submit:disabled, .btn-default:disabled, .btn-cancel:disabled, .btn-delete:disabled, .btn-submit .disabled, .btn-default .disabled, .btn-cancel .disabled, .btn-delete .disabled {
     opacity: .4;
     pointer-events: none; }
 
@@ -93,6 +93,16 @@ header {
     background-color: #757a81; }
   .btn-cancel:disabled, .btn-cancel .disabled {
     background-color: #82878E !important;
+    color: #fff !important; }
+
+.btn-delete {
+  background-color: #FF0000;
+  color: #fff; }
+  .btn-delete:hover, .btn-delete:active {
+    color: #fff;
+    background-color: #e60000; }
+  .btn-delete:disabled, .btn-delete .disabled {
+    background-color: #FF0000 !important;
     color: #fff !important; }
 
 .list-quick-action {

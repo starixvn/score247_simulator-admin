@@ -8,6 +8,7 @@
 
 @section Styles {
     <link href="~/styles/match-details.css" rel="stylesheet" />
+    <link href="~/styles/odds.css" rel="stylesheet" />
 }
 
 <div class="row">
@@ -120,8 +121,8 @@
         </div>
     </div>
     <div class="col-sm-8">
-        <h4>Odds Comparison:</h4>
-        <table class="table table-bordered table-dark">
+        <h4 class="page-title">Odds Comparison:</h4>
+        <table class="table table-bordered tbl-odds">
             <thead>
                 <tr>
                     <th scope="col" rowspan="2">Bookmaker</th>
@@ -144,26 +145,26 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.Bookmaker.Name)
                         </td>
-                        <td>
+                        <td class="text-center">
                             @Html.DisplayFor(modelItem => item.BetOptions.FirstOrDefault(x => x.Type == "home").LiveOdds)
                         </td>
 
-                        <td>
+                        <td class="text-center">
                             @Html.DisplayFor(modelItem => item.BetOptions.FirstOrDefault(x => x.Type == "draw").LiveOdds)
                         </td>
 
-                        <td>
+                        <td class="text-center">
                             @Html.DisplayFor(modelItem => item.BetOptions.FirstOrDefault(x => x.Type == "away").LiveOdds)
                         </td>
-                        <td>
+                        <td class="text-center">
                             @Html.DisplayFor(modelItem => item.BetOptions.FirstOrDefault(x => x.Type == "home").OpeningOdds)
                         </td>
 
-                        <td>
+                        <td class="text-center">
                             @Html.DisplayFor(modelItem => item.BetOptions.FirstOrDefault(x => x.Type == "draw").OpeningOdds)
                         </td>
 
-                        <td>
+                        <td class="text-center">
                             @Html.DisplayFor(modelItem => item.BetOptions.FirstOrDefault(x => x.Type == "away").OpeningOdds)
                         </td>
                     </tr>
@@ -171,8 +172,8 @@
             </tbody>
         </table>
 
-        <h4>Odds Movement:</h4>
-        <table class="table table-bordered table-dark">
+        <h4 class="page-title">Odds Movement:</h4>
+        <table class="table table-bordered tbl-odds">
             <thead>
                 <tr>
                     <th scope="col">Time</th>
@@ -185,68 +186,68 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>66'</td>
-                    <td>1 - 1</td>
-                    <td>0.81</td>
-                    <td>-2</td>
-                    <td>0.81</td>
-                    <td>20-07 16:33</td>
+                    <td class="text-center">66'</td>
+                    <td class="text-center">1 - 1</td>
+                    <td class="text-center">0.81</td>
+                    <td class="text-center">-2</td>
+                    <td class="text-center">0.81</td>
+                    <td class="text-center">20-07 16:33</td>
                 </tr>
                 <tr>
-                    <td>65'</td>
-                    <td>1 - 1</td>
-                    <td>0.81</td>
-                    <td>-2</td>
-                    <td>0.81</td>
-                    <td>20-07 16:33</td>
+                    <td class="text-center">65'</td>
+                    <td class="text-center">1 - 1</td>
+                    <td class="text-center">0.81</td>
+                    <td class="text-center">-2</td>
+                    <td class="text-center">0.81</td>
+                    <td class="text-center">20-07 16:33</td>
                 </tr>
                 <tr>
-                    <td>60'</td>
-                    <td>1 - 1</td>
-                    <td>0.81</td>
-                    <td>-2</td>
-                    <td>0.81</td>
-                    <td>20-07 16:33</td>
+                    <td class="text-center">60'</td>
+                    <td class="text-center">1 - 1</td>
+                    <td class="text-center">0.81</td>
+                    <td class="text-center">-2</td>
+                    <td class="text-center">0.81</td>
+                    <td class="text-center">20-07 16:33</td>
                 </tr>
                 <tr>
-                    <td>57'</td>
-                    <td>1 - 1</td>
-                    <td>0.81</td>
-                    <td>-2</td>
-                    <td>0.81</td>
-                    <td>20-07 16:33</td>
+                    <td class="text-center">57'</td>
+                    <td class="text-center">1 - 1</td>
+                    <td class="text-center">0.81</td>
+                    <td class="text-center">-2</td>
+                    <td class="text-center">0.81</td>
+                    <td class="text-center">20-07 16:33</td>
                 </tr>
                 <tr>
-                    <td>55'</td>
-                    <td>1 - 1</td>
-                    <td>0.81</td>
-                    <td>-2</td>
-                    <td>0.81</td>
-                    <td>20-07 16:33</td>
+                    <td class="text-center">55'</td>
+                    <td class="text-center">1 - 1</td>
+                    <td class="text-center">0.81</td>
+                    <td class="text-center">-2</td>
+                    <td class="text-center">0.81</td>
+                    <td class="text-center">20-07 16:33</td>
                 </tr>
                 <tr>
-                    <td>50'</td>
-                    <td>1 - 1</td>
-                    <td>0.81</td>
-                    <td>-2</td>
-                    <td>0.81</td>
-                    <td>20-07 16:33</td>
+                    <td class="text-center">50'</td>
+                    <td class="text-center">1 - 1</td>
+                    <td class="text-center">0.81</td>
+                    <td class="text-center">-2</td>
+                    <td class="text-center">0.81</td>
+                    <td class="text-center">20-07 16:33</td>
                 </tr>
                 <tr>
-                    <td>49'</td>
-                    <td>1 - 1</td>
-                    <td>0.81</td>
-                    <td>-2</td>
-                    <td>0.81</td>
-                    <td>20-07 16:33</td>
+                    <td class="text-center">49'</td>
+                    <td class="text-center">1 - 1</td>
+                    <td class="text-center">0.81</td>
+                    <td class="text-center">-2</td>
+                    <td class="text-center">0.81</td>
+                    <td class="text-center">20-07 16:33</td>
                 </tr>
                 <tr>
-                    <td>47'</td>
-                    <td>1 - 1</td>
-                    <td>0.81</td>
-                    <td>-2</td>
-                    <td>0.81</td>
-                    <td>20-07 16:33</td>
+                    <td class="text-center">47'</td>
+                    <td class="text-center">1 - 1</td>
+                    <td class="text-center">0.81</td>
+                    <td class="text-center">-2</td>
+                    <td class="text-center">0.81</td>
+                    <td class="text-center">20-07 16:33</td>
                 </tr>
             </tbody>
         </table>

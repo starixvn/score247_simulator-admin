@@ -97,6 +97,8 @@
     <None Include="wwwroot\scripts\lib\jquery\LICENSE.txt" />
     <None Include="wwwroot\scripts\site.js" />
     <None Include="wwwroot\scripts\site.min.js" />
+    <None Include="wwwroot\styles\livescore\demo-files\demo.js" />
+    <None Include="wwwroot\styles\livescore\fonts\livescore.svg" />
     <None Include="wwwroot\styles\site.css" />
     <None Include="wwwroot\styles\site.min.css" />
     <None Include="wwwroot\styles\site.scss" />
