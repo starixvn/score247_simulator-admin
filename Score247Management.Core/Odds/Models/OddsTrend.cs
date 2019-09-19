@@ -1,7 +1,9 @@
 ﻿namespace Score247Management.Core.Odds.Models
 {
+    using MessagePack;
     using Score247Management.Core.Enumerations;
 
+    [MessagePackObject(keyAsPropertyName: true)]
     public class OddsTrend : Enumeration
     {
         public static readonly OddsTrend Neutral = new OddsTrend(1, "neutral");

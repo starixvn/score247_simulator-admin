@@ -1,32 +1,21 @@
 ﻿namespace Score247Management.Core.Odds.Models
 {
+    using MessagePack;
+
+    [MessagePackObject(keyAsPropertyName: true)]
     public class BetOptionOdds
     {
-        public BetOptionOdds(
-            string type,
-            decimal liveOdds,
-            decimal openingOdds,
-            string optionValue,
-            string openingOptionValue)
-        {
-            Type = type;
-            LiveOdds = liveOdds;
-            OpeningOdds = openingOdds;
-            OptionValue = optionValue;
-            OpeningOptionValue = openingOptionValue;
-        }
+        public string Type { get; set; }
 
-        public string Type { get; private set; }
+        public decimal LiveOdds { get; set; }
 
-        public decimal LiveOdds { get; private set; }
+        public decimal OpeningOdds { get; set; }
 
-        public decimal OpeningOdds { get; private set; }
+        public string OptionValue { get; set; }
 
-        public string OptionValue { get; private set; }
+        public string OpeningOptionValue { get; set; }
 
-        public string OpeningOptionValue { get; private set; }
-
-        public OddsTrend OddsTrend { get; private set; }
+        public OddsTrend OddsTrend { get; set; }
 
         public void AssginOpeningData(BetOptionOdds openingBetOption)
         {

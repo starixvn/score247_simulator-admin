@@ -3,32 +3,20 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using MessagePack;
 
+    [MessagePackObject(keyAsPropertyName: true)]
     public class BetTypeOdds
     {
-        public BetTypeOdds(
-            int id,
-            string name,
-            Bookmaker bookmaker,
-            DateTime lastUpdatedTime,
-            IEnumerable<BetOptionOdds> betOptions)
-        {
-            Id = id;
-            Name = name;
-            Bookmaker = bookmaker;
-            LastUpdatedTime = lastUpdatedTime;
-            BetOptions = betOptions;
-        }
+        public int Id { get; set; }
 
-        public int Id { get; }
+        public string Name { get; set; }
 
-        public string Name { get; }
+        public Bookmaker Bookmaker { get; set; }
 
-        public Bookmaker Bookmaker { get; }
+        public DateTime LastUpdatedTime { get; set; }
 
-        public DateTime LastUpdatedTime { get; private set; }
-
-        public IEnumerable<BetOptionOdds> BetOptions { get; private set; }
+        public IEnumerable<BetOptionOdds> BetOptions { get; set; }
 
         public void SetLastUpdatedTime(DateTime lastUpdatedTime)
         {

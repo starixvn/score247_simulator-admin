@@ -130,41 +130,44 @@
                 </tr>
                 <tr>
                     <th scope="col">Home</th>
-                    <th scope="col">HDP</th>
+                    <th scope="col">Draw</th>
                     <th scope="col">Away</th>
                     <th scope="col">Home</th>
-                    <th scope="col">HDP</th>
+                    <th scope="col">Draw</th>
                     <th scope="col">Away</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Macauslot</td>
-                    <td>0.81</td>
-                    <td>0.81</td>
-                    <td>0.81</td>
-                    <td>0.81</td>
-                    <td>0.81</td>
-                    <td>0.81</td>
-                </tr>
-                <tr>
-                    <td>Bet365</td>
-                    <td>0.81</td>
-                    <td>0.81</td>
-                    <td>0.81</td>
-                    <td>0.81</td>
-                    <td>0.81</td>
-                    <td>0.81</td>
-                </tr>
-                <tr>
-                    <td>Easybet</td>
-                    <td>0.81</td>
-                    <td>0.81</td>
-                    <td>0.81</td>
-                    <td>0.81</td>
-                    <td>0.81</td>
-                    <td>0.81</td>
-                </tr>
+                @foreach (var item in Model.MatchOdds.BetTypeOddsList)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Bookmaker.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BetOptions.FirstOrDefault(x => x.Type == "home").LiveOdds)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BetOptions.FirstOrDefault(x => x.Type == "draw").LiveOdds)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BetOptions.FirstOrDefault(x => x.Type == "away").LiveOdds)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BetOptions.FirstOrDefault(x => x.Type == "home").OpeningOdds)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BetOptions.FirstOrDefault(x => x.Type == "draw").OpeningOdds)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BetOptions.FirstOrDefault(x => x.Type == "away").OpeningOdds)
+                        </td>
+                    </tr>
+                }
             </tbody>
         </table>
 
@@ -181,14 +184,6 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>78'</td>
-                    <td>1 - 1</td>
-                    <td>0.81</td>
-                    <td>-2</td>
-                    <td>0.81</td>
-                    <td>20-07 16:33</td>
-                </tr>
                 <tr>
                     <td>66'</td>
                     <td>1 - 1</td>
