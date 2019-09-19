@@ -120,7 +120,7 @@ $(document).ready(function () {
         timePicker: true,
         maxYear: parseInt(moment().format('YYYY'), 10)
     }, function (start, end, label) {
-            $('#ui-datepicker-div table td a').attr('href', 'javascript:;');
+        $('#ui-datepicker-div table td a').attr('href', 'javascript:;');
     });
 
     $('.timezone-hidden').val(sessionStorage.getItem("Timezone"));
@@ -454,4 +454,31 @@ function getRootUrl() {
 
 function urlPrefix() {
     return getRootUrl() + $('#urlPrefix').val();
+}
+
+function getBookMakerOddsMovement(matchId, betType, bookmakerId) {
+    console.log(betType);
+    var oddsMovementRequestModel = {
+        MatchId: matchId,
+        BetType: betType,
+        BookmakerId: bookmakerId
+    };
+    $.ajax({
+        async: true,
+        url: urlPrefix() + '/Odds/GetOddsMovement',
+        data: JSON.stringify(oddsMovementRequestModel),
+        type: 'post',
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
+        success: function (oddsMovementPartial) {
+            console.log($("#oddsMovement"));
+            $("#oddsMovement").html("");
+            $("#oddsMovement").html(oddsMovementPartial);
+        },
+        error: function (ex) {
+            console.log(ex);
+            $("#oddsMovement").html("");
+            $("#oddsMovement").html(ex.responseText);
+        }
+    });
 }

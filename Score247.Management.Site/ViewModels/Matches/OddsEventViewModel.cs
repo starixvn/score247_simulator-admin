@@ -8,5 +8,6 @@
         public Match Match { get; set; }
 
         public MatchOdds MatchOdds { get; set; }
+        public MatchOddsMovement MatchOddsMovement { get; set; }
     }
 }

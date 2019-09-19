@@ -1,6 +1,8 @@
 ﻿@using  Score247Management.Core._Shared.Enumerations
+@using Microsoft.Extensions.Configuration
 
 @model Score247.Management.Site.ViewModels.Matches.OddsEventViewModel
+@inject IConfiguration Configuration
 
 @{
     ViewData["Title"] = "Odds Events";
@@ -10,6 +12,11 @@
     <link href="~/styles/match-details.css" rel="stylesheet" />
     <link href="~/styles/odds.css" rel="stylesheet" />
 }
+
+
+<div class="d-none">
+    <input type="text" id="urlPrefix" name="urlPrefix" value="@Configuration["PagePathPrefix"]" />
+</div>
 
 <div class="row">
     <div class="col-sm-4">
@@ -142,7 +149,7 @@
                 @foreach (var item in Model.MatchOdds.BetTypeOddsList)
                 {
                     <tr>
-                        <td>
+                        <td class="bookmakerName" onclick="getBookMakerOddsMovement(`@Model.Match.Id`, '1', `@item.Bookmaker.Id`)">
                             @Html.DisplayFor(modelItem => item.Bookmaker.Name)
                         </td>
                         <td class="text-center">
@@ -172,84 +179,9 @@
             </tbody>
         </table>
 
-        <h4 class="page-title">Odds Movement:</h4>
-        <table class="table table-bordered tbl-odds">
-            <thead>
-                <tr>
-                    <th scope="col">Time</th>
-                    <th scope="col">Score</th>
-                    <th scope="col">Home</th>
-                    <th scope="col">HDP</th>
-                    <th scope="col">Away</th>
-                    <th scope="col">Last Updated</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="text-center">66'</td>
-                    <td class="text-center">1 - 1</td>
-                    <td class="text-center">0.81</td>
-                    <td class="text-center">-2</td>
-                    <td class="text-center">0.81</td>
-                    <td class="text-center">20-07 16:33</td>
-                </tr>
-                <tr>
-                    <td class="text-center">65'</td>
-                    <td class="text-center">1 - 1</td>
-                    <td class="text-center">0.81</td>
-                    <td class="text-center">-2</td>
-                    <td class="text-center">0.81</td>
-                    <td class="text-center">20-07 16:33</td>
-                </tr>
-                <tr>
-                    <td class="text-center">60'</td>
-                    <td class="text-center">1 - 1</td>
-                    <td class="text-center">0.81</td>
-                    <td class="text-center">-2</td>
-                    <td class="text-center">0.81</td>
-                    <td class="text-center">20-07 16:33</td>
-                </tr>
-                <tr>
-                    <td class="text-center">57'</td>
-                    <td class="text-center">1 - 1</td>
-                    <td class="text-center">0.81</td>
-                    <td class="text-center">-2</td>
-                    <td class="text-center">0.81</td>
-                    <td class="text-center">20-07 16:33</td>
-                </tr>
-                <tr>
-                    <td class="text-center">55'</td>
-                    <td class="text-center">1 - 1</td>
-                    <td class="text-center">0.81</td>
-                    <td class="text-center">-2</td>
-                    <td class="text-center">0.81</td>
-                    <td class="text-center">20-07 16:33</td>
-                </tr>
-                <tr>
-                    <td class="text-center">50'</td>
-                    <td class="text-center">1 - 1</td>
-                    <td class="text-center">0.81</td>
-                    <td class="text-center">-2</td>
-                    <td class="text-center">0.81</td>
-                    <td class="text-center">20-07 16:33</td>
-                </tr>
-                <tr>
-                    <td class="text-center">49'</td>
-                    <td class="text-center">1 - 1</td>
-                    <td class="text-center">0.81</td>
-                    <td class="text-center">-2</td>
-                    <td class="text-center">0.81</td>
-                    <td class="text-center">20-07 16:33</td>
-                </tr>
-                <tr>
-                    <td class="text-center">47'</td>
-                    <td class="text-center">1 - 1</td>
-                    <td class="text-center">0.81</td>
-                    <td class="text-center">-2</td>
-                    <td class="text-center">0.81</td>
-                    <td class="text-center">20-07 16:33</td>
-                </tr>
-            </tbody>
-        </table>
+        <h4>Odds Movement:</h4>
+        <div id="oddsMovement">
+            <partial name="1x2OddsMovement" model="Model.MatchOddsMovement" />
+        </div>
     </div>
 </div>

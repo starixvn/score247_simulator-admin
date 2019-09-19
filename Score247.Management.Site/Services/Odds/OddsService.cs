@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using MessagePack;
@@ -14,6 +15,8 @@ namespace Score247.Management.Site.Services.Odds
     public interface IOddsService
     {
         Task<MatchOdds> GetMatchOdds(string matchId, int betTypeId, string language, string format);
+
+        Task<MatchOddsMovement> GetMatchOddsMovement(string matchId, int betTypeId, string bookmakerId, string language, string format);
 
         Task<OddsEventViewModel> CreateOddsViewModel(string matchId, TimeSpan offset);
     }
@@ -34,6 +37,15 @@ namespace Score247.Management.Site.Services.Odds
             var viewModel = new OddsEventViewModel();
             viewModel.Match = match;
             viewModel.MatchOdds = await GetMatchOdds(matchId, 1, "en-US", "des");
+            viewModel.MatchOddsMovement = new MatchOddsMovement();
+
+            if (viewModel.MatchOdds.IsBetTypeOddsListEmpty())
+            {
+                return viewModel;
+            }
+
+            viewModel.MatchOddsMovement = await GetMatchOddsMovement(matchId, 1, viewModel.MatchOdds.BetTypeOddsList.FirstOrDefault().Bookmaker.Id, "en-US", "des");
+
             return viewModel;
         }
 
@@ -54,6 +66,26 @@ namespace Score247.Management.Site.Services.Odds
                 }
 
                 return new MatchOdds();
+            }
+        }
+
+        public async Task<MatchOddsMovement> GetMatchOddsMovement(string matchId, int betTypeId, string bookmakerId, string language, string format)
+        {
+            using (var httpClient = new HttpClient())
+            {
+                httpClient.BaseAddress = new Uri(configuration.GetValue<string>("QueryApi:Url"));
+                var requestPath = $"api/soccer/{language}/odds-movement/{matchId}/{betTypeId}/{format}/{bookmakerId}";
+
+                var responseMessage = await httpClient.GetAsync(requestPath);
+
+                if (responseMessage.IsSuccessStatusCode)
+                {
+                    var bytes = await responseMessage.Content.ReadAsByteArrayAsync();
+
+                    return MessagePackSerializer.Deserialize<MatchOddsMovement>(bytes);
+                }
+
+                return new MatchOddsMovement();
             }
         }
     }

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Score247.Management.Site.Repositories.Matches;
 using Score247.Management.Site.Services.Odds;
 using Score247.Management.Site.ViewModels.Matches;
+using Score247.Management.Site.ViewModels.Odds;
 
 namespace Score247.Management.Site.Controllers
 {
@@ -25,6 +26,14 @@ namespace Score247.Management.Site.Controllers
             var viewModel = await oddsService.CreateOddsViewModel(id, offset);
 
             return View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> GetOddsMovement([FromBody] OddsMovementRequestModel oddsMovementRequestModel)
+        {
+            var matchOddsMovement = await oddsService.GetMatchOddsMovement(oddsMovementRequestModel.MatchId, oddsMovementRequestModel.BetType, oddsMovementRequestModel.BookmakerId, "en-US", "des");
+
+            return PartialView("1x2OddsMovement", matchOddsMovement);
         }
 
         private string GetTimezone()
