@@ -28,7 +28,7 @@
         public string opening_odds { get; set; }
         public string deep_link { get; set; }
         public string odds_trend { get; set; }
-        public double? opening_total { get; set; }
+        public string opening_total { get; set; }
         public string total { get; set; }
         public string lay_odds { get; set; }
         public string back_odds { get; set; }

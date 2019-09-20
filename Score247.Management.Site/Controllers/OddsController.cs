@@ -33,9 +33,17 @@
         }
 
         [HttpPost]
-        public async Task<JsonResult> SendOddsMovement([FromBody] OddsChange1X2RequestModel oddsChange1X2)
+        public async Task<ActionResult> GetOddsComparison([FromBody] OddsComparisonRequestModel oddsComparisonRequest)
         {
-            await oddsService.Send1X2OddsEvent(oddsChange1X2, DateTimeHelper.GetTimezone(HttpContext.Session));
+            var matchOdds = await oddsService.GetMatchOdds(oddsComparisonRequest.MatchId, oddsComparisonRequest.BetType, "en-US", "des");
+
+            return PartialView("1X2OddsComparison", matchOdds);
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> SendOddsMovement([FromBody] OddsChangeRequestModel oddsChangeRequestModel)
+        {
+            await oddsService.SendOddsEvent(oddsChangeRequestModel, DateTimeHelper.GetTimezone(HttpContext.Session));
 
             return Json(true);
         }

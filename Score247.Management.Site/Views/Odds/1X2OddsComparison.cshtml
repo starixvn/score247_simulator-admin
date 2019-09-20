@@ -1,0 +1,51 @@
+﻿@model Score247Management.Core.Odds.Models.MatchOdds
+
+<table class="table table-bordered tbl-odds">
+    <thead>
+        <tr>
+            <th scope="col" rowspan="2">Bookmaker</th>
+            <th scope="col" colspan="3">Live Odds</th>
+            <th scope="col" colspan="3">Opening Odds</th>
+        </tr>
+        <tr>
+            <th scope="col">Home</th>
+            <th scope="col">Draw</th>
+            <th scope="col">Away</th>
+            <th scope="col">Home</th>
+            <th scope="col">Draw</th>
+            <th scope="col">Away</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.BetTypeOddsList)
+        {
+            <tr>
+                <td class="bookmakerName" onclick="getBookMakerOddsMovement(`@Model.MatchId`, `@item.Bookmaker.Id`)">
+                    @Html.DisplayFor(modelItem => item.Bookmaker.Name)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.BetOptions.FirstOrDefault(x => x.Type == "home").LiveOdds)
+                </td>
+
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.BetOptions.FirstOrDefault(x => x.Type == "draw").LiveOdds)
+                </td>
+
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.BetOptions.FirstOrDefault(x => x.Type == "away").LiveOdds)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.BetOptions.FirstOrDefault(x => x.Type == "home").OpeningOdds)
+                </td>
+
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.BetOptions.FirstOrDefault(x => x.Type == "draw").OpeningOdds)
+                </td>
+
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.BetOptions.FirstOrDefault(x => x.Type == "away").OpeningOdds)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

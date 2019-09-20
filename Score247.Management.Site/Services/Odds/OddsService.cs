@@ -10,6 +10,7 @@ using Score247.Management.Site.Helpers;
 using Score247.Management.Site.Repositories.Matches;
 using Score247.Management.Site.ViewModels.Matches;
 using Score247.Management.Site.ViewModels.Odds;
+using Score247Management.Core.Matches.Models;
 using Score247Management.Core.Odds.Dtos;
 using Score247Management.Core.Odds.Models;
 
@@ -23,7 +24,9 @@ namespace Score247.Management.Site.Services.Odds
 
         Task<OddsEventViewModel> CreateOddsViewModel(string matchId, TimeSpan offset);
 
-        Task<bool> Send1X2OddsEvent(OddsChange1X2RequestModel request, TimeSpan offset);
+        Task<bool> Send1X2OddsEvent(OddsChangeRequestModel request, TimeSpan offset);
+
+        Task SendOddsEvent(OddsChangeRequestModel oddsChange, TimeSpan timeSpan);
     }
 
     public class OddsService : IOddsService
@@ -98,9 +101,13 @@ namespace Score247.Management.Site.Services.Odds
             return new MatchOddsMovement();
         }
 
-        public async Task<bool> Send1X2OddsEvent(OddsChange1X2RequestModel request, TimeSpan offset)
+        public async Task<bool> Send1X2OddsEvent(OddsChangeRequestModel request, TimeSpan offset)
         {
-            OddsScheduleDto scheduleOddsRequest = await CreateOddsRequest(request, offset);
+            var scheduleOddsRequest = CreateOddsRequest();
+            var sportEvent = await CreateOddSportEvent(request, offset, "3way", 2);
+            sportEvent.markets[0].books[0].outcomes = Create1X2OutCome(request).ToList();
+
+            scheduleOddsRequest.sport_events.Add(sportEvent);
 
             await simulatorService.SendScheduleOdds(scheduleOddsRequest);
 
@@ -109,13 +116,9 @@ namespace Score247.Management.Site.Services.Odds
             return true;
         }
 
-        private static async Task<OddsScheduleDto> CreateOddsRequest(OddsChange1X2RequestModel request, TimeSpan offset)
+        private OddsScheduleDto CreateOddsRequest()
         {
-            var matchRepo = new MatchRepository();
-            var match = await matchRepo.GetMatchById(request.MatchId);
-
-            SportEvent sportEvent = Create1X2OddSportEvent(request, offset, match);
-            var sportEvents = new List<SportEvent>() { sportEvent };
+            var sportEvents = new List<SportEvent>() { };
 
             var scheduleOddsRequest = new OddsScheduleDto()
             {
@@ -124,38 +127,7 @@ namespace Score247.Management.Site.Services.Odds
             return scheduleOddsRequest;
         }
 
-        private static SportEvent Create1X2OddSportEvent(OddsChange1X2RequestModel request, TimeSpan offset, Score247Management.Core.Matches.Models.Match match)
-        {
-            List<Outcome> outcomes = Create1X2OutCome(request);
-
-            var books = new List<Book>();
-            books.Add(new Book()
-            {
-                id = request.BookmakerId,
-                name = request.BookmakerId,
-                outcomes = outcomes
-            });
-
-            var sportEvent = new SportEvent()
-            {
-                id = request.MatchId,
-                scheduled = match.EventDate,
-                markets_last_updated = DateTimeHelper.ConvertLocalTimeToTimezone(request.LastUpdate, offset),
-                markets = new List<Market>()
-                {
-                    new Market()
-                    {
-                        odds_type_id = 2,
-                        name = "3way",
-                        group_name = "regular",
-                        books = books
-                    }
-                }
-            };
-            return sportEvent;
-        }
-
-        private static List<Outcome> Create1X2OutCome(OddsChange1X2RequestModel request)
+        private static IEnumerable<Outcome> Create1X2OutCome(OddsChangeRequestModel request)
         {
             var outcomes = new List<Outcome>();
             outcomes.Add(new Outcome()
@@ -188,6 +160,144 @@ namespace Score247.Management.Site.Services.Odds
                 odds_trend = "down"
             });
             return outcomes;
+        }
+
+        public async Task SendOddsEvent(OddsChangeRequestModel oddsChange, TimeSpan timeSpan)
+        {
+            if (oddsChange.BetType == 1)
+            {
+                await Send1X2OddsEvent(oddsChange, timeSpan);
+            }
+            else if (oddsChange.BetType == 2)
+            {
+                await SendOverUnderOddsEvent(oddsChange, timeSpan);
+            }
+            else
+            {
+                await SendAsianHDPOddsEvent(oddsChange, timeSpan);
+            }
+        }
+
+        private async Task<bool> SendAsianHDPOddsEvent(OddsChangeRequestModel request, TimeSpan offset)
+        {
+            var scheduleOddsRequest = CreateOddsRequest();
+            var sportEvent = await CreateOddSportEvent(request, offset, "asian_handicap", 5);
+            sportEvent.markets[0].books[0].outcomes = CreateAsianHDPOutCome(request).ToList();
+
+            scheduleOddsRequest.sport_events.Add(sportEvent);
+
+            await simulatorService.SendScheduleOdds(scheduleOddsRequest);
+
+            await triggerService.TriggerFetchOddsJobs();
+
+            return true;
+        }
+
+        private IEnumerable<Outcome> CreateAsianHDPOutCome(OddsChangeRequestModel request)
+        {
+            var outcomes = new List<Outcome>();
+            outcomes.Add(new Outcome()
+            {
+                odds_field_id = 7,
+                type = "home",
+                odds = request.HomeOdds,
+                opening_odds = request.HomeOdds,
+                handicap = request.HDPHome,
+                deep_link = "http://stats.betradar.com/tb.php?type=iscreenFromId&id=9192052710",
+                odds_trend = "down"
+            });
+
+            outcomes.Add(new Outcome()
+            {
+                odds_field_id = 8,
+                type = "away",
+                odds = request.AwayOdds,
+                opening_odds = request.AwayOdds,
+                handicap = request.HDPAway,
+                deep_link = "http://stats.betradar.com/tb.php?type=iscreenFromId&id=9192052710",
+                odds_trend = "down"
+            });
+
+            return outcomes;
+        }
+
+        private async Task<bool> SendOverUnderOddsEvent(OddsChangeRequestModel request, TimeSpan offset)
+        {
+            var scheduleOddsRequest = CreateOddsRequest();
+            var sportEvent = await CreateOddSportEvent(request, offset, "total", 3);
+            sportEvent.markets[0].books[0].outcomes = CreateOverUnderOutCome(request).ToList();
+
+            scheduleOddsRequest.sport_events.Add(sportEvent);
+
+            await simulatorService.SendScheduleOdds(scheduleOddsRequest);
+
+            await triggerService.TriggerFetchOddsJobs();
+
+            return true;
+        }
+
+        private IEnumerable<Outcome> CreateOverUnderOutCome(OddsChangeRequestModel request)
+        {
+            var outcomes = new List<Outcome>();
+            outcomes.Add(new Outcome()
+            {
+                odds_field_id = 7,
+                type = "over",
+                odds = request.OverOdds,
+                opening_odds = request.OverOdds,
+                total = request.TotalOUOdds,
+                opening_total = request.TotalOUOdds,
+                deep_link = "http://stats.betradar.com/tb.php?type=iscreenFromId&id=9192052710",
+                odds_trend = "down"
+            });
+
+            outcomes.Add(new Outcome()
+            {
+                odds_field_id = 8,
+                type = "under",
+                odds = request.UnderOdds,
+                opening_odds = request.UnderOdds,
+                total = request.TotalOUOdds,
+                opening_total = request.TotalOUOdds,
+                deep_link = "http://stats.betradar.com/tb.php?type=iscreenFromId&id=9192052710",
+                odds_trend = "down"
+            });
+
+            return outcomes;
+        }
+
+        private async Task<SportEvent> CreateOddSportEvent(OddsChangeRequestModel request, TimeSpan offset, string oddsName, int oddsTypeId)
+        {
+            var matchRepo = new MatchRepository();
+            var match = await matchRepo.GetMatchById(request.MatchId);
+
+            var books = new List<Book>
+            {
+                new Book()
+                {
+                    id = request.BookmakerId,
+                    name = request.BookmakerId,
+                    outcomes = new List<Outcome>()
+                }
+            };
+
+            var sportEvent = new SportEvent()
+            {
+                id = request.MatchId,
+                scheduled = match.EventDate,
+                markets_last_updated = DateTimeHelper.ConvertLocalTimeToTimezone(request.LastUpdate, offset),
+                markets = new List<Market>()
+                {
+                    new Market()
+                    {
+                        odds_type_id = oddsTypeId,
+                        name = oddsName,
+                        group_name = "regular",
+                        books = books
+                    }
+                }
+            };
+            return sportEvent;
         }
     }
 }

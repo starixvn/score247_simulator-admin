@@ -456,8 +456,9 @@ function urlPrefix() {
     return getRootUrl() + $('#urlPrefix').val();
 }
 
-function getBookMakerOddsMovement(matchId, betType, bookmakerId) {
-    console.log(betType);
+function getBookMakerOddsMovement(matchId, bookmakerId) {
+    $("#oddsMovement").html("");
+    var betType = $("#betType").val();
     var oddsMovementRequestModel = {
         MatchId: matchId,
         BetType: betType,
@@ -471,33 +472,33 @@ function getBookMakerOddsMovement(matchId, betType, bookmakerId) {
         dataType: 'json',
         contentType: 'application/json; charset=utf-8',
         success: function (oddsMovementPartial) {
-            console.log($("#oddsMovement"));
-            $("#oddsMovement").html("");
             $("#oddsMovement").html(oddsMovementPartial);
         },
         error: function (ex) {
             console.log(ex);
-            $("#oddsMovement").html("");
             $("#oddsMovement").html(ex.responseText);
         }
     });
 }
 
 function sendOddsChange(matchId) {
-    console.log(matchId);
+    console.log("Begin Send");
+    event.preventDefault();
+    var betType = $("#betType").val();
     var $inputs = $('#createOddsForm :input');
 
-    var OddsChange1X2RequestModel = {
+    var OddsChangeRequestModel = {
     };
-    OddsChange1X2RequestModel["MatchId"] = matchId;
+    OddsChangeRequestModel["MatchId"] = matchId;
+    OddsChangeRequestModel["BetType"] = betType;
     $inputs.each(function () {
-        OddsChange1X2RequestModel[this.name] = $(this).val();
+        OddsChangeRequestModel[this.name] = $(this).val();
     });
-    console.log(OddsChange1X2RequestModel);
+    console.log(OddsChangeRequestModel);
     $.ajax({
         async: false,
         url: urlPrefix() + '/Odds/SendOddsMovement',
-        data: JSON.stringify(OddsChange1X2RequestModel),
+        data: JSON.stringify(OddsChangeRequestModel),
         type: 'post',
         dataType: 'json',
         contentType: 'application/json; charset=utf-8',
@@ -506,6 +507,41 @@ function sendOddsChange(matchId) {
         },
         error: function (ex) {
             console.log(ex);
+        }
+    });
+}
+
+function onBetTypeChange(matchId, betType) {
+    $("#oddsComparison").html("");
+    $("#oddsMovement").html("");
+    $(".oddsInput").addClass("d-none");
+    if (betType.value === '1') {
+        $(".1x2Odds").removeClass("d-none");
+    }
+    if (betType.value === '5') {
+        $(".HDPOdds").removeClass("d-none");
+    }
+    if (betType.value === '3') {
+        $(".OUOdds").removeClass("d-none");
+    }
+
+    var oddsComparisonRequest = {
+        MatchId: matchId,
+        BetType: betType.value
+    };
+    $.ajax({
+        async: true,
+        url: urlPrefix() + '/Odds/GetOddsComparison',
+        data: JSON.stringify(oddsComparisonRequest),
+        type: 'post',
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
+        success: function (oddsComparisonPartial) {
+            $("#oddsComparison").html(oddsComparisonPartial);
+        },
+        error: function (ex) {
+            console.log(ex);
+            $("#oddsComparison").html(ex.responseText);
         }
     });
 }

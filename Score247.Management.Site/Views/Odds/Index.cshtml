@@ -6,6 +6,7 @@
 
 @{
     ViewData["Title"] = "Odds Events";
+    var eventViewData = new ViewDataDictionary(new Microsoft.AspNetCore.Mvc.ModelBinding.EmptyModelMetadataProvider(), new Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary()) { { "MatchId", Model.Match.Id } };
 }
 
 @section Styles {
@@ -16,7 +17,9 @@
 <div class="d-none">
     <input type="text" id="urlPrefix" name="urlPrefix" value="@Configuration["PagePathPrefix"]" />
 </div>
-
+<div>
+    <partial name="SelectOddsTypeView" view-data="eventViewData" />
+</div>
 <div class="row">
     <div class="col-sm-4">
         <div class="match-area">
@@ -86,17 +89,45 @@
                                         <option value="ibcbet">ibcbet</option>
                                     </select>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group oddsInput 1x2Odds">
                                     <label class="control-label">Home:</label>
                                     <input id="HomeOdds" name="HomeOdds" type="text" class="form-control" />
                                 </div>
-                                <div class="form-group">
-                                    <label class="control-label">Away</label>
+                                <div class="form-group oddsInput 1x2Odds">
+                                    <label class="control-label">Away:</label>
                                     <input id="AwayOdds" name="AwayOdds" type="text" class="form-control" />
                                 </div>
-                                <div class="form-group">
-                                    <label class="control-label">Draw</label>
+                                <div class="form-group oddsInput 1x2Odds">
+                                    <label class="control-label">Draw:</label>
                                     <input id="DrawOdds" name="DrawOdds" type="text" class="form-control" />
+                                </div>
+                                <div class="form-group oddsInput OUOdds d-none">
+                                    <label class="control-label">Over:</label>
+                                    <input id="OverOdds" name="OverOdds" type="text" class="form-control" />
+                                </div>
+                                <div class="form-group oddsInput OUOdds d-none">
+                                    <label class="control-label">Under:</label>
+                                    <input id="UnderOdds" name="UnderOdds" type="text" class="form-control" />
+                                </div>
+                                <div class="form-group oddsInput OUOdds d-none">
+                                    <label class="control-label">O/U:</label>
+                                    <input id="TotalOUOdds" name="TotalOUOdds" type="text" class="form-control" />
+                                </div>
+                                <div class="form-group oddsInput HDPOdds d-none">
+                                    <label class="control-label">Home:</label>
+                                    <input id="HomeHDPOdds" name="HomeHDPOdds" type="text" class="form-control" />
+                                </div>
+                                <div class="form-group oddsInput HDPOdds d-none">
+                                    <label class="control-label">Home HDP:</label>
+                                    <input name="HDPHome" type="text" class="form-control" />
+                                </div>
+                                <div class="form-group oddsInput HDPOdds d-none">
+                                    <label class="control-label">Away:</label>
+                                    <input name="AwayHDPOdds" type="text" class="form-control" />
+                                </div>
+                                <div class="form-group oddsInput HDPOdds d-none">
+                                    <label class="control-label">Away HDP:</label>
+                                    <input name="HDPAway" type="text" class="form-control" />
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label">Last Update:</label>
@@ -114,55 +145,9 @@
     </div>
     <div class="col-sm-8">
         <h4 class="page-sub-title">Odds Comparison:</h4>
-        <table class="table table-bordered tbl-odds">
-            <thead>
-                <tr>
-                    <th scope="col" rowspan="2">Bookmaker</th>
-                    <th scope="col" colspan="3">Live Odds</th>
-                    <th scope="col" colspan="3">Opening Odds</th>
-                </tr>
-                <tr>
-                    <th scope="col">Home</th>
-                    <th scope="col">Draw</th>
-                    <th scope="col">Away</th>
-                    <th scope="col">Home</th>
-                    <th scope="col">Draw</th>
-                    <th scope="col">Away</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.MatchOdds.BetTypeOddsList)
-                {
-                    <tr>
-                        <td class="bookmakerName" onclick="getBookMakerOddsMovement(`@Model.Match.Id`, '1', `@item.Bookmaker.Id`)">
-                            @Html.DisplayFor(modelItem => item.Bookmaker.Name)
-                        </td>
-                        <td class="text-center">
-                            @Html.DisplayFor(modelItem => item.BetOptions.FirstOrDefault(x => x.Type == "home").LiveOdds)
-                        </td>
-
-                        <td class="text-center">
-                            @Html.DisplayFor(modelItem => item.BetOptions.FirstOrDefault(x => x.Type == "draw").LiveOdds)
-                        </td>
-
-                        <td class="text-center">
-                            @Html.DisplayFor(modelItem => item.BetOptions.FirstOrDefault(x => x.Type == "away").LiveOdds)
-                        </td>
-                        <td class="text-center">
-                            @Html.DisplayFor(modelItem => item.BetOptions.FirstOrDefault(x => x.Type == "home").OpeningOdds)
-                        </td>
-
-                        <td class="text-center">
-                            @Html.DisplayFor(modelItem => item.BetOptions.FirstOrDefault(x => x.Type == "draw").OpeningOdds)
-                        </td>
-
-                        <td class="text-center">
-                            @Html.DisplayFor(modelItem => item.BetOptions.FirstOrDefault(x => x.Type == "away").OpeningOdds)
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+        <div id="oddsComparison">
+            <partial name="1X2OddsComparison" model="Model.MatchOdds" />
+        </div>
 
         <h4 class="page-sub-title">Odds Movement:</h4>
         <div id="oddsMovement">
