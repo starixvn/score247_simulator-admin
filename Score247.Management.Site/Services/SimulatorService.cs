@@ -20,6 +20,22 @@
             configuration = config;
         }
 
+        public async Task SendCleanExistData()
+        {
+            using (var triggerClient = new HttpClient
+            {
+                BaseAddress = new Uri(configuration.GetValue<string>("Simulator:Url"))
+            })
+            {
+                var request = new HttpRequestMessage(HttpMethod.Post, configuration.GetValue<string>("Simulator:CleanMatch"));
+
+                using (HttpResponseMessage httpResponseMessage = await triggerClient.SendAsync(request))
+                {
+                    _ = httpResponseMessage;
+                }
+            }
+        }
+
         public async Task<bool> SendScheduleOdds(OddsScheduleDto oddsSchedule)
         {
             using (var httpClient = new HttpClient())
