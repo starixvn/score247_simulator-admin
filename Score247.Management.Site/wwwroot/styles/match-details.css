@@ -55,3 +55,6 @@
 .bookmakerName {
   text-decoration: underline;
   cursor: pointer; }
+
+.timeline-events {
+  padding-left: 40px; }

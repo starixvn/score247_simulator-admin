@@ -43,27 +43,33 @@ header {
         margin-bottom: 0; } }
 
 .page-title {
+  border-bottom: 1px solid #ced4da;
+  padding-bottom: 4px;
   font-size: 18px; }
+
+.page-sub-title {
+  font-size: 16px; }
 
 .contents {
   padding: 16px; }
 
-.btn-submit, .btn-default, .btn-cancel, .btn-delete {
+.btn-submit, .btn-default, .btn-cancel, .btn-delete, .btn-default-outline, .btn-datebar {
   border: none;
   cursor: pointer;
-  height: 30px;
+  min-height: 30px;
   min-width: 80px;
   outline: none;
-  margin-right: 8px;
   padding-left: 16px;
   padding-right: 16px;
   border-radius: 2px;
   white-space: nowrap;
   -webkit-appearance: none;
   font-size: 13px; }
-  .btn-submit:disabled, .btn-default:disabled, .btn-cancel:disabled, .btn-delete:disabled, .btn-submit .disabled, .btn-default .disabled, .btn-cancel .disabled, .btn-delete .disabled {
+  .btn-submit:disabled, .btn-default:disabled, .btn-cancel:disabled, .btn-delete:disabled, .btn-default-outline:disabled, .btn-datebar:disabled, .btn-submit .disabled, .btn-default .disabled, .btn-cancel .disabled, .btn-delete .disabled, .btn-default-outline .disabled, .btn-datebar .disabled {
     opacity: .4;
     pointer-events: none; }
+  .btn-submit:focus, .btn-default:focus, .btn-cancel:focus, .btn-delete:focus, .btn-default-outline:focus, .btn-datebar:focus {
+    outline: none; }
 
 .btn-submit {
   background-color: #F24822;
@@ -105,6 +111,28 @@ header {
     background-color: #FF0000 !important;
     color: #fff !important; }
 
+.btn-default-outline {
+  background-color: transparent;
+  border: 1px solid #3EC28F;
+  color: #3EC28F; }
+  .btn-default-outline:hover, .btn-default-outline:active {
+    border: 1px solid #37af81;
+    background-color: #37af81;
+    color: #fff; }
+  .btn-default-outline:disabled, .btn-default-outline .disabled {
+    background-color: transparent !important;
+    color: #3EC28F !important; }
+
+.btn-datebar {
+  background-color: #0B0D14;
+  color: #fff; }
+  .btn-datebar:hover, .btn-datebar:active {
+    color: #fff;
+    background-color: #020204; }
+  .btn-datebar:disabled, .btn-datebar .disabled {
+    background-color: #0B0D14 !important;
+    color: #fff !important; }
+
 .list-quick-action {
   display: flex;
   margin-bottom: 10px;
@@ -113,6 +141,13 @@ header {
     margin-bottom: 10px; }
   .list-quick-action [class^="btn"]:not(:last-child) {
     margin-right: 16px; }
+  .list-quick-action .icon-live-match,
+  .list-quick-action .icon-calendar {
+    font-size: 40px; }
+    .list-quick-action .icon-live-match:hover:before,
+    .list-quick-action .icon-calendar:hover:before {
+      color: #f24822;
+      cursor: pointer; }
 
 .filter, .create-form {
   padding-top: 10px;
@@ -191,3 +226,24 @@ header {
 
 .nav-icon1 span:nth-child(3) {
   top: 16px; }
+
+.row-create-match {
+  display: grid;
+  grid-template-columns: 1fr 60px 130px 140px;
+  justify-content: space-between;
+  grid-gap: 16px;
+  margin-bottom: 16px; }
+  .row-create-match .create-all {
+    grid-column-start: 3; }
+  .row-create-match .delete-all {
+    grid-column-start: 4; }
+  .row-create-match.has-border-top {
+    padding-top: 16px;
+    border-top: 1px solid #ced4da; }
+
+.row-special-day {
+  display: grid;
+  grid-template-columns: 88px 60px 130px 140px;
+  justify-content: space-between;
+  grid-gap: 16px;
+  margin-bottom: 16px; }

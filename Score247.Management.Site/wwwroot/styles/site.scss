@@ -61,7 +61,13 @@ header {
 }
 
 .page-title {
+    border-bottom: 1px solid #ced4da;
+    padding-bottom: 4px;
     font-size: 18px;
+}
+
+.page-sub-title {
+    font-size: 16px;
 }
 
 .contents {
@@ -71,10 +77,9 @@ header {
 %btn {
     border: none;
     cursor: pointer;
-    height: 30px;
+    min-height: 30px;
     min-width: 80px;
     outline: none;
-    margin-right: 8px;
     padding-left: 16px;
     padding-right: 16px;
     border-radius: 2px;
@@ -85,6 +90,10 @@ header {
     &:disabled, .disabled {
         opacity: .4;
         pointer-events: none;
+    }
+
+    &:focus {
+        outline: none;
     }
 }
 
@@ -152,6 +161,40 @@ header {
     }
 }
 
+.btn-default-outline {
+    @extend %btn;
+    background-color: transparent;
+    border: 1px solid $btn-default-bg;
+    color: $btn-default-bg;
+
+    &:hover, &:active {
+        border: 1px solid $btn-default-bg-hover;
+        background-color: $btn-default-bg-hover;
+        color: $btn-default-color-hover;
+    }
+
+    &:disabled, .disabled {
+        background-color: transparent !important;
+        color: $btn-default-bg !important;
+    }
+}
+
+.btn-datebar {
+    @extend %btn;
+    background-color: $btn-datebar-bg;
+    color: $btn-datebar-color;
+
+    &:hover, &:active {
+        color: $btn-datebar-color-hover;
+        background-color: $btn-datebar-bg-hover;
+    }
+
+    &:disabled, .disabled {
+        background-color: $btn-datebar-bg !important;
+        color: $btn-datebar-color !important;
+    }
+}
+
 .list-quick-action {
     display: flex;
     margin-bottom: 10px;
@@ -163,6 +206,16 @@ header {
 
     [class^="btn"]:not(:last-child) {
         margin-right: 16px;
+    }
+
+    .icon-live-match,
+    .icon-calendar {
+        font-size: 40px;
+
+        &:hover:before {
+            color: #f24822;
+            cursor: pointer;
+        }
     }
 }
 
@@ -270,4 +323,35 @@ header {
 
 .nav-icon1 span:nth-child(3) {
     top: 16px;
+}
+
+// new match
+
+.row-create-match {
+    display: grid;
+    grid-template-columns: 1fr 60px 130px 140px;
+    justify-content: space-between;
+    grid-gap: 16px;
+    margin-bottom: 16px;
+
+    .create-all {
+        grid-column-start: 3;
+    }
+
+    .delete-all {
+        grid-column-start: 4;
+    }
+
+    &.has-border-top {
+        padding-top: 16px;
+        border-top: 1px solid #ced4da;
+    }
+}
+
+.row-special-day {
+    display: grid;
+    grid-template-columns: 88px 60px 130px 140px;
+    justify-content: space-between;
+    grid-gap: 16px;
+    margin-bottom: 16px;
 }
