@@ -18,7 +18,7 @@
     <button type="button" class="btn-default mr-3">LIVE</button>
     @foreach (var item in Model.QuickDateSelectOptions)
     {
-        <button type="button" onclick="location.href='@Url.Action("ShortcutSearchByDate", "Match", new {searchDate = item.Value, leagueId = Model.DateSearchModel.SelectedLeagueId})'" class="btn-default mr-3"><span>@item.DisplayName</span><span>@item.DisplayDate</span></button>
+        <button type="button" onclick="location.href='@Url.Action("ShortcutSearchByDate", "Match", new {searchDate = item.Value, leagueId = Model.DateSearchModel.SelectedLeagueId})'" class="btn-default mr-3"><span>@item.DisplayName</span> <span>@item.DisplayDate</span></button>
     }
 </form>
 

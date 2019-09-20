@@ -217,7 +217,7 @@ namespace Score247.Management.Site.Controllers
         public async Task<JsonResult> CreateAllSiteMatches([FromBody] List<CreateDeleteMatchesModel> createDeleteMatchesModels)
         {
             var matchRepository = new MatchRepository(Configuration);
-            await SimulatorService.SendCleanExistData(Configuration);
+            await TriggerSimulatorService.SendCleanExistData(Configuration);
 
             TimeSpan.TryParse(GetTimezone(), out TimeSpan offset);
             await matchRepository.CreateAllMatchesSite(createDeleteMatchesModels, offset);
@@ -303,8 +303,8 @@ namespace Score247.Management.Site.Controllers
                 requestBody.payload.timeline.home_score = match.LatestTimeline != null ? match.LatestTimeline.HomeScore : 0;
                 requestBody.payload.timeline.away_score = match.LatestTimeline != null ? match.LatestTimeline.AwayScore : 0;
 
-                requestBody.payload.sport_event_status.aggregate_away_score = 
-                    collection.ContainsKey("aggregate_away_score") 
+                requestBody.payload.sport_event_status.aggregate_away_score =
+                    collection.ContainsKey("aggregate_away_score")
                     ? int.Parse(collection["aggregate_away_score"])
                     : 0;
                 requestBody.payload.sport_event_status.aggregate_home_score =
@@ -598,7 +598,7 @@ namespace Score247.Management.Site.Controllers
                 await matchRepository.InsertTimelineLog(requestBody);
                 await Task.Delay(2000);
 
-                if(isFromAjax)
+                if (isFromAjax)
                 {
                     return Json(new { message = "OK" });
                 }

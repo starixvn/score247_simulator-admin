@@ -36,7 +36,7 @@ namespace Score247.Management.Site.Services.Matchs
         public async Task<bool> CreateLiveMatches(CreateDeleteMatchesModel createDeleteMatchesRequest, IConfiguration configuration)
         {
             var matchRepository = new MatchRepository(configuration);
-            await SimulatorService.SendCleanExistData(configuration);
+            await TriggerSimulatorService.SendCleanExistData(configuration);
             await matchRepository.CreateLiveMatches(createDeleteMatchesRequest.Count, createDeleteMatchesRequest.LeagueLimit, configuration.GetValue<string>("Simulator:Url"), configuration.GetValue<string>("Simulator:PushEvent"));
 
             return true;
@@ -47,7 +47,7 @@ namespace Score247.Management.Site.Services.Matchs
             var createDate = new DateTime(createDeleteMatchesRequest.EventDate.Year, createDeleteMatchesRequest.EventDate.Month, createDeleteMatchesRequest.EventDate.Day, 0, 0, 0, DateTimeKind.Utc);
 
             var matchRepository = new MatchRepository(configuration);
-            await SimulatorService.SendCleanExistData(configuration);
+            await TriggerSimulatorService.SendCleanExistData(configuration);
             await matchRepository.CreateMatches(createDate, createDeleteMatchesRequest.Count, offset, createDeleteMatchesRequest.LeagueLimit);
 
             return true;
@@ -127,7 +127,7 @@ namespace Score247.Management.Site.Services.Matchs
 
         private static async Task SendTriggerCreateMatches(IConfiguration configuration, MatchEntity newMatch)
         {
-            await SimulatorService.StartInsertMatchesJobs(configuration);
+            await TriggerSimulatorService.StartInsertMatchesJobs(configuration);
 
             var matchRepository = new MatchRepository();
             var matchCreated = await matchRepository.GetMatchById(newMatch.Id);

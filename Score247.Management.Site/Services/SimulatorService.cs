@@ -1,50 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
-
-namespace Score247.Management.Site.Services
+﻿namespace Score247.Management.Site.Services
 {
-    public static class SimulatorService
-    {
-        public static async Task SendCleanExistData(IConfiguration configuration)
-        {
-            using (var triggerClient = new HttpClient
-            {
-                BaseAddress = new Uri(configuration.GetValue<string>("Simulator:Url"))
-            })
-            {
-                var request = new HttpRequestMessage(HttpMethod.Post, configuration.GetValue<string>("Simulator:CleanMatch"));
+    using System;
+    using System.Net.Http;
+    using System.Threading.Tasks;
+    using Microsoft.Extensions.Configuration;
+    using Score247Management.Core.Odds.Dtos;
 
-                using (HttpResponseMessage httpResponseMessage = await triggerClient.SendAsync(request))
-                {
-                    _ = httpResponseMessage;
-                }
-            }
+    public interface ISimulatorService
+    {
+        Task<bool> SendScheduleOdds(OddsScheduleDto oddsSchedule);
+    }
+
+    public class SimulatorService : ISimulatorService
+    {
+        private IConfiguration configuration { get; }
+
+        public SimulatorService(IConfiguration config)
+        {
+            configuration = config;
         }
 
-        public static async Task StartInsertMatchesJobs(IConfiguration configuration)
+        public async Task<bool> SendScheduleOdds(OddsScheduleDto oddsSchedule)
         {
-            using (HttpClient triggerClient = new HttpClient
+            using (var httpClient = new HttpClient())
             {
-                BaseAddress = new Uri(configuration.GetValue<string>("Simulator:FetchUrl"))
-            })
-            {
-                var request = new HttpRequestMessage(HttpMethod.Post, "");
+                httpClient.BaseAddress = new Uri(configuration.GetValue<string>("Simulator:Url"));
+                var requestPath = configuration.GetValue<string>("Simulator:ScheduleOdds");
 
-                var fetchContent = new FormUrlEncodedContent(new[]{
-                            new KeyValuePair < string, string > ("jobs[]", "FetchPreMatch"),
-                            new KeyValuePair < string, string > ("jobs[]", "FetchPostMatch"),
-                            new KeyValuePair < string, string > ("jobs[]", "FetchLiveMatch")});
+                var responseMessage = await httpClient.PostAsJsonAsync(requestPath, oddsSchedule);
 
-                request.Content = fetchContent;
-
-                using (HttpResponseMessage httpResponseMessage = await triggerClient.SendAsync(request))
+                if (responseMessage.IsSuccessStatusCode)
                 {
-                    _ = httpResponseMessage;
+                    return true;
                 }
             }
+
+            return false;
         }
     }
 }

@@ -201,7 +201,7 @@ namespace Score247.Management.Site.Repositories.Matches
                 matches.AddRange(newMatches);
             }
             await SendCreateMatchesRequest(matches, false);
-            await SimulatorService.StartInsertMatchesJobs(Configuration);
+            await TriggerSimulatorService.StartInsertMatchesJobs(Configuration);
 
             return 1;
         }
@@ -298,7 +298,7 @@ namespace Score247.Management.Site.Repositories.Matches
 
             if (requiredTriggerInsertMatch)
             {
-                await SimulatorService.StartInsertMatchesJobs(Configuration);
+                await TriggerSimulatorService.StartInsertMatchesJobs(Configuration);
             }
 
             return 1;

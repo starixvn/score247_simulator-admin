@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Score247.Management.Site.Services;
 using Score247.Management.Site.Services.Odds;
 using SharpRaven;
 
@@ -54,6 +55,8 @@ namespace Score247.Management.Site
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddSingleton<IOddsService, OddsService>();
+            services.AddSingleton<ITriggerJobService, TriggerJobService>();
+            services.AddSingleton<ISimulatorService, SimulatorService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
