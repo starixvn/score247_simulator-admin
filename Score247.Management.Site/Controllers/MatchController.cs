@@ -192,10 +192,10 @@ namespace Score247.Management.Site.Controllers
         }
 
         [HttpGet("/Match/AutoCreateMatch")]
-        public async Task<JsonResult> AutoCreateMatch(DateTimeOffset? dateTimeOffset)
+        public async Task<JsonResult> AutoCreateMatch(DateTimeOffset? createDate)
             => Json(new
             {
-                matchId = await CreateMatchesService.AutoCreateMatch(dateTimeOffset, Configuration)
+                matchId = await CreateMatchesService.AutoCreateMatch(createDate, Configuration)
             });
 
         [HttpPost("/Match/CreateMatchesByDate")]
@@ -281,7 +281,7 @@ namespace Score247.Management.Site.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> _CreateTimeEventPartial(string id, IFormCollection collection)
+        public async Task<ActionResult> _CreateTimeEventPartial(string id, IFormCollection collection, bool isFromAjax = false)
         {
             try
             {
@@ -303,8 +303,14 @@ namespace Score247.Management.Site.Controllers
                 requestBody.payload.timeline.home_score = match.LatestTimeline != null ? match.LatestTimeline.HomeScore : 0;
                 requestBody.payload.timeline.away_score = match.LatestTimeline != null ? match.LatestTimeline.AwayScore : 0;
 
-                requestBody.payload.sport_event_status.aggregate_away_score = int.Parse(collection["aggregate_away_score"]);
-                requestBody.payload.sport_event_status.aggregate_home_score = int.Parse(collection["aggregate_home_score"]);
+                requestBody.payload.sport_event_status.aggregate_away_score = 
+                    collection.ContainsKey("aggregate_away_score") 
+                    ? int.Parse(collection["aggregate_away_score"])
+                    : 0;
+                requestBody.payload.sport_event_status.aggregate_home_score =
+                    collection.ContainsKey("aggregate_home_score")
+                    ? int.Parse(collection["aggregate_home_score"])
+                    : 0;
                 if (collection["aggregate_winner_id"] == "home")
                 {
                     requestBody.payload.sport_event_status.aggregate_winner_id = match.Teams.FirstOrDefault(x => x.IsHome).Id;
@@ -591,6 +597,12 @@ namespace Score247.Management.Site.Controllers
                 }
                 await matchRepository.InsertTimelineLog(requestBody);
                 await Task.Delay(2000);
+
+                if(isFromAjax)
+                {
+                    return Json(new { message = "OK" });
+                }
+
                 return RedirectToAction(nameof(Details), new { id });
             }
             catch (Exception ex)
@@ -598,6 +610,15 @@ namespace Score247.Management.Site.Controllers
                 return RedirectToAction(nameof(Details), new { id });
             }
         }
+
+        [HttpGet("/Match/AutoCreateEvent")]
+        public async Task<ActionResult> AutoCreateMatchEvent(string matchId, string eventName, DateTimeOffset time)
+            => await _CreateTimeEventPartial(matchId, new FormCollection(new Dictionary<string, StringValues>
+            {
+                { "payload.timeline.type", new StringValues(eventName) },
+                { "payload.timeline.time", new StringValues(time.Date.ToString()) },
+                { "payload.timeline.hour", new StringValues(new TimeSpan(time.Hour, time.Minute, time.Second).ToString()) }
+            }), true);
 
         [HttpPost]
         [ValidateAntiForgeryToken]
