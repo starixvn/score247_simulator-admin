@@ -482,3 +482,30 @@ function getBookMakerOddsMovement(matchId, betType, bookmakerId) {
         }
     });
 }
+
+function sendOddsChange(matchId) {
+    console.log(matchId);
+    var $inputs = $('#createOddsForm :input');
+
+    var OddsChange1X2RequestModel = {
+    };
+    OddsChange1X2RequestModel["MatchId"] = matchId;
+    $inputs.each(function () {
+        OddsChange1X2RequestModel[this.name] = $(this).val();
+    });
+    console.log(OddsChange1X2RequestModel);
+    $.ajax({
+        async: false,
+        url: urlPrefix() + '/Odds/SendOddsMovement',
+        data: JSON.stringify(OddsChange1X2RequestModel),
+        type: 'post',
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
+        success: function (result) {
+            console.log(result);
+        },
+        error: function (ex) {
+            console.log(ex);
+        }
+    });
+}

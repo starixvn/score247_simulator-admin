@@ -100,9 +100,63 @@ namespace Score247.Management.Site.Services.Odds
 
         public async Task<bool> Send1X2OddsEvent(OddsChange1X2RequestModel request, TimeSpan offset)
         {
+            OddsScheduleDto scheduleOddsRequest = await CreateOddsRequest(request, offset);
+
+            await simulatorService.SendScheduleOdds(scheduleOddsRequest);
+
+            await triggerService.TriggerFetchOddsJobs();
+
+            return true;
+        }
+
+        private static async Task<OddsScheduleDto> CreateOddsRequest(OddsChange1X2RequestModel request, TimeSpan offset)
+        {
             var matchRepo = new MatchRepository();
             var match = await matchRepo.GetMatchById(request.MatchId);
 
+            SportEvent sportEvent = Create1X2OddSportEvent(request, offset, match);
+            var sportEvents = new List<SportEvent>() { sportEvent };
+
+            var scheduleOddsRequest = new OddsScheduleDto()
+            {
+                sport_events = sportEvents
+            };
+            return scheduleOddsRequest;
+        }
+
+        private static SportEvent Create1X2OddSportEvent(OddsChange1X2RequestModel request, TimeSpan offset, Score247Management.Core.Matches.Models.Match match)
+        {
+            List<Outcome> outcomes = Create1X2OutCome(request);
+
+            var books = new List<Book>();
+            books.Add(new Book()
+            {
+                id = request.BookmakerId,
+                name = request.BookmakerId,
+                outcomes = outcomes
+            });
+
+            var sportEvent = new SportEvent()
+            {
+                id = request.MatchId,
+                scheduled = match.EventDate,
+                markets_last_updated = DateTimeHelper.ConvertLocalTimeToTimezone(request.LastUpdate, offset),
+                markets = new List<Market>()
+                {
+                    new Market()
+                    {
+                        odds_type_id = 2,
+                        name = "3way",
+                        group_name = "regular",
+                        books = books
+                    }
+                }
+            };
+            return sportEvent;
+        }
+
+        private static List<Outcome> Create1X2OutCome(OddsChange1X2RequestModel request)
+        {
             var outcomes = new List<Outcome>();
             outcomes.Add(new Outcome()
             {
@@ -133,43 +187,7 @@ namespace Score247.Management.Site.Services.Odds
                 deep_link = "http://stats.betradar.com/tb.php?type=iscreenFromId&id=9192052710",
                 odds_trend = "down"
             });
-
-            var books = new List<Book>();
-            books.Add(new Book()
-            {
-                id = request.BookmakerId,
-                name = request.BookmakerId,
-                outcomes = outcomes
-            });
-
-            var sportEvent = new SportEvent()
-            {
-                id = request.MatchId,
-                scheduled = match.EventDate,
-                markets_last_updated = DateTimeHelper.ConvertLocalTimeToTimezone(request.LastUpdate, offset),
-                markets = new List<Market>()
-                {
-                    new Market()
-                    {
-                        odds_type_id = 2,
-                        name = "3way",
-                        group_name = "regular",
-                        books = books
-                    }
-                }
-            };
-            var sportEvents = new List<SportEvent>() { sportEvent };
-
-            var scheduleOddsRequest = new OddsScheduleDto()
-            {
-                sport_events = sportEvents
-            };
-
-            await simulatorService.SendScheduleOdds(scheduleOddsRequest);
-
-            await triggerService.TriggerFetchOddsJobs();
-
-            return true;
+            return outcomes;
         }
     }
 }

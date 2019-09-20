@@ -73,48 +73,34 @@
                 </div>
                 <div aria-labelledby="oddsEventHeading" data-parent="#accordion" id="oddsEvent">
                     <div class="card-body create-form">
-                        <form asp-action="_CreateTimeEventPartial" asp-route-id="@ViewBag.MatchId">
-                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <form id="createOddsForm" onsubmit="sendOddsChange('@Model.Match.Id')">
                             <div class="column">
                                 <div class="form-group">
-                                    <label for="bookmaker" class="control-label">Event Type</label>
-                                    <select name="bookmaker" class="form-control">
-                                        <option>Bet365</option>
-                                        <option>Bet365</option>
-                                        <option>Bet365</option>
-                                        <option>Bet365</option>
+                                    <label for="bookmaker" class="control-label">Bookmakder:</label>
+                                    <select id="BookmakerId" name="BookmakerId" class="form-control">
+                                        <option value="Macauslot">Macauslot</option>
+                                        <option value="Bet365">Bet365</option>
+                                        <option value="Easybet">Easybet</option>
+                                        <option value="Pinnacle">Pinnacle</option>
+                                        <option value="12Bet">12Bet</option>
+                                        <option value="ibcbet">ibcbet</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="bookmaker" class="control-label">Event Type</label>
-                                    <select name="bookmaker" class="form-control">
-                                        <option>0.81</option>
-                                        <option>0.81</option>
-                                        <option>0.81</option>
-                                        <option>0.81</option>
-                                    </select>
+                                    <label class="control-label">Home:</label>
+                                    <input id="HomeOdds" name="HomeOdds" type="text" class="form-control" />
                                 </div>
                                 <div class="form-group">
-                                    <label for="bookmaker" class="control-label">Event Type</label>
-                                    <select name="bookmaker" class="form-control">
-                                        <option>0.75</option>
-                                        <option>0.75</option>
-                                        <option>0.75</option>
-                                        <option>0.75</option>
-                                    </select>
+                                    <label class="control-label">Away</label>
+                                    <input id="AwayOdds" name="AwayOdds" type="text" class="form-control" />
                                 </div>
                                 <div class="form-group">
-                                    <label for="bookmaker" class="control-label">Event Type</label>
-                                    <select name="bookmaker" class="form-control">
-                                        <option>-1</option>
-                                        <option>-1</option>
-                                        <option>-1</option>
-                                        <option>-1</option>
-                                    </select>
+                                    <label class="control-label">Draw</label>
+                                    <input id="DrawOdds" name="DrawOdds" type="text" class="form-control" />
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label">Last Update:</label>
-                                    <input name="updateTime" class="form-control customDateTimepicker" />
+                                    <input name="LastUpdate" class="form-control customDateTimepicker" />
                                 </div>
                             </div>
                             <div class="form-group">
