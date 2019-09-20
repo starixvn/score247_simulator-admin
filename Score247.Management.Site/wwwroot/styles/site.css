@@ -148,6 +148,9 @@ header {
     .list-quick-action .icon-calendar:hover:before {
       color: #f24822;
       cursor: pointer; }
+    .list-quick-action .icon-live-match.active:before,
+    .list-quick-action .icon-calendar.active:before {
+      color: #f24822; }
 
 .filter, .create-form {
   padding-top: 10px;

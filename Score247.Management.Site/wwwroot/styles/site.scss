@@ -216,6 +216,10 @@ header {
             color: #f24822;
             cursor: pointer;
         }
+
+        &.active:before {
+            color: #f24822;
+        }
     }
 }
 

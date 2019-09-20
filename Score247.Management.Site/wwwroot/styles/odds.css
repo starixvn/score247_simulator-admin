@@ -1,15 +1,15 @@
-﻿.tbl-odds thead th {
-  vertical-align: bottom;
-  background-color: #2D2F3F;
-  border-bottom: 1px solid #393B4D;
-  text-align: center; }
-
-.tbl-odds th, .tbl-odds td {
-  border-color: #393B4D;
-  color: #fff; }
-
-.tbl-odds td {
-  background-color: #06070A; }
+﻿.tbl-odds {
+  margin-bottom: 30px; }
+  .tbl-odds thead th {
+    vertical-align: bottom;
+    background-color: #2D2F3F;
+    border-bottom: 1px solid #393B4D;
+    text-align: center; }
+  .tbl-odds th, .tbl-odds td {
+    border-color: #393B4D;
+    color: #fff; }
+  .tbl-odds td {
+    background-color: #06070A; }
 
 .bookmakerName {
   text-decoration: underline;
