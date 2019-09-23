@@ -119,9 +119,8 @@ $(document).ready(function () {
         minYear: 2010,
         startDate: moment().startOf('hour'),
         timePicker: true,
+        drops: 'up',
         maxYear: parseInt(moment().format('YYYY'), 10)
-    }, function (start, end, label) {
-        $('#ui-datepicker-div table td a').attr('href', 'javascript:;');
     });
 
     $('.timezone-hidden').val(sessionStorage.getItem("Timezone"));
