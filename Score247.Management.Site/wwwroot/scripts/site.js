@@ -117,6 +117,7 @@ $(document).ready(function () {
         singleDatePicker: true,
         showDropdowns: true,
         minYear: 2010,
+        startDate: moment().startOf('hour'),
         timePicker: true,
         maxYear: parseInt(moment().format('YYYY'), 10)
     }, function (start, end, label) {
@@ -459,10 +460,23 @@ function urlPrefix() {
 function getBookMakerOddsMovement(matchId, bookmakerId) {
     $("#oddsMovement").html("");
     var betType = $("#betType").val();
+    var betName = "1X2";
+
+    if (betType === '1') {
+        betName = "1X2";
+    }
+    if (betType === '3') {
+        betName = "AsianHDP";
+    }
+    if (betType === '2') {
+        betName = "OverUnder";
+    }
+
     var oddsMovementRequestModel = {
         MatchId: matchId,
         BetType: betType,
-        BookmakerId: bookmakerId
+        BookmakerId: bookmakerId,
+        BetName: betName
     };
     $.ajax({
         async: true,
@@ -514,20 +528,25 @@ function sendOddsChange(matchId) {
 function onBetTypeChange(matchId, betType) {
     $("#oddsComparison").html("");
     $("#oddsMovement").html("");
+    var betName = "1X2";
     $(".oddsInput").addClass("d-none");
     if (betType.value === '1') {
         $(".1x2Odds").removeClass("d-none");
-    }
-    if (betType.value === '5') {
-        $(".HDPOdds").removeClass("d-none");
+        betName = "1X2";
     }
     if (betType.value === '3') {
+        $(".HDPOdds").removeClass("d-none");
+        betName = "AsianHDP";
+    }
+    if (betType.value === '2') {
         $(".OUOdds").removeClass("d-none");
+        betName = "OverUnder";
     }
 
     var oddsComparisonRequest = {
         MatchId: matchId,
-        BetType: betType.value
+        BetType: betType.value,
+        BetName: betName
     };
     $.ajax({
         async: true,

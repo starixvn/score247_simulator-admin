@@ -200,8 +200,8 @@ namespace Score247.Management.Site.Services.Odds
             {
                 odds_field_id = 7,
                 type = "home",
-                odds = request.HomeOdds,
-                opening_odds = request.HomeOdds,
+                odds = request.HomeHDPOdds,
+                opening_odds = request.HomeHDPOdds,
                 handicap = request.HDPHome,
                 deep_link = "http://stats.betradar.com/tb.php?type=iscreenFromId&id=9192052710",
                 odds_trend = "down"
@@ -211,9 +211,9 @@ namespace Score247.Management.Site.Services.Odds
             {
                 odds_field_id = 8,
                 type = "away",
-                odds = request.AwayOdds,
-                opening_odds = request.AwayOdds,
-                handicap = request.HDPAway,
+                odds = request.AwayHDPOdds,
+                opening_odds = request.AwayHDPOdds,
+                handicap = request.HDPHome,
                 deep_link = "http://stats.betradar.com/tb.php?type=iscreenFromId&id=9192052710",
                 odds_trend = "down"
             });

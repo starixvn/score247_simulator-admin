@@ -29,7 +29,7 @@
         {
             var matchOddsMovement = await oddsService.GetMatchOddsMovement(oddsMovementRequestModel.MatchId, oddsMovementRequestModel.BetType, oddsMovementRequestModel.BookmakerId, "en-US", "des");
 
-            return PartialView("1X2OddsMovement", matchOddsMovement);
+            return PartialView(oddsMovementRequestModel.BetName + "OddsMovement", matchOddsMovement);
         }
 
         [HttpPost]
@@ -37,7 +37,7 @@
         {
             var matchOdds = await oddsService.GetMatchOdds(oddsComparisonRequest.MatchId, oddsComparisonRequest.BetType, "en-US", "des");
 
-            return PartialView("1X2OddsComparison", matchOdds);
+            return PartialView(oddsComparisonRequest.BetName + "OddsComparison", matchOdds);
         }
 
         [HttpPost]

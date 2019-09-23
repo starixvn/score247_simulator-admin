@@ -1,0 +1,39 @@
+﻿@model Score247Management.Core.Odds.Models.MatchOddsMovement
+
+<table class="table table-bordered table-dark tbl-odds">
+    <thead>
+        <tr>
+            <th scope="col">Time</th>
+            <th scope="col">Score</th>
+            <th scope="col">Over</th>
+            <th scope="col">O/U</th>
+            <th scope="col">Under</th>
+            <th scope="col">Last Updated</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.OddsMovements)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MatchTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HomeScore) - @Html.DisplayFor(modelItem => item.AwayScore)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BetOptions.FirstOrDefault(x => x.Type == "over").LiveOdds)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BetOptions.FirstOrDefault(x => x.Type == "over").OptionValue)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BetOptions.FirstOrDefault(x => x.Type == "under").LiveOdds)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UpdateTime)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
