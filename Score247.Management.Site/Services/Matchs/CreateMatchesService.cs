@@ -28,7 +28,7 @@ namespace Score247.Management.Site.Services.Matchs
 
         Task<string> CreateMatcheWithForm(IFormCollection collection, TimeSpan offset, IConfiguration configuration);
 
-        Task<string> AutoCreateMatch(DateTimeOffset? dateTimeOffset, IConfiguration configuration);
+        Task<string> AutoCreateMatch(DateTimeOffset dateTimeOffset, IConfiguration configuration);
     }
 
     public class CreateMatchesServiceImpl : CreateMatchesService
@@ -232,11 +232,11 @@ namespace Score247.Management.Site.Services.Matchs
             return MatchStatus.Live.DisplayName;
         }
 
-        public async Task<string> AutoCreateMatch(DateTimeOffset? dateTimeOffset, IConfiguration configuration)
+        public async Task<string> AutoCreateMatch(DateTimeOffset dateTimeOffset, IConfiguration configuration)
         {
             var matchRepository = new MatchRepository(configuration);
 
-            return await matchRepository.AutoCreateMatche(dateTimeOffset);
+            return await matchRepository.AutoCreateMatch(dateTimeOffset);
         }
     }
 }

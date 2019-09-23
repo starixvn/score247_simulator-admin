@@ -192,7 +192,7 @@ namespace Score247.Management.Site.Controllers
         }
 
         [HttpGet("/Match/AutoCreateMatch")]
-        public async Task<JsonResult> AutoCreateMatch(DateTimeOffset? createDate)
+        public async Task<JsonResult> AutoCreateMatch(DateTimeOffset createDate)
             => Json(new
             {
                 matchId = await CreateMatchesService.AutoCreateMatch(createDate, Configuration)

@@ -156,9 +156,9 @@ namespace Score247.Management.Site.Repositories.Matches
             return await CheckIfMatchInserted(matches.LastOrDefault());
         }
 
-        public async Task<string> AutoCreateMatche(DateTimeOffset? createDate)
+        public async Task<string> AutoCreateMatch(DateTimeOffset createDate)
         {
-            var matches = await GenerateMatches(createDate.HasValue ? createDate.Value.DateTime : DateTime.Now, 1, new TimeSpan(0, 0, 0), 1);
+            var matches = await GenerateMatches(createDate.DateTime, 1, createDate.Offset, 1, true);
 
             await SendCreateMatchesRequest(matches, true);
             await CheckIfMatchInserted(matches.LastOrDefault());
@@ -354,7 +354,7 @@ namespace Score247.Management.Site.Repositories.Matches
             return await repository.ExecuteAsync(new DeleteAllMatchesCriteria());
         }
 
-        private static async Task<List<MatchEntity>> GenerateMatches(DateTime createDate, int limitMatches, TimeSpan offset, int limitLeagues)
+        private static async Task<List<MatchEntity>> GenerateMatches(DateTime createDate, int limitMatches, TimeSpan offset, int limitLeagues, bool dontRandomTime = false)
         {
             var ran = new Random();
             var leaguesRepository = new LeagueRepository();
@@ -388,7 +388,7 @@ namespace Score247.Management.Site.Repositories.Matches
 
                 for (int j = 0; j < matchPerLeague; j++)
                 {
-                    var eventDate = GetEventDate(createDate, offset);
+                    var eventDate = GetEventDate(createDate, offset, dontRandomTime);
 
                     var indexHome = ran.Next(0, splitTeamPosition);
                     var homeTeam = teams[indexHome];
@@ -409,11 +409,11 @@ namespace Score247.Management.Site.Repositories.Matches
             return matches.Take(limitMatches).ToList();
         }
 
-        private static DateTime GetEventDate(DateTime dateTime, TimeSpan offset)
+        private static DateTime GetEventDate(DateTime dateTime, TimeSpan offset, bool dontRandomTime)
         {
             var ran = new Random();
-            var hour = ran.Next(0, 23);
-            var minute = ran.Next(0, 12) * 5;
+            var hour = dontRandomTime ? dateTime.Hour : ran.Next(0, 23);
+            var minute = dontRandomTime ? dateTime.Minute : ran.Next(0, 12) * 5;
 
             return new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, hour, minute, 0, DateTimeKind.Utc).Subtract(offset);
         }
