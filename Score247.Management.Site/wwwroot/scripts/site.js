@@ -38,10 +38,6 @@ $(document).ready(function () {
             "targets": 0
         }],
         "dom": '<"top"if>rt<"bottom"><"clear">',
-        aLengthMenu: [
-            [25, 50, 100, 200, -1],
-            [25, 50, 100, 200, "All"]
-        ],
         iDisplayLength: -1
     });
 
@@ -50,6 +46,16 @@ $(document).ready(function () {
             cell.innerHTML = i + 1;
         });
     }).draw();
+
+    $('#mathes-table tbody').on('click', 'tr.group', function () {
+        var currentOrder = table.order()[0];
+        if (currentOrder[0] === groupColumn && currentOrder[1] === 'asc') {
+            table.order([groupColumn, 'desc']).draw();
+        }
+        else {
+            table.order([groupColumn, 'asc']).draw();
+        }
+    });
 
     var lt = $('#leagues-table').DataTable({
         "columnDefs": [{

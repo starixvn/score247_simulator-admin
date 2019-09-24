@@ -12,5 +12,7 @@
         public string Flag { get; set; }
 
         public LeagueCategory LeagueCategory { get; set; }
+
+        public bool IsActive { get; set; }
     }
 }

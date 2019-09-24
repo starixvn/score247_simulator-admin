@@ -12,7 +12,7 @@
         public string MatchTime { get; set; }
 
         public DateTimeOffset UpdateTime { get; set; }
-
+        public string DisplayUpdateTime { get; set; }
         public bool IsMatchStarted { get; set; }
 
         public int HomeScore { get; set; }

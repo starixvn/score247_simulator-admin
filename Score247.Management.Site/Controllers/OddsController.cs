@@ -27,7 +27,7 @@
         [HttpPost]
         public async Task<ActionResult> GetOddsMovement([FromBody] OddsMovementRequestModel oddsMovementRequestModel)
         {
-            var matchOddsMovement = await oddsService.GetMatchOddsMovement(oddsMovementRequestModel.MatchId, oddsMovementRequestModel.BetType, oddsMovementRequestModel.BookmakerId, "en-US", "des");
+            var matchOddsMovement = await oddsService.GetMatchOddsMovement(oddsMovementRequestModel.MatchId, oddsMovementRequestModel.BetType, oddsMovementRequestModel.BookmakerId, "en-US", "des", DateTimeHelper.GetTimezone(HttpContext.Session));
 
             return PartialView(oddsMovementRequestModel.BetName + "OddsMovement", matchOddsMovement);
         }

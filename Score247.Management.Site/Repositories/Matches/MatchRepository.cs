@@ -418,28 +418,6 @@ namespace Score247.Management.Site.Repositories.Matches
             return new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, hour, minute, 0, DateTimeKind.Utc).Subtract(offset);
         }
 
-        public async Task CloneLiveMatches(GetCloneLiveMatchesCriteria criteria, string baseUrl, string eventPath)
-        {
-            var newLiveMatches = await repository.FetchAsync<Score247Management.Core.Matches.Models.Match>(criteria);
-            foreach (var match in newLiveMatches)
-            {
-                var transMatch = match.DeserialValue();
-                var insertCriteria = new InsertMatchCriteria()
-                {
-                    Id = transMatch.Id,
-                    MatchValue = transMatch.Value,
-                    SportId = "1",
-                    MatchLanguage = "en-US",
-                    EventDate = transMatch.EventDate.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:sszzz"),
-                    LeagueId = transMatch.League.Id,
-                    Region = transMatch.Region
-                };
-                await repository.ExecuteAsync(insertCriteria);
-                var eventStartMatch = MatchTimeEventCreator.CreateMatchStart(transMatch, transMatch.EventDate);
-                await AutoEventService.SendEvent(eventStartMatch, baseUrl, eventPath);
-            }
-        }
-
         public async Task<int> DeleteMatchByDate(DateTime fromDate, DateTime toDate, int limitCount)
         {
             var criteria = new DeleteMatchByDateCriteria() { FromDate = fromDate, ToDate = toDate, LimitCount = limitCount };

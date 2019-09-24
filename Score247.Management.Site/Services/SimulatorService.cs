@@ -2,13 +2,20 @@
 {
     using System;
     using System.Net.Http;
+    using System.Text;
     using System.Threading.Tasks;
     using Microsoft.Extensions.Configuration;
+    using Newtonsoft.Json;
+    using Score247.Management.Site.Repositories.Matches.Models;
     using Score247Management.Core.Odds.Dtos;
 
     public interface ISimulatorService
     {
         Task<bool> SendScheduleOdds(OddsScheduleDto oddsSchedule);
+
+        Task<HttpResponseMessage> SendDailyResult(DailyResultDto dailyResultDto);
+
+        Task<HttpResponseMessage> SendDailySchedule(DailyScheduleDto dailyResultDto);
     }
 
     public class SimulatorService : ISimulatorService
@@ -52,6 +59,36 @@
             }
 
             return false;
+        }
+
+        public async Task<HttpResponseMessage> SendDailyResult(DailyResultDto dailyResultDto)
+        {
+            var jsonValue = JsonConvert.SerializeObject(dailyResultDto);
+            var requestPath = configuration.GetValue<string>("Simulator:DailyResults");
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(configuration.GetValue<string>("Simulator:Url"));
+
+                return await client.PostAsync(
+                        string.Format(requestPath + "?date={0}",
+                        dailyResultDto.generated_at.ToString("yyyy-MM-dd")),
+                        new StringContent(jsonValue, Encoding.UTF8,
+                        "application/json"));
+            }
+        }
+
+        public async Task<HttpResponseMessage> SendDailySchedule(DailyScheduleDto dailyResultDto)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(configuration.GetValue<string>("Simulator:Url"));
+
+                var jsonValue = JsonConvert.SerializeObject(dailyResultDto);
+
+                var requestPath = configuration.GetValue<string>("Simulator:DailySchedule");
+
+                return await client.PostAsync(string.Format(requestPath + "?date={0}", dailyResultDto.generated_at.ToString("yyyy-MM-dd")), new StringContent(jsonValue, Encoding.UTF8, "application/json"));
+            }
         }
     }
 }

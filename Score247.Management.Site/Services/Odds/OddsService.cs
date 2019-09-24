@@ -5,12 +5,10 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using MessagePack;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using Score247.Management.Site.Helpers;
 using Score247.Management.Site.Repositories.Matches;
 using Score247.Management.Site.ViewModels.Matches;
 using Score247.Management.Site.ViewModels.Odds;
-using Score247Management.Core.Matches.Models;
 using Score247Management.Core.Odds.Dtos;
 using Score247Management.Core.Odds.Models;
 
@@ -20,7 +18,7 @@ namespace Score247.Management.Site.Services.Odds
     {
         Task<MatchOdds> GetMatchOdds(string matchId, int betTypeId, string language, string format);
 
-        Task<MatchOddsMovement> GetMatchOddsMovement(string matchId, int betTypeId, string bookmakerId, string language, string format);
+        Task<MatchOddsMovement> GetMatchOddsMovement(string matchId, int betTypeId, string bookmakerId, string language, string format, TimeSpan offset);
 
         Task<OddsEventViewModel> CreateOddsViewModel(string matchId, TimeSpan offset);
 
@@ -56,7 +54,7 @@ namespace Score247.Management.Site.Services.Odds
                 return viewModel;
             }
 
-            viewModel.MatchOddsMovement = await GetMatchOddsMovement(matchId, 1, viewModel.MatchOdds.BetTypeOddsList.FirstOrDefault().Bookmaker.Id, "en-US", "des");
+            viewModel.MatchOddsMovement = await GetMatchOddsMovement(matchId, 1, viewModel.MatchOdds.BetTypeOddsList.FirstOrDefault().Bookmaker.Id, "en-US", "des", offset);
 
             return viewModel;
         }
@@ -81,7 +79,7 @@ namespace Score247.Management.Site.Services.Odds
             return new MatchOdds();
         }
 
-        public async Task<MatchOddsMovement> GetMatchOddsMovement(string matchId, int betTypeId, string bookmakerId, string language, string format)
+        public async Task<MatchOddsMovement> GetMatchOddsMovement(string matchId, int betTypeId, string bookmakerId, string language, string format, TimeSpan offset)
         {
             using (var httpClient = new HttpClient())
             {
@@ -94,7 +92,10 @@ namespace Score247.Management.Site.Services.Odds
                 {
                     var bytes = await responseMessage.Content.ReadAsByteArrayAsync();
 
-                    return MessagePackSerializer.Deserialize<MatchOddsMovement>(bytes);
+                    var result = MessagePackSerializer.Deserialize<MatchOddsMovement>(bytes);
+                    result.OddsMovements = result.OddsMovements.Select(x => { x.DisplayUpdateTime = x.UpdateTime.Add(offset).ToString("YYY/MM/dd HH:mm:ss"); return x; });
+
+                    return result;
                 }
             }
 
@@ -164,6 +165,7 @@ namespace Score247.Management.Site.Services.Odds
 
         public async Task SendOddsEvent(OddsChangeRequestModel oddsChange, TimeSpan timeSpan)
         {
+            oddsChange = await GetOpeningOdds(oddsChange);
             if (oddsChange.BetType == 1)
             {
                 await Send1X2OddsEvent(oddsChange, timeSpan);
@@ -202,7 +204,7 @@ namespace Score247.Management.Site.Services.Odds
                 type = "home",
                 odds = request.HomeHDPOdds,
                 opening_odds = request.HomeHDPOdds,
-                handicap = request.HDPHome,
+                handicap = request.HDPValue,
                 deep_link = "http://stats.betradar.com/tb.php?type=iscreenFromId&id=9192052710",
                 odds_trend = "down"
             });
@@ -213,7 +215,7 @@ namespace Score247.Management.Site.Services.Odds
                 type = "away",
                 odds = request.AwayHDPOdds,
                 opening_odds = request.AwayHDPOdds,
-                handicap = request.HDPHome,
+                handicap = request.HDPValue,
                 deep_link = "http://stats.betradar.com/tb.php?type=iscreenFromId&id=9192052710",
                 odds_trend = "down"
             });
@@ -298,6 +300,29 @@ namespace Score247.Management.Site.Services.Odds
                 }
             };
             return sportEvent;
+        }
+
+        private async Task<OddsChangeRequestModel> GetOpeningOdds(OddsChangeRequestModel oddsChangeRequest)
+        {
+            var matchOdds = await GetMatchOdds(oddsChangeRequest.MatchId, oddsChangeRequest.BetType, "en-US", "des");
+            if (matchOdds.BetTypeOddsList.Any())
+            {
+                var firstOdds = matchOdds.BetTypeOddsList.FirstOrDefault(x => x.Bookmaker.Id == oddsChangeRequest.BookmakerId);
+
+                if (firstOdds != null)
+                {
+                    oddsChangeRequest.OpeningHomeOdds = firstOdds.BetOptions.FirstOrDefault(x => x.Type == "home")?.OpeningOdds.ToString();
+                    oddsChangeRequest.OpeningDrawOdds = firstOdds.BetOptions.FirstOrDefault(x => x.Type == "draw")?.OpeningOdds.ToString();
+                    oddsChangeRequest.OpeningAwayOdds = firstOdds.BetOptions.FirstOrDefault(x => x.Type == "away")?.OpeningOdds.ToString();
+                    oddsChangeRequest.OpeningHomeHDPOdds = firstOdds.BetOptions.FirstOrDefault(x => x.Type == "home")?.OpeningOdds.ToString();
+                    oddsChangeRequest.OpeningAwayHDPOdds = firstOdds.BetOptions.FirstOrDefault(x => x.Type == "away")?.OpeningOdds.ToString();
+                    oddsChangeRequest.OpeningHDPValue = firstOdds.BetOptions.FirstOrDefault(x => x.Type == "home")?.OpeningOptionValue.ToString();
+                    oddsChangeRequest.OpeningOverOdds = firstOdds.BetOptions.FirstOrDefault(x => x.Type == "over")?.OpeningOdds.ToString();
+                    oddsChangeRequest.OpeningUnderOdds = firstOdds.BetOptions.FirstOrDefault(x => x.Type == "under")?.OpeningOdds.ToString();
+                    oddsChangeRequest.OpeningTotalOUOdds = firstOdds.BetOptions.FirstOrDefault(x => x.Type == "over")?.OpeningOptionValue.ToString();
+                }
+            }
+            return oddsChangeRequest;
         }
     }
 }
