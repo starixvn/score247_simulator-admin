@@ -11,7 +11,7 @@
         public int LimitCount { get; set; }
 
         public override string GetSettingKey()
-            => "Match_DeleteMatchByDate";
+            => "Admin_Match_DeleteMatchByDate";
 
         public override bool IsValid()
             => true;

@@ -7,7 +7,7 @@
         public int LimitCount { get; set; }
 
         public override string GetSettingKey()
-            => "Match_DeleteLiveMatch";
+            => "Admin_Match_DeleteLiveMatch";
 
         public override bool IsValid()
             => true;

@@ -8,7 +8,7 @@
         public string Id { get; set; }
 
         public override string GetSettingKey()
-            => "Match_DeleteById";
+            => "Admin_Match_DeleteById";
 
         public override bool IsValid()
             => Id != "";

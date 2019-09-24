@@ -38,14 +38,6 @@ namespace Score247.Management.Site.Repositories.Matches
             Configuration = configuration;
         }
 
-        public async Task<IEnumerable<Match>> GetMatches()
-        {
-            var matches = await repository.FetchAsync<Match>(new GetMatchesCriteria());
-            var result = matches.Select(x => x.DeserialValue()).OrderBy(x => x.League.Order).ThenBy(x => x.EventDate);
-
-            return result;
-        }
-
         public async Task<Match> GetMatchById(string id)
         {
             var criteria = new GetMatchByIdCriteria { Id = id, Language = "en-US" };
