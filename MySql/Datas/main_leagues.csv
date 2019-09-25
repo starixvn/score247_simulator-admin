@@ -1,0 +1,117 @@
+"Id";"Name";"Order";"CategoryId";"Country";"Region";"IsActive"
+"sr:tournament:1";"European Championship";2;"sr:country:12";"International";"";1
+"sr:tournament:1018";"Cyprus Women Cup";79;"sr:country:12";"International";"";1
+"sr:tournament:1060";"Baltic Cup";59;"sr:country:12";"International";"";1
+"sr:tournament:11";"WC Qualification";3;"sr:country:12";"International";"UEFA";1
+"sr:tournament:1119";"Supercopa de Catalunya";92;"sr:country:21";"Spain";"";1
+"sr:tournament:1127";"Primera Division Women";96;"sr:country:21";"Spain";"";1
+"sr:tournament:1139";"Division 1 Women";116;"sr:country:9";"France";"";1
+"sr:tournament:1161";"Caribbean Cup";57;"sr:country:12";"International";"";1
+"sr:tournament:1217";"Copa Centroamericana";52;"sr:country:12";"International";"";1
+"sr:tournament:13";"WC Qualification";4;"sr:country:12";"International";"CAF";1
+"sr:tournament:133";"Copa America";51;"sr:country:12";"International";"";1
+"sr:tournament:136";"A-League";22;"sr:country:2";"Australia";"";1
+"sr:tournament:14";"WC Qualification CONCACAF";8;"sr:country:12";"International";"";1
+"sr:tournament:140";"Gold Cup";53;"sr:country:12";"International";"";1
+"sr:tournament:155";"Primera Division";35;"sr:country:1";"Argentina";"";1
+"sr:tournament:1554";"Primavera Cup";104;"sr:country:14";"Italy";"";1
+"sr:tournament:16";"World Cup";1;"sr:country:12";"International";"";1
+"sr:tournament:1692";"AFC Womens Asian Cup";75;"sr:country:12";"International";"";1
+"sr:tournament:1696";"FA Cup Qualification";84;"sr:country:8";"England";"";1
+"sr:tournament:17";"Premier League";17;"sr:country:8";"England";"";1
+"sr:tournament:1702";"AFC Challenge Cup";65;"sr:country:12";"International";"";1
+"sr:tournament:173";"National League";90;"sr:country:8";"England";"";1
+"sr:tournament:18";"Championship";85;"sr:country:8";"England";"";1
+"sr:tournament:182";"Ligue 2";112;"sr:country:9";"France";"";1
+"sr:tournament:183";"National";111;"sr:country:9";"France";"";1
+"sr:tournament:1848";"Africa Cup of Nations Qualification";50;"sr:country:12";"International";"";1
+"sr:tournament:185";"Super League";31;"sr:country:11";"Greece";"";1
+"sr:tournament:1866";"Asian Games Women";74;"sr:country:12";"International";"";1
+"sr:tournament:19";"FA Cup";83;"sr:country:8";"England";"";1
+"sr:tournament:1910";"Supercoppa Primavera";105;"sr:country:14";"Italy";"";1
+"sr:tournament:1954";"CONCACAF Womens Championship";71;"sr:country:12";"International";"";1
+"sr:tournament:196";"J.League";23;"sr:country:15";"Japan";"";1
+"sr:tournament:203";"Premier League";32;"sr:country:19";"Russia";"";1
+"sr:tournament:21";"League Cup";87;"sr:country:8";"England";"";1
+"sr:tournament:213";"Super Cup";91;"sr:country:21";"Spain";"";1
+"sr:tournament:2161";"COSAFA Cup";60;"sr:country:12";"International";"";1
+"sr:tournament:217";"DFB Pokal";97;"sr:country:10";"Germany";"";1
+"sr:tournament:218";"Premier League";33;"sr:country:23";"Ukraine";"";1
+"sr:tournament:23";"Serie A";20;"sr:country:14";"Italy";"";1
+"sr:tournament:2324";"UEFA Youth League";27;"sr:country:13";"International Clubs";"";1
+"sr:tournament:2330";"Serie D";102;"sr:country:14";"Italy";"";1
+"sr:tournament:2340";"Campionato Primavera";107;"sr:country:14";"Italy";"";1
+"sr:tournament:23755";"UEFA Nations League";13;"sr:country:13";"International Clubs";"";1
+"sr:tournament:238";"Primeira Liga";34;"sr:country:18";"Portugal";"";1
+"sr:tournament:24";"League One";88;"sr:country:8";"England";"";1
+"sr:tournament:242";"Major League Soccer";38;"sr:country:25";"USA";"";1
+"sr:tournament:2438";"SAFF Championship";58;"sr:country:12";"International";"";1
+"sr:tournament:244";"Primera Division";39;"sr:country:5";"Chile";"";1
+"sr:tournament:246";"AFC Asian Cup";62;"sr:country:12";"International";"";1
+"sr:tournament:2494";"CONCACAF Womens Olympic Qualifications";76;"sr:country:12";"International";"";1
+"sr:tournament:2496";"UEFA Womens Olympic Qualifications";77;"sr:country:12";"International";"";1
+"sr:tournament:25";"League Two";89;"sr:country:8";"England";"";1
+"sr:tournament:2505";"SheBelievesCup Women";78;"sr:country:12";"International";"";1
+"sr:tournament:2515";"AFC Womens Olympic Qualifications";73;"sr:country:12";"International";"";1
+"sr:tournament:27";"European Championship Qualification";10;"sr:country:12";"International";"";1
+"sr:tournament:270";"Africa Cup of Nations";49;"sr:country:12";"International";"";1
+"sr:tournament:27070";"Primera A Apertura";36;"sr:country:7";"Colombia";"";1
+"sr:tournament:27072";"Primera A Clausura";37;"sr:country:7";"Colombia";"";1
+"sr:tournament:27464";"Primera Division Apertura";42;"sr:country:16";"Mexico";"";1
+"sr:tournament:27466";"Primera Division Clausura";43;"sr:country:16";"Mexico";"";1
+"sr:tournament:278";"Primera Division";40;"sr:country:24";"Uruguay";"";1
+"sr:tournament:28";"AFC Asian Cup Qualification";63;"sr:country:12";"International";"";1
+"sr:tournament:290";"Women's World Cup";69;"sr:country:12";"International";"";1
+"sr:tournament:295";"WC Qualification";5;"sr:country:12";"International";"CONMEBOL";1
+"sr:tournament:308";"WC Qualification";6;"sr:country:12";"International";"AFC";1
+"sr:tournament:309";"WC Qualification";7;"sr:country:12";"International";"OFC";1
+"sr:tournament:325";"Brasileiro Serie A";41;"sr:country:4";"Brazil";"";1
+"sr:tournament:328";"Coppa Italia";108;"sr:country:14";"Italy";"";1
+"sr:tournament:329";"Copa del Rey";93;"sr:country:21";"Spain";"";1
+"sr:tournament:333";"Coupe de la Ligue";114;"sr:country:9";"France";"";1
+"sr:tournament:334";"Football League Trophy";86;"sr:country:8";"England";"";1
+"sr:tournament:335";"Coupe de France";113;"sr:country:9";"France";"";1
+"sr:tournament:339";"Trophée des Champions";115;"sr:country:9";"France";"";1
+"sr:tournament:34";"Ligue 1";21;"sr:country:9";"France";"";1
+"sr:tournament:341";"Super Cup";103;"sr:country:14";"Italy";"";1
+"sr:tournament:343";"Lega Pro";110;"sr:country:14";"Italy";"";1
+"sr:tournament:346";"Community Shield";82;"sr:country:8";"England";"";1
+"sr:tournament:35";"Bundesliga";19;"sr:country:10";"Germany";"";1
+"sr:tournament:37";"Eredivisie";28;"sr:country:17";"Netherlands";"";1
+"sr:tournament:38";"Pro League";29;"sr:country:3";"Belgium";"";1
+"sr:tournament:384";"Copa Libertadores";44;"sr:country:13";"International Clubs";"";1
+"sr:tournament:392";"East Asian Championship";66;"sr:country:12";"International";"";1
+"sr:tournament:404";"East Asian Championship Women";80;"sr:country:12";"International";"";1
+"sr:tournament:410";"K-League Classic";24;"sr:country:20";"South Korea";"";1
+"sr:tournament:411";"Algarve Cup Women";81;"sr:country:12";"International";"";1
+"sr:tournament:436";"Olympic Games";67;"sr:country:12";"International";"";1
+"sr:tournament:437";"Olympic Games Women";68;"sr:country:12";"International";"";1
+"sr:tournament:44";"2nd Bundesliga";99;"sr:country:10";"Germany";"";1
+"sr:tournament:460";"Confederations Cup";54;"sr:country:12";"International";"";1
+"sr:tournament:463";"AFC Champions League";25;"sr:country:12";"International";"";1
+"sr:tournament:465";"UEFA Super Cup";16;"sr:country:13";"International Clubs";"";1
+"sr:tournament:477";"European Championship Women";11;"sr:country:12";"International";"";1
+"sr:tournament:480";"Copa Sudamericana";45;"sr:country:13";"International Clubs";"";1
+"sr:tournament:490";"Recopa Sudamericana";46;"sr:country:13";"International Clubs";"";1
+"sr:tournament:491";"3rd Liga";100;"sr:country:10";"Germany";"";1
+"sr:tournament:498";"CONCACAF Champions League";47;"sr:country:13";"International Clubs";"";1
+"sr:tournament:52";"Super Lig";30;"sr:country:22";"Turkey";"";1
+"sr:tournament:53";"Serie B";101;"sr:country:14";"Italy";"";1
+"sr:tournament:54";"Segunda Division";95;"sr:country:21";"Spain";"";1
+"sr:tournament:544";"Second Division B";94;"sr:country:21";"Spain";"";1
+"sr:tournament:602";"AFF Suzuki Cup";64;"sr:country:12";"International";"";1
+"sr:tournament:622";"Gulf Cup";55;"sr:country:12";"International";"";1
+"sr:tournament:637";"African Nations Championship";48;"sr:country:12";"International";"";1
+"sr:tournament:649";"Chinese Super League";26;"sr:country:6";"China";"";1
+"sr:tournament:668";"AFC Cup";61;"sr:country:12";"International";"";1
+"sr:tournament:679";"UEFA Europa League";15;"sr:country:13";"International Clubs";"";1
+"sr:tournament:7";"UEFA Champions League";14;"sr:country:13";"International Clubs";"";1
+"sr:tournament:780";"WC Qualification Women";70;"sr:country:12";"International";"";1
+"sr:tournament:799";"Super Cup";98;"sr:country:10";"Germany";"";1
+"sr:tournament:8";"Primera Division";18;"sr:country:21";"Spain";"";1
+"sr:tournament:824";"Coppa Italia Lega Pro";109;"sr:country:14";"Italy";"";1
+"sr:tournament:842";"WAFF Championship";56;"sr:country:12";"International";"";1
+"sr:tournament:851";"International Friendly Games";9;"sr:country:12";"International";"";1
+"sr:tournament:852";"International Friendly Games Women";12;"sr:country:12";"International";"";1
+"sr:tournament:878";"Womens Euro Qualification";72;"sr:country:12";"International";"";1
+"sr:tournament:884";"Supercoppa di Lega Pro";106;"sr:country:14";"Italy";"";1

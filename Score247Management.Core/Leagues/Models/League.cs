@@ -1,4 +1,6 @@
-﻿namespace Score247Management.Core.Leagues.Models
+﻿using Newtonsoft.Json;
+
+namespace Score247Management.Core.Leagues.Models
 {
     public class League
     {
@@ -11,7 +13,11 @@
 
         public string Flag { get; set; }
 
+        [JsonProperty("category")]
         public LeagueCategory LeagueCategory { get; set; }
+
+        [JsonProperty("current_season")]
+        public LeagueSeason LeagueSeason { get; set; }
 
         public bool IsActive { get; set; }
     }

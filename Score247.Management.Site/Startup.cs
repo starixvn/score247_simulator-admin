@@ -54,6 +54,7 @@ namespace Score247.Management.Site
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+            services.AddSingleton<ILeagueService, LeagueService>();
             services.AddSingleton<IOddsService, OddsService>();
             services.AddSingleton<ITriggerJobService, TriggerJobService>();
             services.AddSingleton<ISimulatorService, SimulatorService>();

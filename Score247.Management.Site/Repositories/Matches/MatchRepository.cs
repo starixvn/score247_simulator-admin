@@ -352,7 +352,7 @@ namespace Score247.Management.Site.Repositories.Matches
             var leaguesRepository = new LeagueRepository();
             var teamsRepository = new TeamRepository();
 
-            var leagues = (await leaguesRepository.GetLeagues())
+            var leagues = (await leaguesRepository.GetActiveLeagues())
                 .Where(x => !x.Name.Contains("+")
                             && !x.Name.Contains("-"))
                 .OrderBy(arg => Guid.NewGuid()).Take(limitLeagues)

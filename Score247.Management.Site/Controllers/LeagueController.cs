@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Score247.Management.Site.Criterias.League;
 using Score247.Management.Site.Helpers;
 using Score247.Management.Site.Repositories.Leagues;
+using Score247.Management.Site.Services;
 using Score247.Management.Site.Services.Crawlers;
 using Score247.Management.Site.ViewModels.League;
 
@@ -12,6 +13,13 @@ namespace Score247.Management.Site.Controllers
 {
     public class LeagueController : Controller
     {
+        private ILeagueService leagueService { get; }
+
+        public LeagueController(ILeagueService leagueService)
+        {
+            this.leagueService = leagueService;
+        }
+
         // GET: League
         public async Task<ActionResult> Index()
         {
@@ -60,52 +68,6 @@ namespace Score247.Management.Site.Controllers
             }
         }
 
-        // GET: League/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: League/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: League/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: League/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
         public ActionResult SyncFlagLeague(IFormCollection collection)
         {
             try
@@ -117,6 +79,20 @@ namespace Score247.Management.Site.Controllers
             catch (Exception ex)
             {
                 return RedirectToAction(nameof(Index));
+            }
+        }
+
+        public ActionResult SyncLeagues(IFormCollection collection)
+        {
+            try
+            {
+                leagueService.SyncSportradarLeague();
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                throw;
             }
         }
     }
