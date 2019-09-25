@@ -1,16 +1,11 @@
 ﻿<Functions>
   <Function Name="League">
-    <Setting Key="League_GetLeague" SpName="League_GetLeague" DbName="DefaultConnection">
-      <Mapping DataField="LeagueCategoryId" ObjectProperty="Id" Class="LeagueCategory" />
-      <Mapping DataField="LeagueCategoryName" ObjectProperty="Name" Class="LeagueCategory" />
-      <Mapping DataField="LeagueCategoryCode" ObjectProperty="CountryCode" Class="LeagueCategory" />
-      <Mapping DataField="CountryCode" ObjectProperty="CountryCode" Class="LeagueCategory" />
-      <Mapping DataField="FlagData" ObjectProperty="FlagData" Class="LeagueCategory" />
+    <Setting Key="Admin_League_GetLeague" SpName="Admin_League_GetLeague" DbName="DevConnection">
     </Setting>
     <Setting Key="League_GetLeagueById" SpName="League_GetLeagueById" DbName="DefaultConnection">
     </Setting>
     <Setting Key="League_GetCategory" SpName="League_GetCategory" DbName="DefaultConnection" />
-    <Setting Key="League_InsertLeague" SpName="League_InsertLeague" DbName="DefaultConnection" />
+    <Setting Key="Admin_League_InsertLeague" SpName="Admin_League_InsertLeague" DbName="DevConnection" />
     <Setting Key="League_CreateLeagueCategory" SpName="League_CreateLeagueCategory" DbName="DefaultConnection" />
     <Setting Key="League_CreateLeagueSeason" SpName="League_CreateLeagueSeason" DbName="DefaultConnection" />
   </Function>

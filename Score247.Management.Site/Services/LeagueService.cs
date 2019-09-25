@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
@@ -43,14 +42,7 @@ namespace Score247.Management.Site.Services
 
             foreach (var league in leagues)
             {
-                var leagueDetail = await GetLeagueDetailInfo(leagueGroup, apiKey, league.Id);
-                if (leagueDetail.tournament == null)
-                {
-                    leagueDetail.tournament = league;
-                }
-                await InseartLeagueSeason(leagueDetail);
-                await InseartLeagueCategory(leagueDetail);
-                await InseartLeague(leagueDetail, leagueGroup);
+                await InseartLeague(league, leagueGroup);
             }
         }
 
@@ -76,80 +68,20 @@ namespace Score247.Management.Site.Services
             }
         }
 
-        private async Task<LeagueSportradarInfo> GetLeagueDetailInfo(string leagueGroup, string apiKey, string tournamentId)
-        {
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(configuration.GetValue<string>("SportradarUrl:Soccer"));
-                var requestUrl = "/soccer-p3/" + leagueGroup + "/en/tournaments/" + tournamentId + "/info.json?api_key=" + apiKey;
-                var response = await client.GetAsync(requestUrl);
-                var resBody = await response.Content.ReadAsStringAsync();
-
-                LeagueSportradarInfo league = JsonConvert.DeserializeObject<LeagueSportradarInfo>(resBody);
-
-                return league;
-            }
-        }
-
-        private async Task InseartLeagueSeason(LeagueSportradarInfo league)
-        {
-            var repo = new LeagueRepository();
-            try
-            {
-                var criteria = new CreateLeagueSeasonCriteria()
-                {
-                    SeasonId = league.tournament.LeagueSeason?.Id,
-                    SeasonName = league.tournament.LeagueSeason?.Name,
-                    StartDate = league.tournament.LeagueSeason?.StartDate != null ? league.tournament.LeagueSeason.StartDate.UtcDateTime : DateTime.MinValue,
-                    EndDate = league.tournament.LeagueSeason?.EndDate != null ? league.tournament.LeagueSeason.EndDate.UtcDateTime : DateTime.MinValue,
-                    SeasonYear = league.tournament.LeagueSeason?.Year,
-                    TournamentId = league.tournament.Id
-                };
-
-                await repo.CreateLeagueSeason(criteria);
-            }
-            catch (Exception ex)
-            {
-            }
-        }
-
-        private async Task InseartLeagueCategory(LeagueSportradarInfo league)
-        {
-            try
-            {
-                var repo = new LeagueRepository();
-                var criteria = new CreateLeagueCategoryCriteria()
-                {
-                    CategoryId = league.tournament.LeagueCategory.Id,
-                    CategoryName = league.tournament.LeagueCategory.Name,
-                    CategoryCode = league.tournament.LeagueCategory.CountryCode
-                };
-
-                await repo.CreateLeageCategory(criteria);
-            }
-            catch (Exception ex)
-            {
-            }
-        }
-
-        private async Task InseartLeague(LeagueSportradarInfo league, string region)
+        private async Task InseartLeague(League league, string region)
         {
             try
             {
                 var repo = new LeagueRepository();
                 var criteria = new CreateLeagueCriteria()
                 {
-                    LeagueId = league.tournament.Id,
-                    CategoryId = league.tournament.LeagueCategory?.Id,
-                    Country = league.tournament.LeagueCategory?.Name,
-                    CountryCode = league.tournament.LeagueCategory?.CountryCode,
-                    GroupValue = JsonConvert.SerializeObject(league.groups),
+                    LeagueId = league.Id,
+                    CategoryId = league.LeagueCategory?.Id,
+                    Country = league.LeagueCategory?.Name,
+                    CountryCode = league.LeagueCategory?.CountryCode,
                     IsActive = false,
-                    LeagueName = league.tournament.Name,
+                    LeagueName = league.Name,
                     LeagueOrder = 1000,
-                    RoundNumber = league.round != null ? league.round.number : 0,
-                    RoundType = league.round?.type,
-                    SeasonId = league.tournament.LeagueSeason?.Id,
                     Language = "en-US",
                     Region = region
                 };

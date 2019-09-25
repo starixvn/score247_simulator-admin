@@ -19,54 +19,17 @@ namespace Score247.Management.Site.Repositories.Leagues
             repository = new DynamicRepository();
         }
 
-        public async Task<IEnumerable<Score247Management.Core.Leagues.Models.League>> GetLeagues()
+        public async Task<IEnumerable<League>> GetLeagues()
         {
-            using (var objectDb = ObjectDbFactory.CreateInstance("League_GetLeague"))
-            {
-                IEnumerable<Score247Management.Core.Leagues.Models.League> leagues = objectDb.Query<Score247Management.Core.Leagues.Models.League, LeagueCategory, Score247Management.Core.Leagues.Models.League>(
-                  (league, category) =>
-                  {
-                      league.LeagueCategory = category;
-
-                      return league;
-                  }, "LeagueCategoryId");
-
-                foreach (var league in leagues)
-                {
-                    if (league.LeagueCategory.FlagData != null)
-                    {
-                        league.LeagueCategory.FlagSource = ImageHelper.ConvertImageToStringData(league.LeagueCategory.FlagData);
-                    }
-                }
-
-                return leagues.OrderBy(x => x.Name);
-            }
+            var criteria = new GetLeagueCriteria();
+            return await repository.FetchAsync<League>(criteria);
         }
 
-        public async Task<IEnumerable<Score247Management.Core.Leagues.Models.League>> GetActiveLeagues()
+        public async Task<IEnumerable<League>> GetActiveLeagues()
         {
-            using (var objectDb = ObjectDbFactory.CreateInstance("League_GetLeague"))
-            {
-                IEnumerable<Score247Management.Core.Leagues.Models.League> leagues = objectDb.Query<Score247Management.Core.Leagues.Models.League, LeagueCategory, Score247Management.Core.Leagues.Models.League>(
-                  (league, category) =>
-                  {
-                      league.LeagueCategory = category;
+            var result = await GetLeagues();
 
-                      return league;
-                  }, "LeagueCategoryId");
-
-                var result = leagues.Where(x => x.IsActive);
-
-                foreach (var league in result)
-                {
-                    if (league.LeagueCategory.FlagData != null)
-                    {
-                        league.LeagueCategory.FlagSource = ImageHelper.ConvertImageToStringData(league.LeagueCategory.FlagData);
-                    }
-                }
-
-                return result.OrderBy(x => x.Name);
-            }
+            return result.Where(x => x.IsActive);
         }
 
         public async Task<Score247Management.Core.Leagues.Models.League> GetLeagueById(string id)

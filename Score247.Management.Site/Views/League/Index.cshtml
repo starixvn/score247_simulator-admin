@@ -59,13 +59,13 @@
                     @Html.DisplayFor(modelItem => item.IsActive)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.LeagueCategory.Name)
+                    @Html.DisplayFor(modelItem => item.Country)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.LeagueCategory.CountryCode)
+                    @Html.DisplayFor(modelItem => item.CountryCode)
                 </td>
                 <td>
-                    <img style="max-height: 25px;" src="@item.LeagueCategory.FlagSource" />
+                    @*<img style="max-height: 25px;" src="@item.LeagueCategory.FlagSource" />*@
                 </td>
             </tr>
         }

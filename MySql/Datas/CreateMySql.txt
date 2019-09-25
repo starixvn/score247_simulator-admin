@@ -1,0 +1,37 @@
+CREATE TABLE `League` (
+  `Id` VARCHAR(45) NOT NULL,
+  `Name` VARCHAR(255) NULL,
+  `Leaguecol` VARCHAR(45) NULL,
+  `Order` INT NULL,
+  `CategoryId` VARCHAR(45) NULL,
+  `Country` VARCHAR(255) NULL,
+  `Region` VARCHAR(45) NULL,
+  `IsActive` TINYINT NULL DEFAULT '0',
+  `CountryCode` VARCHAR(45) NULL,
+  `Language` VARCHAR(45) NOT NULL DEFAULT 'en-US',
+  PRIMARY KEY (`Id`, `Language`));
+  
+  CREATE PROCEDURE `Admin_League_InsertLeague`(
+		IN leagueId VARCHAR(45), 
+        IN leagueName varchar(255),
+        IN leagueOrder Int,
+        IN categoryId varchar(45),
+        IN country varchar(255),
+        IN countryCode varchar(45),
+        IN region varchar(45),
+        IN isActive tinyint,
+        IN language varchar(45))
+BEGIN
+if not exists (select * from `League` where `Id` = leagueId) then
+	INSERT INTO `League`
+		(`Id`, `Name`, `Order`, `CategoryId`, `Country`, `CountryCode`,
+        `Region`, `IsActive`, `Language`)
+        VALUE (leagueId, leagueName, leagueOrder, categoryId, country, countryCode,
+        region, isActive, language);
+end if;
+END
+
+CREATE PROCEDURE `Admin_League_GetLeague`()
+BEGIN
+	SELECT * FROM League as lg Order By lg.Order;
+END

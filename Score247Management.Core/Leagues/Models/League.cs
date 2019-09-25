@@ -11,6 +11,9 @@ namespace Score247Management.Core.Leagues.Models
 
         public int Order { get; set; }
 
+        public string Country { get; set; }
+        public string CountryCode { get; set; }
+        public string Region { get; set; }
         public string Flag { get; set; }
 
         [JsonProperty("category")]
