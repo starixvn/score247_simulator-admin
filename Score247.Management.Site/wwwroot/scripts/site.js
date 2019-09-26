@@ -63,7 +63,7 @@ $(document).ready(function () {
             "orderable": true,
             "targets": 0
         }],
-        "order": [[2, 'asc']],
+        "order": [[3, 'asc']],
         "dom": '<"top"if>rt<"bottom"><"clear">',
         aLengthMenu: [
             [25, 50, 100, 200, -1],
@@ -566,6 +566,38 @@ function onBetTypeChange(matchId, betType) {
         error: function (ex) {
             console.log(ex);
             $("#oddsComparison").html(ex.responseText);
+        }
+    });
+}
+
+function GetMatchByDate(searchDate, leagueId) {
+    $.ajax({
+        async: true,
+        url: urlPrefix() + '/Match/GetMatchesByDate?searchDate=' + searchDate + "&leagueId=" + leagueId,
+        type: 'get',
+        contentType: 'application/json; charset=utf-8',
+        success: function (oddsComparisonPartial) {
+            $("#listMatches").html(oddsComparisonPartial);
+        },
+        error: function (ex) {
+            console.log(ex);
+            $("#listMatches").html(ex.responseText);
+        }
+    });
+}
+
+function GetLiveMatch() {
+    $.ajax({
+        async: true,
+        url: urlPrefix() + '/Match/GetLiveMatches',
+        type: 'get',
+        contentType: 'application/json; charset=utf-8',
+        success: function (oddsComparisonPartial) {
+            $("#listMatches").html(oddsComparisonPartial);
+        },
+        error: function (ex) {
+            console.log(ex);
+            $("#listMatches").html(ex.responseText);
         }
     });
 }

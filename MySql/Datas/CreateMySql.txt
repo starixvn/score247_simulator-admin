@@ -31,7 +31,8 @@ if not exists (select * from `League` where `Id` = leagueId) then
 end if;
 END
 
-CREATE PROCEDURE `Admin_League_GetLeague`()
+CREATE 
+PROCEDURE `Admin_League_GetLeague`()
 BEGIN
 	SELECT * FROM League as lg Order By lg.Order;
 END

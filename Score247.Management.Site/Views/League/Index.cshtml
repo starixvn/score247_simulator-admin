@@ -25,6 +25,9 @@
         <tr>
             <th></th>
             <th>
+                Id
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
@@ -47,27 +50,30 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td></td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Order)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IsActive)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Country)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CountryCode)
-                </td>
-                <td>
-                    @*<img style="max-height: 25px;" src="@item.LeagueCategory.FlagSource" />*@
-                </td>
-            </tr>
+        <tr>
+            <td></td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Order)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Country)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CountryCode)
+            </td>
+            <td>
+                @*<img style="max-height: 25px;" src="@item.LeagueCategory.FlagSource" />*@
+            </td>
+        </tr>
         }
     </tbody>
 </table>

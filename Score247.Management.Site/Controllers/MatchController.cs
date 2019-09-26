@@ -28,12 +28,14 @@ namespace Score247.Management.Site.Controllers
     public class MatchController : Controller
     {
         private IConfiguration Configuration { get; set; }
+        private readonly IMatchService matchService;
         private CreateMatchesService CreateMatchesService { get; set; }
 
-        public MatchController(IConfiguration configuration)
+        public MatchController(IConfiguration configuration, IMatchService matchService)
         {
             Configuration = configuration;
             CreateMatchesService = new CreateMatchesServiceImpl();
+            this.matchService = matchService;
         }
 
         // GET: Match
@@ -253,6 +255,31 @@ namespace Score247.Management.Site.Controllers
             await matchRepository.DeleteAllMatches();
 
             return Json(true);
+        }
+
+        [HttpGet("Match/GetMatchesByDate")]
+        public async Task<ActionResult> GetMatchesByDate(DateTime searchDate, string leagueId)
+        {
+            TimeSpan.TryParse(GetTimezone(), out TimeSpan offset);
+            var matches = await SearchMatchByDateAndLeague(searchDate, leagueId, offset);
+
+            return PartialView("NormalMatchListPartial", matches);
+        }
+
+        [HttpGet("Match/GetLiveMatches")]
+        public async Task<ActionResult> GetLiveMatches()
+        {
+            var matches = await matchService.GetLiveMatch("en-US");
+
+            return PartialView("LiveMatchListPartial", matches);
+        }
+
+        public async Task<ActionResult> CreateLiveMatch(IFormCollection collection)
+        {
+            TimeSpan.TryParse(GetTimezone(), out TimeSpan offset);
+            await matchService.CreateMatchForActiveLeagues(DateTime.Now, offset);
+
+            return RedirectToAction(nameof(Index));
         }
 
         // POST: Match/Edit/5
