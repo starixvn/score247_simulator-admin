@@ -11,9 +11,13 @@
 
     public interface ISimulatorService
     {
+        Task SendCleanExistData();
+
         Task<bool> SendScheduleOdds(OddsScheduleDto oddsSchedule);
 
         Task<HttpResponseMessage> SendDailyResult(DailyResultDto dailyResultDto);
+
+        Task<HttpResponseMessage> SendLiveResult(DailyResultDto dailyResultDto);
 
         Task<HttpResponseMessage> SendDailySchedule(DailyScheduleDto dailyResultDto);
     }
@@ -88,6 +92,22 @@
                 var requestPath = configuration.GetValue<string>("Simulator:DailySchedule");
 
                 return await client.PostAsync(string.Format(requestPath + "?date={0}", dailyResultDto.generated_at.ToString("yyyy-MM-dd")), new StringContent(jsonValue, Encoding.UTF8, "application/json"));
+            }
+        }
+
+        public async Task<HttpResponseMessage> SendLiveResult(DailyResultDto dailyResultDto)
+        {
+            var jsonValue = JsonConvert.SerializeObject(dailyResultDto);
+            var requestPath = configuration.GetValue<string>("Simulator:LiveResults");
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(configuration.GetValue<string>("Simulator:Url"));
+
+                return await client.PostAsync(
+                        string.Format(requestPath + "?date={0}",
+                        dailyResultDto.generated_at.ToString("yyyy-MM-dd")),
+                        new StringContent(jsonValue, Encoding.UTF8,
+                        "application/json"));
             }
         }
     }

@@ -211,8 +211,9 @@ namespace Score247.Management.Site.Controllers
         [HttpPost("/Match/CreateLiveMatches")]
         public async Task<JsonResult> CreateLiveMatches([FromBody] CreateDeleteMatchesModel createDeleteMatchesRequest)
         {
-            var result = await CreateMatchesService.CreateLiveMatches(createDeleteMatchesRequest, Configuration);
-            return Json(result);
+            await matchService.CreateLiveMatches(createDeleteMatchesRequest);
+
+            return Json(true);
         }
 
         [HttpPost("/Match/CreateAllSiteMatches")]
