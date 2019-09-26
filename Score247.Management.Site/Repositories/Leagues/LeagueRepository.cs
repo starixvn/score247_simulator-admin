@@ -22,14 +22,49 @@ namespace Score247.Management.Site.Repositories.Leagues
         public async Task<IEnumerable<League>> GetLeagues()
         {
             var criteria = new GetLeagueCriteria();
-            return await repository.FetchAsync<League>(criteria);
+            var leagues = await repository.FetchAsync<League>(criteria);
+            var leagueCategorys = await GetLeagueCategory();
+
+            foreach (var league in leagues)
+            {
+                var leagueCategory = leagueCategorys.FirstOrDefault(x => x.CountryCode == league.CountryCode);
+                if (leagueCategory == null)
+                {
+                    league.LeagueCategory = new LeagueCategory()
+                    {
+                        Name = league.Country
+                    };
+                }
+                else
+                {
+                    league.LeagueCategory = leagueCategory;
+                }
+            }
+
+            return leagues;
         }
 
         public async Task<IEnumerable<League>> GetActiveLeagues()
         {
-            var result = await GetLeagues();
+            var leagues = await GetLeagues();
+            var leagueCategorys = await GetLeagueCategory();
 
-            return result.Where(x => x.IsActive);
+            foreach (var league in leagues)
+            {
+                var leagueCategory = leagueCategorys.FirstOrDefault(x => x.CountryCode == league.CountryCode);
+                if (leagueCategory == null)
+                {
+                    league.LeagueCategory = new LeagueCategory()
+                    {
+                        Name = league.Country
+                    };
+                }
+                else
+                {
+                    league.LeagueCategory = leagueCategory;
+                }
+            }
+            return leagues.Where(x => x.IsActive);
         }
 
         public async Task<Score247Management.Core.Leagues.Models.League> GetLeagueById(string id)
