@@ -53,7 +53,6 @@ namespace Score247.Management.Site.Services.Matchs
             return true;
         }
 
-
         public async Task<string> CreateMatcheWithForm(IFormCollection collection, TimeSpan offset, IConfiguration configuration)
         {
             var leagueRepo = new LeagueRepository();
@@ -127,6 +126,7 @@ namespace Score247.Management.Site.Services.Matchs
 
         private static async Task SendTriggerCreateMatches(IConfiguration configuration, MatchEntity newMatch)
         {
+            await TriggerSimulatorService.SendCleanExistData(configuration);
             await TriggerSimulatorService.StartInsertMatchesJobs(configuration);
 
             var matchRepository = new MatchRepository();
