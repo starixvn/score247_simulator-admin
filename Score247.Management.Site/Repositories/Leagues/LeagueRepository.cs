@@ -69,7 +69,29 @@ namespace Score247.Management.Site.Repositories.Leagues
 
         public async Task<Score247Management.Core.Leagues.Models.League> GetLeagueById(string id)
         {
-            return (await repository.FetchAsync<Score247Management.Core.Leagues.Models.League>(new GetLeagueByIdCriteria() { Id = id })).FirstOrDefault();
+            try
+            {
+                var league = await repository.GetAsync<Score247Management.Core.Leagues.Models.League>(new GetLeagueByIdCriteria() { LeagueId = id });
+                var leagueCategorys = await GetLeagueCategory();
+                var leagueCategory = leagueCategorys.FirstOrDefault(x => x.CountryCode == league.CountryCode);
+                if (leagueCategory == null)
+                {
+                    league.LeagueCategory = new LeagueCategory()
+                    {
+                        Name = league.Country
+                    };
+                }
+                else
+                {
+                    league.LeagueCategory = leagueCategory;
+                }
+
+                return league;
+            }
+            catch (System.Exception ex)
+            {
+                throw;
+            }
         }
 
         public async Task<IEnumerable<Score247Management.Core.Leagues.Models.LeagueCategory>> GetLeagueCategory()

@@ -4,10 +4,10 @@ namespace Score247.Management.Site.Criterias.League
 {
     public class GetLeagueByIdCriteria : CriteriaBase
     {
-        public string Id { get; set; }
+        public string LeagueId { get; set; }
 
         public override string GetSettingKey()
-            => "League_GetLeagueById";
+            => "League_GetById";
 
         public override bool IsValid() => true;
     }

@@ -2,7 +2,7 @@
   <Function Name="League">
     <Setting Key="Admin_League_GetLeague" SpName="Admin_League_GetLeague" DbName="DevConnection">
     </Setting>
-    <Setting Key="League_GetLeagueById" SpName="League_GetLeagueById" DbName="DefaultConnection">
+    <Setting Key="League_GetById" SpName="League_GetById" DbName="DevConnection">
     </Setting>
     <Setting Key="League_GetCategory" SpName="League_GetCategory" DbName="DefaultConnection" />
     <Setting Key="Admin_League_InsertLeague" SpName="Admin_League_InsertLeague" DbName="DevConnection" />
