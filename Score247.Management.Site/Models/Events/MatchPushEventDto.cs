@@ -76,15 +76,15 @@ namespace Score247.Management.Site.Models.Events
             {
                 aggregate_away_score = match.LatestTimeline != null ? match.LatestTimeline.AwayScore : 0,
                 aggregate_home_score = match.LatestTimeline != null ? match.LatestTimeline.HomeScore : 0,
-                aggregate_winner_id = match.MatchResult.AggregateWinnerId,
+                aggregate_winner_id = match.MatchResult?.AggregateWinnerId,
                 away_score = match.LatestTimeline != null ? match.LatestTimeline.AwayScore : 0,
                 clock = new Clock { match_time = "00:00" },
                 home_score = match.LatestTimeline != null ? match.LatestTimeline.HomeScore : 0,
-                match_status = match.MatchResult.MatchStatus.DisplayName,
-                period = match.MatchResult.Period,
+                match_status = match.MatchResult?.MatchStatus?.DisplayName,
+                period = match.MatchResult != null ? match.MatchResult.Period : 0,
                 period_scores = matchPeriodsScores,
                 status = "live",
-                winner_id = match.MatchResult.WinnerId
+                winner_id = match.MatchResult?.WinnerId
             };
 
             var latestTime = match.LatestTimeline != null ? match.LatestTimeline.Time.Add(offset) : match.EventDate;
