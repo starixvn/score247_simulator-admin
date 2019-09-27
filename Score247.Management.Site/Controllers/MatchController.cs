@@ -59,6 +59,9 @@ namespace Score247.Management.Site.Controllers
             viewModal.Matches = matches;
             viewModal.CreateDeleteMatchesModels = CreateDeleteMatchesModel.CreateFromToDay();
             viewModal.QuickDateSelectOptions = GenerateQuickDateSelectOptions(offset);
+
+            TempData["SearchDate"] = timeNow;
+            TempData["LeagueId"] = "all";
             return View(viewModal);
         }
 
@@ -117,6 +120,9 @@ namespace Score247.Management.Site.Controllers
             viewModal.Matches = matches;
             viewModal.CreateDeleteMatchesModels = CreateDeleteMatchesModel.CreateFromToDay();
             viewModal.QuickDateSelectOptions = GenerateQuickDateSelectOptions(offset);
+
+            TempData["SearchDate"] = searchDate;
+            TempData["LeagueId"] = selectedLeagueId;
             return View("Index", viewModal);
         }
 
@@ -263,6 +269,9 @@ namespace Score247.Management.Site.Controllers
         {
             TimeSpan.TryParse(GetTimezone(), out TimeSpan offset);
             var matches = await SearchMatchByDateAndLeague(searchDate, leagueId, offset);
+
+            TempData["SearchDate"] = searchDate;
+            TempData["LeagueId"] = leagueId;
 
             return PartialView("NormalMatchListPartial", matches);
         }
