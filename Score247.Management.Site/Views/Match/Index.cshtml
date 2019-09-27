@@ -27,10 +27,11 @@
         </button>
     }
 
-    <div class="icon-calendar mr-3"></div>
+    <div id="showHideSearchDate" class="icon-calendar mr-3" onclick="ShowHideSearchDate()"></div>
 </form>
-
-<partial name="_DateRangeSearch" model="Model.DateSearchModel" />
+<div id="dateRangeSearch" class="d-none">
+    <partial name="_DateRangeSearch" model="Model.DateSearchModel" />
+</div>
 <div id="loadingDiv" class="spinner-grow" role="status">
     <span class="sr-only">Loading...</span>
 </div>

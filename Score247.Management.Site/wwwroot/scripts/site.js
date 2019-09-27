@@ -674,3 +674,10 @@ function HideLoadingSpinner(divId) {
     $('#loadingDiv').hide();
     $(divId).show();
 }
+function ShowHideSearchDate() {
+    if ($('#dateRangeSearch').hasClass("d-none")) {
+        $('#dateRangeSearch').removeClass("d-none");
+    } else {
+        $('#dateRangeSearch').addClass("d-none");
+    }
+}
