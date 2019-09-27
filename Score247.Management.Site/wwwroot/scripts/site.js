@@ -257,8 +257,6 @@ $(document).ready(function () {
     });
 
     $('#btnCreateLiveMatches').click(function (event) {
-        $("#CreateMatchesSpinner").removeClass("d-none");
-        event.preventDefault();
         SendCreateLiveMatches();
     });
     $('#btnDeleteLiveMatches').click(function (event) {
@@ -375,11 +373,15 @@ function SendDeleteMatchesByDate(prefixType) {
 }
 
 function SendCreateLiveMatches() {
-    var limitMatches = $('#LiveCount').val();
-    var leagueLimit = $('#LeagueInputLimit').val();
-    var createDeleteMatchesRequest = {
-        Count: limitMatches,
-        LeagueLimit: leagueLimit
+    var preMatchCount = $('#LivePreCount').val();
+    var liveMatchCount = $('#LiveCount').val();
+    var postMatchCount = $('#LivePostCount').val();
+
+    var createLiveMatchModel = {
+        LiveCount: liveMatchCount,
+        PreCount: preMatchCount,
+        PostCount: postMatchCount,
+        LeagueLimit: '100'
     };
 
     $.ajax({
@@ -387,9 +389,8 @@ function SendCreateLiveMatches() {
         url: urlPrefix() + "/Match/CreateLiveMatches",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
-        data: JSON.stringify(createDeleteMatchesRequest),
+        data: JSON.stringify(createLiveMatchModel),
         success: function () {
-            $("#CreateMatchesSpinner").addClass("d-none");
         },
         error: function () {
         }
@@ -578,10 +579,12 @@ function GetMatchByDate(searchDate, leagueId) {
         contentType: 'application/json; charset=utf-8',
         success: function (oddsComparisonPartial) {
             $("#listMatches").html(oddsComparisonPartial);
+            TriggerMatchDatatable();
         },
         error: function (ex) {
             console.log(ex);
             $("#listMatches").html(ex.responseText);
+            TriggerMatchDatatable();
         }
     });
 }
@@ -594,10 +597,18 @@ function GetLiveMatch() {
         contentType: 'application/json; charset=utf-8',
         success: function (oddsComparisonPartial) {
             $("#listMatches").html(oddsComparisonPartial);
+            $('#btnCreateLiveMatches').click(function (event) {
+                SendCreateLiveMatches();
+            });
+            TriggerMatchDatatable();
         },
         error: function (ex) {
             console.log(ex);
             $("#listMatches").html(ex.responseText);
+            $('#btnCreateLiveMatches').click(function (event) {
+                SendCreateLiveMatches();
+            });
+            TriggerMatchDatatable();
         }
     });
 }
@@ -612,6 +623,34 @@ function CloseLiveMatch(matchId) {
         },
         error: function (ex) {
             console.log(ex);
+        }
+    });
+}
+
+function TriggerMatchDatatable() {
+    var m = $('#mathes-table').DataTable({
+        "columnDefs": [{
+            "searchable": true,
+            "orderable": true,
+            "targets": 0
+        }],
+        "dom": '<"top"if>rt<"bottom"><"clear">',
+        iDisplayLength: -1
+    });
+
+    m.on('order.dt search.dt', function () {
+        m.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+            cell.innerHTML = i + 1;
+        });
+    }).draw();
+
+    $('#mathes-table tbody').on('click', 'tr.group', function () {
+        var currentOrder = table.order()[0];
+        if (currentOrder[0] === groupColumn && currentOrder[1] === 'asc') {
+            table.order([groupColumn, 'desc']).draw();
+        }
+        else {
+            table.order([groupColumn, 'asc']).draw();
         }
     });
 }

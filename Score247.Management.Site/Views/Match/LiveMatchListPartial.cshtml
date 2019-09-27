@@ -1,5 +1,23 @@
 ﻿@model IEnumerable<Score247Management.Core.Matches.Models.MatchSummary>
-
+<div>
+    <div class="form-row">
+        <div class="form-group col-md-1">
+            <label>Post Count:</label>
+            <input id="LivePostCount" class="form-control" name="LivePostCount" type="text" value="0" />
+        </div>
+        <div class="form-group col-md-1">
+            <label>Live Count:</label>
+            <input id="LiveCount" class="form-control" name="LiveCount" type="text" value="0" />
+        </div>
+        <div class="form-group col-md-1">
+            <label>Pre Count:</label>
+            <input id="LivePreCount" class="form-control" name="LivePreCount" type="text" value="0" />
+        </div>
+        <div class="form-group col-md-1 my-auto">
+            <button id="btnCreateLiveMatches" class="btn-default">Create</button>
+        </div>
+    </div>
+</div>
 <table id="mathes-table" class="table table-striped table-bordered" style="width:100%">
     <thead>
         <tr>
@@ -62,3 +80,16 @@
         }
     </tbody>
 </table>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function ()
+		{
+			$('#btnCreateLiveMatches').click(function (event) {
+            SendCreateLiveMatches();
+        });
+		});
+        
+    </script>
+}

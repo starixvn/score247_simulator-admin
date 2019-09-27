@@ -209,9 +209,9 @@ namespace Score247.Management.Site.Controllers
         }
 
         [HttpPost("/Match/CreateLiveMatches")]
-        public async Task<JsonResult> CreateLiveMatches([FromBody] CreateDeleteMatchesModel createDeleteMatchesRequest)
+        public async Task<JsonResult> CreateLiveMatches([FromBody] CreateLiveMatchModel createLiveMatchModel)
         {
-            await matchService.CreateLiveMatches(createDeleteMatchesRequest);
+            await matchService.CreateLiveMatches(createLiveMatchModel);
 
             return Json(true);
         }
@@ -283,7 +283,7 @@ namespace Score247.Management.Site.Controllers
             return Json(true);
         }
 
-        public async Task<ActionResult> CreateLiveMatch(IFormCollection collection)
+        public async Task<ActionResult> CreateActiveLeagueMatch(IFormCollection collection)
         {
             TimeSpan.TryParse(GetTimezone(), out TimeSpan offset);
             await matchService.CreateMatchForActiveLeagues(DateTime.Now, offset);

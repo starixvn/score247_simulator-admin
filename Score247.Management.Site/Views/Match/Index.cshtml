@@ -13,7 +13,7 @@
 <form class="list-quick-action">
     <button asp-action="Create" class="btn-default">New Match</button>
     <button type="button" class="btn-default" data-toggle="modal" data-target="#CreateDeleteMatchesByDate">Create/Delete Matches</button>
-    <button asp-action="CreateLiveMatch" class="btn-default">Create Match For Active Leagues</button>
+    <button asp-action="CreateActiveLeagueMatch" class="btn-default">Create Match For Active Leagues</button>
 </form>
 <form class="list-quick-action">
     <div class="icon-live-match mr-3" onclick="GetLiveMatch()"></div>
@@ -58,12 +58,6 @@
                 <div class="row-create-match">
                     <label>League Limit: </label>
                     <input asp-for="CreateMatchLeagueLimit" id="LeagueInputLimit" class="form-control" value="100" onchange="UpdateLimitMatchInput(this.value)" />
-                </div>
-                <div class="row-create-match">
-                    <label>Live</label>
-                    <input id="LiveCount" class="form-control" name="LiveCount" type="text" value="0" />
-                    <button id="btnCreateLiveMatches" class="btn-default">Create</button>
-                    <button id="btnDeleteLiveMatches" class="btn-delete">Delete</button>
                 </div>
                 <div class="row-create-match">
                     <label>@Model.CreateDeleteMatchesModels[0].DisplayDate</label>

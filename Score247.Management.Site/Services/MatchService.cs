@@ -24,7 +24,7 @@ namespace Score247.Management.Site.Services
 
         Task<IEnumerable<Score247Management.Core.Matches.Models.MatchSummary>> GetLiveMatch(string language);
 
-        Task CreateLiveMatches(CreateDeleteMatchesModel createDeleteMatchesRequest);
+        Task CreateLiveMatches(CreateLiveMatchModel createLiveMatchModel);
 
         Task CloseLiveMatch(string matchId);
     }
@@ -244,13 +244,13 @@ namespace Score247.Management.Site.Services
             return 1;
         }
 
-        public async Task CreateLiveMatches(CreateDeleteMatchesModel createDeleteMatchesRequest)
+        public async Task CreateLiveMatches(CreateLiveMatchModel createLiveMatchModel)
         {
             await simulatorService.SendCleanExistData();
-            await CreateLiveMatches(createDeleteMatchesRequest.Count, createDeleteMatchesRequest.LeagueLimit);
+            await CreateLiveMatches(createLiveMatchModel.PostCount, createLiveMatchModel.LiveCount, createLiveMatchModel.PreCount, createLiveMatchModel.LeagueLimit);
         }
 
-        private async Task CreateLiveMatches(int count, int leagueLimit)
+        private async Task CreateLiveMatches(int postCount, int liveCount, int preCount, int leagueLimit)
         {
             try
             {
@@ -270,21 +270,18 @@ namespace Score247.Management.Site.Services
                      .ToList();
                 var activeLeagues = (await leagueRepo.GetActiveLeagues()).ToList();
 
-                int subCount = count / 3;
                 var dailyResults = new List<Repositories.Matches.Models.Result>();
                 var matches = new List<MatchEntity>();
 
-                var prematch = GenerateLivePreMatches(subCount, leagueLimit, activeLeagues, teams);
+                var prematch = GenerateLivePreMatches(preCount, leagueLimit, activeLeagues, teams);
                 dailyResults.AddRange(prematch);
                 matches.AddRange(prematch.Select(x => x.sport_event).ToList());
 
-                subCount = count - subCount;
-                var postMatch = GenerateLivePostMatches(subCount, leagueLimit, activeLeagues, teams);
+                var postMatch = GenerateLivePostMatches(postCount, leagueLimit, activeLeagues, teams);
                 dailyResults.AddRange(postMatch);
                 matches.AddRange(postMatch.Select(x => x.sport_event).ToList());
 
-                subCount = count - subCount;
-                var liveMatch = GenerateLiveMatches(subCount, leagueLimit, activeLeagues, teams);
+                var liveMatch = GenerateLiveMatches(liveCount, leagueLimit, activeLeagues, teams);
                 dailyResults.AddRange(liveMatch);
                 matches.AddRange(liveMatch.Select(x => x.sport_event).ToList());
 
