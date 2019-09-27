@@ -31,7 +31,9 @@
 </form>
 
 <partial name="_DateRangeSearch" model="Model.DateSearchModel" />
-
+<div id="loadingDiv" class="spinner-grow" role="status">
+    <span class="sr-only">Loading...</span>
+</div>
 <div id="listMatches">
     <partial name="NormalMatchListPartial" model="Model.Matches" />
 </div>

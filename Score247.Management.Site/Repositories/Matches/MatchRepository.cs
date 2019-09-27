@@ -412,8 +412,15 @@ namespace Score247.Management.Site.Repositories.Matches
 
         public async Task<int> DeleteMatchByDate(DateTime fromDate, DateTime toDate, int limitCount)
         {
-            var criteria = new DeleteMatchByDateCriteria() { FromDate = fromDate, ToDate = toDate, LimitCount = limitCount };
-            return await repository.ExecuteAsync(criteria);
+            try
+            {
+                var criteria = new DeleteMatchByDateCriteria() { FromDate = fromDate, ToDate = toDate, LimitCount = limitCount };
+                return await repository.ExecuteAsync(criteria);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         public async Task<int> DeleteMatchById(string id)

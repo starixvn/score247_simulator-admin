@@ -16,6 +16,7 @@ $(document).ready(function () {
     //    $('#inputTimezone').val(timezone);
     //}
     $('#inputTimezone').val();
+    $('#loadingDiv').hide();
     var tlt = $('#TimelineTable').DataTable({
         "columnDefs": [{
             "searchable": false,
@@ -572,6 +573,7 @@ function onBetTypeChange(matchId, betType) {
 }
 
 function GetMatchByDate(searchDate, leagueId) {
+    ShowLoadingSpinner('#listMatches');
     $.ajax({
         async: true,
         url: urlPrefix() + '/Match/GetMatchesByDate?searchDate=' + searchDate + "&leagueId=" + leagueId,
@@ -579,17 +581,20 @@ function GetMatchByDate(searchDate, leagueId) {
         contentType: 'application/json; charset=utf-8',
         success: function (oddsComparisonPartial) {
             $("#listMatches").html(oddsComparisonPartial);
+            HideLoadingSpinner('#listMatches');
             TriggerMatchDatatable();
         },
         error: function (ex) {
             console.log(ex);
             $("#listMatches").html(ex.responseText);
+            HideLoadingSpinner('#listMatches');
             TriggerMatchDatatable();
         }
     });
 }
 
 function GetLiveMatch() {
+    ShowLoadingSpinner('#listMatches');
     $.ajax({
         async: true,
         url: urlPrefix() + '/Match/GetLiveMatches',
@@ -597,6 +602,7 @@ function GetLiveMatch() {
         contentType: 'application/json; charset=utf-8',
         success: function (oddsComparisonPartial) {
             $("#listMatches").html(oddsComparisonPartial);
+            HideLoadingSpinner('#listMatches');
             $('#btnCreateLiveMatches').click(function (event) {
                 SendCreateLiveMatches();
             });
@@ -605,6 +611,7 @@ function GetLiveMatch() {
         error: function (ex) {
             console.log(ex);
             $("#listMatches").html(ex.responseText);
+            HideLoadingSpinner('#listMatches');
             $('#btnCreateLiveMatches').click(function (event) {
                 SendCreateLiveMatches();
             });
@@ -614,15 +621,18 @@ function GetLiveMatch() {
 }
 
 function CloseLiveMatch(matchId) {
+    ShowLoadingSpinner('#listMatches');
     $.ajax({
         async: true,
         url: urlPrefix() + '/Match/CloseLiveMatch?matchId=' + matchId,
         type: 'post',
         contentType: 'application/json; charset=utf-8',
         success: function (oddsComparisonPartial) {
+            HideLoadingSpinner('#listMatches');
         },
         error: function (ex) {
             console.log(ex);
+            HideLoadingSpinner('#listMatches');
         }
     });
 }
@@ -653,4 +663,14 @@ function TriggerMatchDatatable() {
             table.order([groupColumn, 'asc']).draw();
         }
     });
+}
+
+function ShowLoadingSpinner(divId) {
+    $('#loadingDiv').show();
+    $(divId).hide();
+}
+
+function HideLoadingSpinner(divId) {
+    $('#loadingDiv').hide();
+    $(divId).show();
 }
