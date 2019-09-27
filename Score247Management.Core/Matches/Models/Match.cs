@@ -13,6 +13,7 @@
 
         public string DisplayDate => EventDate.ToUniversalTime().ToString("dd/MM/yyyy HH:mm:ss");
 
+        public DateTimeOffset CurrentPeriodStartTime { get; set; }
         public IEnumerable<Team> Teams { get; set; }
 
         public MatchResult MatchResult { get; set; }

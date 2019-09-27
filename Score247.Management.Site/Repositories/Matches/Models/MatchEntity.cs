@@ -59,7 +59,6 @@ namespace Score247.Management.Site.Repositories.Matches.Models
                 Group = "A"
             };
             Tournament = league;
-
             Id = UniqueGenerator.GetIdWithPattern("sr:match:");
             homeTeam.Statistic = new TeamStatistics();
             homeTeam.qualifier = "home";

@@ -1,7 +1,9 @@
 ﻿namespace Score247Management.Core._Shared.Enumerations
 {
+    using MessagePack;
     using Score247Management.Core.Enumerations;
 
+    [MessagePackObject]
     public class EventType : Enumeration
     {
         //break_start

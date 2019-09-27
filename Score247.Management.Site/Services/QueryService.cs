@@ -11,7 +11,7 @@ namespace Score247.Management.Site.Services
 {
     public interface IQueryService
     {
-        Task<IEnumerable<Match>> GetLiveMatches(string language);
+        Task<IEnumerable<MatchSummary>> GetLiveMatches(string language);
     }
 
     public class QueryService : IQueryService
@@ -23,24 +23,30 @@ namespace Score247.Management.Site.Services
             this.configuration = configuration;
         }
 
-        public async Task<IEnumerable<Match>> GetLiveMatches(string language)
+        public async Task<IEnumerable<MatchSummary>> GetLiveMatches(string language)
         {
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(configuration.GetValue<string>("QueryApi:Url"));
 
-                var requestPath = $"/soccer/{language}/matches/live";
+                var requestPath = $"api/soccer/{language}/matches/live";
                 var responseMessage = await client.GetAsync(requestPath);
 
                 if (responseMessage.IsSuccessStatusCode)
                 {
-                    var bytes = await responseMessage.Content.ReadAsByteArrayAsync();
+                    try
+                    {
+                        var bytes = await responseMessage.Content.ReadAsByteArrayAsync();
 
-                    return MessagePackSerializer.Deserialize<IEnumerable<Match>>(bytes);
+                        return MessagePackSerializer.Deserialize<IEnumerable<MatchSummary>>(bytes);
+                    }
+                    catch (Exception ex)
+                    {
+                    }
                 }
             }
 
-            return new List<Match>();
+            return new List<MatchSummary>();
         }
     }
 }
