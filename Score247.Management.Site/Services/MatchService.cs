@@ -319,8 +319,9 @@ namespace Score247.Management.Site.Services
                 else
                 {
                     content.generated_at = DateTime.UtcNow;
-                    dailyResults.ToList().AddRange(content.results);
-                    content.results = dailyResults;
+                    var newLiveMatches = dailyResults.ToList();
+                    newLiveMatches.AddRange(content.results);
+                    content.results = newLiveMatches;
                 }
 
                 await SaveLiveMatchToFile(content);

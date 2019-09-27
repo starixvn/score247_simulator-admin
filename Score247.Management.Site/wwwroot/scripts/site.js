@@ -609,11 +609,9 @@ function CloseLiveMatch(matchId) {
         type: 'post',
         contentType: 'application/json; charset=utf-8',
         success: function (oddsComparisonPartial) {
-            $("#listMatches").html(oddsComparisonPartial);
         },
         error: function (ex) {
             console.log(ex);
-            $("#listMatches").html(ex.responseText);
         }
     });
 }
