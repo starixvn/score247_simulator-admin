@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -24,10 +25,13 @@ namespace Score247.Management.Site.Services
         Task<IEnumerable<Score247Management.Core.Matches.Models.MatchSummary>> GetLiveMatch(string language);
 
         Task CreateLiveMatches(CreateDeleteMatchesModel createDeleteMatchesRequest);
+
+        Task CloseLiveMatch(string matchId);
     }
 
     public class MatchService : IMatchService
     {
+        private readonly string DirectoryRoot = AppDomain.CurrentDomain.BaseDirectory + "/App_Data";
         private readonly IConfiguration configuration;
         private readonly ISimulatorService simulatorService;
         private readonly IQueryService queryService;
@@ -302,13 +306,24 @@ namespace Score247.Management.Site.Services
 
                     return result;
                 }).ToList();
-
-                var content = new Repositories.Matches.Models.DailyResultDto
+                var content = await ReadLiveMatchFromFile();
+                if (content == null)
                 {
-                    generated_at = createDate,
-                    schema = "Matches",
-                    results = dailyResults
-                };
+                    content = new Repositories.Matches.Models.DailyResultDto
+                    {
+                        generated_at = createDate,
+                        schema = "Matches",
+                        results = dailyResults
+                    };
+                }
+                else
+                {
+                    content.generated_at = DateTime.UtcNow;
+                    dailyResults.ToList().AddRange(content.results);
+                    content.results = dailyResults;
+                }
+
+                await SaveLiveMatchToFile(content);
 
                 await simulatorService.SendLiveResult(content);
                 await triggerJobService.TriggerFetchLiveMatch();
@@ -316,6 +331,37 @@ namespace Score247.Management.Site.Services
             catch (Exception ex)
             {
                 throw;
+            }
+        }
+
+        private async Task SaveLiveMatchToFile(Repositories.Matches.Models.DailyResultDto content)
+        {
+            var resultFolder = $"{DirectoryRoot}/live";
+            System.IO.Directory.CreateDirectory(resultFolder);
+
+            var path = $"{resultFolder}/live.json";
+            var json = JsonConvert.SerializeObject(content);
+
+            System.IO.Directory.CreateDirectory(resultFolder);
+            await System.IO.File.WriteAllTextAsync(path, json);
+        }
+
+        private async Task<Repositories.Matches.Models.DailyResultDto> ReadLiveMatchFromFile()
+        {
+            try
+            {
+                var resultFolder = $"{DirectoryRoot}/live";
+                System.IO.Directory.CreateDirectory(resultFolder);
+
+                var path = $"{resultFolder}/live.json";
+                var jsonData = await File.ReadAllTextAsync(path);
+                var content = JsonConvert.DeserializeObject<Repositories.Matches.Models.DailyResultDto>(jsonData);
+
+                return content;
+            }
+            catch (Exception ex)
+            {
+                return null;
             }
         }
 
@@ -472,6 +518,22 @@ namespace Score247.Management.Site.Services
             };
             await simulatorService.SendCleanExistData();
             await simulatorService.SendDailySchedule(content);
+        }
+
+        public async Task CloseLiveMatch(string matchId)
+        {
+            var content = await ReadLiveMatchFromFile();
+            if (content != null)
+            {
+                var newLiveMatches = content.results.Where(x => x.sport_event.Id != matchId);
+                content.results = newLiveMatches;
+                content.generated_at = DateTime.UtcNow;
+
+                await SaveLiveMatchToFile(content);
+
+                await simulatorService.SendLiveResult(content);
+                await triggerJobService.TriggerFetchLiveMatch();
+            }
         }
     }
 }

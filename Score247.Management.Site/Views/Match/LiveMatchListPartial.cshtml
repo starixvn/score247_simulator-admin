@@ -56,9 +56,7 @@
                 </td>
                 <td style="font-size:x-small;">
                     @Html.ActionLink("Main Events", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Odds", "Index", "Odds", new { id = item.Id }) |
-                    @*@Html.ActionLink("Hightlights", "Index", new { })  |*@
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    <span onclick="CloseLiveMatch(`@item.Id`)">Closed</span>
                 </td>
             </tr>
         }

@@ -275,6 +275,14 @@ namespace Score247.Management.Site.Controllers
             return PartialView("LiveMatchListPartial", matches);
         }
 
+        [HttpPost("Match/CloseLiveMatch")]
+        public async Task<ActionResult> CloseLiveMatch(string matchId)
+        {
+            await matchService.CloseLiveMatch(matchId);
+
+            return Json(true);
+        }
+
         public async Task<ActionResult> CreateLiveMatch(IFormCollection collection)
         {
             TimeSpan.TryParse(GetTimezone(), out TimeSpan offset);

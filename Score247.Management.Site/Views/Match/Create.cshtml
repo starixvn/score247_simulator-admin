@@ -7,7 +7,7 @@
     IEnumerable<SelectListItem> tournaments = Model.Tournaments
                                            .Select(i => new SelectListItem()
                                            {
-                                               Text = i.Name,
+                                               Text = i.Country + " " + i.Name,
                                                Value = i.Id
                                            });
     IEnumerable<SelectListItem> teams = Model.Teams
