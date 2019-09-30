@@ -385,36 +385,31 @@ namespace Score247.Management.Site.Services
         {
             var ran = new Random();
             List<Result> result = new List<Result>();
-            int matchPerLeague;
             int splitTeamPosition = (teams.Count - 1) / 2;
 
             for (int i = 0; i < subCount; i++)
             {
                 var league = activeLeagues[ran.Next(0, activeLeagues.Count - 1)];
-                matchPerLeague = ran.Next(1, (int)Math.Sqrt(subCount));
 
-                for (int j = 0; j < matchPerLeague; j++)
+                var eventDate = GetEventForLiveDate(DateTime.Now, ran.Next(1, 5));
+
+                var indexHome = ran.Next(0, splitTeamPosition);
+                var homeTeam = teams[indexHome];
+
+                var indexAway = ran.Next(splitTeamPosition + 1, teams.Count - 1);
+                var awaitTeam = teams[indexAway];
+                var matchEntity = new MatchEntity(
+                    league,
+                    homeTeam,
+                    awaitTeam,
+                    eventDate);
+                matchEntity.MatchStatus = MatchStatus.Ended.DisplayName;
+                matchEntity.Status = MatchStatus.Closed.DisplayName;
+                result.Add(new Result()
                 {
-                    var eventDate = GetEventForLiveDate(DateTime.Now, ran.Next(1, 5));
-
-                    var indexHome = ran.Next(0, splitTeamPosition);
-                    var homeTeam = teams[indexHome];
-
-                    var indexAway = ran.Next(splitTeamPosition + 1, teams.Count - 1);
-                    var awaitTeam = teams[indexAway];
-                    var matchEntity = new MatchEntity(
-                        league,
-                        homeTeam,
-                        awaitTeam,
-                        eventDate);
-                    matchEntity.MatchStatus = MatchStatus.Ended.DisplayName;
-                    matchEntity.Status = MatchStatus.Closed.DisplayName;
-                    result.Add(new Result()
-                    {
-                        sport_event = matchEntity,
-                        sport_event_status = RandomMatchEventStatus(matchEntity.Competitors.ElementAtOrDefault(0).Id, matchEntity.Competitors.ElementAtOrDefault(1).Id)
-                    });
-                }
+                    sport_event = matchEntity,
+                    sport_event_status = RandomMatchEventStatus(matchEntity.Competitors.ElementAtOrDefault(0).Id, matchEntity.Competitors.ElementAtOrDefault(1).Id)
+                });
             }
 
             return result;
@@ -429,41 +424,35 @@ namespace Score247.Management.Site.Services
         {
             var ran = new Random();
             List<Result> result = new List<Result>();
-            int matchPerLeague;
             int splitTeamPosition = (teams.Count - 1) / 2;
 
             for (int i = 0; i < subCount; i++)
             {
                 var league = activeLeagues[ran.Next(0, activeLeagues.Count - 1)];
-                matchPerLeague = ran.Next(1, (int)Math.Sqrt(subCount));
+                var eventDate = GetEventForLiveDate(DateTime.Now, ran.Next(-5, 1));
 
-                for (int j = 0; j < matchPerLeague; j++)
+                var indexHome = ran.Next(0, splitTeamPosition);
+                var homeTeam = teams[indexHome];
+
+                var indexAway = ran.Next(splitTeamPosition + 1, teams.Count - 1);
+                var awaitTeam = teams[indexAway];
+
+                var matchEntity = new MatchEntity(
+                    league,
+                    homeTeam,
+                    awaitTeam,
+                    eventDate);
+
+                matchEntity.MatchStatus = null;
+                matchEntity.Status = null;
+                result.Add(new Result()
                 {
-                    var eventDate = GetEventForLiveDate(DateTime.Now, ran.Next(-5, 1));
-
-                    var indexHome = ran.Next(0, splitTeamPosition);
-                    var homeTeam = teams[indexHome];
-
-                    var indexAway = ran.Next(splitTeamPosition + 1, teams.Count - 1);
-                    var awaitTeam = teams[indexAway];
-
-                    var matchEntity = new MatchEntity(
-                        league,
-                        homeTeam,
-                        awaitTeam,
-                        eventDate);
-
-                    matchEntity.MatchStatus = null;
-                    matchEntity.Status = null;
-                    result.Add(new Result()
+                    sport_event = matchEntity,
+                    sport_event_status = new Sport_Event_Status()
                     {
-                        sport_event = matchEntity,
-                        sport_event_status = new Sport_Event_Status()
-                        {
-                            status = "not_started"
-                        }
-                    });
-                }
+                        status = "not_started"
+                    }
+                });
             }
 
             return result;
