@@ -528,10 +528,10 @@ namespace Score247.Management.Site.Services
                 content.generated_at = DateTime.UtcNow;
 
                 await SaveLiveMatchToFile(content);
-
-                await simulatorService.SendLiveResult(content);
-                await triggerJobService.TriggerFetchLiveMatch();
             }
+
+            await simulatorService.SendLiveResult(content);
+            await triggerJobService.TriggerFetchLiveMatch();
         }
     }
 }
