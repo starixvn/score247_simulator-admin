@@ -149,6 +149,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="App_Data\live\" />
     <Folder Include="wwwroot\bundles\" />
   </ItemGroup>
 </Project>

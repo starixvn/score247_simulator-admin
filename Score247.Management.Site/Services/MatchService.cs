@@ -339,7 +339,7 @@ namespace Score247.Management.Site.Services
 
         private async Task SaveLiveMatchToFile(DailyResultDto content)
         {
-            var resultFolder = $"{DirectoryRoot}/live";
+            var resultFolder = $"{DirectoryRoot}";
             System.IO.Directory.CreateDirectory(resultFolder);
             var path = $"{resultFolder}/live.json";
             var json = JsonConvert.SerializeObject(content);
@@ -353,7 +353,7 @@ namespace Score247.Management.Site.Services
         {
             try
             {
-                var resultFolder = $"{DirectoryRoot}/live";
+                var resultFolder = $"{DirectoryRoot}";
                 System.IO.Directory.CreateDirectory(resultFolder);
 
                 var path = $"{resultFolder}/live.json";
