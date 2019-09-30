@@ -155,7 +155,6 @@ namespace Score247.Management.Site.Services.Matchs
         {
             var createDate = new DateTime(createDeleteMatchesRequest.EventDate.Year, createDeleteMatchesRequest.EventDate.Month, createDeleteMatchesRequest.EventDate.Day, 0, 0, 0, DateTimeKind.Utc);
 
-            var matchRepository = new MatchRepository();
 
             await simulatorService.SendCleanExistData();
             await CreateMatches(createDate, createDeleteMatchesRequest.Count, offset, createDeleteMatchesRequest.LeagueLimit);
