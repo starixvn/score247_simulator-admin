@@ -55,7 +55,7 @@ namespace Score247.Management.Site.Services
 
         public async Task TriggerCreateMatchJobs()
         {
-            var jobs = new List<string>() { "FetchPreMatch", "FetchPostMatch", "FetchLiveMatch" };
+            var jobs = new List<string>() { "FetchPreMatch", "FetchPostMatch" };
 
             await TriggerJobs(jobs);
         }

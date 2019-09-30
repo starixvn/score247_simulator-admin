@@ -293,8 +293,8 @@ namespace Score247.Management.Site.Services
 
                 matches = matches.Select(result =>
                 {
-                    result.Status = "not_started";
-                    result.MatchStatus = MatchStatus.NotStarted.DisplayName;
+                    result.Status = MatchStatus.NotStarted.DisplayName;
+                    result.MatchStatus = null;
                     return result;
                 }).ToList();
 
@@ -362,7 +362,7 @@ namespace Score247.Management.Site.Services
 
                 return content;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
@@ -453,8 +453,8 @@ namespace Score247.Management.Site.Services
                         awaitTeam,
                         eventDate);
 
-                    matchEntity.MatchStatus = MatchStatus.NotStarted.DisplayName;
-                    matchEntity.Status = MatchStatus.NotStarted.DisplayName;
+                    matchEntity.MatchStatus = null;
+                    matchEntity.Status = null;
                     result.Add(new Result()
                     {
                         sport_event = matchEntity,
