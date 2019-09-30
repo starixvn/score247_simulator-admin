@@ -531,10 +531,18 @@ namespace Score247.Management.Site.Services
                 var newLiveMatches = content.results.Where(x => x.sport_event.Id != matchId);
                 content.results = newLiveMatches;
                 content.generated_at = DateTime.UtcNow;
-
-                await SaveLiveMatchToFile(content);
+            }
+            else
+            {
+                content = new DailyResultDto()
+                {
+                    generated_at = DateTime.UtcNow,
+                    results = new List<Result>(),
+                    schema = "Matches"
+                };
             }
 
+            await SaveLiveMatchToFile(content);
             await simulatorService.SendLiveResult(content);
             await triggerJobService.TriggerFetchLiveMatch();
         }
