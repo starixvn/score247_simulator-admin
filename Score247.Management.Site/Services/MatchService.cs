@@ -345,8 +345,8 @@ namespace Score247.Management.Site.Services
             var json = JsonConvert.SerializeObject(content);
 
             System.IO.Directory.CreateDirectory(resultFolder);
-            await System.IO.File.WriteAllTextAsync(path, string.Empty);
-            await System.IO.File.WriteAllTextAsync(path, json);
+            System.IO.File.Delete(path);
+            System.IO.File.WriteAllText(path, json);
         }
 
         private async Task<DailyResultDto> ReadLiveMatchFromFile()
