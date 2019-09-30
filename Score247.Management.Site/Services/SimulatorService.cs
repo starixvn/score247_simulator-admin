@@ -6,7 +6,8 @@
     using System.Threading.Tasks;
     using Microsoft.Extensions.Configuration;
     using Newtonsoft.Json;
-    using Score247.Management.Site.Repositories.Matches.Models;
+    using Score247.Management.Site.Models.Events;
+    using Score247.Management.Site.Repositories.Matches;
     using Score247Management.Core.Odds.Dtos;
 
     public interface ISimulatorService
@@ -20,6 +21,8 @@
         Task<HttpResponseMessage> SendLiveResult(DailyResultDto dailyResultDto);
 
         Task<HttpResponseMessage> SendDailySchedule(DailyScheduleDto dailyResultDto);
+
+        Task SendMatchEvent(MatchPushEventDto matchPushEvent);
     }
 
     public class SimulatorService : ISimulatorService
@@ -109,6 +112,22 @@
                         new StringContent(jsonValue, Encoding.UTF8,
                         "application/json"));
             }
+        }
+
+        public async Task SendMatchEvent(MatchPushEventDto matchPushEvent)
+        {
+            var matchRepository = new MatchRepository();
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(configuration.GetValue<string>("Simulator:Url"));
+                var response = await client.PostAsJsonAsync(configuration.GetValue<string>("Simulator:PushEvent"), matchPushEvent);
+                if (!response.IsSuccessStatusCode)
+                {
+                    return;
+                }
+            }
+            await matchRepository.InsertTimelineLog(matchPushEvent);
+            await Task.Delay(2000);
         }
     }
 }

@@ -67,11 +67,11 @@ namespace Score247.Management.Site.Repositories.Leagues
             return leagues.Where(x => x.IsActive);
         }
 
-        public async Task<Score247Management.Core.Leagues.Models.League> GetLeagueById(string id)
+        public async Task<League> GetLeagueById(string id)
         {
             try
             {
-                var league = await repository.GetAsync<Score247Management.Core.Leagues.Models.League>(new GetLeagueByIdCriteria() { LeagueId = id });
+                var league = await repository.GetAsync<League>(new GetLeagueByIdCriteria() { LeagueId = id });
                 var leagueCategorys = await GetLeagueCategory();
                 var leagueCategory = leagueCategorys.FirstOrDefault(x => x.CountryCode == league.CountryCode);
                 if (leagueCategory == null)
@@ -94,9 +94,9 @@ namespace Score247.Management.Site.Repositories.Leagues
             }
         }
 
-        public async Task<IEnumerable<Score247Management.Core.Leagues.Models.LeagueCategory>> GetLeagueCategory()
+        public async Task<IEnumerable<LeagueCategory>> GetLeagueCategory()
         {
-            return await repository.FetchAsync<Score247Management.Core.Leagues.Models.LeagueCategory>(new GetLeagueCategoryCriteria());
+            return await repository.FetchAsync<LeagueCategory>(new GetLeagueCategoryCriteria());
         }
 
         public async Task<int> CreateLeague(CreateLeagueCriteria criteria)

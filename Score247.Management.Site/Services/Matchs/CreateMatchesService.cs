@@ -5,7 +5,6 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Score247.Management.Site.Helpers;
@@ -16,53 +15,175 @@ using Score247.Management.Site.Repositories.Matches;
 using Score247.Management.Site.Repositories.Matches.Models;
 using Score247.Management.Site.Repositories.Teams;
 using Score247Management.Core._Shared.Enumerations;
-using Score247Management.Core.Teams.Models;
 
 namespace Score247.Management.Site.Services.Matchs
 {
-    public interface CreateMatchesService
+    public interface ICreateMatchesService
     {
-        Task<bool> CreateLiveMatches(CreateDeleteMatchesModel createDeleteMatchesRequest, IConfiguration configuration);
+        Task<bool> CreateLiveMatches(CreateDeleteMatchesModel createDeleteMatchesRequest);
 
-        Task<bool> CreateMatchesByDate(CreateDeleteMatchesModel createDeleteMatchesRequest, TimeSpan offset, IConfiguration configuration);
+        Task<bool> CreateMatchesByDate(CreateDeleteMatchesModel createDeleteMatchesRequest, TimeSpan offset);
 
-        Task<string> CreateMatcheWithForm(IFormCollection collection, TimeSpan offset, IConfiguration configuration);
+        Task<string> CreateMatchWithForm(IFormCollection collection, TimeSpan offset);
 
-        Task<string> AutoCreateMatch(DateTimeOffset dateTimeOffset, IConfiguration configuration);
+        Task<int> CreateAllMatchesSite(List<CreateDeleteMatchesModel> createDeleteMatchesModels, TimeSpan offset);
+
+        Task<string> AutoCreateMatch(DateTimeOffset dateTimeOffset);
     }
 
-    public class CreateMatchesServiceImpl : CreateMatchesService
+    public class CreateMatchesService : ICreateMatchesService
     {
-        public async Task<bool> CreateLiveMatches(CreateDeleteMatchesModel createDeleteMatchesRequest, IConfiguration configuration)
+        private readonly ISimulatorService simulatorService;
+        private readonly ITriggerJobService triggerJobService;
+        private readonly IMatchService matchService;
+        private readonly IConfiguration configuration;
+
+        public CreateMatchesService(ISimulatorService simulatorService, ITriggerJobService triggerJobService, IConfiguration configuration)
         {
-            var matchRepository = new MatchRepository(configuration);
-            await TriggerSimulatorService.SendCleanExistData(configuration);
-            await matchRepository.CreateLiveMatches(createDeleteMatchesRequest.Count, createDeleteMatchesRequest.LeagueLimit, configuration.GetValue<string>("Simulator:Url"), configuration.GetValue<string>("Simulator:PushEvent"));
+            this.simulatorService = simulatorService;
+            this.triggerJobService = triggerJobService;
+            this.configuration = configuration;
+        }
+        public async Task<bool> CreateLiveMatches(CreateDeleteMatchesModel createDeleteMatchesRequest)
+        {
+            var matchRepository = new MatchRepository();
+            await simulatorService.SendCleanExistData();
+            await CreateLiveMatches(createDeleteMatchesRequest.Count, createDeleteMatchesRequest.LeagueLimit, configuration.GetValue<string>("Simulator:Url"), configuration.GetValue<string>("Simulator:PushEvent"));
 
             return true;
         }
 
-        public async Task<bool> CreateMatchesByDate(CreateDeleteMatchesModel createDeleteMatchesRequest, TimeSpan offset, IConfiguration configuration)
+        public async Task<int> CreateLiveMatches(int count, int limitLeagues, string baseUrl, string eventPath)
+        {
+            var createDate = DateTime.UtcNow;
+            var matches = await GenerateMatches(createDate, count, TimeSpan.Zero, limitLeagues);
+
+            await SendCreateMatchesRequest(matches, true);
+
+            await triggerJobService.TriggerFetchLiveMatch();
+
+            return 1;
+        }
+
+        public async Task<int> CreateAllMatchesSite(List<CreateDeleteMatchesModel> createDeleteMatchesModels, TimeSpan offset)
+        {
+            var matches = new List<MatchEntity>();
+            foreach (var model in createDeleteMatchesModels)
+            {
+                var createDate = new DateTime(model.EventDate.Year, model.EventDate.Month, model.EventDate.Day, 0, 0, 0, DateTimeKind.Utc);
+                var newMatches = await GenerateMatches(createDate, model.Count, offset, model.LeagueLimit);
+                matches.AddRange(newMatches);
+            }
+            await SendCreateMatchesRequest(matches, false);
+
+            await triggerJobService.TriggerCreateMatchJobs();
+
+            return 1;
+        }
+
+        private async Task<int> SendCreateMatchesRequest(List<MatchEntity> allMatches, bool requiredTriggerInsertMatch)
+        {
+            var matchByDateUTCGroup = allMatches.GroupBy(d => d.Scheduled.Date);
+            foreach (var matchByDate in matchByDateUTCGroup)
+            {
+                var createDate = matchByDate.Key;
+                var matches = matchByDate.ToList();
+                var content = new DailyScheduleDto
+                {
+                    generated_at = createDate,
+                    schema = "Matches",
+                    sport_events = matches
+                };
+                var jsonValue = JsonConvert.SerializeObject(content);
+
+                var beginDateToday = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day, 0, 0, 0, DateTimeKind.Utc);
+                var requestPath = configuration.GetValue<string>("Simulator:DailySchedule");
+
+                if (createDate < beginDateToday)
+                {
+                    requestPath = configuration.GetValue<string>("Simulator:DailyResults");
+                    var dailyResults = new List<Result>();
+
+                    foreach (var match in matches)
+                    {
+                        var matchWithResult = new Result()
+                        {
+                            sport_event = match,
+                            sport_event_status = RandomMatchEventStatus(match.Competitors.ElementAtOrDefault(0).Id, match.Competitors.ElementAtOrDefault(1).Id)
+                        };
+
+                        dailyResults.Add(matchWithResult);
+                    }
+
+                    var dailyResultRequest = new DailyResultDto
+                    {
+                        generated_at = createDate,
+                        schema = "Matches",
+                        results = dailyResults
+                    };
+                    jsonValue = JsonConvert.SerializeObject(dailyResultRequest);
+                }
+
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri(configuration.GetValue<string>("Simulator:Url"));
+
+                    using (var response = await client.PostAsync(
+                            string.Format(requestPath + "?date={0}",
+                            createDate.ToString("yyyy-MM-dd")),
+                            new StringContent(jsonValue, Encoding.UTF8,
+                            "application/json")))
+                    {
+                        if (!response.IsSuccessStatusCode)
+                        {
+                            return -1;
+                        }
+                    }
+                }
+            }
+
+            if (requiredTriggerInsertMatch)
+            {
+                await triggerJobService.TriggerCreateMatchJobs();
+            }
+
+            return 1;
+        }
+
+
+        public async Task<bool> CreateMatchesByDate(CreateDeleteMatchesModel createDeleteMatchesRequest, TimeSpan offset)
         {
             var createDate = new DateTime(createDeleteMatchesRequest.EventDate.Year, createDeleteMatchesRequest.EventDate.Month, createDeleteMatchesRequest.EventDate.Day, 0, 0, 0, DateTimeKind.Utc);
 
-            var matchRepository = new MatchRepository(configuration);
-            await TriggerSimulatorService.SendCleanExistData(configuration);
-            await matchRepository.CreateMatches(createDate, createDeleteMatchesRequest.Count, offset, createDeleteMatchesRequest.LeagueLimit);
+            var matchRepository = new MatchRepository();
+
+            await simulatorService.SendCleanExistData();
+            await CreateMatches(createDate, createDeleteMatchesRequest.Count, offset, createDeleteMatchesRequest.LeagueLimit);
 
             return true;
         }
 
-        public async Task<string> CreateMatcheWithForm(IFormCollection collection, TimeSpan offset, IConfiguration configuration)
+        public async Task<int> CreateMatches(DateTime createDate, int limitMatches, TimeSpan offset, int limitLeagues)
+        {
+            var matchRepository = new MatchRepository();
+            var matches = await GenerateMatches(createDate, limitMatches, offset, limitLeagues);
+
+            await SendCreateMatchesRequest(matches, true);
+            return await matchRepository.WaitForMatchInserted(matches.LastOrDefault());
+        }
+
+        public async Task<string> CreateMatchWithForm(IFormCollection collection, TimeSpan offset)
         {
 
-            await TriggerSimulatorService.SendCleanExistData(configuration);
+            await simulatorService.SendCleanExistData();
             var leagueRepo = new LeagueRepository();
             string leagueId = collection["Match.Tournament.Id"];
             var league = await leagueRepo.GetLeagueById(leagueId);
 
             var teamRepo = new TeamRepository();
             var teams = await teamRepo.GetTeams();
+
+            var matchRepository = new MatchRepository();
 
             var newMatch = new MatchEntity
             {
@@ -121,36 +242,25 @@ namespace Score247.Management.Site.Services.Matchs
                 }
             }
 
-            await SendTriggerCreateMatches(configuration, newMatch);
+            await triggerJobService.TriggerCreateMatchJobs();
+
+            await matchRepository.WaitForMatchInserted(newMatch);
 
             return newMatch.Id;
         }
 
-        private static async Task SendTriggerCreateMatches(IConfiguration configuration, MatchEntity newMatch)
-        {
-            await TriggerSimulatorService.StartInsertMatchesJobs(configuration);
-
-            var matchRepository = new MatchRepository();
-            var matchCreated = await matchRepository.GetMatchById(newMatch.Id);
-            while (matchCreated == null)
-            {
-                await Task.Delay(1000);
-                matchCreated = await matchRepository.GetMatchById(newMatch.Id);
-            }
-        }
-
         private static async Task<HttpResponseMessage> SendCreatePostMatch(IConfiguration configuration, MatchEntity newMatch)
         {
-            var dailyResults = new List<Repositories.Matches.Models.Result>();
+            var dailyResults = new List<Result>();
 
-            var matchWithResult = new Repositories.Matches.Models.Result()
+            var matchWithResult = new Result()
             {
                 sport_event = newMatch,
                 sport_event_status = GenerateDefaultEventStatusFromMatchEntity(newMatch)
             };
 
             dailyResults.Add(matchWithResult);
-            var dailyResultRequest = new Repositories.Matches.Models.DailyResultDto
+            var dailyResultRequest = new DailyResultDto
             {
                 generated_at = newMatch.Scheduled,
                 schema = "Matches",
@@ -176,7 +286,7 @@ namespace Score247.Management.Site.Services.Matchs
             {
                 client.BaseAddress = new Uri(configuration.GetValue<string>("Simulator:Url"));
                 var MatchEntityes = new List<MatchEntity> { newMatch };
-                var content = new Repositories.Matches.Models.DailyScheduleDto
+                var content = new DailyScheduleDto
                 {
                     generated_at = DateTime.UtcNow,
                     schema = "Matches",
@@ -233,11 +343,125 @@ namespace Score247.Management.Site.Services.Matchs
             return MatchStatus.Live.DisplayName;
         }
 
-        public async Task<string> AutoCreateMatch(DateTimeOffset dateTimeOffset, IConfiguration configuration)
+        public async Task<string> AutoCreateMatch(DateTimeOffset dateTimeOffset)
         {
-            var matchRepository = new MatchRepository(configuration);
+            var matchRepository = new MatchRepository();
+            var matches = await GenerateMatches(dateTimeOffset.DateTime, 1, dateTimeOffset.Offset, 1, true);
 
-            return await matchRepository.AutoCreateMatch(dateTimeOffset);
+            await SendCreateMatchesRequest(matches, true);
+            await matchRepository.WaitForMatchInserted(matches.LastOrDefault());
+
+            return matches.First().Id;
+        }
+
+
+        private Sport_Event_Status RandomMatchEventStatus(string homeTeamId, string awayTeamId)
+        {
+            var ran = new Random();
+            var eventStatus = new Sport_Event_Status();
+            eventStatus.period_scores = new List<Period_Scores>()
+            {
+                new Period_Scores()
+                {
+                    away_score = ran.Next(0, 2),
+                    home_score = ran.Next(0, 2),
+                    number = 1,
+                    type = "regular_period"
+                },
+                new Period_Scores()
+                {
+                    away_score = ran.Next(0, 2),
+                    home_score = ran.Next(0, 2),
+                    number = 2,
+                    type = "regular_period"
+                }
+            };
+            eventStatus.home_score = eventStatus.period_scores.Sum(x => x.home_score);
+            eventStatus.away_score = eventStatus.period_scores.Sum(x => x.away_score);
+            if (eventStatus.home_score > eventStatus.away_score)
+            {
+                eventStatus.winner_id = homeTeamId;
+            }
+            if (eventStatus.away_score > eventStatus.home_score)
+            {
+                eventStatus.winner_id = awayTeamId;
+            }
+
+            if (ran.Next(100) > 50)
+            {
+                eventStatus.aggregate_winner_id = eventStatus.winner_id;
+                eventStatus.aggregate_home_score = eventStatus.home_score;
+                eventStatus.aggregate_away_score = eventStatus.away_score;
+            }
+            eventStatus.clock = new Clock() { match_time = "90:00" };
+            eventStatus.match_status = MatchStatus.Ended.DisplayName;
+            eventStatus.period = 2;
+            eventStatus.status = "closed";
+            return eventStatus;
+        }
+
+        private static async Task<List<MatchEntity>> GenerateMatches(DateTime createDate, int limitMatches, TimeSpan offset, int limitLeagues, bool dontRandomTime = false)
+        {
+            var ran = new Random();
+            var leaguesRepository = new LeagueRepository();
+            var teamsRepository = new TeamRepository();
+
+            var leagues = (await leaguesRepository.GetActiveLeagues())
+                .Where(x => !x.Name.Contains("+")
+                            && !x.Name.Contains("-"))
+                .OrderBy(arg => Guid.NewGuid()).Take(limitLeagues)
+                .ToList();
+
+            var teams = (await teamsRepository.GetTeams())
+                .Where(x => !x.Name.Contains("+")
+                            && !x.Name.Contains("-")
+                            && !x.Name.Contains("(PEN)")
+                            && !x.Name.Contains("(ET)")
+                            && !x.Name.Contains("(W)")
+                            && !x.Name.Contains("(R)")
+                            && !x.Name.Contains("Kick")
+                            && !x.Name.Contains("Corner"))
+                .ToList();
+
+            List<MatchEntity> matches = new List<MatchEntity>();
+            int matchPerLeague;
+            int splitTeamPosition = (teams.Count - 1) / 2;
+
+            for (int i = 0; i < limitMatches; i += matchPerLeague)
+            {
+                var league = leagues[ran.Next(0, leagues.Count - 1)];
+                matchPerLeague = ran.Next(1, (int)Math.Sqrt(limitMatches));
+
+                for (int j = 0; j < matchPerLeague; j++)
+                {
+                    var eventDate = GetEventDate(createDate, offset, dontRandomTime);
+
+                    var indexHome = ran.Next(0, splitTeamPosition);
+                    var homeTeam = teams[indexHome];
+
+                    var indexAway = ran.Next(splitTeamPosition + 1, teams.Count - 1);
+                    var awaitTeam = teams[indexAway];
+
+                    var matchEntity = new MatchEntity(
+                        league,
+                        homeTeam,
+                        awaitTeam,
+                        eventDate);
+
+                    matches.Add(matchEntity);
+                }
+            }
+
+            return matches.Take(limitMatches).ToList();
+        }
+
+        private static DateTime GetEventDate(DateTime dateTime, TimeSpan offset, bool dontRandomTime)
+        {
+            var ran = new Random();
+            var hour = dontRandomTime ? dateTime.Hour : ran.Next(0, 23);
+            var minute = dontRandomTime ? dateTime.Minute : ran.Next(0, 12) * 5;
+
+            return new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, hour, minute, 0, DateTimeKind.Utc).Subtract(offset);
         }
     }
 }
