@@ -288,6 +288,14 @@ namespace Score247.Management.Site.Controllers
             return Json(true);
         }
 
+        [HttpPost("Match/CloseAllLiveMatches")]
+        public async Task<ActionResult> CloseAllLiveMatches()
+        {
+            await matchService.CloseAllLiveMatches();
+
+            return Json(true);
+        }
+
         public async Task<ActionResult> CreateActiveLeagueMatch(IFormCollection collection)
         {
             TimeSpan.TryParse(GetTimezone(), out TimeSpan offset);
@@ -456,7 +464,7 @@ namespace Score247.Management.Site.Controllers
         public async Task<ActionResult> CreateScenario(string matchId, IFormCollection collection)
         {
             await scenarioService.CreateScenario(matchId, collection);
-            
+
             return RedirectToAction(nameof(Details), new { id = matchId });
         }
 

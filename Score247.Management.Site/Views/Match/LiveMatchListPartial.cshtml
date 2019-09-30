@@ -16,6 +16,9 @@
         <div class="form-group col-md-1 my-auto">
             <button id="btnCreateLiveMatches" class="btn-default">Create</button>
         </div>
+        <div class="form-group col-md-1 my-auto">
+            <button id="btnCloseAllLiveMatches" class="btn-default" onclick="SendCloseAllLiveMatches()">Close All</button>
+        </div>
     </div>
 </div>
 <table id="mathes-table" class="table table-striped table-bordered" style="width:100%">
@@ -84,12 +87,17 @@
 @section Scripts
 {
     <script type="text/javascript">
-        $(document).ready(function ()
-		{
-			$('#btnCreateLiveMatches').click(function (event) {
-            SendCreateLiveMatches();
+        $(document).ready(function () {
+            $('#btnCreateLiveMatches').click(function (event) {
+                $("#CreateMatchesSpinner").removeClass("d-none");
+                SendCreateLiveMatches();
+            });
+            $("#btnCloseAllLiveMatches").click(function (event) {
+                $("#CreateMatchesSpinner").removeClass("d-none");
+                SendCloseAllLiveMatches();
+            });
         });
-		});
-        
+
+
     </script>
 }

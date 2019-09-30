@@ -258,8 +258,10 @@ $(document).ready(function () {
     });
 
     $('#btnCreateLiveMatches').click(function (event) {
+        $("#CreateMatchesSpinner").removeClass("d-none");
         SendCreateLiveMatches();
     });
+
     $('#btnDeleteLiveMatches').click(function (event) {
         $("#CreateMatchesSpinner").removeClass("d-none");
         event.preventDefault();
@@ -392,6 +394,21 @@ function SendCreateLiveMatches() {
         dataType: "json",
         data: JSON.stringify(createLiveMatchModel),
         success: function () {
+        },
+        error: function () {
+        }
+    });
+}
+
+function SendCloseAllLiveMatches() {
+    $("#CreateMatchesSpinner").removeClass("d-none");
+    console.log("Begin close all matches");
+    $.ajax({
+        type: "POST",
+        url: urlPrefix() + "/Match/CloseAllLiveMatches",
+        contentType: "application/json; charset=utf-8",
+        success: function () {
+            $("#CreateMatchesSpinner").addClass("d-none");
         },
         error: function () {
         }

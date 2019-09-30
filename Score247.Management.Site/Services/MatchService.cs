@@ -33,6 +33,8 @@ namespace Score247.Management.Site.Services
         Task DeleteMatchesByDate(CreateDeleteMatchesModel createDeleteMatchesRequest, TimeSpan offset);
 
         Task<IEnumerable<Match>> SearchMatchByDateAndLeague(DateTime dateSearch, string leagueId, TimeSpan offset);
+
+        Task CloseAllLiveMatches();
     }
 
     public class MatchService : IMatchService
@@ -622,6 +624,21 @@ namespace Score247.Management.Site.Services
                 number = matchPeriod.Number,
                 type = matchPeriod.PeriodType.DisplayName
             };
+        }
+
+        public async Task CloseAllLiveMatches()
+        {
+            var content = new DailyResultDto()
+            {
+                generated_at = DateTime.UtcNow,
+                schema = "Matches",
+                results = new List<Result>()
+            };
+
+            await SaveLiveMatchToFile(content);
+
+            await simulatorService.SendLiveResult(content);
+            await triggerJobService.TriggerFetchLiveMatch();
         }
     }
 }
