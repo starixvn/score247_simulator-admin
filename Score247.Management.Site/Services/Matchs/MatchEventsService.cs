@@ -605,7 +605,7 @@ namespace Score247.Management.Site.Services.Matchs
 
             await simulatorService.SendMatchEvent(requestBody);
 
-            //await matchService.UpdateLiveMatch(match.Id);
+            await matchService.UpdateLiveMatch(match.Id);
         }
     }
 }
