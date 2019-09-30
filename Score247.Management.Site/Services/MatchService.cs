@@ -341,8 +341,11 @@ namespace Score247.Management.Site.Services
         {
             var resultFolder = $"{DirectoryRoot}/live";
             System.IO.Directory.CreateDirectory(resultFolder);
-
             var path = $"{resultFolder}/live.json";
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
             var json = JsonConvert.SerializeObject(content);
 
             System.IO.Directory.CreateDirectory(resultFolder);
