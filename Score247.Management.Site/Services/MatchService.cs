@@ -462,39 +462,33 @@ namespace Score247.Management.Site.Services
         {
             var ran = new Random();
             List<Result> results = new List<Result>();
-            int matchPerLeague;
             int splitTeamPosition = (teams.Count - 1) / 2;
 
             for (int i = 0; i < subCount; i++)
             {
                 var league = activeLeagues[ran.Next(0, activeLeagues.Count - 1)];
-                matchPerLeague = ran.Next(1, (int)Math.Sqrt(subCount));
+                var eventDate = GetEventForLiveDate(DateTime.Now, 0);
 
-                for (int j = 0; j < matchPerLeague; j++)
+                var indexHome = ran.Next(0, splitTeamPosition);
+                var homeTeam = teams[indexHome];
+
+                var indexAway = ran.Next(splitTeamPosition + 1, teams.Count - 1);
+                var awaitTeam = teams[indexAway];
+
+                var matchEntity = new MatchEntity(
+                    league,
+                    homeTeam,
+                    awaitTeam,
+                    eventDate);
+
+                matchEntity.MatchStatus = MatchStatus.Live.DisplayName;
+                matchEntity.Status = MatchStatus.Live.DisplayName;
+                var result = new Result()
                 {
-                    var eventDate = GetEventForLiveDate(DateTime.Now, 0);
-
-                    var indexHome = ran.Next(0, splitTeamPosition);
-                    var homeTeam = teams[indexHome];
-
-                    var indexAway = ran.Next(splitTeamPosition + 1, teams.Count - 1);
-                    var awaitTeam = teams[indexAway];
-
-                    var matchEntity = new MatchEntity(
-                        league,
-                        homeTeam,
-                        awaitTeam,
-                        eventDate);
-
-                    matchEntity.MatchStatus = MatchStatus.Live.DisplayName;
-                    matchEntity.Status = MatchStatus.Live.DisplayName;
-                    var result = new Result()
-                    {
-                        sport_event = matchEntity,
-                        sport_event_status = RandomLiveMatchEventStatus(matchEntity.Competitors.ElementAtOrDefault(0).Id, matchEntity.Competitors.ElementAtOrDefault(1).Id)
-                    };
-                    results.Add(result);
-                }
+                    sport_event = matchEntity,
+                    sport_event_status = RandomLiveMatchEventStatus(matchEntity.Competitors.ElementAtOrDefault(0).Id, matchEntity.Competitors.ElementAtOrDefault(1).Id)
+                };
+                results.Add(result);
             }
 
             return results;
