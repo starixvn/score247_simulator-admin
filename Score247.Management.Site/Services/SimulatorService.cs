@@ -1,6 +1,7 @@
 ﻿namespace Score247.Management.Site.Services
 {
     using System;
+    using System.IO;
     using System.Net.Http;
     using System.Text;
     using System.Threading.Tasks;
@@ -27,6 +28,7 @@
 
     public class SimulatorService : ISimulatorService
     {
+        private readonly string DirectoryRoot = AppDomain.CurrentDomain.BaseDirectory + "/App_Data";
         private IConfiguration configuration { get; }
 
         public SimulatorService(IConfiguration config)
@@ -48,6 +50,8 @@
                     _ = httpResponseMessage;
                 }
             }
+
+            await SendCacheLiveMatches();
         }
 
         public async Task<bool> SendScheduleOdds(OddsScheduleDto oddsSchedule)
@@ -128,6 +132,36 @@
             }
             await matchRepository.InsertTimelineLog(matchPushEvent);
             await Task.Delay(2000);
+        }
+
+        private async Task SendCacheLiveMatches()
+        {
+            var liveCached = await ReadLiveMatchFromFile();
+            if (liveCached == null)
+            {
+                return;
+            }
+
+            await SendLiveResult(liveCached);
+        }
+
+        private async Task<DailyResultDto> ReadLiveMatchFromFile()
+        {
+            try
+            {
+                var resultFolder = $"{DirectoryRoot}";
+                System.IO.Directory.CreateDirectory(resultFolder);
+
+                var path = $"{resultFolder}/live.json";
+                var jsonData = await File.ReadAllTextAsync(path);
+                var content = JsonConvert.DeserializeObject<DailyResultDto>(jsonData);
+
+                return content;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
     }
 }
