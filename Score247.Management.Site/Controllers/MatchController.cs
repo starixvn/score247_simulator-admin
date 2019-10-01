@@ -334,7 +334,7 @@ namespace Score247.Management.Site.Controllers
                     return Json(new { message = "OK" });
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
             }
 

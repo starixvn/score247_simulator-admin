@@ -52,7 +52,7 @@ namespace Score247.Management.Site.Models.Events
                 away_score = match.LatestTimeline != null ? match.LatestTimeline.AwayScore : 0,
                 clock = new Clock { match_time = "00:00" },
                 home_score = match.LatestTimeline != null ? match.LatestTimeline.HomeScore : 0,
-                match_status = match.MatchResult.MatchStatus.DisplayName,
+                match_status = match.MatchResult.MatchStatus != null ? match.MatchResult.MatchStatus.DisplayName : "lived",
                 period = match.MatchResult.Period,
                 period_scores = matchPeriodsScores,
                 status = "live",

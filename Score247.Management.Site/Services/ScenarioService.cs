@@ -1,28 +1,36 @@
-﻿namespace Score247.Management.Site.Services
-{
-    using System.Linq;
-    using System.Net.Http;
-    using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Http;
-    using Newtonsoft.Json;
-    using Score247.Management.Site.Criterias.Scenarios;
-    using Score247.Management.Site.Helpers;
-    using Score247.Management.Site.Models.Events;
-    using Score247.Management.Site.Repositories.Matches;
-    using Score247.Management.Site.Repositories.Scenarios;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
+using Score247.Management.Site.Criterias.Scenarios;
+using Score247.Management.Site.Helpers;
+using Score247.Management.Site.Models.Events;
+using Score247.Management.Site.Repositories.Matches;
+using Score247.Management.Site.Repositories.Scenarios;
+using Score247Management.Core.Scenarios.Models;
 
+namespace Score247.Management.Site.Services
+{
     public interface IScenarioService
     {
         Task CreateScenario(string matchId, IFormCollection collection);
+
         Task ApplyScenario(string matchId, IFormCollection collection);
+
+        Task<IEnumerable<Scenario>> GetAllScenarios();
     }
+
     public class ScenarioService : IScenarioService
     {
         private readonly ISimulatorService simulatorService;
+
         public ScenarioService(ISimulatorService simulatorService)
         {
             this.simulatorService = simulatorService;
         }
+
         public async Task ApplyScenario(string matchId, IFormCollection collection)
         {
             var matchRepo = new MatchRepository();
@@ -64,6 +72,14 @@
                 var timeline = timelines.ElementAt(i);
                 await scenarioRepo.AddEventToScenario(id, i + 1, timeline.RequestLog);
             }
+        }
+
+        public async Task<IEnumerable<Scenario>> GetAllScenarios()
+        {
+            var scenarioRepo = new ScenarioRepository();
+            var scenarios = await scenarioRepo.GetScenarios();
+
+            return scenarios;
         }
     }
 }
