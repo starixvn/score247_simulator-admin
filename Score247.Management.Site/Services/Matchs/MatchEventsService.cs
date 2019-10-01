@@ -229,8 +229,7 @@ namespace Score247.Management.Site.Services.Matchs
                 requestBody.payload.timeline.period_type = "overtime";
                 requestBody.payload.timeline.stoppage_time = collection["payload.timeline.stoppage_time"];
             }
-            var isHomeScore = (requestBody.payload.timeline.team == "home" && eventType != "own_goal") ||
-                (requestBody.payload.timeline.team == "away" && eventType == "own_goal");
+            var isHomeScore = requestBody.payload.timeline.team == "home";
 
             if (isHomeScore)
             {
