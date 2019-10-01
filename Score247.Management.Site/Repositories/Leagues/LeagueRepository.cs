@@ -1,11 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Fanex.Data;
 using Fanex.Data.Repository;
 using Score247.Management.Site.Criterias.League;
-using Score247.Management.Site.Helpers;
-using Score247.Management.Site.Repositories.Images;
 using Score247Management.Core.Leagues.Models;
 
 namespace Score247.Management.Site.Repositories.Leagues
@@ -69,29 +66,22 @@ namespace Score247.Management.Site.Repositories.Leagues
 
         public async Task<League> GetLeagueById(string id)
         {
-            try
+            var league = await repository.GetAsync<League>(new GetLeagueByIdCriteria() { LeagueId = id });
+            var leagueCategorys = await GetLeagueCategory();
+            var leagueCategory = leagueCategorys.FirstOrDefault(x => x.Id == league.CategoryId);
+            if (leagueCategory == null)
             {
-                var league = await repository.GetAsync<League>(new GetLeagueByIdCriteria() { LeagueId = id });
-                var leagueCategorys = await GetLeagueCategory();
-                var leagueCategory = leagueCategorys.FirstOrDefault(x => x.Id == league.CategoryId);
-                if (leagueCategory == null)
+                league.LeagueCategory = new LeagueCategory()
                 {
-                    league.LeagueCategory = new LeagueCategory()
-                    {
-                        Name = league.Country
-                    };
-                }
-                else
-                {
-                    league.LeagueCategory = leagueCategory;
-                }
+                    Name = league.Country
+                };
+            }
+            else
+            {
+                league.LeagueCategory = leagueCategory;
+            }
 
-                return league;
-            }
-            catch (System.Exception ex)
-            {
-                throw;
-            }
+            return league;
         }
 
         public async Task<IEnumerable<LeagueCategory>> GetLeagueCategory()
