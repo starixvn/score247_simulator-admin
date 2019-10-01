@@ -24,6 +24,8 @@
         Task<HttpResponseMessage> SendDailySchedule(DailyScheduleDto dailyResultDto);
 
         Task SendMatchEvent(MatchPushEventDto matchPushEvent);
+
+        Task SyncLiveMatches();
     }
 
     public class SimulatorService : ISimulatorService
@@ -161,6 +163,41 @@
             catch (Exception)
             {
                 return null;
+            }
+        }
+
+        private async Task WriteLiveMatchToFile(DailyResultDto resultDto)
+        {
+            try
+            {
+                var resultFolder = $"{DirectoryRoot}";
+                System.IO.Directory.CreateDirectory(resultFolder);
+                var path = $"{resultFolder}/live.json";
+                var json = JsonConvert.SerializeObject(resultDto);
+
+                System.IO.Directory.CreateDirectory(resultFolder);
+                System.IO.File.Delete(path);
+                System.IO.File.WriteAllText(path, json);
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        public async Task SyncLiveMatches()
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(configuration.GetValue<string>("Simulator:Url"));
+                var response = await client.GetAsync(configuration.GetValue<string>("Simulator:LiveMatches"));
+                if (!response.IsSuccessStatusCode)
+                {
+                    return;
+                }
+
+                var responseBody = await response.Content.ReadAsStringAsync();
+                var liveMatches = JsonConvert.DeserializeObject<DailyResultDto>(responseBody);
+                await WriteLiveMatchToFile(liveMatches);
             }
         }
     }

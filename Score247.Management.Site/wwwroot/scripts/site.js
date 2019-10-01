@@ -256,12 +256,6 @@ $(document).ready(function () {
         event.preventDefault();
         SendDeleteMatchesByDate("Custom");
     });
-
-    $('#btnCreateLiveMatches').click(function (event) {
-        $("#CreateMatchesSpinner").removeClass("d-none");
-        SendCreateLiveMatches();
-    });
-
     $('#btnDeleteLiveMatches').click(function (event) {
         $("#CreateMatchesSpinner").removeClass("d-none");
         event.preventDefault();
@@ -379,12 +373,13 @@ function SendCreateLiveMatches() {
     var preMatchCount = $('#LivePreCount').val();
     var liveMatchCount = $('#LiveCount').val();
     var postMatchCount = $('#LivePostCount').val();
+    var leagueLimit = $('#LiveLeagueLimit').val();
 
     var createLiveMatchModel = {
         LiveCount: liveMatchCount,
         PreCount: preMatchCount,
         PostCount: postMatchCount,
-        LeagueLimit: '100'
+        LeagueLimit: leagueLimit
     };
 
     $.ajax({
@@ -394,23 +389,25 @@ function SendCreateLiveMatches() {
         dataType: "json",
         data: JSON.stringify(createLiveMatchModel),
         success: function () {
+            HideLoadingSpinner('#listMatches');
         },
         error: function () {
+            HideLoadingSpinner('#listMatches');
         }
     });
 }
 
 function SendCloseAllLiveMatches() {
-    $("#CreateMatchesSpinner").removeClass("d-none");
     console.log("Begin close all matches");
     $.ajax({
         type: "POST",
         url: urlPrefix() + "/Match/CloseAllLiveMatches",
         contentType: "application/json; charset=utf-8",
         success: function () {
-            $("#CreateMatchesSpinner").addClass("d-none");
+            HideLoadingSpinner('#listMatches');
         },
         error: function () {
+            HideLoadingSpinner('#listMatches');
         }
     });
 }
@@ -621,6 +618,7 @@ function GetLiveMatch() {
             $("#listMatches").html(oddsComparisonPartial);
             HideLoadingSpinner('#listMatches');
             $('#btnCreateLiveMatches').click(function (event) {
+                ShowLoadingSpinner('#listMatches');
                 SendCreateLiveMatches();
             });
             TriggerMatchDatatable();
@@ -630,6 +628,7 @@ function GetLiveMatch() {
             $("#listMatches").html(ex.responseText);
             HideLoadingSpinner('#listMatches');
             $('#btnCreateLiveMatches').click(function (event) {
+                ShowLoadingSpinner('#listMatches');
                 SendCreateLiveMatches();
             });
             TriggerMatchDatatable();

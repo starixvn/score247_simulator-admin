@@ -13,11 +13,15 @@
             <label>Pre Count:</label>
             <input id="LivePreCount" class="form-control" name="LivePreCount" type="text" value="0" />
         </div>
+        <div class="form-group col-md-1">
+            <label>League Limit:</label>
+            <input id="LiveLeagueLimit" class="form-control" name="LiveLeagueLimit" type="text" value="100" />
+        </div>
         <div class="form-group col-md-1 my-auto">
             <button id="btnCreateLiveMatches" class="btn-default">Create</button>
         </div>
         <div class="form-group col-md-1 my-auto">
-            <button id="btnCloseAllLiveMatches" class="btn-default" onclick="SendCloseAllLiveMatches()">Close All</button>
+            <button id="btnCloseAllLiveMatches" class="btn-default" onclick="ShowLoadingSpinner('#listMatches'); SendCloseAllLiveMatches();">Close All</button>
         </div>
     </div>
 </div>
@@ -83,21 +87,3 @@
         }
     </tbody>
 </table>
-
-@section Scripts
-{
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#btnCreateLiveMatches').click(function (event) {
-                $("#CreateMatchesSpinner").removeClass("d-none");
-                SendCreateLiveMatches();
-            });
-            $("#btnCloseAllLiveMatches").click(function (event) {
-                $("#CreateMatchesSpinner").removeClass("d-none");
-                SendCloseAllLiveMatches();
-            });
-        });
-
-
-    </script>
-}

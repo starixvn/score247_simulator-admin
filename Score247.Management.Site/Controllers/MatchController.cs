@@ -220,6 +220,7 @@ namespace Score247.Management.Site.Controllers
         public async Task<JsonResult> CreateLiveMatches([FromBody] CreateLiveMatchModel createLiveMatchModel)
         {
             await matchService.CreateLiveMatches(createLiveMatchModel);
+            await Task.Delay(2000);
 
             return Json(true);
         }
@@ -292,6 +293,7 @@ namespace Score247.Management.Site.Controllers
         public async Task<ActionResult> CloseAllLiveMatches()
         {
             await matchService.CloseAllLiveMatches();
+            await Task.Delay(2000);
 
             return Json(true);
         }

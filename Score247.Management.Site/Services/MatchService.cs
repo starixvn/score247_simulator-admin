@@ -254,6 +254,7 @@ namespace Score247.Management.Site.Services
 
         public async Task CreateLiveMatches(CreateLiveMatchModel createLiveMatchModel)
         {
+            await simulatorService.SyncLiveMatches();
             await simulatorService.SendCleanExistData();
             await CreateLiveMatches(createLiveMatchModel.PostCount, createLiveMatchModel.LiveCount, createLiveMatchModel.PreCount, createLiveMatchModel.LeagueLimit);
         }
@@ -263,7 +264,6 @@ namespace Score247.Management.Site.Services
             try
             {
                 var createDate = DateTime.UtcNow;
-                var ran = new Random();
                 var leagueRepo = new LeagueRepository();
                 var teamsRepository = new TeamRepository();
                 var teams = (await teamsRepository.GetTeams())
@@ -278,18 +278,20 @@ namespace Score247.Management.Site.Services
                      .ToList();
                 var activeLeagues = (await leagueRepo.GetActiveLeagues()).ToList();
 
+                var subActiveLeague = activeLeagues.GetRange(0, Math.Min(leagueLimit, activeLeagues.Count));
+
                 var dailyResults = new List<Result>();
                 var matches = new List<MatchEntity>();
 
-                var prematch = GenerateLivePreMatches(preCount, leagueLimit, activeLeagues, teams);
+                var prematch = GenerateLivePreMatches(preCount, subActiveLeague, teams);
                 dailyResults.AddRange(prematch);
                 matches.AddRange(prematch.Select(x => x.sport_event).ToList());
 
-                var postMatch = GenerateLivePostMatches(postCount, leagueLimit, activeLeagues, teams);
+                var postMatch = GenerateLivePostMatches(postCount, subActiveLeague, teams);
                 dailyResults.AddRange(postMatch);
                 matches.AddRange(postMatch.Select(x => x.sport_event).ToList());
 
-                var liveMatch = GenerateLiveMatches(liveCount, leagueLimit, activeLeagues, teams);
+                var liveMatch = GenerateLiveMatches(liveCount, subActiveLeague, teams);
                 dailyResults.AddRange(liveMatch);
                 matches.AddRange(liveMatch.Select(x => x.sport_event).ToList());
 
@@ -383,7 +385,7 @@ namespace Score247.Management.Site.Services
             }
         }
 
-        private List<Result> GenerateLivePostMatches(int subCount, int leagueLimit, List<Score247Management.Core.Leagues.Models.League> activeLeagues, List<Score247Management.Core.Teams.Models.Team> teams)
+        private List<Result> GenerateLivePostMatches(int subCount, List<Score247Management.Core.Leagues.Models.League> activeLeagues, List<Score247Management.Core.Teams.Models.Team> teams)
         {
             var ran = new Random();
             List<Result> result = new List<Result>();
@@ -422,7 +424,7 @@ namespace Score247.Management.Site.Services
             return eventDate.AddMinutes(minute);
         }
 
-        private List<Result> GenerateLivePreMatches(int subCount, int leagueLimit, List<Score247Management.Core.Leagues.Models.League> activeLeagues, List<Score247Management.Core.Teams.Models.Team> teams)
+        private List<Result> GenerateLivePreMatches(int subCount, List<Score247Management.Core.Leagues.Models.League> activeLeagues, List<Score247Management.Core.Teams.Models.Team> teams)
         {
             var ran = new Random();
             List<Result> result = new List<Result>();
@@ -460,7 +462,7 @@ namespace Score247.Management.Site.Services
             return result;
         }
 
-        private List<Result> GenerateLiveMatches(int subCount, int leagueLimit, List<Score247Management.Core.Leagues.Models.League> activeLeagues, List<Score247Management.Core.Teams.Models.Team> teams)
+        private List<Result> GenerateLiveMatches(int subCount, List<Score247Management.Core.Leagues.Models.League> activeLeagues, List<Score247Management.Core.Teams.Models.Team> teams)
         {
             var ran = new Random();
             List<Result> results = new List<Result>();
@@ -551,6 +553,8 @@ namespace Score247.Management.Site.Services
 
         public async Task UpdateLiveMatch(string matchId)
         {
+            await simulatorService.SyncLiveMatches();
+
             var matchRepository = new MatchRepository();
             var match = await matchRepository.GetMatchById(matchId);
             if (match == null)
