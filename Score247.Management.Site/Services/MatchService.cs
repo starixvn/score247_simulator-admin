@@ -22,7 +22,7 @@ namespace Score247.Management.Site.Services
     {
         Task CreateMatchForActiveLeagues(DateTime createDate, TimeSpan offset);
 
-        Task<IEnumerable<Score247Management.Core.Matches.Models.MatchSummary>> GetLiveMatch(string language);
+        Task<IEnumerable<Score247Management.Core.Matches.Models.MatchSummary>> GetLiveMatch(string language, TimeSpan offset);
 
         Task CreateLiveMatches(CreateLiveMatchModel createLiveMatchModel);
 
@@ -94,9 +94,16 @@ namespace Score247.Management.Site.Services
             await SendCreateMatchesRequest(matches, true);
         }
 
-        public async Task<IEnumerable<Score247Management.Core.Matches.Models.MatchSummary>> GetLiveMatch(string language)
+        public async Task<IEnumerable<Score247Management.Core.Matches.Models.MatchSummary>> GetLiveMatch(string language, TimeSpan offset)
         {
-            return await queryService.GetLiveMatches(language);
+            var matches = await queryService.GetLiveMatches(language);
+            var result = matches.Select(match =>
+            {
+                match.DisplayDate = match.EventDate.Add(offset).ToString("dd/MM/yyyy HH:mm:ss");
+                return match;
+            });
+
+            return result;
         }
 
         private static DateTime GetEventDate(DateTime dateTime, TimeSpan offset, bool dontRandomTime)

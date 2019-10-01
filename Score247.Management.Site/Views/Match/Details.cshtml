@@ -48,7 +48,7 @@
                 <label class="match-value">@Html.DisplayFor(model => model.Match.Teams.FirstOrDefault().Name) (@Html.DisplayFor(model => model.Match.Teams.FirstOrDefault().Id)) vs @Html.DisplayFor(model => model.Match.Teams.LastOrDefault().Name) (@Html.DisplayFor(model => model.Match.Teams.LastOrDefault().Id))</label>
             </div>
             <div class="match-info">
-                <label class="match-info-name">Kick Off Time:</label>
+                <label class="match-info-name">Kick Off Time (@TempData["Timezone"]):</label>
                 <label class="match-value">@Html.DisplayFor(model => model.Match.DisplayDate)</label>
             </div>
             <div class="match-info">

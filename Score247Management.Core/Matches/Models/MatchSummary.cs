@@ -169,7 +169,7 @@
         public DateTimeOffset EventDate { get; private set; }
 
         [IgnoreMember]
-        public string DisplayDate => EventDate.ToUniversalTime().ToString("dd/MM/yyyy HH:mm:ss");
+        public string DisplayDate { get; set; }
 
         [Key(2)]
         public DateTimeOffset CurrentPeriodStartTime { get; private set; }

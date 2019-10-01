@@ -1,15 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Primitives;
-using Newtonsoft.Json;
-using Score247.Management.Site.Criterias.Scenarios;
-using Score247.Management.Site.Helpers;
 using Score247.Management.Site.Models;
 using Score247.Management.Site.Models.Events;
 using Score247.Management.Site.Repositories.Leagues;
@@ -69,6 +63,7 @@ namespace Score247.Management.Site.Controllers
 
             TempData["SearchDate"] = timeNow;
             TempData["LeagueId"] = "all";
+            TempData["Timezone"] = offset.ToString(@"hh\:mm");
             return View(viewModal);
         }
 
@@ -121,6 +116,7 @@ namespace Score247.Management.Site.Controllers
 
             TempData["SearchDate"] = searchDate;
             TempData["LeagueId"] = selectedLeagueId;
+            TempData["Timezone"] = offset.ToString(@"hh\:mm");
             return View("Index", viewModal);
         }
 
@@ -157,6 +153,8 @@ namespace Score247.Management.Site.Controllers
             };
             viewModel.MatchTimeEventDto = new MatchPushEventDto(match, offset);
             viewModel.Scenarios = await scenarioRepo.GetScenarios();
+
+            TempData["Timezone"] = offset.ToString(@"hh\:mm");
 
             return View(viewModel);
         }
@@ -269,6 +267,7 @@ namespace Score247.Management.Site.Controllers
 
             TempData["SearchDate"] = searchDate;
             TempData["LeagueId"] = leagueId;
+            TempData["Timezone"] = offset.ToString(@"hh\:mm");
 
             return PartialView("NormalMatchListPartial", matches);
         }
@@ -276,7 +275,9 @@ namespace Score247.Management.Site.Controllers
         [HttpGet("Match/GetLiveMatches")]
         public async Task<ActionResult> GetLiveMatches()
         {
-            var matches = await matchService.GetLiveMatch("en-US");
+            TimeSpan.TryParse(GetTimezone(), out TimeSpan offset);
+            var matches = await matchService.GetLiveMatch("en-US", offset);
+            TempData["Timezone"] = offset.ToString(@"hh\:mm");
 
             return PartialView("LiveMatchListPartial", matches);
         }
