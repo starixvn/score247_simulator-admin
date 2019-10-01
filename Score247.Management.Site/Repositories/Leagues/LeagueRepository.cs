@@ -51,7 +51,7 @@ namespace Score247.Management.Site.Repositories.Leagues
 
             foreach (var league in leagues)
             {
-                var leagueCategory = leagueCategorys.FirstOrDefault(x => x.CountryCode == league.CountryCode);
+                var leagueCategory = leagueCategorys.FirstOrDefault(x => x.Id == league.CategoryId);
                 if (leagueCategory == null)
                 {
                     league.LeagueCategory = new LeagueCategory()
