@@ -19,6 +19,9 @@ namespace Score247Management.Core.Leagues.Models
         [JsonProperty("category")]
         public LeagueCategory LeagueCategory { get; set; }
 
+        [JsonIgnore]
+        public string CategoryId { get; set; }
+
         [JsonProperty("current_season")]
         public LeagueSeason LeagueSeason { get; set; }
 
