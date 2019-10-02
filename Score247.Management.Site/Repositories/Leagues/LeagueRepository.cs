@@ -29,12 +29,17 @@ namespace Score247.Management.Site.Repositories.Leagues
                 {
                     league.LeagueCategory = new LeagueCategory()
                     {
-                        Name = league.Country
+                        Name = league.Country,
+                        CountryCode = league.CountryCode
                     };
                 }
                 else
                 {
                     league.LeagueCategory = leagueCategory;
+                    if (string.IsNullOrWhiteSpace(league.LeagueCategory.CountryCode))
+                    {
+                        league.LeagueCategory.CountryCode = league.CountryCode;
+                    }
                 }
             }
 
@@ -53,12 +58,17 @@ namespace Score247.Management.Site.Repositories.Leagues
                 {
                     league.LeagueCategory = new LeagueCategory()
                     {
-                        Name = league.Country
+                        Name = league.Country,
+                        CountryCode = league.CountryCode
                     };
                 }
                 else
                 {
                     league.LeagueCategory = leagueCategory;
+                    if (string.IsNullOrWhiteSpace(league.LeagueCategory.CountryCode))
+                    {
+                        league.LeagueCategory.CountryCode = league.CountryCode;
+                    }
                 }
             }
             return leagues.Where(x => x.IsActive);

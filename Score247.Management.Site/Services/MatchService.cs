@@ -593,6 +593,7 @@ namespace Score247.Management.Site.Services
             await SaveLiveMatchToFile(content);
             await simulatorService.SendLiveResult(content);
             await triggerJobService.TriggerFetchLiveMatch();
+            await triggerJobService.TriggerFetchLiveMatchTimeline();
         }
 
         private Result BuildLiveMatchFromMatch(Match match)
@@ -694,6 +695,7 @@ namespace Score247.Management.Site.Services
             await SaveLiveMatchToFile(content);
             await simulatorService.SendLiveResult(content);
             await triggerJobService.TriggerFetchLiveMatch();
+            await triggerJobService.TriggerFetchLiveMatchTimeline();
         }
     }
 }

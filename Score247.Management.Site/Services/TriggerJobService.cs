@@ -18,6 +18,8 @@ namespace Score247.Management.Site.Services
         Task TriggerFetchOddsChangeLogsJobs();
 
         Task TriggerFetchLiveMatch();
+
+        Task TriggerFetchLiveMatchTimeline();
     }
 
     public class TriggerJobService : ITriggerJobService
@@ -77,6 +79,13 @@ namespace Score247.Management.Site.Services
         public async Task TriggerFetchLiveMatch()
         {
             var jobs = new List<string>() { "FetchLiveMatch" };
+
+            await TriggerJobs(jobs);
+        }
+
+        public async Task TriggerFetchLiveMatchTimeline()
+        {
+            var jobs = new List<string>() { "FetchLiveMatchTimeline" };
 
             await TriggerJobs(jobs);
         }
