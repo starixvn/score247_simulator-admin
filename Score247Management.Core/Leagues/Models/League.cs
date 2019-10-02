@@ -14,7 +14,21 @@ namespace Score247Management.Core.Leagues.Models
         public string Country { get; set; }
         public string CountryCode { get; set; }
         public string Region { get; set; }
-        public string Flag { get; set; }
+
+        public string Flag
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(CountryCode))
+                {
+                    return "http://ha.nexdev.net:7209/Test/flags/default_flag.svg";
+                }
+                else
+                {
+                    return "http://ha.nexdev.net:7209/Test/flags/" + CountryCode + ".svg";
+                }
+            }
+        }
 
         [JsonProperty("category")]
         public LeagueCategory LeagueCategory { get; set; }
