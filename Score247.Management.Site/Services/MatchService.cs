@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Score247.Management.Site.Models;
@@ -35,6 +36,10 @@ namespace Score247.Management.Site.Services
         Task<IEnumerable<Match>> SearchMatchByDateAndLeague(DateTime dateSearch, string leagueId, TimeSpan offset);
 
         Task CloseAllLiveMatches();
+
+        Task<Result> GetSimulatorResult(string matchId);
+
+        Task SendCustomLiveMatch(string matchId, Sport_Event_Status sport_Event_Status);
     }
 
     public class MatchService : IMatchService
@@ -648,6 +653,45 @@ namespace Score247.Management.Site.Services
 
             await SaveLiveMatchToFile(content);
 
+            await simulatorService.SendLiveResult(content);
+            await triggerJobService.TriggerFetchLiveMatch();
+        }
+
+        public async Task<Result> GetSimulatorResult(string matchId)
+        {
+            var dailyResult = await ReadLiveMatchFromFile();
+
+            return dailyResult?.results?.FirstOrDefault(result => result.sport_event.Id == matchId);
+        }
+
+        public async Task SendCustomLiveMatch(string matchId, Sport_Event_Status sport_Event_Status)
+        {
+            var result = await GetSimulatorResult(matchId);
+            if (result == null)
+            {
+                return;
+            }
+            sport_Event_Status.period_scores = result.sport_event_status.period_scores;
+
+            result.sport_event_status = sport_Event_Status;
+            result.sport_event.Status = sport_Event_Status.status;
+
+            var content = await ReadLiveMatchFromFile();
+            if (content == null)
+            {
+                content = new DailyResultDto
+                {
+                    generated_at = DateTime.UtcNow,
+                    schema = "Matches",
+                    results = new List<Result>()
+                };
+            }
+            var newLiveMatches = content.results.Where(x => x.sport_event.Id != matchId).ToList();
+
+            newLiveMatches.Add(result);
+            content.results = newLiveMatches;
+
+            await SaveLiveMatchToFile(content);
             await simulatorService.SendLiveResult(content);
             await triggerJobService.TriggerFetchLiveMatch();
         }

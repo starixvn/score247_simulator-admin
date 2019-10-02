@@ -1,0 +1,87 @@
+﻿@using  Score247Management.Core._Shared.Enumerations
+
+@model Score247.Management.Site.Models.Events.Result
+
+@{
+    var homeTeam = @Model.sport_event.Competitors.FirstOrDefault(x => x.qualifier == "home");
+    var awayTeam = @Model.sport_event.Competitors.FirstOrDefault(x => x.qualifier == "away");
+}
+@{
+    IEnumerable<SelectListItem> statusList = MatchStatus.GetAll<MatchStatus>
+            ().Select(i => new SelectListItem()
+            {
+                Text = i.DisplayName,
+                Value = i.DisplayName
+            });
+}
+<div class="row">
+    <div class="col-md-12">
+        <form id="UpdateLiveMatchForm" onsubmit="return UpdateLiveMatch('@Model.sport_event.Id',event)" class="flex-column">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="col-md-4">
+                    <p>Home Team: @homeTeam.Name (@homeTeam.Id)</p>
+                    <p>Away Team: @awayTeam.Name (@awayTeam.Id)</p>
+                    <p>Tournament: @Model.sport_event.Tournament.Name (@Model.sport_event.Tournament.Id)</p>
+                    <p>Event Date: @Model.sport_event.Scheduled (UTC)</p>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="sport_event_status.status">Event Status:</label>
+                        <select asp-for="@Model.sport_event_status.status" asp-items="statusList" class="form-control"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="sport_event_status.match_status">Match Status:</label>
+                        <select asp-for="@Model.sport_event_status.match_status" asp-items="statusList" class="form-control"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="sport_event_status.period">Period:</label>
+                        <input value="@Model.sport_event_status.period" name="sport_event_status.period" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="sport_event_status.clock.match_time">Match Clock:</label>
+                        <input value="@Model.sport_event_status.clock.match_time" name="sport_event_status.clock.match_time" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="sport_event_status.home_score">Home Score:</label>
+                        <input value="@Model.sport_event_status.home_score" name="sport_event_status.home_score" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="sport_event_status.away_score">Away Score:</label>
+                        <input value="@Model.sport_event_status.away_score" name="sport_event_status.away_score" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="sport_event_status.winner_id">Winner Id:</label>
+                        <input value="@Model.sport_event_status.winner_id" name="sport_event_status.winner_id" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="sport_event_status.aggregate_home_score">Aggregate Home Score:</label>
+                        <input value="@Model.sport_event_status.aggregate_home_score" name="sport_event_status.aggregate_home_score" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="sport_event_status.aggregate_away_score">Aggregate Away Score:</label>
+                        <input value="@Model.sport_event_status.aggregate_away_score" name="sport_event_status.aggregate_away_score" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="sport_event_status.aggregate_winner_id">Aggregate Winner Id:</label>
+                        <input value="@Model.sport_event_status.aggregate_winner_id" name="sport_event_status.aggregate_winner_id" class="form-control" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <input class="btn btn-cancel" type="reset" onclick="GetLiveMatch()" value="Cancel" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+        });
+    </script>
+}

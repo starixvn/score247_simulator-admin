@@ -9,12 +9,6 @@ $(document).ready(function () {
             format: 'DD/MM/YYYY'
         }
     });
-    //var timezone = sessionStorage.getItem("Timezone");
-    //if (timezone === null) {
-    //    $('#inputTimezone').val("00:00:00");
-    //} else {
-    //    $('#inputTimezone').val(timezone);
-    //}
     $('#inputTimezone').val();
     $('#loadingDiv').hide();
     var tlt = $('#TimelineTable').DataTable({
@@ -652,7 +646,24 @@ function CloseLiveMatch(matchId) {
         }
     });
 }
-
+function OpenLiveMatchDetail(matchId) {
+    ShowLoadingSpinner('#listMatches');
+    $.ajax({
+        async: true,
+        url: urlPrefix() + '/Live/PreviewLiveMatch?matchId=' + matchId,
+        type: 'post',
+        contentType: 'application/json; charset=utf-8',
+        success: function (oddsComparisonPartial) {
+            $("#listMatches").html(oddsComparisonPartial);
+            HideLoadingSpinner('#listMatches');
+        },
+        error: function (ex) {
+            console.log(ex);
+            $("#listMatches").html(ex.responseText);
+            HideLoadingSpinner('#listMatches');
+        }
+    });
+}
 function TriggerMatchDatatable() {
     var m = $('#mathes-table').DataTable({
         "columnDefs": [{
@@ -696,4 +707,41 @@ function ShowHideSearchDate() {
     } else {
         $('#dateRangeSearch').addClass("d-none");
     }
+}
+
+function UpdateLiveMatch(matchId, e) {
+    e.preventDefault();
+    var formInputs = e.target.elements;
+    var sport_Event_Status = {
+        status: formInputs["sport_event_status.status"].value,
+        match_status: formInputs["sport_event_status.match_status"].value,
+        home_score: formInputs["sport_event_status.home_score"].value,
+        away_score: formInputs["sport_event_status.away_score"].value,
+        winner_id: formInputs["sport_event_status.winner_id"].value,
+        aggregate_home_score: formInputs["sport_event_status.aggregate_home_score"].value,
+        aggregate_away_score: formInputs["sport_event_status.aggregate_away_score"].value,
+        aggregate_winner_id: formInputs["sport_event_status.aggregate_winner_id"].value,
+        period: formInputs["sport_event_status.period"].value,
+        clock: {
+            match_time: formInputs["sport_event_status.clock.match_time"].value
+        },
+        period_scores: null
+    };
+    console.log(sport_Event_Status);
+    ShowLoadingSpinner('#listMatches');
+    $.ajax({
+        async: true,
+        url: urlPrefix() + '/Live/UpdateLiveMatch?matchId=' + matchId,
+        type: 'post',
+        data: JSON.stringify(sport_Event_Status),
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
+        success: function (oddsComparisonPartial) {
+            GetLiveMatch();
+        },
+        error: function (ex) {
+            console.log(ex);
+            GetLiveMatch();
+        }
+    });
 }

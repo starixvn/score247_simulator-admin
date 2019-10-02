@@ -81,7 +81,9 @@
                 </td>
                 <td style="font-size:x-small;">
                     @Html.ActionLink("Main Events", "Details", new { id = item.Id }) |
-                    <a href="#" onclick="CloseLiveMatch(`@item.Id`)">Closed</a>
+                    <a href="#" onclick="CloseLiveMatch(`@item.Id`)">Closed</a> |
+                    <a href="#" onclick="OpenLiveMatchDetail(`@item.Id`)">Edit</a>
+                    @*@Html.ActionLink("Edit", "PreviewLiveMatch", "Live", new { matchId = item.Id })*@
                 </td>
             </tr>
         }
