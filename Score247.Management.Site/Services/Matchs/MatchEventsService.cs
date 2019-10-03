@@ -6,6 +6,7 @@ using Score247.Management.Site.Helpers;
 using Score247.Management.Site.Models.Events;
 using Score247.Management.Site.Repositories.Matches;
 using Score247Management.Core._Shared.Enumerations;
+using Score247Management.Core.Matches.Models;
 
 namespace Score247.Management.Site.Services.Matchs
 {
@@ -136,9 +137,11 @@ namespace Score247.Management.Site.Services.Matchs
             var eventDate = Convert.ToDateTime(collection["payload.timeline.time"]);
             var eventTimeSpan = TimeSpan.Parse(collection["payload.timeline.hour"]);
             var eventTime = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, eventTimeSpan.Hours, eventTimeSpan.Minutes, eventTimeSpan.Seconds, DateTimeKind.Utc).Subtract(offset).ToUniversalTime();
+
+            var isNotDublicateEvent = string.IsNullOrWhiteSpace(collection["payload.timeline.id"]);
             requestBody.payload.timeline = new TimelineDto()
             {
-                id = string.IsNullOrWhiteSpace(collection["payload.timeline.id"]) ? UniqueGenerator.GetIntId() : long.Parse(collection["payload.timeline.id"]),
+                id = isNotDublicateEvent ? UniqueGenerator.GetIntId() : long.Parse(collection["payload.timeline.id"]),
                 time = eventTime
             };
 
@@ -158,21 +161,10 @@ namespace Score247.Management.Site.Services.Matchs
             requestBody.payload.timeline.period_type = PeriodType.Penalties.DisplayName;
             requestBody.payload.timeline.status = collection["payload.timeline.status"];
 
-            var periodScores = requestBody.payload.sport_event_status.period_scores.ToList();
-            if (requestBody.payload.timeline.status == "scored")
+            if (isNotDublicateEvent)
             {
-                var periodScoresPosition = periodScores.FindIndex(x => x.type == PeriodType.Penalties.DisplayName);
-                if (requestBody.payload.timeline.team == "home")
-                {
-                    periodScores[periodScoresPosition].home_score++;
-                }
-                else
-                {
-                    periodScores[periodScoresPosition].away_score++;
-                }
+                requestBody = UpdatePenaltyScore(requestBody);
             }
-
-            requestBody.payload.sport_event_status.period_scores = periodScores;
 
             await simulatorService.SendMatchEvent(requestBody);
         }
@@ -186,9 +178,11 @@ namespace Score247.Management.Site.Services.Matchs
             var eventDate = Convert.ToDateTime(collection["payload.timeline.time"]);
             var eventTimeSpan = TimeSpan.Parse(collection["payload.timeline.hour"]);
             var eventTime = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, eventTimeSpan.Hours, eventTimeSpan.Minutes, eventTimeSpan.Seconds, DateTimeKind.Utc).Subtract(offset).ToUniversalTime();
+
+            var isNotDublicateEvent = string.IsNullOrWhiteSpace(collection["payload.timeline.id"]);
             requestBody.payload.timeline = new TimelineDto()
             {
-                id = string.IsNullOrWhiteSpace(collection["payload.timeline.id"]) ? UniqueGenerator.GetIntId() : long.Parse(collection["payload.timeline.id"]),
+                id = isNotDublicateEvent ? UniqueGenerator.GetIntId() : long.Parse(collection["payload.timeline.id"]),
                 time = eventTime,
                 period_type = "regular_period",
                 period = match.MatchResult.Period
@@ -229,71 +223,11 @@ namespace Score247.Management.Site.Services.Matchs
                 requestBody.payload.timeline.period_type = "overtime";
                 requestBody.payload.timeline.stoppage_time = collection["payload.timeline.stoppage_time"];
             }
-            var isHomeScore = requestBody.payload.timeline.team == "home";
 
-            if (isHomeScore)
+            if (isNotDublicateEvent)
             {
-                requestBody.payload.timeline.home_score++;
+                requestBody = UpdateScoreChange(requestBody, periodType, match);
             }
-            else
-            {
-                requestBody.payload.timeline.away_score++;
-            }
-            var periodScores = requestBody.payload.sport_event_status.period_scores.ToList();
-            if (periodType == PeriodType.Overtime.DisplayName)
-            {
-                var periodScoresPosition = periodScores.FindIndex(x => x.type == PeriodType.Overtime.DisplayName);
-                if (periodScoresPosition < 0)
-                {
-                    periodScores.Add(new Period_Scores
-                    {
-                        away_score = isHomeScore ? 0 : 1,
-                        home_score = isHomeScore ? 1 : 0,
-                        type = PeriodType.Overtime.DisplayName
-                    });
-                }
-                else
-                {
-                    if (isHomeScore)
-                    {
-                        periodScores[periodScoresPosition].home_score++;
-                    }
-                    else
-                    {
-                        periodScores[periodScoresPosition].away_score++;
-                    }
-                }
-            }
-            else
-            {
-                var periodScoresPosition = periodScores.FindIndex(x => x.type == PeriodType.RegularPeriod.DisplayName && x.number == match.MatchResult.Period);
-                if (periodScoresPosition < 0)
-                {
-                    periodScores.Add(new Period_Scores
-                    {
-                        away_score = isHomeScore ? 0 : 1,
-                        home_score = isHomeScore ? 1 : 0,
-                        type = PeriodType.RegularPeriod.DisplayName,
-                        number = match.LatestTimeline.Period
-                    });
-                }
-                else
-                {
-                    if (isHomeScore)
-                    {
-                        periodScores[periodScoresPosition].home_score++;
-                    }
-                    else
-                    {
-                        periodScores[periodScoresPosition].away_score++;
-                    }
-                }
-            }
-
-            requestBody.payload.sport_event_status.period_scores = periodScores;
-
-            requestBody.payload.sport_event_status.home_score = requestBody.payload.timeline.home_score;
-            requestBody.payload.sport_event_status.away_score = requestBody.payload.timeline.away_score;
 
             await simulatorService.SendMatchEvent(requestBody);
 
@@ -605,6 +539,97 @@ namespace Score247.Management.Site.Services.Matchs
             await simulatorService.SendMatchEvent(requestBody);
 
             await matchService.UpdateLiveMatch(match.Id);
+        }
+
+        private MatchPushEventDto UpdateScoreChange(MatchPushEventDto requestBody, string periodType, Match match)
+        {
+            var isHomeScore = requestBody.payload.timeline.team == "home";
+
+            if (isHomeScore)
+            {
+                requestBody.payload.timeline.home_score++;
+            }
+            else
+            {
+                requestBody.payload.timeline.away_score++;
+            }
+            var periodScores = requestBody.payload.sport_event_status.period_scores.ToList();
+            if (periodType == PeriodType.Overtime.DisplayName)
+            {
+                var periodScoresPosition = periodScores.FindIndex(x => x.type == PeriodType.Overtime.DisplayName);
+                if (periodScoresPosition < 0)
+                {
+                    periodScores.Add(new Period_Scores
+                    {
+                        away_score = isHomeScore ? 0 : 1,
+                        home_score = isHomeScore ? 1 : 0,
+                        type = PeriodType.Overtime.DisplayName
+                    });
+                }
+                else
+                {
+                    if (isHomeScore)
+                    {
+                        periodScores[periodScoresPosition].home_score++;
+                    }
+                    else
+                    {
+                        periodScores[periodScoresPosition].away_score++;
+                    }
+                }
+            }
+            else
+            {
+                var periodScoresPosition = periodScores.FindIndex(x => x.type == PeriodType.RegularPeriod.DisplayName && x.number == match.MatchResult.Period);
+                if (periodScoresPosition < 0)
+                {
+                    periodScores.Add(new Period_Scores
+                    {
+                        away_score = isHomeScore ? 0 : 1,
+                        home_score = isHomeScore ? 1 : 0,
+                        type = PeriodType.RegularPeriod.DisplayName,
+                        number = match.LatestTimeline.Period
+                    });
+                }
+                else
+                {
+                    if (isHomeScore)
+                    {
+                        periodScores[periodScoresPosition].home_score++;
+                    }
+                    else
+                    {
+                        periodScores[periodScoresPosition].away_score++;
+                    }
+                }
+            }
+
+            requestBody.payload.sport_event_status.period_scores = periodScores;
+            requestBody.payload.sport_event_status.home_score = requestBody.payload.timeline.home_score;
+            requestBody.payload.sport_event_status.away_score = requestBody.payload.timeline.away_score;
+
+            return requestBody;
+        }
+
+        private MatchPushEventDto UpdatePenaltyScore(MatchPushEventDto requestBody)
+        {
+            var periodScores = requestBody.payload.sport_event_status.period_scores.ToList();
+            if (requestBody.payload.timeline.status == "scored")
+            {
+                var periodScoresPosition = periodScores.FindIndex(x => x.type == PeriodType.Penalties.DisplayName);
+                if (requestBody.payload.timeline.team == "home")
+                {
+                    periodScores[periodScoresPosition].home_score++;
+                }
+                else
+                {
+                    periodScores[periodScoresPosition].away_score++;
+                }
+            }
+
+            requestBody.payload.sport_event_status.period_scores = periodScores;
+
+            return requestBody;
         }
     }
 }
