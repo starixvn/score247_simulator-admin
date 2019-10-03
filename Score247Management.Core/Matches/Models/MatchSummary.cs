@@ -42,7 +42,9 @@
             IEnumerable<MatchPeriod> matchPeriods,
             string countryCode,
             string countryName,
-            DateTimeOffset modifiedTime)
+            DateTimeOffset modifiedTime,
+            bool isInternationalLeague,
+            int leagueOrder)
 #pragma warning restore S107 // Methods should not have too many parameters
         {
             Id = id;
@@ -74,92 +76,12 @@
             CountryCode = countryCode;
             CountryName = countryName;
             ModifiedTime = modifiedTime;
+            IsInternationalLeague = isInternationalLeague;
+            LeagueOrder = leagueOrder;
         }
 
         public MatchSummary()
         {
-        }
-
-        public MatchSummary(Match match)
-        {
-            Id = match.Id;
-            EventDate = match.EventDate;
-            CurrentPeriodStartTime = match.CurrentPeriodStartTime;
-            ModifiedTime = match.ModifiedTime;
-
-            if (match.League != null)
-            {
-                LeagueId = match.League.Id;
-                LeagueName = match.League.Name;
-                CountryCode = match.League.LeagueCategory?.CountryCode;
-                CountryName = match.League.LeagueCategory?.Name;
-            }
-
-            AssignMatchResult(match);
-            AssignTeamInformation(match);
-            AssignLatestTimeline(match);
-        }
-
-        private void AssignLatestTimeline(Match match)
-        {
-            if (match.LatestTimeline != null)
-            {
-                StoppageTime = match.LatestTimeline.StoppageTime;
-                InjuryTimeAnnounced = (byte)match.LatestTimeline.InjuryTimeAnnounced;
-                LastTimelineType = match.LatestTimeline.Type;
-            }
-        }
-
-        private void AssignMatchResult(Match match)
-        {
-            if (match.MatchResult != null)
-            {
-                EventStatus = match.MatchResult.EventStatus;
-                MatchStatus = match.MatchResult.MatchStatus;
-                HomeScore = (byte)match.MatchResult.HomeScore;
-                AwayScore = (byte)match.MatchResult.AwayScore;
-                WinnerId = match.MatchResult.WinnerId;
-                AggregateWinnerId = match.MatchResult.AggregateWinnerId;
-                AggregateHomeScore = (byte)match.MatchResult.AggregateHomeScore;
-                AggregateAwayScore = (byte)match.MatchResult.AggregateAwayScore;
-                MatchTime = (byte)match.MatchResult.MatchTime;
-                MatchPeriods = match.MatchResult.MatchPeriods;
-            }
-        }
-
-        private void AssignTeamInformation(Match match)
-        {
-            const int twoTeams = 2;
-
-            if (match.Teams != null && match.Teams.Count() >= twoTeams)
-            {
-                var homeTeam = match.Teams.FirstOrDefault(t => t.IsHome);
-                var awayTeam = match.Teams.FirstOrDefault(t => !t.IsHome);
-
-                if (homeTeam != null)
-                {
-                    HomeTeamId = homeTeam.Id;
-                    HomeTeamName = homeTeam.Name;
-
-                    if (homeTeam.Statistic != null)
-                    {
-                        HomeRedCards = (byte)homeTeam.Statistic.RedCards;
-                        HomeYellowRedCards = (byte)homeTeam.Statistic.YellowRedCards;
-                    }
-                }
-
-                if (awayTeam != null)
-                {
-                    AwayTeamId = awayTeam.Id;
-                    AwayTeamName = awayTeam.Name;
-
-                    if (awayTeam.Statistic != null)
-                    {
-                        AwayRedCards = (byte)awayTeam.Statistic.RedCards;
-                        AwayYellowRedCards = (byte)awayTeam.Statistic.YellowRedCards;
-                    }
-                }
-            }
         }
 
         [Key(0)]
@@ -167,9 +89,6 @@
 
         [Key(1)]
         public DateTimeOffset EventDate { get; private set; }
-
-        [IgnoreMember]
-        public string DisplayDate { get; set; }
 
         [Key(2)]
         public DateTimeOffset CurrentPeriodStartTime { get; private set; }
@@ -252,10 +171,19 @@
         [Key(28)]
         public DateTimeOffset ModifiedTime { get; private set; }
 
+        [Key(29)]
+        public bool IsInternationalLeague { get; private set; }
+
+        [Key(30)]
+        public int LeagueOrder { get; private set; }
+
         [IgnoreMember]
         public string DisplayResult
         {
             get => HomeScore.ToString() + " - " + AwayScore.ToString();
         }
+
+        [IgnoreMember]
+        public string DisplayDate { get; set; }
     }
 }

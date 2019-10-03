@@ -689,7 +689,23 @@ function TriggerMatchDatatable() {
         else {
             table.order([groupColumn, 'asc']).draw();
         }
+    }); 
+    var lm = $('#live-mathes-table').DataTable({
+        "columnDefs": [{
+            "searchable": true,
+            "orderable": true,
+            "targets": 0
+        }],
+        "order": [[3, 'asc'], [1, 'asc']],
+        "dom": '<"top"if>rt<"bottom"><"clear">',
+        iDisplayLength: -1
     });
+
+    lm.on('order.dt search.dt', function () {
+        m.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+            cell.innerHTML = i + 1;
+        });
+    }).draw();
 }
 
 function ShowLoadingSpinner(divId) {

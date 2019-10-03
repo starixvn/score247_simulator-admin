@@ -25,7 +25,7 @@
         </div>
     </div>
 </div>
-<table id="mathes-table" class="table table-striped table-bordered" style="width:100%">
+<table id="live-mathes-table" class="table table-striped table-bordered" style="width:100%">
     <thead>
         <tr>
             <th></th>
@@ -34,6 +34,12 @@
             </th>
             <th>
                 @Html.DisplayName("Teams")
+            </th>
+            <th>
+                Order
+            </th>
+            <th>
+                Country Name
             </th>
             <th>
                 League
@@ -65,7 +71,13 @@
                     @Html.DisplayFor(modelItem => item.HomeTeamName) vs @Html.DisplayFor(modelItem => item.AwayTeamName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.LeagueName) (@Html.DisplayFor(modelItem => item.LeagueName))
+                    @Html.DisplayFor(modelItem => item.LeagueOrder)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CountryName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LeagueName)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.EventStatus.DisplayName)
