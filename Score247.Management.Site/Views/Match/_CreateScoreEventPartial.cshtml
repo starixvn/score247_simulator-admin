@@ -69,6 +69,10 @@
             <form asp-action="_CreateScoreEventPartial" asp-route-id="@ViewBag.MatchId">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="column">
+                    <div class="form-group">
+                        <label asp-for="payload.timeline.id" class="control-label">Event Id:</label>
+                        <input name="payload.timeline.id" value="" class="form-control" />
+                    </div>
                     <div class="form-group ">
                         <label asp-for="payload.timeline.type" class="control-label">Event Type</label>
                         <select id="scoreEventType" asp-for="payload.timeline.type" asp-items="eventTypes" class="form-control" onchange="scoreEventTypeChange(this)"></select>

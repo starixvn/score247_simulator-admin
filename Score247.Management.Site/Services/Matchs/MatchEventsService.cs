@@ -43,7 +43,7 @@ namespace Score247.Management.Site.Services.Matchs
             var eventTime = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, eventTimeSpan.Hours, eventTimeSpan.Minutes, eventTimeSpan.Seconds, DateTimeKind.Utc).Subtract(offset).ToUniversalTime();
             requestBody.payload.timeline = new TimelineDto()
             {
-                id = UniqueGenerator.GetIntId(),
+                id = string.IsNullOrWhiteSpace(collection["payload.timeline.id"]) ? UniqueGenerator.GetIntId() : long.Parse(collection["payload.timeline.id"]),
                 time = eventTime,
                 period = match.MatchResult.Period,
                 type = collection["payload.timeline.type"],
@@ -88,7 +88,7 @@ namespace Score247.Management.Site.Services.Matchs
             var eventTime = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, eventTimeSpan.Hours, eventTimeSpan.Minutes, eventTimeSpan.Seconds, DateTimeKind.Utc).Subtract(offset).ToUniversalTime();
             requestBody.payload.timeline = new TimelineDto()
             {
-                id = UniqueGenerator.GetIntId(),
+                id = string.IsNullOrWhiteSpace(collection["payload.timeline.id"]) ? UniqueGenerator.GetIntId() : long.Parse(collection["payload.timeline.id"]),
                 time = eventTime,
                 period = 1,
                 type = EventType.InjuryTimeShown.DisplayName,
@@ -138,7 +138,7 @@ namespace Score247.Management.Site.Services.Matchs
             var eventTime = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, eventTimeSpan.Hours, eventTimeSpan.Minutes, eventTimeSpan.Seconds, DateTimeKind.Utc).Subtract(offset).ToUniversalTime();
             requestBody.payload.timeline = new TimelineDto()
             {
-                id = UniqueGenerator.GetIntId(),
+                id = string.IsNullOrWhiteSpace(collection["payload.timeline.id"]) ? UniqueGenerator.GetIntId() : long.Parse(collection["payload.timeline.id"]),
                 time = eventTime
             };
 
@@ -188,7 +188,7 @@ namespace Score247.Management.Site.Services.Matchs
             var eventTime = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, eventTimeSpan.Hours, eventTimeSpan.Minutes, eventTimeSpan.Seconds, DateTimeKind.Utc).Subtract(offset).ToUniversalTime();
             requestBody.payload.timeline = new TimelineDto()
             {
-                id = UniqueGenerator.GetIntId(),
+                id = string.IsNullOrWhiteSpace(collection["payload.timeline.id"]) ? UniqueGenerator.GetIntId() : long.Parse(collection["payload.timeline.id"]),
                 time = eventTime,
                 period_type = "regular_period",
                 period = match.MatchResult.Period
@@ -310,7 +310,7 @@ namespace Score247.Management.Site.Services.Matchs
             var eventTime = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, eventTimeSpan.Hours, eventTimeSpan.Minutes, eventTimeSpan.Seconds, DateTimeKind.Utc).Subtract(offset).ToUniversalTime();
             requestBody.payload.timeline = new TimelineDto()
             {
-                id = UniqueGenerator.GetIntId(),
+                id = string.IsNullOrWhiteSpace(collection["payload.timeline.id"]) ? UniqueGenerator.GetIntId() : long.Parse(collection["payload.timeline.id"]),
                 time = eventTime,
                 period_type = "regular_period",
                 period = match.MatchResult.Period
