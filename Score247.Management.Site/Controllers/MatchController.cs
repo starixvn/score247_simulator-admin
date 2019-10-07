@@ -42,21 +42,18 @@ namespace Score247.Management.Site.Controllers
         // GET: Match
         public async Task<ActionResult> Index()
         {
-            var repository = new MatchRepository();
             var leagueRepository = new LeagueRepository();
             var leagues = await leagueRepository.GetLeagues();
             TimeSpan.TryParse(GetTimezone(), out TimeSpan offset);
             var viewModal = new MatchViewModel();
             var timeNow = DateTime.UtcNow.Add(offset);
-            var fromDate = new DateTime(timeNow.Year, timeNow.Month, timeNow.Day, 0, 0, 0, DateTimeKind.Utc).Subtract(offset);
-            var toDate = new DateTime(timeNow.Year, timeNow.Month, timeNow.Day, 23, 59, 59, DateTimeKind.Utc).Subtract(offset);
             viewModal.DateSearchModel = new DateSearchModel()
             {
                 SearchDate = timeNow,
                 Leagues = leagues,
                 SelectedLeagueId = "all"
             };
-            var matches = await repository.GetMatchByDataRangeWithOffset(fromDate, toDate, "all", offset);
+            var matches = await matchService.SearchMatchByDateAndLeague(timeNow, "all", offset);
             viewModal.Matches = matches;
             viewModal.CreateDeleteMatchesModels = CreateDeleteMatchesModel.CreateFromToDay();
             viewModal.QuickDateSelectOptions = GenerateQuickDateSelectOptions(offset);

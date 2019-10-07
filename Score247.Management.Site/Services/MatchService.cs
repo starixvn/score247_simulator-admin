@@ -5,7 +5,6 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Score247.Management.Site.Models;
@@ -16,6 +15,7 @@ using Score247.Management.Site.Repositories.Matches.Models;
 using Score247.Management.Site.Repositories.Teams;
 using Score247Management.Core._Shared.Enumerations;
 using Score247Management.Core.Matches.Models;
+using MatchSummary = Score247Management.Core.Matches.Models.MatchSummary;
 
 namespace Score247.Management.Site.Services
 {
@@ -33,7 +33,7 @@ namespace Score247.Management.Site.Services
 
         Task DeleteMatchesByDate(CreateDeleteMatchesModel createDeleteMatchesRequest, TimeSpan offset);
 
-        Task<IEnumerable<Match>> SearchMatchByDateAndLeague(DateTime dateSearch, string leagueId, TimeSpan offset);
+        Task<IEnumerable<MatchSummary>> SearchMatchByDateAndLeague(DateTime dateSearch, string leagueId, TimeSpan offset);
 
         Task CloseAllLiveMatches();
 
@@ -74,9 +74,9 @@ namespace Score247.Management.Site.Services
                              && !x.Name.Contains("Corner"))
                  .ToList();
             var activeLeagues = await leagueRepo.GetActiveLeagues();
-            int splitTeamPosition = (teams.Count - 1) / 2;
+            var splitTeamPosition = (teams.Count - 1) / 2;
 
-            List<MatchEntity> matches = new List<MatchEntity>();
+            var matches = new List<MatchEntity>();
             foreach (var league in activeLeagues)
             {
                 var eventDate = GetEventDate(createDate, offset, false);
@@ -111,34 +111,36 @@ namespace Score247.Management.Site.Services
             return result;
         }
 
-        private static DateTime GetEventDate(DateTime dateTime, TimeSpan offset, bool dontRandomTime)
+        private static DateTime GetEventDate(DateTime dateTime, TimeSpan offset, bool doNotRandomTime)
         {
             var ran = new Random();
-            var hour = dontRandomTime ? dateTime.Hour : ran.Next(0, 23);
-            var minute = dontRandomTime ? dateTime.Minute : ran.Next(0, 12) * 5;
+            var hour = doNotRandomTime ? dateTime.Hour : ran.Next(0, 23);
+            var minute = doNotRandomTime ? dateTime.Minute : ran.Next(0, 12) * 5;
 
             return new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, hour, minute, 0, DateTimeKind.Utc).Subtract(offset);
         }
 
-        private Sport_Event_Status RandomMatchEventStatus(string homeTeamId, string awayTeamId)
+        private static Sport_Event_Status RandomMatchEventStatus(string homeTeamId, string awayTeamId)
         {
             var ran = new Random();
-            var eventStatus = new Sport_Event_Status();
-            eventStatus.period_scores = new List<Period_Scores>()
+            var eventStatus = new Sport_Event_Status
             {
-                new Period_Scores()
+                period_scores = new List<Period_Scores>()
                 {
-                    away_score = ran.Next(0, 2),
-                    home_score = ran.Next(0, 2),
-                    number = 1,
-                    type = "regular_period"
-                },
-                new Period_Scores()
-                {
-                    away_score = ran.Next(0, 2),
-                    home_score = ran.Next(0, 2),
-                    number = 2,
-                    type = "regular_period"
+                    new Period_Scores()
+                    {
+                        away_score = ran.Next(0, 2),
+                        home_score = ran.Next(0, 2),
+                        number = 1,
+                        type = "regular_period"
+                    },
+                    new Period_Scores()
+                    {
+                        away_score = ran.Next(0, 2),
+                        home_score = ran.Next(0, 2),
+                        number = 2,
+                        type = "regular_period"
+                    }
                 }
             };
             eventStatus.home_score = eventStatus.period_scores.Sum(x => x.home_score);
@@ -165,25 +167,27 @@ namespace Score247.Management.Site.Services
             return eventStatus;
         }
 
-        private Sport_Event_Status RandomLiveMatchEventStatus(string homeTeamId, string awayTeamId)
+        private Sport_Event_Status RandomLiveMatchEventStatus()
         {
             var ran = new Random();
-            var eventStatus = new Sport_Event_Status();
-            eventStatus.period_scores = new List<Period_Scores>()
+            var eventStatus = new Sport_Event_Status
             {
-                new Period_Scores()
+                period_scores = new List<Period_Scores>()
                 {
-                    away_score = ran.Next(0, 2),
-                    home_score = ran.Next(0, 2),
-                    number = 1,
-                    type = "regular_period"
-                },
-                new Period_Scores()
-                {
-                    away_score = ran.Next(0, 2),
-                    home_score = ran.Next(0, 2),
-                    number = 2,
-                    type = "regular_period"
+                    new Period_Scores()
+                    {
+                        away_score = ran.Next(0, 2),
+                        home_score = ran.Next(0, 2),
+                        number = 1,
+                        type = "regular_period"
+                    },
+                    new Period_Scores()
+                    {
+                        away_score = ran.Next(0, 2),
+                        home_score = ran.Next(0, 2),
+                        number = 2,
+                        type = "regular_period"
+                    }
                 }
             };
             eventStatus.home_score = eventStatus.period_scores.Sum(x => x.home_score);
@@ -197,8 +201,8 @@ namespace Score247.Management.Site.Services
 
         private async Task<int> SendCreateMatchesRequest(List<MatchEntity> allMatches, bool requiredTriggerInsertMatch)
         {
-            var matchByDateUTCGroup = allMatches.GroupBy(d => d.Scheduled.Date);
-            foreach (var matchByDate in matchByDateUTCGroup)
+            var matchByDateUtcGroup = allMatches.GroupBy(d => d.Scheduled.Date);
+            foreach (var matchByDate in matchByDateUtcGroup)
             {
                 var createDate = matchByDate.Key;
                 var matches = matchByDate.ToList();
@@ -223,7 +227,7 @@ namespace Score247.Management.Site.Services
                         var matchWithResult = new Models.Events.Result()
                         {
                             sport_event = match,
-                            sport_event_status = RandomMatchEventStatus(match.Competitors.ElementAtOrDefault(0).Id, match.Competitors.ElementAtOrDefault(1).Id)
+                            sport_event_status = RandomMatchEventStatus(match.Competitors.ElementAtOrDefault(0)?.Id, match.Competitors.ElementAtOrDefault(1)?.Id)
                         };
 
                         dailyResults.Add(matchWithResult);
@@ -316,7 +320,7 @@ namespace Score247.Management.Site.Services
 
                 await SendDailySchedule(matches, createDate);
                 await triggerJobService.TriggerCreateMatchJobs();
-                await CheckIfMatchInserted(matches.LastOrDefault().Id);
+                await CheckIfMatchInserted(matches.LastOrDefault()?.Id);
 
                 dailyResults = dailyResults.Select(result =>
                 {
@@ -502,7 +506,7 @@ namespace Score247.Management.Site.Services
                 var result = new Result()
                 {
                     sport_event = matchEntity,
-                    sport_event_status = RandomLiveMatchEventStatus(matchEntity.Competitors.ElementAtOrDefault(0).Id, matchEntity.Competitors.ElementAtOrDefault(1).Id)
+                    sport_event_status = RandomLiveMatchEventStatus()
                 };
                 results.Add(result);
             }
@@ -554,13 +558,19 @@ namespace Score247.Management.Site.Services
             await matchRepository.DeleteMatchByDate(fromDate, toDate, createDeleteMatchesRequest.Count);
         }
 
-        public async Task<IEnumerable<Match>> SearchMatchByDateAndLeague(DateTime dateSearch, string leagueId, TimeSpan offset)
+        public async Task<IEnumerable<MatchSummary>> SearchMatchByDateAndLeague(DateTime dateSearch, string leagueId, TimeSpan offset)
         {
-            var repository = new MatchRepository();
-            var fromDate = new DateTime(dateSearch.Year, dateSearch.Month, dateSearch.Day, 0, 0, 0, DateTimeKind.Utc).Subtract(offset);
-            var toDate = new DateTime(dateSearch.Year, dateSearch.Month, dateSearch.Day, 23, 59, 59, DateTimeKind.Utc).Subtract(offset);
+            var fromDate = new DateTimeOffset(dateSearch.Year, dateSearch.Month, dateSearch.Day, 0, 0, 0, offset);
+            var toDate = new DateTimeOffset(dateSearch.Year, dateSearch.Month, dateSearch.Day, 23, 59, 59, offset);
 
-            return await repository.GetMatchByDataRangeWithOffset(fromDate, toDate, leagueId, offset);
+            var matches = await queryService.GetMatchesByDateRange(fromDate, toDate, "en-US", offset);
+
+            if (leagueId == "all")
+            {
+                return matches;
+            }
+
+            return matches.Where(match => match.LeagueId == leagueId);
         }
 
         public async Task UpdateLiveMatch(string matchId)

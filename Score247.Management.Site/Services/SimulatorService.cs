@@ -1,4 +1,6 @@
-﻿namespace Score247.Management.Site.Services
+﻿using Score247Management.Core.Scenarios.Models;
+
+namespace Score247.Management.Site.Services
 {
     using System;
     using System.IO;
@@ -26,6 +28,8 @@
         Task SendMatchEvent(MatchPushEventDto matchPushEvent);
 
         Task SyncLiveMatches();
+
+        Task SendMatchTimelines(MatchTimelineDto matchTimeline);
     }
 
     public class SimulatorService : ISimulatorService
@@ -199,6 +203,23 @@
                 var liveMatches = JsonConvert.DeserializeObject<DailyResultDto>(responseBody);
                 await WriteLiveMatchToFile(liveMatches);
             }
+        }
+
+        public async Task SendMatchTimelines(MatchTimelineDto matchTimeline)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(configuration.GetValue<string>("Simulator:Url"));
+                var requestPath = configuration.GetValue<string>("Simulator:Timelines") + "?matchId=" +
+                                  matchTimeline.sport_event.id;
+                var response = await client.PostAsJsonAsync(requestPath, matchTimeline);
+                if (!response.IsSuccessStatusCode)
+                {
+                    return;
+                }
+            }
+
+            await Task.Delay(2000);
         }
     }
 }

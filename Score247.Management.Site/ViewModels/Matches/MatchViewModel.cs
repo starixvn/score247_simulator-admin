@@ -6,7 +6,7 @@
 
     public class MatchViewModel
     {
-        public IEnumerable<Score247Management.Core.Matches.Models.Match> Matches { get; set; }
+        public IEnumerable<Score247Management.Core.Matches.Models.MatchSummary> Matches { get; set; }
         public DateSearchModel DateSearchModel { get; set; }
 
         public CloneMatchModel CloneMatchModel { get; set; }

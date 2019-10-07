@@ -81,7 +81,7 @@ namespace Score247.Management.Site.Models.Events
                 clock = new Clock { match_time = "00:00" },
                 home_score = match.LatestTimeline != null ? match.LatestTimeline.HomeScore : 0,
                 match_status = match.MatchResult?.MatchStatus?.DisplayName,
-                period = match.MatchResult != null ? match.MatchResult.Period : 0,
+                period = match.MatchResult?.Period ?? 0,
                 period_scores = matchPeriodsScores,
                 status = "live",
                 winner_id = match.MatchResult?.WinnerId
