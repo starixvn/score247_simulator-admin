@@ -56,7 +56,7 @@ namespace Score247.Management.Site
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddSingleton<ILeagueService, LeagueService>();
-            services.AddSingleton<IOddsService, OddsService>(); 
+            services.AddSingleton<IOddsService, OddsService>();
             services.AddSingleton<ITriggerJobService, TriggerJobService>();
             services.AddSingleton<ISimulatorService, SimulatorService>();
             services.AddSingleton<IMatchService, MatchService>();
@@ -65,6 +65,7 @@ namespace Score247.Management.Site
             services.AddSingleton<IMatchEventsService, MatchEventsService>();
             services.AddSingleton<IScenarioService, ScenarioService>();
             services.AddSingleton<IAutoEventService, AutoEventService>();
+            services.AddSingleton<ITimelineService, TimelineService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

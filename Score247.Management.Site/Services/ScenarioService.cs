@@ -26,10 +26,12 @@
     public class ScenarioService : IScenarioService
     {
         private readonly ISimulatorService simulatorService;
+        private readonly ITimelineService timelineService;
 
-        public ScenarioService(ISimulatorService simulatorService)
+        public ScenarioService(ISimulatorService simulatorService, ITimelineService timelineService)
         {
             this.simulatorService = simulatorService;
+            this.timelineService = timelineService;
         }
 
         public async Task ApplyScenario(string matchId, IFormCollection collection)
@@ -40,52 +42,12 @@
             var scenario = await scenarioRepo.GetScenario(int.Parse(collection["scenarioId"]));
             foreach (var scenarioEvent in scenario.ScenarioEvents)
             {
-                var preEvent = BuildEvent(scenarioEvent, match, scenario);
+                var preEvent = SportEventMapper.MapEvent(scenarioEvent, match, scenario);
 
                 await simulatorService.SendMatchEvent(preEvent);
             }
 
-            await SendUpdateTimelines(match, scenario);
-        }
-
-        private static MatchPushEventDto BuildEvent(ScenarioEvent scenarioEvent, Match match, Scenario scenario)
-        {
-            var homeId = match.Teams.FirstOrDefault(x => x.IsHome)?.Id;
-            var awayId = match.Teams.FirstOrDefault(x => !x.IsHome)?.Id;
-            var differTime = match.EventDate - scenario.EventDate;
-            var preEvent = JsonConvert.DeserializeObject<MatchPushEventDto>(scenarioEvent.EventRequest);
-            preEvent.metadata.sport_event_id = match.Id;
-            preEvent.metadata.tournament_id = match.League.Id;
-            preEvent.payload.timeline.time = preEvent.payload.timeline.time + differTime;
-            if (preEvent.payload.sport_event_status.aggregate_winner_id == scenario.HomeId) preEvent.payload.sport_event_status.aggregate_winner_id = homeId;
-            if (preEvent.payload.sport_event_status.winner_id == scenario.HomeId) preEvent.payload.sport_event_status.winner_id = homeId;
-            if (preEvent.payload.sport_event_status.aggregate_winner_id == scenario.AwayId) preEvent.payload.sport_event_status.aggregate_winner_id = awayId;
-            if (preEvent.payload.sport_event_status.winner_id == scenario.AwayId) preEvent.payload.sport_event_status.winner_id = awayId;
-
-            return preEvent;
-        }
-
-        private async Task SendUpdateTimelines(Match match, Scenario scenario)
-        {
-            var matchTimelineDto = BuildMatchTimelineDto(match, scenario);
-
-            await simulatorService.SendMatchTimelines(matchTimelineDto);
-        }
-
-        private MatchTimelineDto BuildMatchTimelineDto(Match match, Scenario scenario)
-        {
-            var matchEvents = scenario.ScenarioEvents.Select(scenarioEvent => BuildEvent(scenarioEvent, match, scenario)).ToList();
-            var latestEvents = matchEvents.LastOrDefault();
-            var matchTimelineDto = new MatchTimelineDto
-            {
-                generated_at = scenario.EventDate,
-                schema = "http://schemas.sportradar.com/bsa/soccer/v1/json/endpoints/soccer/match_timeline.json",
-                sport_event = SportEventMapper.MapSportEvent(match),
-                sport_event_status = latestEvents?.payload.sport_event_status,
-                timeline = matchEvents.Select(matchEvent => matchEvent.payload.timeline)
-            };
-
-            return matchTimelineDto;
+            await timelineService.SendUpdateTimelines(match, scenario);
         }
 
         public async Task CreateScenario(string matchId, IFormCollection collection)
