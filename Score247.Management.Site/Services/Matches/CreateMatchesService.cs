@@ -16,7 +16,7 @@ using Score247.Management.Site.Repositories.Matches.Models;
 using Score247.Management.Site.Repositories.Teams;
 using Score247Management.Core._Shared.Enumerations;
 
-namespace Score247.Management.Site.Services.Matchs
+namespace Score247.Management.Site.Services.Matches
 {
     public interface ICreateMatchesService
     {

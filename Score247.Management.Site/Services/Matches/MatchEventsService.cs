@@ -8,7 +8,7 @@ using Score247.Management.Site.Repositories.Matches;
 using Score247Management.Core._Shared.Enumerations;
 using Score247Management.Core.Matches.Models;
 
-namespace Score247.Management.Site.Services.Matchs
+namespace Score247.Management.Site.Services.Matches
 {
     public interface IMatchEventsService
     {
@@ -18,9 +18,13 @@ namespace Score247.Management.Site.Services.Matchs
 
         Task CreatePenaltyShootEventPartial(string id, IFormCollection collection, TimeSpan offset);
 
-        Task CreatCardFaultEventPartial(string id, IFormCollection collection, TimeSpan offset);
+        Task CreateCardFaultEventPartial(string id, IFormCollection collection, TimeSpan offset);
 
         Task CreateInjuryExtraTimeEventPartial(string id, IFormCollection collection, TimeSpan offset);
+
+        Task CreateSubstitutionEventPartial(string id, IFormCollection collection, TimeSpan offset);
+
+        Task CreateMinorEventPartial(string id, IFormCollection collection, TimeSpan offset);
     }
 
     public class MatchEventsService : IMatchEventsService
@@ -34,7 +38,7 @@ namespace Score247.Management.Site.Services.Matchs
             this.simulatorService = simulatorService;
         }
 
-        public async Task CreatCardFaultEventPartial(string id, IFormCollection collection, TimeSpan offset)
+        public async Task CreateCardFaultEventPartial(string id, IFormCollection collection, TimeSpan offset)
         {
             var matchRepository = new MatchRepository();
             var match = await matchRepository.GetMatchById(id);
@@ -129,6 +133,74 @@ namespace Score247.Management.Site.Services.Matchs
             await matchService.UpdateLiveMatch(match.Id);
         }
 
+        public async Task CreateSubstitutionEventPartial(string id, IFormCollection collection, TimeSpan offset)
+        {
+            var matchRepository = new MatchRepository();
+            var match = await matchRepository.GetMatchById(id);
+            var requestBody = new MatchPushEventDto(match);
+            var eventDate = Convert.ToDateTime(collection["payload.timeline.time"]);
+            var eventTimeSpan = TimeSpan.Parse(collection["payload.timeline.hour"]);
+            var eventTime = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, eventTimeSpan.Hours, eventTimeSpan.Minutes, eventTimeSpan.Seconds, DateTimeKind.Utc).Subtract(offset).ToUniversalTime();
+
+            var isNotDuplicateEvent = string.IsNullOrWhiteSpace(collection["payload.timeline.id"]);
+            requestBody.payload.timeline = new TimelineDto
+            {
+                id =
+                    isNotDuplicateEvent
+                        ? UniqueGenerator.GetIntId()
+                        : long.Parse(collection["payload.timeline.id"]),
+                time = eventTime,
+                player_in =
+                    new Player_In()
+                    {
+                        id = UniqueGenerator.GetIdWithPattern("sr:player:"),
+                        name = collection["payload.timeline.player_in.name"]
+                    },
+                player_out =
+                    new Player_Out()
+                    {
+                        id = UniqueGenerator.GetIdWithPattern("sr:player:"),
+                        name = collection["payload.timeline.player_out.name"]
+                    },
+                home_score = match.LatestTimeline != null ? match.LatestTimeline.HomeScore : 0,
+                away_score = match.LatestTimeline != null ? match.LatestTimeline.AwayScore : 0,
+                type = EventType.Substitution.DisplayName,
+                team = collection["payload.timeline.team"],
+                period_type = PeriodType.Penalties.DisplayName,
+                status = collection["payload.timeline.status"]
+            };
+
+            await simulatorService.SendMatchEvent(requestBody);
+        }
+
+        public async Task CreateMinorEventPartial(string id, IFormCollection collection, TimeSpan offset)
+        {
+            var matchRepository = new MatchRepository();
+            var match = await matchRepository.GetMatchById(id);
+            var requestBody = new MatchPushEventDto(match);
+            var eventDate = Convert.ToDateTime(collection["payload.timeline.time"]);
+            var eventTimeSpan = TimeSpan.Parse(collection["payload.timeline.hour"]);
+            var eventTime = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, eventTimeSpan.Hours, eventTimeSpan.Minutes, eventTimeSpan.Seconds, DateTimeKind.Utc).Subtract(offset).ToUniversalTime();
+
+            var isNotDuplicateEvent = string.IsNullOrWhiteSpace(collection["payload.timeline.id"]);
+            requestBody.payload.timeline = new TimelineDto
+            {
+                id =
+                    isNotDuplicateEvent
+                        ? UniqueGenerator.GetIntId()
+                        : long.Parse(collection["payload.timeline.id"]),
+                time = eventTime,
+                home_score = match.LatestTimeline != null ? match.LatestTimeline.HomeScore : 0,
+                away_score = match.LatestTimeline != null ? match.LatestTimeline.AwayScore : 0,
+                type = EventType.Substitution.DisplayName,
+                team = collection["payload.timeline.team"],
+                period_type = PeriodType.Penalties.DisplayName,
+                status = collection["payload.timeline.status"]
+            };
+
+            await simulatorService.SendMatchEvent(requestBody);
+        }
+
         public async Task CreatePenaltyShootEventPartial(string id, IFormCollection collection, TimeSpan offset)
         {
             var matchRepository = new MatchRepository();
@@ -138,10 +210,10 @@ namespace Score247.Management.Site.Services.Matchs
             var eventTimeSpan = TimeSpan.Parse(collection["payload.timeline.hour"]);
             var eventTime = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, eventTimeSpan.Hours, eventTimeSpan.Minutes, eventTimeSpan.Seconds, DateTimeKind.Utc).Subtract(offset).ToUniversalTime();
 
-            var isNotDublicateEvent = string.IsNullOrWhiteSpace(collection["payload.timeline.id"]);
+            var isNotDuplicateEvent = string.IsNullOrWhiteSpace(collection["payload.timeline.id"]);
             requestBody.payload.timeline = new TimelineDto()
             {
-                id = isNotDublicateEvent ? UniqueGenerator.GetIntId() : long.Parse(collection["payload.timeline.id"]),
+                id = isNotDuplicateEvent ? UniqueGenerator.GetIntId() : long.Parse(collection["payload.timeline.id"]),
                 time = eventTime
             };
 
@@ -161,7 +233,7 @@ namespace Score247.Management.Site.Services.Matchs
             requestBody.payload.timeline.period_type = PeriodType.Penalties.DisplayName;
             requestBody.payload.timeline.status = collection["payload.timeline.status"];
 
-            if (isNotDublicateEvent)
+            if (isNotDuplicateEvent)
             {
                 requestBody = UpdatePenaltyScore(requestBody);
             }

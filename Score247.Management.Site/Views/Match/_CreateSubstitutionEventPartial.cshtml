@@ -1,0 +1,116 @@
+﻿@using  Score247Management.Core._Shared.Enumerations
+
+@model Score247.Management.Site.Models.Events.MatchPushEventDto
+@{
+    List<SelectListItem> eventTypes = new List<SelectListItem>();
+    eventTypes.Add(new SelectListItem()
+    {
+        Text = "Shot Off Target",
+        Value = "shot_off_target"
+    });
+    eventTypes.Add(new SelectListItem()
+    {
+        Text = "Shot On Target",
+        Value = "shot_on_target"
+    });
+    eventTypes.Add(new SelectListItem()
+    {
+        Text = "Shot Save",
+        Value = "shot_saved"
+    });
+    eventTypes.Add(new SelectListItem()
+    {
+        Text = "Offside",
+        Value = "offside"
+    });
+    eventTypes.Add(new SelectListItem()
+    {
+        Text = "Penalty Awarded",
+        Value = "penalty_awarded"
+    });
+    eventTypes.Add(new SelectListItem()
+    {
+        Text = "Corner Kick",
+        Value = "corner_kick"
+    });
+    eventTypes.Add(new SelectListItem()
+    {
+        Text = "Free Kick",
+        Value = "free_kick"
+    });
+    eventTypes.Add(new SelectListItem()
+    {
+        Text = "Goal kick",
+        Value = "goal_kick"
+    });
+    eventTypes.Add(new SelectListItem()
+    {
+        Text = "Injury",
+        Value = "injury"
+    });
+    eventTypes.Add(new SelectListItem()
+    {
+        Text = "Injury Return",
+        Value = "injury_return"
+    });
+    eventTypes.Add(new SelectListItem()
+    {
+        Text = "Throw In",
+        Value = "throw_in"
+    });
+}
+<div class="card">
+    <div class="card-header" id="substitutionEventHeading">
+        <div class="card-title collapsed" data-toggle="collapse" data-target="#substitudeEvent" aria-expanded="true" aria-controls="substitudeEvent">
+            Substitution Event
+        </div>
+    </div>
+    <div class="collapse" aria-labelledby="substitutionEventHeading" data-parent="#accordion" id="substitudeEvent">
+        <div class="card-body create-form">
+            <form asp-action="CreateSubstitutionEventPartial" asp-route-id="@ViewBag.MatchId">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="col">
+                    <div class="form-group">
+                        <label asp-for="payload.timeline.id" class="control-label">Event Id:</label>
+                        <input name="payload.timeline.id" value="" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="payload.timeline.team" class="control-label">Team</label>
+                        <select asp-for="payload.timeline.team" class="form-control">
+                            <option value="home">Home</option>
+                            <option value="away">Away</option>
+                        </select>
+                        <span asp-validation-for="payload.timeline.team" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="payload.timeline.player_in.name" class="control-label">Player In:</label>
+                        <input asp-for="payload.timeline.player_in.name" class="form-control" />
+                        <span asp-validation-for="payload.timeline.player_in.name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="payload.timeline.player_out.name" class="control-label">Player Out:</label>
+                        <input asp-for="payload.timeline.player_out.name" class="form-control" />
+                        <span asp-validation-for="payload.timeline.player_out.name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="payload.timeline.time" class="control-label">Date</label>
+                        <input value="@Model.payload.timeline.time" name="payload.timeline.time" class="form-control customDatepicker" />
+                        <span asp-validation-for="payload.timeline.time" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="payload.timeline.hour" class="control-label">Time</label>
+                        <input asp-for="payload.timeline.hour" class="form-control" />
+                        <span asp-validation-for="payload.timeline.hour" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn-submit" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

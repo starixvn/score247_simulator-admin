@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Net.Http;
 using System.Threading.Tasks;
-using Score247.Management.Site.Models.Events;
 using Score247.Management.Site.Repositories.Matches;
-using Score247.Management.Site.Services.Matchs.Creators;
 
-namespace Score247.Management.Site.Services.Matchs
+namespace Score247.Management.Site.Services.Matches
 {
     public interface IAutoEventService
     {

@@ -10,7 +10,6 @@ using Score247.Management.Site.Helpers;
 using Score247.Management.Site.Models.Events;
 using Score247.Management.Site.Repositories.Leagues;
 using Score247.Management.Site.Repositories.Matches.Models;
-using Score247.Management.Site.Services.Matchs;
 using Score247Management.Core.Matches.Models;
 
 namespace Score247.Management.Site.Repositories.Matches

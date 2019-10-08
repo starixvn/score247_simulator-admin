@@ -5,14 +5,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 using Score247.Management.Site.Models;
-using Score247.Management.Site.Models.Events;
 using Score247.Management.Site.Repositories.Leagues;
 using Score247.Management.Site.Repositories.Matches;
 using Score247.Management.Site.Repositories.Matches.Models;
 using Score247.Management.Site.Repositories.Scenarios;
 using Score247.Management.Site.Repositories.Teams;
 using Score247.Management.Site.Services;
-using Score247.Management.Site.Services.Matchs;
+using Score247.Management.Site.Services.Matches;
 using Score247.Management.Site.ViewModels.Matches;
 
 namespace Score247.Management.Site.Controllers
@@ -120,36 +119,16 @@ namespace Score247.Management.Site.Controllers
         // GET: Match/Details/5
         public async Task<ActionResult> Details(string id)
         {
-            var ran = new Random();
             var repository = new MatchRepository();
             var scenarioRepo = new ScenarioRepository();
 
             TimeSpan.TryParse(GetTimezone(), out TimeSpan offset);
             var match = await repository.GetMatchById(id, offset);
             var timelines = await repository.GetMatchTimelines(id, offset);
-            var viewModel = new EventMatchViewModel
+            var viewModel = new EventMatchViewModel(match, timelines, offset)
             {
-                Match = match,
-                TimelineEvents = timelines,
-                MatchCardEventDto = new MatchPushEventDto(match, offset)
+                Scenarios = await scenarioRepo.GetScenarios()
             };
-            viewModel.MatchCardEventDto.payload.timeline.player = new TimelinePlayer
-            {
-                name = "Player_" + ran.Next(909090).ToString()
-            };
-            viewModel.MatchGoalEventDto = new MatchPushEventDto(match, offset);
-            viewModel.MatchGoalEventDto.payload.timeline.goal_scorer = new Goal_Scorer
-            {
-                name = "Player_" + ran.Next(909090).ToString()
-            };
-            viewModel.MatchInjuryExtraEventDto = new MatchPushEventDto(match, offset);
-            viewModel.MatchPenaltyEventDto = new MatchPushEventDto(match, offset);
-            viewModel.MatchPenaltyEventDto.payload.timeline.goal_scorer = new Goal_Scorer
-            {
-                name = "Player_" + ran.Next(909090).ToString()
-            };
-            viewModel.MatchTimeEventDto = new MatchPushEventDto(match, offset);
-            viewModel.Scenarios = await scenarioRepo.GetScenarios();
 
             TempData["Timezone"] = offset.ToString(@"hh\:mm");
 
@@ -191,9 +170,8 @@ namespace Score247.Management.Site.Controllers
             }
             catch (Exception)
             {
+                return View();
             }
-
-            return View();
         }
 
         [HttpGet("/Match/AutoCreateMatch")]
@@ -324,18 +302,12 @@ namespace Score247.Management.Site.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> _CreateTimeEventPartial(string id, IFormCollection collection, bool isFromAjax = false)
         {
-            try
-            {
-                TimeSpan.TryParse(GetTimezone(), out TimeSpan offset);
-                await matchEventsService.CreateTimeEventPartial(id, collection, offset);
+            TimeSpan.TryParse(GetTimezone(), out TimeSpan offset);
+            await matchEventsService.CreateTimeEventPartial(id, collection, offset);
 
-                if (isFromAjax)
-                {
-                    return Json(new { message = "OK" });
-                }
-            }
-            catch (Exception ex)
+            if (isFromAjax)
             {
+                return Json(new { message = "OK" });
             }
 
             return RedirectToAction(nameof(Details), new { id });
@@ -345,14 +317,8 @@ namespace Score247.Management.Site.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> _CreateScoreEventPartial(string id, IFormCollection collection)
         {
-            try
-            {
-                TimeSpan.TryParse(GetTimezone(), out TimeSpan offset);
-                await matchEventsService.CreateScoreEventPartial(id, collection, offset);
-            }
-            catch (Exception)
-            {
-            }
+            TimeSpan.TryParse(GetTimezone(), out var offset);
+            await matchEventsService.CreateScoreEventPartial(id, collection, offset);
 
             return RedirectToAction(nameof(Details), new { id });
         }
@@ -361,31 +327,19 @@ namespace Score247.Management.Site.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> _CreatePenaltyShootEventPartial(string id, IFormCollection collection)
         {
-            try
-            {
-                TimeSpan.TryParse(GetTimezone(), out TimeSpan offset);
-                await matchEventsService.CreatePenaltyShootEventPartial(id, collection, offset);
-            }
-            catch (Exception)
-            {
-            }
+            TimeSpan.TryParse(GetTimezone(), out var offset);
+            await matchEventsService.CreatePenaltyShootEventPartial(id, collection, offset);
 
             return RedirectToAction(nameof(Details), new { id });
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreatCardFaultEventPartial(string id, IFormCollection collection)
+        public async Task<ActionResult> CreateCardFaultEventPartial(string id, IFormCollection collection)
         {
-            try
-            {
-                TimeSpan.TryParse(GetTimezone(), out TimeSpan offset);
+            TimeSpan.TryParse(GetTimezone(), out var offset);
 
-                await matchEventsService.CreatCardFaultEventPartial(id, collection, offset);
-            }
-            catch (Exception)
-            {
-            }
+            await matchEventsService.CreateCardFaultEventPartial(id, collection, offset);
 
             return RedirectToAction(nameof(Details), new { id });
         }
@@ -394,14 +348,28 @@ namespace Score247.Management.Site.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreateInjuryExtraTimeEventPartial(string id, IFormCollection collection)
         {
-            try
-            {
-                TimeSpan.TryParse(GetTimezone(), out TimeSpan offset);
-                await matchEventsService.CreateInjuryExtraTimeEventPartial(id, collection, offset);
-            }
-            catch (Exception)
-            {
-            }
+            TimeSpan.TryParse(GetTimezone(), out var offset);
+            await matchEventsService.CreateInjuryExtraTimeEventPartial(id, collection, offset);
+
+            return RedirectToAction(nameof(Details), new { id });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreateSubstitutionEventPartial(string id, IFormCollection collection)
+        {
+            TimeSpan.TryParse(GetTimezone(), out var offset);
+            await matchEventsService.CreateSubstitutionEventPartial(id, collection, offset);
+
+            return RedirectToAction(nameof(Details), new { id });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreateMinorEventPartial(string id, IFormCollection collection)
+        {
+            TimeSpan.TryParse(GetTimezone(), out var offset);
+            await matchEventsService.CreateMinorEventPartial(id, collection, offset);
 
             return RedirectToAction(nameof(Details), new { id });
         }
@@ -410,13 +378,7 @@ namespace Score247.Management.Site.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AutoEventNormalMatch(string id, IFormCollection collection)
         {
-            try
-            {
-                autoEventService.PushNormalMatchEvents(id);
-            }
-            catch (Exception)
-            {
-            }
+            autoEventService.PushNormalMatchEvents(id);
 
             return RedirectToAction(nameof(Details), new { id });
         }
@@ -425,13 +387,7 @@ namespace Score247.Management.Site.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AutoEventOvertimeMatch(string id, IFormCollection collection)
         {
-            try
-            {
-                autoEventService.PushOvertimeMatchEvents(id);
-            }
-            catch (Exception)
-            {
-            }
+            autoEventService.PushOvertimeMatchEvents(id);
 
             return RedirectToAction(nameof(Details), new { id });
         }
@@ -440,13 +396,7 @@ namespace Score247.Management.Site.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AutoEventPenaltyMatch(string id, IFormCollection collection)
         {
-            try
-            {
-                autoEventService.PushPenaltyMatchEvents(id);
-            }
-            catch (Exception)
-            {
-            }
+            autoEventService.PushPenaltyMatchEvents(id);
 
             return RedirectToAction(nameof(Details), new { id });
         }

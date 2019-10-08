@@ -1,12 +1,12 @@
-﻿namespace Score247.Management.Site.Services.Matchs
-{
-    using System;
-    using System.Linq;
-    using Score247.Management.Site.Helpers;
-    using Score247.Management.Site.Models.Events;
-    using Score247Management.Core._Shared.Enumerations;
-    using Score247Management.Core.Matches.Models;
+﻿using System;
+using System.Linq;
+using Score247.Management.Site.Helpers;
+using Score247.Management.Site.Models.Events;
+using Score247Management.Core._Shared.Enumerations;
+using Score247Management.Core.Matches.Models;
 
+namespace Score247.Management.Site.Services.Matches.Creators
+{
     public static class MatchPenaltyEventCreator
     {
         public static MatchPushEventDto CreatePenaltyEvent(Match match, DateTime eventTime, string team, string playerName, string status)

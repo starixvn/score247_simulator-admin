@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Score247.Management.Site.Services;
-using Score247.Management.Site.Services.Matchs;
+using Score247.Management.Site.Services.Matches;
 using Score247.Management.Site.Services.Odds;
 using SharpRaven;
 

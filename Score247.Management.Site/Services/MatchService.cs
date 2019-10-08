@@ -39,7 +39,7 @@ namespace Score247.Management.Site.Services
 
         Task<Result> GetSimulatorResult(string matchId);
 
-        Task SendCustomLiveMatch(string matchId, Sport_Event_Status sport_Event_Status);
+        Task SendCustomLiveMatch(string matchId, Sport_Event_Status sportEventStatus);
     }
 
     public class MatchService : IMatchService
@@ -299,9 +299,9 @@ namespace Score247.Management.Site.Services
                 var dailyResults = new List<Result>();
                 var matches = new List<MatchEntity>();
 
-                var prematch = GenerateLivePreMatches(preCount, subActiveLeague, teams);
-                dailyResults.AddRange(prematch);
-                matches.AddRange(prematch.Select(x => x.sport_event).ToList());
+                var preMatch = GenerateLivePreMatches(preCount, subActiveLeague, teams);
+                dailyResults.AddRange(preMatch);
+                matches.AddRange(preMatch.Select(x => x.sport_event).ToList());
 
                 var postMatch = GenerateLivePostMatches(postCount, subActiveLeague, teams);
                 dailyResults.AddRange(postMatch);
@@ -347,7 +347,7 @@ namespace Score247.Management.Site.Services
                     content.results = newLiveMatches;
                 }
 
-                await SaveLiveMatchToFile(content);
+                SaveLiveMatchToFile(content);
 
                 await simulatorService.SendLiveResult(content);
                 await triggerJobService.TriggerFetchLiveMatch();
@@ -357,7 +357,7 @@ namespace Score247.Management.Site.Services
             }
         }
 
-        private async Task SaveLiveMatchToFile(DailyResultDto content)
+        private void SaveLiveMatchToFile(DailyResultDto content)
         {
             var resultFolder = $"{DirectoryRoot}";
             System.IO.Directory.CreateDirectory(resultFolder);
@@ -388,7 +388,7 @@ namespace Score247.Management.Site.Services
             }
         }
 
-        private async Task CheckIfMatchInserted(string id)
+        private static async Task CheckIfMatchInserted(string id)
         {
             var matchRepository = new MatchRepository();
 
@@ -401,7 +401,7 @@ namespace Score247.Management.Site.Services
             }
         }
 
-        private List<Result> GenerateLivePostMatches(int subCount, List<Score247Management.Core.Leagues.Models.League> activeLeagues, List<Score247Management.Core.Teams.Models.Team> teams)
+        private List<Result> GenerateLivePostMatches(int subCount, IList<Score247Management.Core.Leagues.Models.League> activeLeagues, IList<Score247Management.Core.Teams.Models.Team> teams)
         {
             var ran = new Random();
             List<Result> result = new List<Result>();
@@ -411,7 +411,7 @@ namespace Score247.Management.Site.Services
             {
                 var league = activeLeagues[ran.Next(0, activeLeagues.Count - 1)];
 
-                var eventDate = GetEventForLiveDate(DateTime.Now, ran.Next(1, 5));
+                var eventDate = GetEventForLiveDate(DateTime.Now, ran.Next(1, 10));
 
                 var indexHome = ran.Next(0, splitTeamPosition);
                 var homeTeam = teams[indexHome];
@@ -422,20 +422,19 @@ namespace Score247.Management.Site.Services
                     league,
                     homeTeam,
                     awaitTeam,
-                    eventDate);
-                matchEntity.MatchStatus = MatchStatus.Ended.DisplayName;
-                matchEntity.Status = MatchStatus.Closed.DisplayName;
+                    eventDate)
+                { MatchStatus = MatchStatus.Ended.DisplayName, Status = MatchStatus.Closed.DisplayName };
                 result.Add(new Result()
                 {
                     sport_event = matchEntity,
-                    sport_event_status = RandomMatchEventStatus(matchEntity.Competitors.ElementAtOrDefault(0).Id, matchEntity.Competitors.ElementAtOrDefault(1).Id)
+                    sport_event_status = RandomMatchEventStatus(matchEntity.Competitors.ElementAtOrDefault(0)?.Id, matchEntity.Competitors.ElementAtOrDefault(1)?.Id)
                 });
             }
 
             return result;
         }
 
-        private DateTime GetEventForLiveDate(DateTime eventDate, int minute)
+        private static DateTime GetEventForLiveDate(DateTime eventDate, int minute)
         {
             return eventDate.AddMinutes(minute);
         }
@@ -449,7 +448,7 @@ namespace Score247.Management.Site.Services
             for (int i = 0; i < subCount; i++)
             {
                 var league = activeLeagues[ran.Next(0, activeLeagues.Count - 1)];
-                var eventDate = GetEventForLiveDate(DateTime.Now, ran.Next(-5, 1));
+                var eventDate = GetEventForLiveDate(DateTime.Now, ran.Next(-10, 1));
 
                 var indexHome = ran.Next(0, splitTeamPosition);
                 var homeTeam = teams[indexHome];
@@ -461,10 +460,9 @@ namespace Score247.Management.Site.Services
                     league,
                     homeTeam,
                     awaitTeam,
-                    eventDate);
+                    eventDate)
+                { MatchStatus = null, Status = null };
 
-                matchEntity.MatchStatus = null;
-                matchEntity.Status = null;
                 result.Add(new Result()
                 {
                     sport_event = matchEntity,
@@ -478,7 +476,7 @@ namespace Score247.Management.Site.Services
             return result;
         }
 
-        private List<Result> GenerateLiveMatches(int subCount, List<Score247Management.Core.Leagues.Models.League> activeLeagues, List<Score247Management.Core.Teams.Models.Team> teams)
+        private List<Result> GenerateLiveMatches(int subCount, IList<Score247Management.Core.Leagues.Models.League> activeLeagues, IList<Score247Management.Core.Teams.Models.Team> teams)
         {
             var ran = new Random();
             List<Result> results = new List<Result>();
@@ -499,10 +497,9 @@ namespace Score247.Management.Site.Services
                     league,
                     homeTeam,
                     awaitTeam,
-                    eventDate);
+                    eventDate)
+                { MatchStatus = MatchStatus.Live.DisplayName, Status = MatchStatus.Live.DisplayName };
 
-                matchEntity.MatchStatus = MatchStatus.Live.DisplayName;
-                matchEntity.Status = MatchStatus.Live.DisplayName;
                 var result = new Result()
                 {
                     sport_event = matchEntity,
@@ -545,7 +542,7 @@ namespace Score247.Management.Site.Services
                 };
             }
 
-            await SaveLiveMatchToFile(content);
+            SaveLiveMatchToFile(content);
             await simulatorService.SendLiveResult(content);
             await triggerJobService.TriggerFetchLiveMatch();
         }
@@ -584,23 +581,19 @@ namespace Score247.Management.Site.Services
                 return;
             }
 
-            var content = await ReadLiveMatchFromFile();
-            if (content == null)
+            var content = await ReadLiveMatchFromFile() ?? new DailyResultDto
             {
-                content = new DailyResultDto
-                {
-                    generated_at = DateTime.UtcNow,
-                    schema = "Matches",
-                    results = new List<Result>()
-                };
-            }
+                generated_at = DateTime.UtcNow,
+                schema = "Matches",
+                results = new List<Result>()
+            };
             var newLiveMatches = content.results.Where(x => x.sport_event.Id != match.Id).ToList();
             var liveMatch = BuildLiveMatchFromMatch(match);
 
             newLiveMatches.Add(liveMatch);
             content.results = newLiveMatches;
 
-            await SaveLiveMatchToFile(content);
+            SaveLiveMatchToFile(content);
             await simulatorService.SendLiveResult(content);
             await triggerJobService.TriggerFetchLiveMatch();
             await triggerJobService.TriggerFetchLiveMatchTimeline();
@@ -624,18 +617,18 @@ namespace Score247.Management.Site.Services
                 {
                     status = "live",
                     match_status = match.MatchResult?.MatchStatus.DisplayName,
-                    home_score = match.MatchResult.HomeScore,
-                    away_score = match.MatchResult.AwayScore,
-                    period = match.MatchResult.Period,
+                    home_score = match.MatchResult?.HomeScore ?? 0,
+                    away_score = match.MatchResult?.AwayScore ?? 0,
+                    period = match.MatchResult?.Period ?? 0,
                     clock = new Clock()
                     {
                         match_time = match.LatestTimeline?.MatchClock
                     },
-                    period_scores = match.MatchResult.MatchPeriods?.Select(period => ConvertMatchPeriodToPeriodScore(period)),
-                    aggregate_away_score = match.MatchResult.AggregateAwayScore,
-                    aggregate_home_score = match.MatchResult.AggregateHomeScore,
-                    aggregate_winner_id = match.MatchResult.AggregateWinnerId,
-                    winner_id = match.MatchResult.WinnerId
+                    period_scores = match.MatchResult?.MatchPeriods?.Select(ConvertMatchPeriodToPeriodScore),
+                    aggregate_away_score = match.MatchResult?.AggregateAwayScore ?? 0,
+                    aggregate_home_score = match.MatchResult?.AggregateHomeScore ?? 0,
+                    aggregate_winner_id = match.MatchResult?.AggregateWinnerId,
+                    winner_id = match.MatchResult?.WinnerId
                 }
             };
 
@@ -662,7 +655,7 @@ namespace Score247.Management.Site.Services
                 results = new List<Result>()
             };
 
-            await SaveLiveMatchToFile(content);
+            SaveLiveMatchToFile(content);
 
             await simulatorService.SendLiveResult(content);
             await triggerJobService.TriggerFetchLiveMatch();
@@ -675,34 +668,30 @@ namespace Score247.Management.Site.Services
             return dailyResult?.results?.FirstOrDefault(result => result.sport_event.Id == matchId);
         }
 
-        public async Task SendCustomLiveMatch(string matchId, Sport_Event_Status sport_Event_Status)
+        public async Task SendCustomLiveMatch(string matchId, Sport_Event_Status sportEventStatus)
         {
             var result = await GetSimulatorResult(matchId);
             if (result == null)
             {
                 return;
             }
-            sport_Event_Status.period_scores = result.sport_event_status.period_scores;
+            sportEventStatus.period_scores = result.sport_event_status.period_scores;
 
-            result.sport_event_status = sport_Event_Status;
-            result.sport_event.Status = sport_Event_Status.status;
+            result.sport_event_status = sportEventStatus;
+            result.sport_event.Status = sportEventStatus.status;
 
-            var content = await ReadLiveMatchFromFile();
-            if (content == null)
+            var content = await ReadLiveMatchFromFile() ?? new DailyResultDto
             {
-                content = new DailyResultDto
-                {
-                    generated_at = DateTime.UtcNow,
-                    schema = "Matches",
-                    results = new List<Result>()
-                };
-            }
+                generated_at = DateTime.UtcNow,
+                schema = "Matches",
+                results = new List<Result>()
+            };
             var newLiveMatches = content.results.Where(x => x.sport_event.Id != matchId).ToList();
 
             newLiveMatches.Add(result);
             content.results = newLiveMatches;
 
-            await SaveLiveMatchToFile(content);
+            SaveLiveMatchToFile(content);
             await simulatorService.SendLiveResult(content);
             await triggerJobService.TriggerFetchLiveMatch();
             await triggerJobService.TriggerFetchLiveMatchTimeline();
