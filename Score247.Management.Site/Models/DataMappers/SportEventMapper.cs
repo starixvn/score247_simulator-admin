@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Score247.Management.Site.Models.Events;
+using Score247.Management.Site.Repositories.Matches.Models;
 using Score247Management.Core.Leagues.Models;
 using Score247Management.Core.Scenarios.Models;
 
@@ -28,6 +29,20 @@ namespace Score247.Management.Site.Models.DataMappers
             return preEvent;
         }
 
+        public static Sport_Event MapSportEvent(MatchEntity match)
+        {
+            var sportEvent = new Sport_Event
+            {
+                id = match.Id,
+                competitors = match.Competitors.Select(MapCompetitor),
+                scheduled = match.Scheduled,
+                tournament = MapTournament(match.Tournament),
+                venue = MapVenueDto(match.Venue),
+            };
+
+            return sportEvent;
+        }
+
         public static Sport_Event MapSportEvent(Match match)
         {
             var sportEvent = new Sport_Event
@@ -42,7 +57,7 @@ namespace Score247.Management.Site.Models.DataMappers
             return sportEvent;
         }
 
-        private static Competitor MapCompetitor(Team team)
+        public static Competitor MapCompetitor(Team team)
         {
             var competitor = new Competitor
             {
@@ -57,7 +72,7 @@ namespace Score247.Management.Site.Models.DataMappers
             return competitor;
         }
 
-        private static Tournament MapTournament(League league)
+        public static Tournament MapTournament(League league)
         {
             var tournament = new Tournament
             {
@@ -68,7 +83,7 @@ namespace Score247.Management.Site.Models.DataMappers
             return tournament;
         }
 
-        private static VenueDto MapVenueDto(Venue venue)
+        public static VenueDto MapVenueDto(Venue venue)
         {
             var venueDto = new VenueDto
             {

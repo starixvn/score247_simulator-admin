@@ -1,5 +1,6 @@
 ﻿using Score247.Management.Site.Models.DataMappers;
 using Score247.Management.Site.Models.Events;
+using Score247.Management.Site.Repositories.Matches.Models;
 
 namespace Score247.Management.Site.Services
 {
@@ -11,6 +12,8 @@ namespace Score247.Management.Site.Services
     public interface ITimelineService
     {
         Task SendUpdateTimelines(Match match, Scenario scenario);
+
+        Task SendInitTimeline(MatchEntity match);
     }
 
     public class TimelineService : ITimelineService
@@ -29,17 +32,49 @@ namespace Score247.Management.Site.Services
             await simulatorService.SendMatchTimelines(matchTimelineDto);
         }
 
+        public async Task SendInitTimeline(MatchEntity match)
+        {
+            var matchTimelineDto = BuildMatchInitTimelineDto(match);
+
+            await simulatorService.SendMatchTimelines(matchTimelineDto);
+        }
+
         private MatchTimelineDto BuildMatchTimelineDto(Match match, Scenario scenario)
         {
             var matchEvents = scenario.ScenarioEvents.Select(scenarioEvent => SportEventMapper.MapEvent(scenarioEvent, match, scenario)).ToList();
             var latestEvents = matchEvents.LastOrDefault();
             var matchTimelineDto = new MatchTimelineDto
             {
-                generated_at = scenario.EventDate,
+                generated_at = match.EventDate,
                 schema = "http://schemas.sportradar.com/bsa/soccer/v1/json/endpoints/soccer/match_timeline.json",
                 sport_event = SportEventMapper.MapSportEvent(match),
                 sport_event_status = latestEvents?.payload.sport_event_status,
                 timeline = matchEvents.Select(matchEvent => matchEvent.payload.timeline)
+            };
+
+            return matchTimelineDto;
+        }
+
+        private MatchTimelineDto BuildMatchInitTimelineDto(MatchEntity match)
+        {
+            var matchTimelineDto = new MatchTimelineDto
+            {
+                generated_at = match.Scheduled,
+                schema = "http://schemas.sportradar.com/bsa/soccer/v1/json/endpoints/soccer/match_timeline.json",
+                sport_event = SportEventMapper.MapSportEvent(match),
+                sport_event_conditions = new Sport_Event_Conditions()
+                {
+                    venue = SportEventMapper.MapVenueDto(match.Venue),
+                    referee = new Referee()
+                    {
+                        name = match.Referee
+                    }
+                },
+                sport_event_status = new Sport_Event_Status()
+                {
+                    status = "not_started"
+                },
+                timeline = null
             };
 
             return matchTimelineDto;

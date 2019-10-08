@@ -32,7 +32,7 @@ namespace Score247.Management.Site.Models.Events
     {
         public Referee referee { get; set; }
         public IEnumerable<Referee_Assistants> referee_assistants { get; set; }
-        public Venue1 venue { get; set; }
+        public VenueDto venue { get; set; }
         public int attendance { get; set; }
         public Weather_Info weather_info { get; set; }
     }

@@ -68,15 +68,11 @@
     });
 }
 <h1 class="page-title">New Match</h1>
-<div class="row create-form">
-    <div class="col-md-6">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="create-form">
+    <form asp-action="Create" class="row">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="col-md-6">
             <div class="form-row">
-                @*<div class="form-group col-md-12">
-                        <input type="checkbox" class="form-check-input ml-2" name="Match.IsPostMatch" onchange="IsPreMatchChanged(this)" id="isPreMatch">
-                        <label class="form-check-label ml-5" for="isPreMatch">Is Post Match</label>
-                    </div>*@
                 <div class="form-group col-md-6">
                     <label asp-for="Match.Tournament.Id" class="control-label">League</label>
                     <select asp-for="Match.Tournament.Id" asp-items="tournaments" class="form-control"></select>
@@ -124,9 +120,9 @@
                     <span asp-validation-for="Match.Status" class="text-danger"></span>
                 </div>
                 <div class="form-group col-md-6">
-                    <label asp-for="Match.Venue.Name" class="control-label">Venue Name</label>
-                    <input asp-for="Match.Venue.Name" class="form-control" />
-                    <span asp-validation-for="Match.Venue.Name" class="text-danger"></span>
+                    <label asp-for="Match.Referee" class="control-label">Referee Name</label>
+                    <input asp-for="Match.Referee" class="form-control" />
+                    <span asp-validation-for="Match.Referee" class="text-danger"></span>
                 </div>
 
                 <div class="form-group col-md-6">
@@ -140,12 +136,37 @@
                     <span asp-validation-for="Match.ScheduledTime" class="text-danger"></span>
                 </div>
             </div>
-            <div class="form-group mx-auto">
-                <input type="submit" value="Save" class="btn-submit" />
-                <button asp-action="Index" value="Cancel" class="btn-cancel">Cancel</button>
+        </div>
+        <div class="col-md-6">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="Match.Venue.Name" class="control-label">Venue Name</label>
+                    <input asp-for="Match.Venue.Name" class="form-control" />
+                    <span asp-validation-for="Match.Venue.Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Match.Venue.CountryName" class="control-label">Venue Country</label>
+                    <input asp-for="Match.Venue.CountryName" class="form-control" />
+                    <span asp-validation-for="Match.Venue.CountryName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Match.Venue.CityName" class="control-label">Venue City</label>
+                    <input asp-for="Match.Venue.CityName" class="form-control" />
+                    <span asp-validation-for="Match.Venue.CityName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Match.Venue.Capacity" class="control-label">Venue Capacity</label>
+                    <input asp-for="Match.Venue.Capacity" class="form-control" />
+                    <span asp-validation-for="Match.Venue.Capacity" class="text-danger"></span>
+                </div>
             </div>
-        </form>
-    </div>
+        </div>
+        
+        <div class="form-group col-md-6">
+            <input type="submit" value="Save" class="btn-submit" />
+            <button asp-action="Index" value="Cancel" class="btn-cancel">Cancel</button>
+        </div>
+    </form>
 </div>
 
 @section Scripts {

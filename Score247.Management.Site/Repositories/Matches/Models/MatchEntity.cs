@@ -25,6 +25,7 @@ namespace Score247.Management.Site.Repositories.Matches.Models
         public Score247Management.Core.Leagues.Models.League Tournament { get; set; }
         public IEnumerable<Team> Competitors { get; set; }
         public Venue Venue { get; set; }
+        public string Referee { get; set; }
 
         public MatchEntity()
         {
