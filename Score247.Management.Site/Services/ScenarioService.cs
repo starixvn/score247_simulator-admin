@@ -20,7 +20,7 @@ namespace Score247.Management.Site.Services
 
         Task ApplyScenario(string matchId, IFormCollection collection, int delay = 2000);
 
-        Task<Scenario> RandomScenario(string matchId, int delay = 2000);
+        Task<Scenario> RandomScenario(string matchId, int delay = 2000, bool limitedEvent = false);
 
         Task<IEnumerable<Scenario>> GetAllScenarios();
     }
@@ -47,15 +47,19 @@ namespace Score247.Management.Site.Services
             await timelineService.SendUpdateTimelines(match, scenario);
         }
 
-        public async Task<Scenario> RandomScenario(string matchId, int delay = 2000)
+        public async Task<Scenario> RandomScenario(string matchId, int delay = 2000, bool limitedEvent = false)
         {
             var ran = new Random();
             var scenarioRepo = new ScenarioRepository();
             var matchRepo = new MatchRepository();
             var scenarios = (await scenarioRepo.GetScenarios()).ToList();
             var match = await matchRepo.GetMatchById(matchId);
-            var scenario = scenarios[ran.Next(0, scenarios.Count - 1)];
-
+            var scenario = scenarios[ran.Next(scenarios.Count)];
+            if (limitedEvent)
+            {
+                var events = scenario.ScenarioEvents.ToList();
+                scenario.ScenarioEvents = events.GetRange(0, ran.Next(1, events.Count - 1));
+            }
             await ProcessScenario(match, scenario, delay);
             await timelineService.SendUpdateTimelines(match, scenario);
 
