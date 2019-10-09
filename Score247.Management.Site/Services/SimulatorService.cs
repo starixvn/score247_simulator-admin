@@ -25,7 +25,7 @@ namespace Score247.Management.Site.Services
 
         Task<HttpResponseMessage> SendDailySchedule(DailyScheduleDto dailyResultDto);
 
-        Task SendMatchEvent(MatchPushEventDto matchPushEvent);
+        Task SendMatchEvent(MatchPushEventDto matchPushEvent, int delay = 2000);
 
         Task SyncLiveMatches();
 
@@ -124,7 +124,7 @@ namespace Score247.Management.Site.Services
             }
         }
 
-        public async Task SendMatchEvent(MatchPushEventDto matchPushEvent)
+        public async Task SendMatchEvent(MatchPushEventDto matchPushEvent, int delay = 2000)
         {
             var matchRepository = new MatchRepository();
             using (var client = new HttpClient())
@@ -137,7 +137,7 @@ namespace Score247.Management.Site.Services
                 }
             }
             await matchRepository.InsertTimelineLog(matchPushEvent);
-            await Task.Delay(2000);
+            await Task.Delay(delay);
         }
 
         private async Task SendCacheLiveMatches()

@@ -7,9 +7,12 @@ namespace Score247.Management.Site.Services.Matches
     public interface IAutoEventService
     {
         Task PushNormalMatchEvents(string matchId);
+
         Task PushOvertimeMatchEvents(string matchId);
+
         Task PushPenaltyMatchEvents(string matchId);
     }
+
     public class AutoEventService : IAutoEventService
     {
         private readonly ISimulatorService simulatorService;
@@ -18,11 +21,12 @@ namespace Score247.Management.Site.Services.Matches
         {
             this.simulatorService = simulatorService;
         }
+
         public async Task PushNormalMatchEvents(string matchId)
         {
-            int currentMatchTime = 0;
-            int breakHalfTime = 15;
-            int extraTime = 0;
+            var currentMatchTime = 0;
+            var breakHalfTime = 15;
+            var extraTime = 0;
             var rand = new Random();
 
             var matchRepository = new MatchRepository();
