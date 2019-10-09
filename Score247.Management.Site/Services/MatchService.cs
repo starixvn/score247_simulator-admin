@@ -577,8 +577,8 @@ namespace Score247.Management.Site.Services
 
         public async Task<IEnumerable<MatchSummary>> SearchMatchByDateAndLeague(DateTime dateSearch, string leagueId, TimeSpan offset)
         {
-            var fromDate = new DateTimeOffset(dateSearch.Year, dateSearch.Month, dateSearch.Day, 0, 0, 0, offset);
-            var toDate = new DateTimeOffset(dateSearch.Year, dateSearch.Month, dateSearch.Day, 23, 59, 59, offset);
+            var fromDate = new DateTime(dateSearch.Year, dateSearch.Month, dateSearch.Day, 0, 0, 0, DateTimeKind.Utc).Add(offset);
+            var toDate = new DateTime(dateSearch.Year, dateSearch.Month, dateSearch.Day, 23, 59, 59, DateTimeKind.Utc).Add(offset);
 
             var matches = await queryService.GetMatchesByDateRange(fromDate, toDate, "en-US", offset);
 
