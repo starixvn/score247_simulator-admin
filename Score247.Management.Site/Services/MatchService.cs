@@ -23,7 +23,7 @@ namespace Score247.Management.Site.Services
     {
         Task CreateMatchForActiveLeagues(DateTime createDate, TimeSpan offset);
 
-        Task<IEnumerable<Score247Management.Core.Matches.Models.MatchSummary>> GetLiveMatch(string language, TimeSpan offset);
+        Task<IEnumerable<MatchSummary>> GetLiveMatch(string language, TimeSpan offset);
 
         Task CreateLiveMatches(CreateLiveMatchModel createLiveMatchModel);
 
@@ -468,7 +468,7 @@ namespace Score247.Management.Site.Services
             for (int i = 0; i < subCount; i++)
             {
                 var league = activeLeagues[ran.Next(0, activeLeagues.Count - 1)];
-                var eventDate = GetEventForLiveDate(DateTime.Now, ran.Next(1, 10));
+                var eventDate = GetEventForLiveDate(DateTime.Now, ran.Next(1, 16));
 
                 var indexHome = ran.Next(0, splitTeamPosition);
                 var homeTeam = teams[indexHome];
