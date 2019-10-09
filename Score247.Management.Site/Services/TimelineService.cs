@@ -1,5 +1,6 @@
 ﻿using Score247.Management.Site.Models.DataMappers;
 using Score247.Management.Site.Models.Events;
+using Score247.Management.Site.Repositories.Matches;
 using Score247.Management.Site.Repositories.Matches.Models;
 
 namespace Score247.Management.Site.Services
@@ -14,6 +15,8 @@ namespace Score247.Management.Site.Services
         Task SendUpdateTimelines(Match match, Scenario scenario);
 
         Task SendInitTimeline(MatchEntity match);
+
+        Task SendMatchTimeline(string matchId);
     }
 
     public class TimelineService : ITimelineService
@@ -39,7 +42,26 @@ namespace Score247.Management.Site.Services
             await simulatorService.SendMatchTimelines(matchTimelineDto);
         }
 
-        private MatchTimelineDto BuildMatchTimelineDto(Match match, Scenario scenario)
+        public async Task SendMatchTimeline(string matchId)
+        {
+            var matchRepository = new MatchRepository();
+            var timelines = (await matchRepository.GetMatchTimelinesLog(matchId)).ToList();
+            var latestTimeline = timelines.LastOrDefault();
+            var match = await matchRepository.GetMatchById(matchId);
+
+            var matchTimelineDto = new MatchTimelineDto
+            {
+                generated_at = match.EventDate,
+                schema = "http://schemas.sportradar.com/bsa/soccer/v1/json/endpoints/soccer/match_timeline.json",
+                sport_event = SportEventMapper.MapSportEvent(match),
+                sport_event_status = latestTimeline?.payload.sport_event_status,
+                timeline = timelines.Select(x => x.payload.timeline)
+            };
+
+            await simulatorService.SendMatchTimelines(matchTimelineDto);
+        }
+
+        private static MatchTimelineDto BuildMatchTimelineDto(Match match, Scenario scenario)
         {
             var matchEvents = scenario.ScenarioEvents.Select(scenarioEvent => SportEventMapper.MapEvent(scenarioEvent, match, scenario)).ToList();
             var latestEvents = matchEvents.LastOrDefault();
@@ -55,7 +77,7 @@ namespace Score247.Management.Site.Services
             return matchTimelineDto;
         }
 
-        private MatchTimelineDto BuildMatchInitTimelineDto(MatchEntity match)
+        private static MatchTimelineDto BuildMatchInitTimelineDto(MatchEntity match)
         {
             var matchTimelineDto = new MatchTimelineDto
             {

@@ -70,6 +70,10 @@
                         <input asp-for="payload.timeline.injury_time_announced" class="form-control" />
                         <span asp-validation-for="payload.timeline.injury_time_announced" class="text-danger"></span>
                     </div>
+                    <div class="form-group">
+                        <label for="commentary" class="control-label">Commentary</label>
+                        <textarea id="commentary" type="text" name="commentary" class="form-control" rows="3"></textarea>
+                    </div>
                 </div>
                 <div class="form-group">
                     <input type="submit" value="Create" class="btn-submit" />
