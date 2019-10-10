@@ -6,17 +6,20 @@ using Fanex.Data.MySql;
 using Fanex.Data.Repository;
 using Fanex.Logging;
 using Fanex.Logging.Sentry.RavenClient;
-using MessagePack.AspNetCoreMvcFormatter;
-using MessagePack.Resolvers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Quartz;
+using Quartz.Impl;
+using Quartz.Spi;
+using Score247.Management.Site.ScheduledTask;
 using Score247.Management.Site.Services;
 using Score247.Management.Site.Services.Matches;
 using Score247.Management.Site.Services.Odds;
+using Score247.Management.Site.Services.Schedulers;
 using SharpRaven;
 
 namespace Score247.Management.Site
@@ -55,6 +58,13 @@ namespace Score247.Management.Site
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+            RegisterServices(services);
+
+            RegisterScheduledJobs(services);
+        }
+
+        private void RegisterServices(IServiceCollection services)
+        {
             services.AddSingleton<ILeagueService, LeagueService>();
             services.AddSingleton<IOddsService, OddsService>();
             services.AddSingleton<ITriggerJobService, TriggerJobService>();
@@ -66,6 +76,21 @@ namespace Score247.Management.Site
             services.AddSingleton<IScenarioService, ScenarioService>();
             services.AddSingleton<IAutoEventService, AutoEventService>();
             services.AddSingleton<ITimelineService, TimelineService>();
+        }
+
+        private void RegisterScheduledJobs(IServiceCollection services)
+        {
+            // Add Quartz services
+            services.AddSingleton<IJobFactory, SingletonJobFactory>();
+            services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
+
+            // Add our job
+            services.AddSingleton<CleanTimelinesJob>();
+            services.AddSingleton(new JobSchedule(
+                jobType: typeof(CleanTimelinesJob),
+                cronExpression: "0 0 0 * * ?")); // run every 5 seconds
+
+            services.AddHostedService<QuartzHostedService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -94,7 +119,7 @@ namespace Score247.Management.Site
                  })
              });
 
-            Dictionary<string, ConnectionConfiguration> connections = Configuration
+            var connections = Configuration
                  .GetSection("ConnectionStrings")
                  .GetChildren()
                  .ToDictionary(connection => connection.Key,

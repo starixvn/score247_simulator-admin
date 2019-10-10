@@ -17,6 +17,8 @@ namespace Score247.Management.Site.Services
     {
         Task SendCleanExistData();
 
+        Task SendCleanTimelines();
+
         Task<bool> SendScheduleOdds(OddsScheduleDto oddsSchedule);
 
         Task<HttpResponseMessage> SendDailyResult(DailyResultDto dailyResultDto);
@@ -51,13 +53,23 @@ namespace Score247.Management.Site.Services
             {
                 var request = new HttpRequestMessage(HttpMethod.Post, configuration.GetValue<string>("Simulator:CleanMatch"));
 
-                using (HttpResponseMessage httpResponseMessage = await triggerClient.SendAsync(request))
-                {
-                    _ = httpResponseMessage;
-                }
+                await triggerClient.SendAsync(request);
             }
 
             await SendCacheLiveMatches();
+        }
+
+        public async Task SendCleanTimelines()
+        {
+            using (var triggerClient = new HttpClient
+            {
+                BaseAddress = new Uri(configuration.GetValue<string>("Simulator:Url"))
+            })
+            {
+                var request = new HttpRequestMessage(HttpMethod.Post, configuration.GetValue<string>("Simulator:CleanTimelines"));
+
+                await triggerClient.SendAsync(request);
+            }
         }
 
         public async Task<bool> SendScheduleOdds(OddsScheduleDto oddsSchedule)

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using MessagePack;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
 using Score247Management.Core.Matches.Models;
 
@@ -56,11 +57,13 @@ namespace Score247.Management.Site.Services
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(configuration.GetValue<string>("QueryApi:Url"));
-                var fd = fromDate.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm");
-                var td = toDate.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm");
-
-                var requestPath = $"api/soccer/{language}/matches?fd={fd}&td={td}";
-                var responseMessage = await client.GetAsync(requestPath);
+                var query = new Dictionary<string, string>
+                {
+                    ["fd"] = fromDate.ToString("yyyy-MM-ddTHH:mm:sszzz"),
+                    ["td"] = toDate.ToString("yyyy-MM-ddTHH:mm:sszzz")
+                };
+                var requestPath = $"api/soccer/{language}/matches";
+                var responseMessage = await client.GetAsync(QueryHelpers.AddQueryString(requestPath, query));
 
                 if (responseMessage.IsSuccessStatusCode)
                 {
