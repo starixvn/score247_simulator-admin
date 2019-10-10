@@ -49,14 +49,11 @@ namespace Score247.Management.Site.Services.Matches
                 requestBody.payload.timeline.stoppage_time = collection["payload.timeline.stoppage_time"];
             }
 
-            if (!string.IsNullOrWhiteSpace(collection["payload.timeline.player.name"]))
+            requestBody.payload.timeline.player = new TimelinePlayer()
             {
-                requestBody.payload.timeline.player = new TimelinePlayer()
-                {
-                    id = UniqueGenerator.GetIdWithPattern("sr:player:"),
-                    name = collection["payload.timeline.player.name"]
-                };
-            }
+                id = UniqueGenerator.GetIdWithPattern("sr:player:"),
+                name = collection["payload.timeline.player.name"]
+            };
 
             await simulatorService.SendMatchEvent(requestBody);
             await timelineService.SendMatchTimeline(id);
