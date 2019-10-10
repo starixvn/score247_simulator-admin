@@ -9,10 +9,8 @@ namespace Score247.Management.Site.Models.Events
 {
     public class MatchPushEventDto
     {
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public PushEventPayload payload { get; set; }
 
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public PushEventMetaData metadata { get; set; }
 
         public MatchPushEventDto()

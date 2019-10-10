@@ -118,13 +118,22 @@ namespace Score247.Management.Site.Services.Matches
                 type = collection["payload.timeline.type"],
                 match_time = isSuccessParseMatchTime ? matchTime : 0,
                 match_clock = matchTime + ":00",
-                home_score = match.LatestTimeline != null ? match.LatestTimeline.HomeScore : 0,
-                away_score = match.LatestTimeline != null ? match.LatestTimeline.AwayScore : 0,
+                home_score = 0,
+                away_score = 0,
                 team = collection["payload.timeline.team"],
                 period_type = PeriodType.RegularPeriod.DisplayName,
                 status = collection["payload.timeline.status"],
                 period = match.MatchResult?.Period ?? 1
             };
+            if (match.MatchResult?.MatchPeriods != null)
+            {
+                foreach (var matchPeriod in match.MatchResult.MatchPeriods)
+                {
+                    if (matchPeriod.PeriodType.IsPenalties()) continue;
+                    requestBody.payload.timeline.home_score += matchPeriod.HomeScore;
+                    requestBody.payload.timeline.away_score += matchPeriod.AwayScore;
+                }
+            }
             var commentary1 = collection["commentary1"];
             var commentary2 = collection["commentary2"];
             var commentary3 = collection["commentary3"];
