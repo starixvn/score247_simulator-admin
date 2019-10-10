@@ -195,7 +195,6 @@ namespace Score247.Management.Site.Services.Matches
         public async Task CreateScoreEventPartial(string id, IFormCollection collection, TimeSpan offset)
         {
             var requestBody = await InitEvent(id, collection, offset);
-
             var isNotDuplicateEvent = string.IsNullOrWhiteSpace(collection["payload.timeline.id"]);
 
             if (!string.IsNullOrWhiteSpace(collection["payload.timeline.assist.name"]))
@@ -228,6 +227,7 @@ namespace Score247.Management.Site.Services.Matches
                 requestBody.payload.timeline.stoppage_time = collection["payload.timeline.stoppage_time"];
             }
 
+            requestBody.payload.timeline.type = EventType.ScoreChange.DisplayName;
             if (isNotDuplicateEvent)
             {
                 requestBody = await UpdateScoreChange(requestBody, periodType, id);
@@ -314,9 +314,12 @@ namespace Score247.Management.Site.Services.Matches
                     {
                         requestBody.payload.sport_event_status.status = "live";
                         requestBody.payload.sport_event_status.match_status = MatchStatus.Halftime.DisplayName;
+                        requestBody.payload.sport_event_status.clock = new Clock() { match_time = "45:00" };
                         requestBody.payload.sport_event_status.period = 1;
                         requestBody.payload.timeline.period_type = null;
                         requestBody.payload.timeline.type = EventType.BreakStart.DisplayName;
+                        requestBody.payload.timeline.match_clock = "45:00";
+                        requestBody.payload.timeline.match_time = 45;
                         requestBody.payload.timeline.period_name = MatchStatus.Pause.DisplayName;
                         if (requestBody.payload.sport_event_status.period_scores.FirstOrDefault(x => x.number == 1 && x.type == PeriodType.RegularPeriod.DisplayName) == null)
                         {
@@ -393,10 +396,13 @@ namespace Score247.Management.Site.Services.Matches
                     {
                         requestBody.payload.sport_event_status.status = "live";
                         requestBody.payload.sport_event_status.match_status = MatchStatus.ExtraTimeHaftTime.DisplayName;
+                        requestBody.payload.sport_event_status.clock = new Clock() { match_time = "105:00" };
                         requestBody.payload.sport_event_status.period = 2;
                         requestBody.payload.timeline.period_type = null;
                         requestBody.payload.timeline.type = EventType.BreakStart.DisplayName;
                         requestBody.payload.timeline.period_name = "Extra time halftime";
+                        requestBody.payload.timeline.match_clock = "105:00";
+                        requestBody.payload.timeline.match_time = 105;
                         if (requestBody.payload.sport_event_status.period_scores.FirstOrDefault(x => x.type == PeriodType.Overtime.DisplayName) == null)
                         {
                             requestBody.payload.sport_event_status.period_scores = requestBody.payload.sport_event_status.period_scores.Append(new Period_Scores
