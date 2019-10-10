@@ -1,7 +1,10 @@
-﻿using Score247.Management.Site.Models.DataMappers;
+﻿using System;
+using System.Collections.Generic;
+using Score247.Management.Site.Models.DataMappers;
 using Score247.Management.Site.Models.Events;
 using Score247.Management.Site.Repositories.Matches;
 using Score247.Management.Site.Repositories.Matches.Models;
+using Score247Management.Core._Shared.Enumerations;
 
 namespace Score247.Management.Site.Services
 {
@@ -45,8 +48,8 @@ namespace Score247.Management.Site.Services
         public async Task SendMatchTimeline(string matchId)
         {
             var matchRepository = new MatchRepository();
-            var timelines = (await matchRepository.GetMatchTimelinesLog(matchId)).ToList();
-            var latestTimeline = timelines.LastOrDefault();
+            var timelineLogs = (await matchRepository.GetMatchTimelinesLog(matchId)).ToList();
+            var latestTimeline = timelineLogs.LastOrDefault();
             var match = await matchRepository.GetMatchById(matchId);
 
             var matchTimelineDto = new MatchTimelineDto
@@ -55,22 +58,92 @@ namespace Score247.Management.Site.Services
                 schema = "http://schemas.sportradar.com/bsa/soccer/v1/json/endpoints/soccer/match_timeline.json",
                 sport_event = SportEventMapper.MapSportEvent(match),
                 sport_event_status = latestTimeline?.payload.sport_event_status,
-                timeline = timelines.Select(x => x.payload.timeline)
+                timeline = timelineLogs.Select(x => x.payload.timeline).ToList()
             };
 
+            matchTimelineDto.statistics = BuildStatisticFormTimelineDto(matchTimelineDto);
+
             await simulatorService.SendMatchTimelines(matchTimelineDto);
+        }
+
+        private static Statistics BuildStatisticFormTimelineDto(MatchTimelineDto timelineDto)
+        {
+            var statistic = new Statistics
+            {
+                teams = timelineDto.sport_event.competitors.Select(InitTeamStatistic)
+                    .Select(team => BuildTeamStatistic(team, timelineDto.timeline))
+            };
+
+            return statistic;
+        }
+
+        private static Team BuildTeamStatistic(Team team, IEnumerable<TimelineDto> timelines)
+        {
+            var teamTimelines = timelines.Where(tl => tl.team == team.qualifier).ToList();
+
+            foreach (var timeline in teamTimelines)
+            {
+                if (timeline.type == EventType.CornerKick.DisplayName)
+                {
+                    team.statistics.corner_kicks++;
+                }
+                else if (timeline.type == EventType.FreeKick.DisplayName)
+                {
+                    team.statistics.free_kicks++;
+                }
+                else if (timeline.type == EventType.GoalKick.DisplayName)
+                {
+                    team.statistics.goal_kicks++;
+                }
+                else if (timeline.type == EventType.Injury.DisplayName)
+                {
+                    team.statistics.injuries++;
+                }
+                else if (timeline.type == EventType.Offside.DisplayName)
+                {
+                    team.statistics.offsides++;
+                }
+                else if (timeline.type == EventType.ShotOffTarget.DisplayName)
+                {
+                    team.statistics.shots_off_target++;
+                }
+                else if (timeline.type == EventType.ShotOnTarget.DisplayName)
+                {
+                    team.statistics.shots_on_target++;
+                }
+                else if (timeline.type == EventType.ShotSaved.DisplayName)
+                {
+                    team.statistics.shots_saved++;
+                }
+            }
+
+            return team;
+        }
+
+        private static Team InitTeamStatistic(Competitor competitor)
+        {
+            var team = new Team()
+            {
+                id = competitor.id,
+                name = competitor.name,
+                qualifier = competitor.qualifier,
+                abbreviation = competitor.abbreviation,
+                statistics = new Statistics1()
+            };
+
+            return team;
         }
 
         private static MatchTimelineDto BuildMatchTimelineDto(Match match, Scenario scenario)
         {
             var matchEvents = scenario.ScenarioEvents.Select(scenarioEvent => SportEventMapper.MapEvent(scenarioEvent, match, scenario)).ToList();
-            var latestEvents = matchEvents.LastOrDefault();
+            var latestEvent = matchEvents.LastOrDefault();
             var matchTimelineDto = new MatchTimelineDto
             {
                 generated_at = match.EventDate,
                 schema = "http://schemas.sportradar.com/bsa/soccer/v1/json/endpoints/soccer/match_timeline.json",
                 sport_event = SportEventMapper.MapSportEvent(match),
-                sport_event_status = latestEvents?.payload.sport_event_status,
+                sport_event_status = latestEvent?.payload.sport_event_status,
                 timeline = matchEvents.Select(matchEvent => matchEvent.payload.timeline)
             };
 

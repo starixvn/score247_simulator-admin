@@ -76,6 +76,45 @@
         Text = "Away",
         Value = "away"
     });
+    var periodTypes = new List<SelectListItem>();
+    periodTypes.Add(new SelectListItem()
+    {
+        Text = "Main time",
+        Value = "regular_period"
+    });
+    periodTypes.Add(new SelectListItem()
+    {
+        Text = "Injury Time",
+        Value = "extra_time"
+    });
+
+    periodTypes.Add(new SelectListItem()
+    {
+        Text = "OverTime",
+        Value = "overTime"
+    });
+
+    var matchTimePeriod = new List<SelectListItem>();
+    for (var i = 1; i < 60; i++)
+    {
+        var timeValue = (i * 2).ToString();
+        matchTimePeriod.Add(new SelectListItem()
+        {
+            Text = timeValue,
+            Value = timeValue
+        });
+    }
+
+    var matchTimeExtra = new List<SelectListItem>();
+    for (var i = 1; i < 20; i++)
+    {
+        var timeValue = i.ToString();
+        matchTimeExtra.Add(new SelectListItem()
+        {
+            Text = timeValue,
+            Value = timeValue
+        });
+    }
 }
 <div class="card">
     <div class="card-header" id="minorEventHeading">
@@ -97,6 +136,21 @@
                         <select asp-for="payload.timeline.type" asp-items="eventTypes" class="form-control"></select>
                         <span asp-validation-for="payload.timeline.type" class="text-danger"></span>
                     </div>
+                    <div class="form-group ">
+                        <label asp-for="payload.timeline.period_type" class="control-label">Period Type</label>
+                        <select id="scorePeriodType" asp-for="payload.timeline.period_type" asp-items="periodTypes" class="form-control" onchange="minorPeriodTypeChange(this)"></select>
+                        <span asp-validation-for="payload.timeline.period_type" class="text-danger"></span>
+                    </div>
+                    <div class="form-group ">
+                        <label asp-for="payload.timeline.match_time" class="control-label">Match Time</label>
+                        <select asp-for="payload.timeline.match_time" asp-items="matchTimePeriod" class="form-control"></select>
+                        <span asp-validation-for="payload.timeline.match_time" class="text-danger"></span>
+                    </div>
+                    <div class="form-group d-none" id="minorExtratime">
+                        <label asp-for="payload.timeline.stoppage_time" class="control-label">Match Injury Time</label>
+                        <select asp-for="payload.timeline.stoppage_time" asp-items="matchTimeExtra" class="form-control"></select>
+                        <span asp-validation-for="payload.timeline.stoppage_time" class="text-danger"></span>
+                    </div>
                     <div class="form-group">
                         <label asp-for="payload.timeline.team" class="control-label">Team</label>
                         <select asp-for="payload.timeline.team" class="form-control">
@@ -116,8 +170,16 @@
                         <span asp-validation-for="payload.timeline.hour" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label for="commentary" class="control-label">Commentary</label>
-                        <textarea id="commentary" type="text" name="commentary" class="form-control" rows="3"></textarea>
+                        <label for="commentary1" class="control-label">Commentary 1</label>
+                        <textarea id="commentary1" type="text" name="commentary" class="form-control" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="commentary2" class="control-label">Commentary 2</label>
+                        <textarea id="commentary2" type="text" name="commentary" class="form-control" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="commentary3" class="control-label">Commentary 3</label>
+                        <textarea id="commentary3" type="text" name="commentary" class="form-control" rows="3"></textarea>
                     </div>
                 </div>
                 <div class="form-group">

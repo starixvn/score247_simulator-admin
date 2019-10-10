@@ -294,6 +294,24 @@ function scorePeriodTypeChange(selectObject) {
     }
 }
 
+function substitudePeriodTypeChange(selectObject) {
+    console.log(selectObject.value);
+    if (selectObject.value === 'extra_time') {
+        $('#substitudeExtratime').removeClass('d-none');
+    } else {
+        $('#substitudeExtratime').addClass('d-none');
+    }
+}
+
+function minorPeriodTypeChange(selectObject) {
+    console.log(selectObject.value);
+    if (selectObject.value === 'extra_time') {
+        $('#minorExtratime').removeClass('d-none');
+    } else {
+        $('#minorExtratime').addClass('d-none');
+    }
+}
+
 function cardPeriodTypeChange(selectObject) {
     console.log(selectObject.value);
     if (selectObject.value === 'overtime') {

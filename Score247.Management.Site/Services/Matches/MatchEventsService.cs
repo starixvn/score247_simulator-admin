@@ -128,11 +128,23 @@ namespace Score247.Management.Site.Services.Matches
                 status = collection["payload.timeline.status"],
                 period = match.MatchResult?.Period ?? 1
             };
-            var commentary = collection["commentary"];
-            if (!string.IsNullOrWhiteSpace(commentary))
+            var commentary1 = collection["commentary1"];
+            var commentary2 = collection["commentary2"];
+            var commentary3 = collection["commentary3"];
+            var commentaries = new List<CommentaryDto>();
+            if (!string.IsNullOrWhiteSpace(commentary1))
             {
-                requestBody.payload.timeline.commentaries = new List<CommentaryDto>() { new CommentaryDto() { text = commentary } };
+                commentaries.Add(new CommentaryDto() { text = commentary1 });
             }
+            if (!string.IsNullOrWhiteSpace(commentary2))
+            {
+                commentaries.Add(new CommentaryDto() { text = commentary2 });
+            }
+            if (!string.IsNullOrWhiteSpace(commentary3))
+            {
+                commentaries.Add(new CommentaryDto() { text = commentary3 });
+            }
+            requestBody.payload.timeline.commentaries = commentaries;
 
             return requestBody;
         }
@@ -207,14 +219,11 @@ namespace Score247.Management.Site.Services.Matches
                 };
             }
 
-            if (!string.IsNullOrWhiteSpace(collection["payload.timeline.goal_scorer.name"]))
+            requestBody.payload.timeline.goal_scorer = new Goal_Scorer
             {
-                requestBody.payload.timeline.goal_scorer = new Goal_Scorer
-                {
-                    id = UniqueGenerator.GetIdWithPattern("sr:player:"),
-                    name = collection["payload.timeline.goal_scorer.name"]
-                };
-            }
+                id = UniqueGenerator.GetIdWithPattern("sr:player:"),
+                name = collection["payload.timeline.goal_scorer.name"]
+            };
 
             if (requestBody.payload.timeline.type != "normal_goal")
             {

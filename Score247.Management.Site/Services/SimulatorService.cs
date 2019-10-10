@@ -9,7 +9,7 @@ namespace Score247.Management.Site.Services
     using System.Threading.Tasks;
     using Microsoft.Extensions.Configuration;
     using Newtonsoft.Json;
-    using Score247.Management.Site.Models.Events;
+    using Models.Events;
     using Score247.Management.Site.Repositories.Matches;
     using Score247Management.Core.Odds.Dtos;
 
