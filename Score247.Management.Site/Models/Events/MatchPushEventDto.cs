@@ -9,8 +9,10 @@ namespace Score247.Management.Site.Models.Events
 {
     public class MatchPushEventDto
     {
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public PushEventPayload payload { get; set; }
 
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public PushEventMetaData metadata { get; set; }
 
         public MatchPushEventDto()
@@ -32,9 +34,10 @@ namespace Score247.Management.Site.Models.Events
 
     public class PushEventPayload
     {
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Sport_Event_Status sport_event_status { get; set; }
 
-        [JsonProperty(PropertyName = "event")]
+        [JsonProperty(PropertyName = "event", NullValueHandling = NullValueHandling.Ignore)]
         public TimelineDto timeline { get; set; }
 
         public PushEventPayload()

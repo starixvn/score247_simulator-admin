@@ -1,4 +1,6 @@
-﻿namespace Score247.Management.Site.Models.Events
+﻿using Newtonsoft.Json;
+
+namespace Score247.Management.Site.Models.Events
 {
     using System;
     using System.Collections.Generic;
@@ -6,18 +8,25 @@
 
     public class MatchTimelineDto
     {
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public DateTime generated_at { get; set; }
 
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string schema { get; set; }
 
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Sport_Event sport_event { get; set; }
 
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Sport_Event_Status sport_event_status { get; set; }
 
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Sport_Event_Conditions sport_event_conditions { get; set; }
 
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public IEnumerable<TimelineDto> timeline { get; set; }
 
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Statistics statistics { get; set; }
     }
 
@@ -26,35 +35,81 @@
         public long id { get; set; }
         public string type { get; set; }
 
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [DataType(DataType.Date)]
         public DateTimeOffset time { get; set; }
 
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [DataType(DataType.Time)]
         public TimeSpan hour { get; set; }
 
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public IEnumerable<CommentaryDto> commentaries { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public int period { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string period_type { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string period_name { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public int match_time { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string match_clock { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string team { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public int x { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public int y { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public int home_score { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public int away_score { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Goal_Scorer goal_scorer { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Assist assist { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public TimelinePlayer player { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string outcome { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Player_Out player_out { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Player_In player_in { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string stoppage_time { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public int injury_time_announced { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string description { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public int? shootout_home_score { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public int? shootout_away_score { get; set; }
 
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string status { get; set; }
     }
 
