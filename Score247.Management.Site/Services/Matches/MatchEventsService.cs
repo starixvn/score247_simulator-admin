@@ -242,8 +242,10 @@ namespace Score247.Management.Site.Services.Matches
                 requestBody.payload.timeline.stoppage_time = collection["payload.timeline.stoppage_time"];
             }
 
-            requestBody.payload.timeline.type = EventType.ScoreChange.DisplayName;
-            if (isNotDuplicateEvent)
+            requestBody.payload.timeline.type = requestBody.payload.timeline.type != EventType.PenaltyMissed.DisplayName ?
+                EventType.ScoreChange.DisplayName
+                : EventType.PenaltyMissed.DisplayName;
+            if (isNotDuplicateEvent && requestBody.payload.timeline.type != EventType.PenaltyMissed.DisplayName)
             {
                 requestBody = await UpdateScoreChange(requestBody, periodType, id);
             }

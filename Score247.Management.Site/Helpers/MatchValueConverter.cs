@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Newtonsoft.Json;
 using Score247Management.Core.Matches.Models;
 
@@ -17,6 +18,10 @@ namespace Score247.Management.Site.Helpers
         {
             var value = match.Value;
             var result = JsonConvert.DeserializeObject<Match>(value);
+            for (var i = 0; i < result.Teams.Count(); i++)
+            {
+                result.Teams.ElementAt(i).qualifier = result.Teams.ElementAt(i).IsHome ? "home" : "away";
+            }
             result.Value = value;
 
             return result;
@@ -26,6 +31,10 @@ namespace Score247.Management.Site.Helpers
         {
             var value = match.Value;
             var result = JsonConvert.DeserializeObject<Match>(value);
+            for (var i = 0; i < result.Teams.Count(); i++)
+            {
+                result.Teams.ElementAt(i).qualifier = result.Teams.ElementAt(i).IsHome ? "home" : "away";
+            }
             result.EventDate = result.EventDate.ToUniversalTime().Add(offset);
             result.Value = value;
 

@@ -286,7 +286,6 @@ function scoreTimeEventTypeChange(selectObject) {
 }
 
 function scorePeriodTypeChange(selectObject) {
-    console.log(selectObject.value);
     if (selectObject.value === 'extra_time') {
         $('#scoreExtratime').removeClass('d-none');
     } else {
@@ -707,7 +706,7 @@ function TriggerMatchDatatable() {
         else {
             table.order([groupColumn, 'asc']).draw();
         }
-    }); 
+    });
     var lm = $('#live-mathes-table').DataTable({
         "columnDefs": [{
             "searchable": true,

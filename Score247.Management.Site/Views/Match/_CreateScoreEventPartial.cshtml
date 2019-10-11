@@ -18,23 +18,29 @@
         Text = "Penalty",
         Value = "penalty"
     });
-    var periodTypes = new List<SelectListItem>();
-    periodTypes.Add(new SelectListItem()
+    eventTypes.Add(new SelectListItem()
     {
-        Text = "Main time",
-        Value = "regular_period"
+        Text = "Penalty Missed",
+        Value = EventType.PenaltyMissed.DisplayName
     });
-    periodTypes.Add(new SelectListItem()
-    {
-        Text = "Injury Time",
-        Value = "extra_time"
-    });
-
-    periodTypes.Add(new SelectListItem()
-    {
-        Text = "OverTime",
-        Value = "overTime"
-    });
+    var periodTypes = new List<SelectListItem>
+{
+        new SelectListItem()
+        {
+            Text = "Main time",
+            Value = "regular_period"
+        },
+        new SelectListItem()
+        {
+            Text = "Injury Time",
+            Value = "extra_time"
+        },
+        new SelectListItem()
+        {
+            Text = "OverTime",
+            Value = "overTime"
+        }
+    };
 
     var matchTimePeriod = new List<SelectListItem>();
     for (var i = 1; i < 60; i++)

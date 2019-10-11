@@ -74,11 +74,17 @@ namespace Score247.Management.Site.Services
                     .Select(team => BuildTeamStatistic(team, timelineDto.timeline))
             };
 
+            var rand = new Random();
+            statistic.teams.ElementAt(0).statistics.ball_possession = rand.Next(10, 90);
+            statistic.teams.ElementAt(1).statistics.ball_possession =
+                100 - statistic.teams.ElementAt(0).statistics.ball_possession;
+
             return statistic;
         }
 
         private static Team BuildTeamStatistic(Team team, IEnumerable<TimelineDto> timelines)
         {
+            var rand = new Random();
             var teamTimelines = timelines.Where(tl => tl.team == team.qualifier).ToList();
 
             foreach (var timeline in teamTimelines)
@@ -115,7 +121,22 @@ namespace Score247.Management.Site.Services
                 {
                     team.statistics.shots_saved++;
                 }
+                else if (timeline.type == EventType.ThrowIn.DisplayName)
+                {
+                    team.statistics.throw_ins++;
+                }
+                else if (timeline.type == EventType.YellowCard.DisplayName)
+                {
+                    team.statistics.yellow_cards++;
+                }
+                else if (timeline.type == EventType.YellowRedCard.DisplayName)
+                {
+                    team.statistics.yellow_cards++;
+                }
             }
+
+            team.statistics.fouls += rand.Next(1);
+            team.statistics.shots_blocked += rand.Next(1);
 
             return team;
         }
