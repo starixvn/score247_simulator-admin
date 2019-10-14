@@ -33,7 +33,7 @@ namespace Score247.Management.Site.Services
             {
                 client.BaseAddress = new Uri(configuration.GetValue<string>("QueryApi:Url"));
 
-                client.DefaultRequestHeaders.Add("Accept", "text/plain");
+                client.DefaultRequestHeaders.Add("Accept", "application/x-msgpack");
 
                 var requestPath = $"api/soccer/{language}/matches/live";
                 var responseMessage = await client.GetAsync(requestPath);
@@ -64,7 +64,7 @@ namespace Score247.Management.Site.Services
             {
                 client.BaseAddress = new Uri(configuration.GetValue<string>("QueryApi:Url"));
 
-                client.DefaultRequestHeaders.Add("Accept", "text/plain");
+                client.DefaultRequestHeaders.Add("Accept", "application/x-msgpack");
                 var query = new Dictionary<string, string>
                 {
                     ["fd"] = fromDate.ToString("yyyy-MM-ddTHH:mm:sszzz"),
