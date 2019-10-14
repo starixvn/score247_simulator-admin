@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Score247.Management.Site.Models;
@@ -15,6 +16,8 @@ using Score247.Management.Site.Repositories.Matches.Models;
 using Score247.Management.Site.Repositories.Teams;
 using Score247Management.Core._Shared.Enumerations;
 using Score247Management.Core.Matches.Models;
+using Score247Management.Core.Statistics.Models;
+using Score247Management.Core.Teams.Models;
 using MatchSummary = Score247Management.Core.Matches.Models.MatchSummary;
 
 namespace Score247.Management.Site.Services
@@ -40,6 +43,8 @@ namespace Score247.Management.Site.Services
         Task<Result> GetSimulatorResult(string matchId);
 
         Task SendCustomLiveMatch(string matchId, Sport_Event_Status sportEventStatus);
+
+        Task ApplyMatchStatistic(string matchId, IFormCollection collection);
     }
 
     public class MatchService : IMatchService
@@ -50,19 +55,22 @@ namespace Score247.Management.Site.Services
         private readonly IQueryService queryService;
         private readonly ITriggerJobService triggerJobService;
         private readonly IScenarioService scenarioService;
+        private readonly ITimelineService timelineService;
 
         public MatchService(
             IConfiguration configuration,
             ISimulatorService simulatorService,
             IQueryService queryService,
             ITriggerJobService triggerJobService,
-            IScenarioService scenarioService)
+            IScenarioService scenarioService,
+            ITimelineService timelineService)
         {
             this.configuration = configuration;
             this.simulatorService = simulatorService;
             this.queryService = queryService;
             this.triggerJobService = triggerJobService;
             this.scenarioService = scenarioService;
+            this.timelineService = timelineService;
         }
 
         public async Task CreateMatchForActiveLeagues(DateTime createDate, TimeSpan offset)
@@ -715,6 +723,49 @@ namespace Score247.Management.Site.Services
             await simulatorService.SendLiveResult(content);
             await triggerJobService.TriggerFetchLiveMatch();
             await triggerJobService.TriggerFetchLiveMatchTimeline();
+        }
+
+        public async Task ApplyMatchStatistic(string matchId, IFormCollection collection)
+        {
+            var statistic = new Statistic()
+            {
+                MatchId = matchId,
+                HomeStatistic = new TeamStatistic()
+                {
+                    RedCards = int.Parse(collection["HomeStatistic.RedCards"]),
+                    Possession = int.Parse(collection["HomeStatistic.Possession"]),
+                    CornerKicks = int.Parse(collection["HomeStatistic.CornerKicks"]),
+                    Fouls = int.Parse(collection["HomeStatistic.Fouls"]),
+                    FreeKicks = int.Parse(collection["HomeStatistic.FreeKicks"]),
+                    GoalKicks = int.Parse(collection["HomeStatistic.GoalKicks"]),
+                    Injuries = int.Parse(collection["HomeStatistic.Injuries"]),
+                    Offsides = int.Parse(collection["HomeStatistic.Offsides"]),
+                    ShotsBlocked = int.Parse(collection["HomeStatistic.ShotsBlocked"]),
+                    ShotsOffTarget = int.Parse(collection["HomeStatistic.ShotsOffTarget"]),
+                    ShotsOnTarget = int.Parse(collection["HomeStatistic.ShotsOnTarget"]),
+                    ShotsSaved = int.Parse(collection["HomeStatistic.ShotsSaved"]),
+                    ThrowIns = int.Parse(collection["HomeStatistic.ThrowIns"]),
+                    YellowCards = int.Parse(collection["HomeStatistic.YellowCards"])
+                },
+                AwayStatistic = new TeamStatistic()
+                {
+                    RedCards = int.Parse(collection["AwayStatistic.RedCards"]),
+                    Possession = int.Parse(collection["AwayStatistic.Possession"]),
+                    CornerKicks = int.Parse(collection["AwayStatistic.CornerKicks"]),
+                    Fouls = int.Parse(collection["AwayStatistic.Fouls"]),
+                    FreeKicks = int.Parse(collection["AwayStatistic.FreeKicks"]),
+                    GoalKicks = int.Parse(collection["AwayStatistic.GoalKicks"]),
+                    Injuries = int.Parse(collection["AwayStatistic.Injuries"]),
+                    Offsides = int.Parse(collection["AwayStatistic.Offsides"]),
+                    ShotsBlocked = int.Parse(collection["AwayStatistic.ShotsBlocked"]),
+                    ShotsOffTarget = int.Parse(collection["AwayStatistic.ShotsOffTarget"]),
+                    ShotsOnTarget = int.Parse(collection["AwayStatistic.ShotsOnTarget"]),
+                    ShotsSaved = int.Parse(collection["AwayStatistic.ShotsSaved"]),
+                    ThrowIns = int.Parse(collection["AwayStatistic.ThrowIns"]),
+                    YellowCards = int.Parse(collection["AwayStatistic.YellowCards"])
+                }
+            };
+            await timelineService.ApplyStatistic(statistic);
         }
     }
 }

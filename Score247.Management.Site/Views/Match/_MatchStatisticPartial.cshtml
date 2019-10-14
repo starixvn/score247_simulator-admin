@@ -3,7 +3,7 @@
 <div>
     <h4>Statistic</h4>
     <hr />
-    <form>
+    <form asp-action="ApplyMatchStatistic" asp-route-matchId="@Model.MatchId">
         <div class="row">
             <div class="col-sm-6">
                 <div class="row">
@@ -163,7 +163,7 @@
                 </div>
                 <div class="row">
                     <div class="col col-sm-2">
-                        Possession
+                        RedCards
                     </div>
                     <div class="col col-sm-5">
                         <input asp-for="HomeStatistic.RedCards" class="form-control" />
@@ -185,7 +185,6 @@
                 </div>
             </div>
         </div>
-        
-
+        <button type="submit" class="btn btn-primary">Apply Statistic</button>
     </form>
 </div>

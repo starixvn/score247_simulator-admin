@@ -5,6 +5,7 @@ using Score247.Management.Site.Models.Events;
 using Score247.Management.Site.Repositories.Matches;
 using Score247.Management.Site.Repositories.Matches.Models;
 using Score247Management.Core._Shared.Enumerations;
+using Score247Management.Core.Statistics.Models;
 
 namespace Score247.Management.Site.Services
 {
@@ -20,6 +21,8 @@ namespace Score247.Management.Site.Services
         Task SendInitTimeline(MatchEntity match);
 
         Task SendMatchTimeline(string matchId);
+
+        Task ApplyStatistic(Statistic statistic);
     }
 
     public class TimelineService : ITimelineService
@@ -47,6 +50,13 @@ namespace Score247.Management.Site.Services
 
         public async Task SendMatchTimeline(string matchId)
         {
+            var matchTimelineDto = await BuildCurrentMatchTimeline(matchId);
+
+            await simulatorService.SendMatchTimelines(matchTimelineDto);
+        }
+
+        private async Task<MatchTimelineDto> BuildCurrentMatchTimeline(string matchId)
+        {
             var matchRepository = new MatchRepository();
             var timelineLogs = (await matchRepository.GetMatchTimelinesLog(matchId)).ToList();
             var latestTimeline = timelineLogs.LastOrDefault();
@@ -62,6 +72,28 @@ namespace Score247.Management.Site.Services
             };
 
             matchTimelineDto.statistics = BuildStatisticFormTimelineDto(matchTimelineDto);
+
+            return matchTimelineDto;
+        }
+
+        private Statistics BuildStatisticFormCustomStatistic(Statistic customStatistic, Statistics statistics)
+        {
+            var newStatistics = statistics.teams.Select(team =>
+            {
+                team.statistics = StatisticMapper.MapStatistic(team.qualifier == "home" ? customStatistic.HomeStatistic : customStatistic.AwayStatistic);
+
+                return team;
+            });
+            statistics.teams = newStatistics;
+
+            return statistics;
+        }
+
+        public async Task ApplyStatistic(Statistic statistic)
+        {
+            var matchTimelineDto = await BuildCurrentMatchTimeline(statistic.MatchId);
+
+            matchTimelineDto.statistics = BuildStatisticFormCustomStatistic(statistic, matchTimelineDto.statistics);
 
             await simulatorService.SendMatchTimelines(matchTimelineDto);
         }

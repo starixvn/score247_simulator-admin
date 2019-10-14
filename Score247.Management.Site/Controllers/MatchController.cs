@@ -441,5 +441,14 @@ namespace Score247.Management.Site.Controllers
 
             return result;
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ApplyMatchStatistic(string matchId, IFormCollection collection)
+        {
+            await matchService.ApplyMatchStatistic(matchId, collection);
+
+            return RedirectToAction(nameof(Details), new { id = matchId });
+        }
     }
 }
