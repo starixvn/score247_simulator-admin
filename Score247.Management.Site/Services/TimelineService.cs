@@ -4,6 +4,7 @@ using Score247.Management.Site.Models.DataMappers;
 using Score247.Management.Site.Models.Events;
 using Score247.Management.Site.Repositories.Matches;
 using Score247.Management.Site.Repositories.Matches.Models;
+using Score247.Management.Site.Services.Matches.Creators;
 using Score247Management.Core._Shared.Enumerations;
 using Score247Management.Core.Statistics.Models;
 
@@ -102,6 +103,12 @@ namespace Score247.Management.Site.Services
 
         public async Task ApplyStatistic(Statistic statistic)
         {
+            var matchNotStarted = await CheckMatchNotStart(statistic.MatchId);
+            if (matchNotStarted)
+            {
+                await SendStartMatch(statistic.MatchId);
+            }
+
             var matchTimelineDto = await BuildCurrentMatchTimeline(statistic.MatchId);
 
             matchTimelineDto.statistics = BuildStatisticFormCustomStatistic(statistic, matchTimelineDto.statistics);
@@ -112,16 +119,32 @@ namespace Score247.Management.Site.Services
             await Task.Delay(2000);
         }
 
+        private async Task<bool> CheckMatchNotStart(string matchId)
+        {
+            var matchRepository = new MatchRepository();
+            var match = await matchRepository.GetMatchById(matchId);
+
+            return match.MatchResult.MatchStatus.DisplayName == "not_started";
+        }
+
+        private async Task SendStartMatch(string matchId)
+        {
+            var matchRepository = new MatchRepository();
+            var match = await matchRepository.GetMatchById(matchId);
+            var matchStartEvent = MatchTimeEventCreator.CreateMatchStart(match, match.EventDate);
+            await simulatorService.SendMatchEvent(matchStartEvent, 1000);
+        }
+
         private static Statistics BuildStatisticFormTimelineDto(MatchTimelineDto timelineDto)
         {
             var statistic = new Statistics
             {
                 teams = timelineDto.sport_event.competitors.Select(InitTeamStatistic)
-                    .Select(team => BuildTeamStatistic(team, timelineDto.timeline))
+                    .Select(team => BuildTeamStatistic(team, timelineDto.timeline)).ToList()
             };
 
-            var rand = new Random();
-            statistic.teams.ElementAt(0).statistics.ball_possession = rand.Next(10, 90);
+            var ballPossession = new Random().Next(10, 90);
+            statistic.teams.ElementAt(0).statistics.ball_possession = ballPossession;
             statistic.teams.ElementAt(1).statistics.ball_possession =
                 100 - statistic.teams.ElementAt(0).statistics.ball_possession;
 
@@ -130,7 +153,6 @@ namespace Score247.Management.Site.Services
 
         private static Team BuildTeamStatistic(Team team, IEnumerable<TimelineDto> timelines)
         {
-            var rand = new Random();
             var teamTimelines = timelines.Where(tl => tl.team == team.qualifier).ToList();
 
             foreach (var timeline in teamTimelines)
@@ -185,8 +207,8 @@ namespace Score247.Management.Site.Services
                 }
             }
 
-            team.statistics.fouls += rand.Next(2);
-            team.statistics.shots_blocked += rand.Next(2);
+            team.statistics.fouls++;
+            team.statistics.shots_blocked++;
 
             return team;
         }
