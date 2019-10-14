@@ -33,7 +33,7 @@ namespace Score247.Management.Site.Services
 
         public async Task TriggerJobs(IEnumerable<string> jobsName)
         {
-            using (HttpClient triggerClient = new HttpClient
+            using (var triggerClient = new HttpClient
             {
                 BaseAddress = new Uri(configuration.GetValue<string>("Simulator:FetchUrl"))
             })
@@ -47,10 +47,17 @@ namespace Score247.Management.Site.Services
                 }
 
                 request.Content = new FormUrlEncodedContent(content);
-
-                using (HttpResponseMessage httpResponseMessage = await triggerClient.SendAsync(request))
+                try
                 {
-                    _ = httpResponseMessage;
+                    using (var httpResponseMessage = await triggerClient.SendAsync(request))
+                    {
+                        _ = httpResponseMessage;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
                 }
             }
         }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MessagePack;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using Score247Management.Core.Matches.Models;
 
 namespace Score247.Management.Site.Services
@@ -32,6 +33,8 @@ namespace Score247.Management.Site.Services
             {
                 client.BaseAddress = new Uri(configuration.GetValue<string>("QueryApi:Url"));
 
+                client.DefaultRequestHeaders.Add("Accept", "text/plain");
+
                 var requestPath = $"api/soccer/{language}/matches/live";
                 var responseMessage = await client.GetAsync(requestPath);
 
@@ -42,6 +45,9 @@ namespace Score247.Management.Site.Services
                         var bytes = await responseMessage.Content.ReadAsByteArrayAsync();
 
                         return MessagePackSerializer.Deserialize<IEnumerable<MatchSummary>>(bytes);
+
+                        //var matchData = await responseMessage.Content.ReadAsStringAsync();
+                        //return JsonConvert.DeserializeObject<IEnumerable<MatchSummary>>(matchData);
                     }
                     catch (Exception)
                     {
@@ -57,6 +63,8 @@ namespace Score247.Management.Site.Services
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(configuration.GetValue<string>("QueryApi:Url"));
+
+                client.DefaultRequestHeaders.Add("Accept", "text/plain");
                 var query = new Dictionary<string, string>
                 {
                     ["fd"] = fromDate.ToString("yyyy-MM-ddTHH:mm:sszzz"),
@@ -70,8 +78,10 @@ namespace Score247.Management.Site.Services
                     try
                     {
                         var bytes = await responseMessage.Content.ReadAsByteArrayAsync();
-
                         var matches = MessagePackSerializer.Deserialize<IEnumerable<MatchSummary>>(bytes);
+
+                        //var matchData = await responseMessage.Content.ReadAsStringAsync();
+                        //var matches = JsonConvert.DeserializeObject<IEnumerable<MatchSummary>>(matchData);
                         return matches.Select(match =>
                         {
                             match.DisplayDate = match.EventDate.Add(offset).ToString("dd/MM/yyyy HH:mm:ss");
