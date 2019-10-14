@@ -1,4 +1,5 @@
 ﻿using System;
+using Score247Management.Core.Statistics.Models;
 
 namespace Score247.Management.Site.ViewModels.Matches
 {
@@ -20,6 +21,7 @@ namespace Score247.Management.Site.ViewModels.Matches
         public IEnumerable<TimelineEvent> TimelineEvents { get; set; }
 
         public IEnumerable<Scenario> Scenarios { get; set; }
+        public Statistic Statistic { get; set; }
 
         public EventMatchViewModel()
         {

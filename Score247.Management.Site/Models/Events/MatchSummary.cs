@@ -3,16 +3,6 @@ using System.Collections.Generic;
 
 namespace Score247.Management.Site.Models.Events
 {
-    public class MatchSummary
-    {
-        public DateTime generated_at { get; set; }
-        public string schema { get; set; }
-        public Sport_Event sport_event { get; set; }
-        public Sport_Event_Conditions sport_event_conditions { get; set; }
-        public Sport_Event_Status sport_event_status { get; set; }
-        public Statistics statistics { get; set; }
-    }
-
     public class Sport_Event
     {
         public string id { get; set; }

@@ -15,7 +15,7 @@
 
         public IEnumerable<Player> Players { get; set; }
 
-        public TeamStatistics Statistic { get; set; }
+        public TeamStatistic Statistic { get; set; }
 
         public Coach Coach { get; set; }
 

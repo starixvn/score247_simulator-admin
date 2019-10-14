@@ -203,9 +203,9 @@ namespace Score247.Management.Site.Services.Matches
                 Tournament = league
             };
             var competitors = new List<Score247Management.Core.Teams.Models.Team>();
-            homeTeam.Statistic = new Score247Management.Core.Teams.Models.TeamStatistics();
+            homeTeam.Statistic = new Score247Management.Core.Teams.Models.TeamStatistic();
             homeTeam.qualifier = "home";
-            awayTeam.Statistic = new Score247Management.Core.Teams.Models.TeamStatistics();
+            awayTeam.Statistic = new Score247Management.Core.Teams.Models.TeamStatistic();
             awayTeam.qualifier = "away";
             competitors.Add(homeTeam);
             competitors.Add(awayTeam);

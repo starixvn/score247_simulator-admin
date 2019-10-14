@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Score247Management.Core.Matches.Models;
+using Score247Management.Core.Statistics.Models;
 
 namespace Score247.Management.Site.Services
 {
@@ -16,6 +17,8 @@ namespace Score247.Management.Site.Services
         Task<IEnumerable<MatchSummary>> GetLiveMatches(string language);
 
         Task<IEnumerable<MatchSummary>> GetMatchesByDateRange(DateTimeOffset fromDate, DateTimeOffset toDate, string language, TimeSpan offset);
+
+        Task<Statistic> GetMatchStatistic(string matchId, string language);
     }
 
     public class QueryService : IQueryService
@@ -95,6 +98,31 @@ namespace Score247.Management.Site.Services
             }
 
             return new List<MatchSummary>();
+        }
+
+        public async Task<Statistic> GetMatchStatistic(string matchId, string language)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(configuration.GetValue<string>("QueryApi:Url"));
+
+                client.DefaultRequestHeaders.Add("Accept", "application/x-msgpack");
+                var requestPath = $"api/soccer/{language}/matches/{matchId}/statistic";
+                var responseMessage = await client.GetAsync(requestPath);
+
+                if (responseMessage.IsSuccessStatusCode)
+                {
+                    try
+                    {
+                        var bytes = await responseMessage.Content.ReadAsByteArrayAsync();
+                        return MessagePackSerializer.Deserialize<Statistic>(bytes);
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
+            }
+            return new Statistic();
         }
     }
 }

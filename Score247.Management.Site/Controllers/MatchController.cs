@@ -23,19 +23,22 @@ namespace Score247.Management.Site.Controllers
         private readonly IMatchEventsService matchEventsService;
         private readonly IScenarioService scenarioService;
         private readonly IAutoEventService autoEventService;
+        private readonly IQueryService queryService;
 
         public MatchController(
             IMatchService matchService,
             ICreateMatchesService createMatchesService,
             IMatchEventsService matchEventsService,
             IScenarioService scenarioService,
-            IAutoEventService autoEventService)
+            IAutoEventService autoEventService,
+            IQueryService queryService)
         {
             this.createMatchesService = createMatchesService;
             this.matchService = matchService;
             this.matchEventsService = matchEventsService;
             this.scenarioService = scenarioService;
             this.autoEventService = autoEventService;
+            this.queryService = queryService;
         }
 
         // GET: Match
@@ -127,7 +130,8 @@ namespace Score247.Management.Site.Controllers
             var timelines = await repository.GetMatchTimelines(id, offset);
             var viewModel = new EventMatchViewModel(match, timelines, offset)
             {
-                Scenarios = await scenarioRepo.GetScenarios()
+                Scenarios = await scenarioRepo.GetScenarios(),
+                Statistic = await queryService.GetMatchStatistic(id, "en-US")
             };
 
             TempData["Timezone"] = offset.ToString(@"hh\:mm");
