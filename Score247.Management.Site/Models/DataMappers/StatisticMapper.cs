@@ -21,7 +21,8 @@
                 offsides = statistic.Offsides,
                 shots_saved = statistic.ShotsSaved,
                 injuries = statistic.Injuries,
-                shots_on_target = statistic.ShotsOnTarget
+                shots_on_target = statistic.ShotsOnTarget,
+                red_cards = statistic.RedCards
             };
 
             return statistics;

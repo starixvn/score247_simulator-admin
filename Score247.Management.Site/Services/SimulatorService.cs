@@ -227,11 +227,8 @@ namespace Score247.Management.Site.Services
                 var response = await client.PostAsJsonAsync(requestPath, matchTimeline);
                 if (!response.IsSuccessStatusCode)
                 {
-                    return;
                 }
             }
-
-            await Task.Delay(2000);
         }
     }
 }

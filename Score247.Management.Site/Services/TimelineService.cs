@@ -28,10 +28,12 @@ namespace Score247.Management.Site.Services
     public class TimelineService : ITimelineService
     {
         private readonly ISimulatorService simulatorService;
+        private readonly ITriggerJobService triggerJobService;
 
-        public TimelineService(ISimulatorService simulatorService)
+        public TimelineService(ISimulatorService simulatorService, ITriggerJobService triggerJobService)
         {
             this.simulatorService = simulatorService;
+            this.triggerJobService = triggerJobService;
         }
 
         public async Task SendUpdateTimelines(Match match, Scenario scenario)
@@ -39,6 +41,9 @@ namespace Score247.Management.Site.Services
             var matchTimelineDto = BuildMatchTimelineDto(match, scenario);
 
             await simulatorService.SendMatchTimelines(matchTimelineDto);
+            await triggerJobService.TriggerFetchLiveMatchTimeline();
+
+            await Task.Delay(2000);
         }
 
         public async Task SendInitTimeline(MatchEntity match)
@@ -46,6 +51,9 @@ namespace Score247.Management.Site.Services
             var matchTimelineDto = BuildMatchInitTimelineDto(match);
 
             await simulatorService.SendMatchTimelines(matchTimelineDto);
+            await triggerJobService.TriggerFetchLiveMatchTimeline();
+
+            await Task.Delay(2000);
         }
 
         public async Task SendMatchTimeline(string matchId)
@@ -53,6 +61,9 @@ namespace Score247.Management.Site.Services
             var matchTimelineDto = await BuildCurrentMatchTimeline(matchId);
 
             await simulatorService.SendMatchTimelines(matchTimelineDto);
+            await triggerJobService.TriggerFetchLiveMatchTimeline();
+
+            await Task.Delay(2000);
         }
 
         private async Task<MatchTimelineDto> BuildCurrentMatchTimeline(string matchId)
@@ -96,6 +107,9 @@ namespace Score247.Management.Site.Services
             matchTimelineDto.statistics = BuildStatisticFormCustomStatistic(statistic, matchTimelineDto.statistics);
 
             await simulatorService.SendMatchTimelines(matchTimelineDto);
+            await triggerJobService.TriggerFetchLiveMatchTimeline();
+
+            await Task.Delay(2000);
         }
 
         private static Statistics BuildStatisticFormTimelineDto(MatchTimelineDto timelineDto)
@@ -164,6 +178,10 @@ namespace Score247.Management.Site.Services
                 else if (timeline.type == EventType.YellowRedCard.DisplayName)
                 {
                     team.statistics.yellow_cards++;
+                }
+                else if (timeline.type == EventType.RedCard.DisplayName)
+                {
+                    team.statistics.red_cards++;
                 }
             }
 

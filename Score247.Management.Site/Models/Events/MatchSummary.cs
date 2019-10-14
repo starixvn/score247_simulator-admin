@@ -121,6 +121,7 @@ namespace Score247.Management.Site.Models.Events
         public int shots_saved { get; set; }
         public int offsides { get; set; }
         public int yellow_cards { get; set; }
+        public int red_cards { get; set; }
         public int injuries { get; set; }
     }
 
