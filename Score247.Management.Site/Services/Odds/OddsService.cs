@@ -44,10 +44,12 @@ namespace Score247.Management.Site.Services.Odds
         {
             var repository = new MatchRepository();
             var match = await repository.GetMatchById(matchId, offset);
-            var viewModel = new OddsEventViewModel();
-            viewModel.Match = match;
-            viewModel.MatchOdds = await GetMatchOdds(matchId, 1, "en-US", "des");
-            viewModel.MatchOddsMovement = new MatchOddsMovement();
+            var viewModel = new OddsEventViewModel
+            {
+                Match = match,
+                MatchOdds = await GetMatchOdds(matchId, 1, "en-US", "des"),
+                MatchOddsMovement = new MatchOddsMovement()
+            };
 
             if (viewModel.MatchOdds.IsBetTypeOddsListEmpty())
             {
@@ -64,6 +66,7 @@ namespace Score247.Management.Site.Services.Odds
             using (var httpClient = new HttpClient())
             {
                 httpClient.BaseAddress = new Uri(configuration.GetValue<string>("QueryApi:Url"));
+                httpClient.DefaultRequestHeaders.Add("Accept", "application/x-msgpack");
                 var requestPath = $"api/soccer/{language}/odds/{matchId}/{betTypeId}/{format}";
 
                 var responseMessage = await httpClient.GetAsync(requestPath);
@@ -84,19 +87,19 @@ namespace Score247.Management.Site.Services.Odds
             using (var httpClient = new HttpClient())
             {
                 httpClient.BaseAddress = new Uri(configuration.GetValue<string>("QueryApi:Url"));
+                httpClient.DefaultRequestHeaders.Add("Accept", "application/x-msgpack");
+
                 var requestPath = $"api/soccer/{language}/odds-movement/{matchId}/{betTypeId}/{format}/{bookmakerId}";
 
                 var responseMessage = await httpClient.GetAsync(requestPath);
 
-                if (responseMessage.IsSuccessStatusCode)
-                {
-                    var bytes = await responseMessage.Content.ReadAsByteArrayAsync();
+                if (!responseMessage.IsSuccessStatusCode) return new MatchOddsMovement();
+                var bytes = await responseMessage.Content.ReadAsByteArrayAsync();
 
-                    var result = MessagePackSerializer.Deserialize<MatchOddsMovement>(bytes);
-                    result.OddsMovements = result.OddsMovements.Select(x => { x.DisplayUpdateTime = x.UpdateTime.Add(offset).ToString("YYY/MM/dd HH:mm:ss"); return x; });
+                var result = MessagePackSerializer.Deserialize<MatchOddsMovement>(bytes);
+                result.OddsMovements = result.OddsMovements.Select(x => { x.DisplayUpdateTime = x.UpdateTime.Add(offset).ToString("yyyy/MM/dd HH:mm:ss"); return x; });
 
-                    return result;
-                }
+                return result;
             }
 
             return new MatchOddsMovement();
@@ -197,28 +200,29 @@ namespace Score247.Management.Site.Services.Odds
 
         private IEnumerable<Outcome> CreateAsianHDPOutCome(OddsChangeRequestModel request)
         {
-            var outcomes = new List<Outcome>();
-            outcomes.Add(new Outcome()
+            var outcomes = new List<Outcome>
             {
-                odds_field_id = 7,
-                type = "home",
-                odds = request.HomeHDPOdds,
-                opening_odds = request.HomeHDPOdds,
-                handicap = request.HDPValue,
-                deep_link = "http://stats.betradar.com/tb.php?type=iscreenFromId&id=9192052710",
-                odds_trend = "down"
-            });
-
-            outcomes.Add(new Outcome()
-            {
-                odds_field_id = 8,
-                type = "away",
-                odds = request.AwayHDPOdds,
-                opening_odds = request.AwayHDPOdds,
-                handicap = request.HDPValue,
-                deep_link = "http://stats.betradar.com/tb.php?type=iscreenFromId&id=9192052710",
-                odds_trend = "down"
-            });
+                new Outcome()
+                {
+                    odds_field_id = 7,
+                    type = "home",
+                    odds = request.HomeHDPOdds,
+                    opening_odds = request.HomeHDPOdds,
+                    handicap = request.HDPValue,
+                    deep_link = "http://stats.betradar.com/tb.php?type=iscreenFromId&id=9192052710",
+                    odds_trend = "down"
+                },
+                new Outcome()
+                {
+                    odds_field_id = 8,
+                    type = "away",
+                    odds = request.AwayHDPOdds,
+                    opening_odds = request.AwayHDPOdds,
+                    handicap = request.HDPValue,
+                    deep_link = "http://stats.betradar.com/tb.php?type=iscreenFromId&id=9192052710",
+                    odds_trend = "down"
+                }
+            };
 
             return outcomes;
         }
@@ -240,30 +244,31 @@ namespace Score247.Management.Site.Services.Odds
 
         private IEnumerable<Outcome> CreateOverUnderOutCome(OddsChangeRequestModel request)
         {
-            var outcomes = new List<Outcome>();
-            outcomes.Add(new Outcome()
+            var outcomes = new List<Outcome>
             {
-                odds_field_id = 7,
-                type = "over",
-                odds = request.OverOdds,
-                opening_odds = request.OverOdds,
-                total = request.TotalOUOdds,
-                opening_total = request.TotalOUOdds,
-                deep_link = "http://stats.betradar.com/tb.php?type=iscreenFromId&id=9192052710",
-                odds_trend = "down"
-            });
-
-            outcomes.Add(new Outcome()
-            {
-                odds_field_id = 8,
-                type = "under",
-                odds = request.UnderOdds,
-                opening_odds = request.UnderOdds,
-                total = request.TotalOUOdds,
-                opening_total = request.TotalOUOdds,
-                deep_link = "http://stats.betradar.com/tb.php?type=iscreenFromId&id=9192052710",
-                odds_trend = "down"
-            });
+                new Outcome()
+                {
+                    odds_field_id = 7,
+                    type = "over",
+                    odds = request.OverOdds,
+                    opening_odds = request.OverOdds,
+                    total = request.TotalOUOdds,
+                    opening_total = request.TotalOUOdds,
+                    deep_link = "http://stats.betradar.com/tb.php?type=iscreenFromId&id=9192052710",
+                    odds_trend = "down"
+                },
+                new Outcome()
+                {
+                    odds_field_id = 8,
+                    type = "under",
+                    odds = request.UnderOdds,
+                    opening_odds = request.UnderOdds,
+                    total = request.TotalOUOdds,
+                    opening_total = request.TotalOUOdds,
+                    deep_link = "http://stats.betradar.com/tb.php?type=iscreenFromId&id=9192052710",
+                    odds_trend = "down"
+                }
+            };
 
             return outcomes;
         }

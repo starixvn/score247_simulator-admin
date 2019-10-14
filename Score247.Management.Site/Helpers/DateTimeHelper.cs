@@ -27,7 +27,7 @@
         {
             var utcFromDate = new DateTime(inputTime.Year, inputTime.Month, inputTime.Day, inputTime.Hour, inputTime.Minute, inputTime.Second, DateTimeKind.Utc);
 
-            return utcFromDate.Add(offset);
+            return utcFromDate.Subtract(offset);
         }
     }
 }
