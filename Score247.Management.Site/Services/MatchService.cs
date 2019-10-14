@@ -745,7 +745,8 @@ namespace Score247.Management.Site.Services
                     ShotsOnTarget = int.Parse(collection["HomeStatistic.ShotsOnTarget"]),
                     ShotsSaved = int.Parse(collection["HomeStatistic.ShotsSaved"]),
                     ThrowIns = int.Parse(collection["HomeStatistic.ThrowIns"]),
-                    YellowCards = int.Parse(collection["HomeStatistic.YellowCards"])
+                    YellowCards = int.Parse(collection["HomeStatistic.YellowCards"]),
+                    YellowRedCards = int.Parse(collection["HomeStatistic.YellowRedCards"])
                 },
                 AwayStatistic = new TeamStatistic()
                 {
@@ -762,7 +763,8 @@ namespace Score247.Management.Site.Services
                     ShotsOnTarget = int.Parse(collection["AwayStatistic.ShotsOnTarget"]),
                     ShotsSaved = int.Parse(collection["AwayStatistic.ShotsSaved"]),
                     ThrowIns = int.Parse(collection["AwayStatistic.ThrowIns"]),
-                    YellowCards = int.Parse(collection["AwayStatistic.YellowCards"])
+                    YellowCards = int.Parse(collection["AwayStatistic.YellowCards"]),
+                    YellowRedCards = int.Parse(collection["AwayStatistic.YellowRedCards"])
                 }
             };
             await timelineService.ApplyStatistic(statistic);

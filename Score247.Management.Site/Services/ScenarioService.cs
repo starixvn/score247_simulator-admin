@@ -29,11 +29,13 @@ namespace Score247.Management.Site.Services
     {
         private readonly ISimulatorService simulatorService;
         private readonly ITimelineService timelineService;
+        private readonly ITriggerJobService triggerJobService;
 
-        public ScenarioService(ISimulatorService simulatorService, ITimelineService timelineService)
+        public ScenarioService(ISimulatorService simulatorService, ITimelineService timelineService, ITriggerJobService triggerJobService)
         {
             this.simulatorService = simulatorService;
             this.timelineService = timelineService;
+            this.triggerJobService = triggerJobService;
         }
 
         public async Task ApplyScenario(string matchId, IFormCollection collection, int delay = 2000)
@@ -45,6 +47,8 @@ namespace Score247.Management.Site.Services
 
             await ProcessScenario(match, scenario, delay);
             await timelineService.SendUpdateTimelines(match, scenario);
+
+            await triggerJobService.TriggerFetchLiveMatchTimeline();
         }
 
         public async Task<Scenario> RandomScenario(string matchId, int delay = 2000, bool limitedEvent = false)
@@ -62,6 +66,8 @@ namespace Score247.Management.Site.Services
             }
             await ProcessScenario(match, scenario, delay);
             await timelineService.SendUpdateTimelines(match, scenario);
+
+            await triggerJobService.TriggerFetchLiveMatchTimeline();
 
             return scenario;
         }

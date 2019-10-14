@@ -22,7 +22,8 @@
                 shots_saved = statistic.ShotsSaved,
                 injuries = statistic.Injuries,
                 shots_on_target = statistic.ShotsOnTarget,
-                red_cards = statistic.RedCards
+                red_cards = statistic.RedCards,
+                yellow_red_cards = statistic.YellowRedCards
             };
 
             return statistics;

@@ -250,6 +250,8 @@ namespace Score247.Management.Site.Services.Matches
 
             await timelineService.SendInitTimeline(newMatch);
 
+            await triggerJobService.TriggerFetchLiveMatchTimeline();
+
             return newMatch.Id;
         }
 

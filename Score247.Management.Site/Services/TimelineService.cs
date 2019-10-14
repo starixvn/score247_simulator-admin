@@ -177,7 +177,7 @@ namespace Score247.Management.Site.Services
                 }
                 else if (timeline.type == EventType.YellowRedCard.DisplayName)
                 {
-                    team.statistics.yellow_cards++;
+                    team.statistics.yellow_red_cards++;
                 }
                 else if (timeline.type == EventType.RedCard.DisplayName)
                 {
@@ -185,8 +185,8 @@ namespace Score247.Management.Site.Services
                 }
             }
 
-            team.statistics.fouls += rand.Next(1);
-            team.statistics.shots_blocked += rand.Next(1);
+            team.statistics.fouls += rand.Next(2);
+            team.statistics.shots_blocked += rand.Next(2);
 
             return team;
         }

@@ -26,6 +26,7 @@ namespace Score247.Management.Site.Repositories.Matches.Models
         public IEnumerable<Team> Competitors { get; set; }
         public Venue Venue { get; set; }
         public string Referee { get; set; }
+        public CoverageInfo CoverageInfo { get; set; }
 
         public MatchEntity()
         {
@@ -42,6 +43,7 @@ namespace Score247.Management.Site.Repositories.Matches.Models
                 Phase = "Round",
                 Group = "A"
             };
+            CoverageInfo = new CoverageInfo();
         }
 
         public MatchEntity(League league, Team homeTeam, Team awayTeam, DateTime eventDate)
@@ -66,6 +68,7 @@ namespace Score247.Management.Site.Repositories.Matches.Models
             awayTeam.Statistic = new TeamStatistic();
             awayTeam.qualifier = "away";
             Competitors = new List<Team>() { homeTeam, awayTeam };
+            CoverageInfo = new CoverageInfo();
         }
     }
 }
