@@ -120,7 +120,7 @@
                     </div>
                     <div class="form-group ">
                         <label asp-for="payload.timeline.match_time" class="control-label">Match Time</label>
-                        <select asp-for="payload.timeline.match_time" asp-items="matchTimePeriod" class="form-control"></select>
+                        <input asp-for="payload.timeline.match_time" class="form-control" />
                         <span asp-validation-for="payload.timeline.match_time" class="text-danger"></span>
                     </div>
                     <div class="form-group d-none" id="substitudeExtratime">

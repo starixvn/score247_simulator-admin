@@ -42,17 +42,6 @@
         }
     };
 
-    var matchTimePeriod = new List<SelectListItem>();
-    for (var i = 1; i < 60; i++)
-    {
-        var timeValue = (i * 2).ToString();
-        matchTimePeriod.Add(new SelectListItem()
-        {
-            Text = timeValue,
-            Value = timeValue
-        });
-    }
-
     var matchTimeExtra = new List<SelectListItem>();
     for (var i = 1; i < 20; i++)
     {
@@ -101,7 +90,7 @@
                     </div>
                     <div class="form-group ">
                         <label asp-for="payload.timeline.match_time" class="control-label">Match Time</label>
-                        <select asp-for="payload.timeline.match_time" asp-items="matchTimePeriod" class="form-control"></select>
+                        <input asp-for="payload.timeline.match_time" class="form-control" />
                         <span asp-validation-for="payload.timeline.match_time" class="text-danger"></span>
                     </div>
                     <div class="form-group d-none" id="scoreExtratime">
