@@ -230,11 +230,22 @@ namespace Score247.Management.Site.Services.Matches
                 };
             }
 
-            requestBody.payload.timeline.goal_scorer = new Goal_Scorer
+            if (requestBody.payload.timeline.type == EventType.PenaltyMissed.DisplayName)
             {
-                id = UniqueGenerator.GetIdWithPattern("sr:player:"),
-                name = collection["payload.timeline.goal_scorer.name"]
-            };
+                requestBody.payload.timeline.player = new TimelinePlayer()
+                {
+                    id = UniqueGenerator.GetIdWithPattern("sr:player:"),
+                    name = collection["payload.timeline.goal_scorer.name"]
+                };
+            }
+            else
+            {
+                requestBody.payload.timeline.goal_scorer = new Goal_Scorer
+                {
+                    id = UniqueGenerator.GetIdWithPattern("sr:player:"),
+                    name = collection["payload.timeline.goal_scorer.name"]
+                };
+            }
 
             if (requestBody.payload.timeline.type != "normal_goal")
             {
