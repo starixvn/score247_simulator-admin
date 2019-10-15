@@ -60,7 +60,7 @@
                 </div>
                 <div class="row-create-match">
                     <label>League Limit: </label>
-                    <input asp-for="CreateMatchLeagueLimit" id="LeagueInputLimit" class="form-control" value="100" onchange="UpdateLimitMatchInput(this.value)" />
+                    <input asp-for="CreateMatchLeagueLimit" id="LeagueInputLimit" class="form-control" value="20" onchange="UpdateLimitMatchInput(this.value)" />
                 </div>
                 <div class="row-create-match">
                     <label>@Model.CreateDeleteMatchesModels[0].DisplayDate</label>
@@ -70,7 +70,7 @@
                     <button id="btnDeleteMatch2ndPost" class="btn-delete">Delete</button>
                 </div>
                 <div class="row-create-match">
-                    <input asp-for="CreateMatchLeagueLimit" value="100" class="d-none LeagueLimit" />
+                    <input asp-for="CreateMatchLeagueLimit" value="20" class="d-none LeagueLimit" />
                     <label>@Model.CreateDeleteMatchesModels[1].DisplayDate</label>
                     <input id="1stPostEventDate" name="EventDate" value="@Model.CreateDeleteMatchesModels[1].EventDate" class="d-none" />
                     <input id="1stPostCount" class="form-control" name="Count" type="text" value="@Model.CreateDeleteMatchesModels[1].Count" />

@@ -244,13 +244,10 @@ namespace Score247.Management.Site.Services.Matches
                 }
             }
 
+            await timelineService.SendInitTimeline(newMatch);
             await triggerJobService.TriggerCreateMatchJobs();
 
             await matchRepository.WaitForMatchInserted(newMatch);
-
-            await timelineService.SendInitTimeline(newMatch);
-
-            await triggerJobService.TriggerFetchLiveMatchTimeline();
 
             return newMatch.Id;
         }

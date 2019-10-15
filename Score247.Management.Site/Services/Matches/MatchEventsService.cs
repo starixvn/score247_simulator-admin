@@ -247,7 +247,7 @@ namespace Score247.Management.Site.Services.Matches
                 };
             }
 
-            if (requestBody.payload.timeline.type != "normal_goal")
+            if (requestBody.payload.timeline.type != "normal_goal" && requestBody.payload.timeline.type != EventType.PenaltyMissed.DisplayName)
             {
                 requestBody.payload.timeline.goal_scorer.method = requestBody.payload.timeline.type;
             }
