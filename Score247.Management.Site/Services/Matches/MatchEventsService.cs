@@ -134,6 +134,11 @@ namespace Score247.Management.Site.Services.Matches
                     requestBody.payload.timeline.away_score += matchPeriod.AwayScore;
                 }
             }
+
+            requestBody.payload.sport_event_status.home_score = requestBody.payload.timeline.home_score;
+            requestBody.payload.sport_event_status.away_score = requestBody.payload.timeline.away_score;
+            requestBody.payload.sport_event_status.clock.match_time = requestBody.payload.timeline.match_clock;
+
             var commentary1 = collection["commentary1"];
             var commentary2 = collection["commentary2"];
             var commentary3 = collection["commentary3"];
