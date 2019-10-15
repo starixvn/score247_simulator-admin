@@ -49,7 +49,6 @@ namespace Score247.Management.Site.Services.Matches
 
         public async Task<bool> CreateLiveMatches(CreateDeleteMatchesModel createDeleteMatchesRequest)
         {
-            await simulatorService.SendCleanExistData();
             await CreateLiveMatches(createDeleteMatchesRequest.Count, createDeleteMatchesRequest.LeagueLimit, configuration.GetValue<string>("Simulator:Url"), configuration.GetValue<string>("Simulator:PushEvent"));
 
             return true;
@@ -156,7 +155,6 @@ namespace Score247.Management.Site.Services.Matches
         {
             var createDate = new DateTime(createDeleteMatchesRequest.EventDate.Year, createDeleteMatchesRequest.EventDate.Month, createDeleteMatchesRequest.EventDate.Day, 0, 0, 0, DateTimeKind.Utc);
 
-            await simulatorService.SendCleanExistData();
             await CreateMatches(createDate, createDeleteMatchesRequest.Count, offset, createDeleteMatchesRequest.LeagueLimit);
 
             return true;
@@ -173,7 +171,6 @@ namespace Score247.Management.Site.Services.Matches
 
         public async Task<string> CreateMatchWithForm(IFormCollection collection, TimeSpan offset)
         {
-            await simulatorService.SendCleanExistData();
             var leagueRepo = new LeagueRepository();
             string leagueId = collection["Match.Tournament.Id"];
             var league = await leagueRepo.GetLeagueById(leagueId);

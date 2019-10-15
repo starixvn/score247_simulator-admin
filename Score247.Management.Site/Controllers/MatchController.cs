@@ -232,8 +232,7 @@ namespace Score247.Management.Site.Controllers
         [HttpPost("Match/DeleteAllMatches")]
         public async Task<JsonResult> DeleteAllMatches()
         {
-            var matchRepository = new MatchRepository();
-            await matchRepository.DeleteAllMatches();
+            await matchService.DeleteAllMatches();
 
             return Json(true);
         }
@@ -449,6 +448,13 @@ namespace Score247.Management.Site.Controllers
             await matchService.ApplyMatchStatistic(matchId, collection);
 
             return RedirectToAction(nameof(Details), new { id = matchId });
+        }
+
+        public async Task<IActionResult> EnableDisableCoverage(string id)
+        {
+            await matchService.EnableDisableCoverage(id);
+
+            return RedirectToAction(nameof(Details), new { id });
         }
     }
 }

@@ -28,6 +28,9 @@ namespace Score247.Management.Site.Models.Events
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Statistics statistics { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public CoverageInfoDto coverage_info { get; set; }
     }
 
     public class TimelineDto

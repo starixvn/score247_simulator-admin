@@ -78,6 +78,13 @@
                 <label class="match-info-name">Match Status:</label>
                 <label class="match-value">@Html.DisplayFor(model => model.Match.MatchResult.MatchStatus.DisplayName) - @Html.DisplayFor(model => model.Match.MatchResult.MatchTime)'</label>
             </div>
+            <form>
+                <div class="match-info">
+                    <label class="match-info-name">Coverage Info:</label>
+                    <label class="match-value">@Model.Match.Coverage?.Live</label>
+                    <button asp-controller="Match" asp-action="EnableDisableCoverage" asp-route-id="@Model.Match.Id" class="btn btn-primary ml-2">Enable/Disable Coverage</button>
+                </div>
+            </form>
         </div>
         <div id="accordion">
             <partial name="_CreateTimeEventPartial" model="Model.MatchTimeEventDto" view-data="eventViewData" />

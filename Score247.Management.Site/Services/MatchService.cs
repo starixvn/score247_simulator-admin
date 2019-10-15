@@ -16,6 +16,7 @@ using Score247.Management.Site.Repositories.Matches.Models;
 using Score247.Management.Site.Repositories.Teams;
 using Score247Management.Core._Shared.Enumerations;
 using Score247Management.Core.Matches.Models;
+using Score247Management.Core.Matches.Models.Soccer.Core.Matches.Models;
 using Score247Management.Core.Statistics.Models;
 using Score247Management.Core.Teams.Models;
 using MatchSummary = Score247Management.Core.Matches.Models.MatchSummary;
@@ -45,6 +46,10 @@ namespace Score247.Management.Site.Services
         Task SendCustomLiveMatch(string matchId, Sport_Event_Status sportEventStatus);
 
         Task ApplyMatchStatistic(string matchId, IFormCollection collection);
+
+        Task EnableDisableCoverage(string matchId);
+
+        Task DeleteAllMatches();
     }
 
     public class MatchService : IMatchService
@@ -286,7 +291,6 @@ namespace Score247.Management.Site.Services
         public async Task CreateLiveMatches(CreateLiveMatchModel createLiveMatchModel)
         {
             await simulatorService.SyncLiveMatches();
-            await simulatorService.SendCleanExistData();
             await CreateLiveMatches(createLiveMatchModel.PostCount, createLiveMatchModel.LiveCount, createLiveMatchModel.PreCount, createLiveMatchModel.LeagueLimit);
         }
 
@@ -547,7 +551,6 @@ namespace Score247.Management.Site.Services
                 schema = "Matches",
                 sport_events = matches
             };
-            await simulatorService.SendCleanExistData();
             await simulatorService.SendDailySchedule(content);
         }
 
@@ -771,6 +774,30 @@ namespace Score247.Management.Site.Services
             await UpdateLiveMatch(statistic.MatchId);
 
             await Task.Delay(2000);
+        }
+
+        public async Task EnableDisableCoverage(string matchId)
+        {
+            var matchRepo = new MatchRepository();
+            var match = await matchRepo.GetMatchById(matchId);
+
+            if (match.Coverage != null && match.Coverage.Live)
+            {
+                match.Coverage = new Coverage(false, "");
+            }
+            else
+            {
+                match.Coverage = new Coverage(true, "", true, true, true, true, true);
+            }
+
+            await timelineService.UpdatePreMatchInfo(match);
+        }
+
+        public async Task DeleteAllMatches()
+        {
+            await simulatorService.SendCleanExistData();
+            var matchRepository = new MatchRepository();
+            await matchRepository.DeleteAllMatches();
         }
     }
 }

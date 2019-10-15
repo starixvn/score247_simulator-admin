@@ -24,6 +24,8 @@ namespace Score247.Management.Site.Services
         Task SendMatchTimeline(string matchId);
 
         Task ApplyStatistic(Statistic statistic);
+
+        Task UpdatePreMatchInfo(Match match);
     }
 
     public class TimelineService : ITimelineService
@@ -78,7 +80,8 @@ namespace Score247.Management.Site.Services
                 schema = "http://schemas.sportradar.com/bsa/soccer/v1/json/endpoints/soccer/match_timeline.json",
                 sport_event = SportEventMapper.MapSportEvent(match),
                 sport_event_status = latestTimeline?.payload.sport_event_status,
-                timeline = timelineLogs.Select(x => x.payload.timeline).ToList()
+                timeline = timelineLogs.Select(x => x.payload.timeline).ToList(),
+                coverage_info = SportEventMapper.MapCoverageInfoDto(match.Coverage)
             };
 
             matchTimelineDto.statistics = BuildStatisticFormTimelineDto(matchTimelineDto);
@@ -96,7 +99,8 @@ namespace Score247.Management.Site.Services
                 schema = "http://schemas.sportradar.com/bsa/soccer/v1/json/endpoints/soccer/match_timeline.json",
                 sport_event = SportEventMapper.MapSportEvent(match),
                 sport_event_status = latestEvent?.payload.sport_event_status,
-                timeline = matchEvents.Select(matchEvent => matchEvent.payload.timeline)
+                timeline = matchEvents.Select(matchEvent => matchEvent.payload.timeline),
+                coverage_info = SportEventMapper.MapCoverageInfoDto(match.Coverage)
             };
 
             matchTimelineDto.statistics = BuildStatisticFormTimelineDto(matchTimelineDto);
@@ -131,6 +135,22 @@ namespace Score247.Management.Site.Services
 
             await simulatorService.SendMatchTimelines(matchTimelineDto);
             await triggerJobService.TriggerFetchLiveMatchTimeline();
+        }
+
+        public async Task UpdatePreMatchInfo(Match match)
+        {
+            var matchTimelineDto = new MatchTimelineDto
+            {
+                generated_at = match.EventDate,
+                schema = "http://schemas.sportradar.com/bsa/soccer/v1/json/endpoints/soccer/match_timeline.json",
+                sport_event = SportEventMapper.MapSportEvent(match),
+                sport_event_status = null,
+                timeline = null,
+                coverage_info = SportEventMapper.MapCoverageInfoDto(match.Coverage)
+            };
+
+            await simulatorService.SendMatchTimelines(matchTimelineDto);
+            await triggerJobService.TriggerCreateMatchJobs();
         }
 
         private async Task<bool> CheckMatchNotStart(string matchId)
@@ -260,7 +280,8 @@ namespace Score247.Management.Site.Services
                 {
                     status = "not_started"
                 },
-                timeline = null
+                timeline = null,
+                coverage_info = SportEventMapper.MapCoverageInfoDto(match.Coverage)
             };
 
             return matchTimelineDto;

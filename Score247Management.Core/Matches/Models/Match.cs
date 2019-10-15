@@ -1,4 +1,6 @@
-﻿namespace Score247Management.Core.Matches.Models
+﻿using Score247Management.Core.Matches.Models.Soccer.Core.Matches.Models;
+
+namespace Score247Management.Core.Matches.Models
 {
     using System;
     using System.Collections.Generic;
@@ -36,6 +38,8 @@
         public string Referee { get; set; }
 
         public string Region { get; set; }
+
+        public Coverage Coverage { get; set; }
 
         public string DisplayResult
         {

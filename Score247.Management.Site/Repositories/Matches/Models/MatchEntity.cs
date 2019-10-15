@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using Score247.Management.Site.Helpers;
 using Score247Management.Core.Leagues.Models;
 using Score247Management.Core.Matches.Models;
+using Score247Management.Core.Matches.Models.Soccer.Core.Matches.Models;
 using Score247Management.Core.Teams.Models;
 
 namespace Score247.Management.Site.Repositories.Matches.Models
@@ -26,7 +27,7 @@ namespace Score247.Management.Site.Repositories.Matches.Models
         public IEnumerable<Team> Competitors { get; set; }
         public Venue Venue { get; set; }
         public string Referee { get; set; }
-        public CoverageInfo CoverageInfo { get; set; }
+        public Coverage Coverage { get; set; }
 
         public MatchEntity()
         {
@@ -43,7 +44,7 @@ namespace Score247.Management.Site.Repositories.Matches.Models
                 Phase = "Round",
                 Group = "A"
             };
-            CoverageInfo = new CoverageInfo();
+            Coverage = new Coverage(true, "", true, true, true, true, true);
         }
 
         public MatchEntity(League league, Team homeTeam, Team awayTeam, DateTime eventDate)
@@ -68,7 +69,7 @@ namespace Score247.Management.Site.Repositories.Matches.Models
             awayTeam.Statistic = new TeamStatistic();
             awayTeam.qualifier = "away";
             Competitors = new List<Team>() { homeTeam, awayTeam };
-            CoverageInfo = new CoverageInfo();
+            Coverage = new Coverage(true, "", true, true, true, true, true);
         }
     }
 }

@@ -2,6 +2,7 @@
 using Score247.Management.Site.Models.Events;
 using Score247.Management.Site.Repositories.Matches.Models;
 using Score247Management.Core.Leagues.Models;
+using Score247Management.Core.Matches.Models.Soccer.Core.Matches.Models;
 using Score247Management.Core.Scenarios.Models;
 
 namespace Score247.Management.Site.Models.DataMappers
@@ -96,6 +97,25 @@ namespace Score247.Management.Site.Models.DataMappers
             };
 
             return venueDto;
+        }
+
+        public static CoverageInfoDto MapCoverageInfoDto(Coverage coverage)
+        {
+            var coverageInfoDto = new CoverageInfoDto
+            {
+                live_coverage = coverage.Live,
+                level = "bronze",
+                coverage = new CoverageDto()
+                {
+                    commentary = coverage.Commentary,
+                    basic_score = coverage.BasicScore,
+                    key_events = coverage.KeyEvents,
+                    detailed_events = coverage.DetailedEvents,
+                    lineups = coverage.Lineups
+                }
+            };
+
+            return coverageInfoDto;
         }
     }
 }
