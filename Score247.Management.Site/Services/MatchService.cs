@@ -768,6 +768,9 @@ namespace Score247.Management.Site.Services
                 }
             };
             await timelineService.ApplyStatistic(statistic);
+            await UpdateLiveMatch(statistic.MatchId);
+
+            await Task.Delay(2000);
         }
     }
 }
