@@ -86,6 +86,24 @@ namespace Score247.Management.Site.Services
             return matchTimelineDto;
         }
 
+        private static MatchTimelineDto BuildMatchTimelineDto(Match match, Scenario scenario)
+        {
+            var matchEvents = scenario.ScenarioEvents.Select(scenarioEvent => SportEventMapper.MapEvent(scenarioEvent, match, scenario)).ToList();
+            var latestEvent = matchEvents.LastOrDefault();
+            var matchTimelineDto = new MatchTimelineDto
+            {
+                generated_at = match.EventDate,
+                schema = "http://schemas.sportradar.com/bsa/soccer/v1/json/endpoints/soccer/match_timeline.json",
+                sport_event = SportEventMapper.MapSportEvent(match),
+                sport_event_status = latestEvent?.payload.sport_event_status,
+                timeline = matchEvents.Select(matchEvent => matchEvent.payload.timeline)
+            };
+
+            matchTimelineDto.statistics = BuildStatisticFormTimelineDto(matchTimelineDto);
+
+            return matchTimelineDto;
+        }
+
         private Statistics BuildStatisticFormCustomStatistic(Statistic customStatistic, Statistics statistics)
         {
             var newStatistics = statistics.teams.Select(team =>
@@ -221,22 +239,6 @@ namespace Score247.Management.Site.Services
             };
 
             return team;
-        }
-
-        private static MatchTimelineDto BuildMatchTimelineDto(Match match, Scenario scenario)
-        {
-            var matchEvents = scenario.ScenarioEvents.Select(scenarioEvent => SportEventMapper.MapEvent(scenarioEvent, match, scenario)).ToList();
-            var latestEvent = matchEvents.LastOrDefault();
-            var matchTimelineDto = new MatchTimelineDto
-            {
-                generated_at = match.EventDate,
-                schema = "http://schemas.sportradar.com/bsa/soccer/v1/json/endpoints/soccer/match_timeline.json",
-                sport_event = SportEventMapper.MapSportEvent(match),
-                sport_event_status = latestEvent?.payload.sport_event_status,
-                timeline = matchEvents.Select(matchEvent => matchEvent.payload.timeline)
-            };
-
-            return matchTimelineDto;
         }
 
         private static MatchTimelineDto BuildMatchInitTimelineDto(MatchEntity match)

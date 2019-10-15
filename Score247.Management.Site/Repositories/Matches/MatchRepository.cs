@@ -7,7 +7,6 @@ using Newtonsoft.Json;
 using Score247.Management.Site.Criterias.Match;
 using Score247.Management.Site.Helpers;
 using Score247.Management.Site.Models.Events;
-using Score247.Management.Site.Repositories.Leagues;
 using Score247.Management.Site.Repositories.Matches.Models;
 using Score247Management.Core.Matches.Models;
 
@@ -80,7 +79,7 @@ namespace Score247.Management.Site.Repositories.Matches
         {
             var criteria = new InsertTimelineLogCriteria
             {
-                Id = UniqueGenerator.GetIntId().ToString(),
+                Id = eventDto.payload.timeline.id.ToString(),
                 MatchId = eventDto.metadata.sport_event_id,
                 TimelineId = eventDto.payload.timeline.id,
                 RequestBody = JsonConvert.SerializeObject(eventDto)
@@ -88,39 +87,9 @@ namespace Score247.Management.Site.Repositories.Matches
             return await repository.ExecuteAsync(criteria);
         }
 
-        public async Task<IEnumerable<Match>> GetMatchByDataRangeWithOffset(DateTime fromDate, DateTime toDate, string leagueId, TimeSpan offset)
+        public async Task<int> UpdateMatchValue(string matchId, string matchValue)
         {
-            var criteria = new GetMatchByDateRangeCriteria()
-            {
-                SportId = 1,
-                FromDate = fromDate,
-                ToDate = toDate,
-                Language = "en-US"
-            };
-            var matches = await repository.FetchAsync<Match>(criteria);
-
-            var result = matches.Select(x => x.DeserialValue(offset));
-
-            if (leagueId != "all")
-            {
-                result = result.Where(x => x.League.Id == leagueId);
-            }
-
-            var leagueRepository = new LeagueRepository();
-            var leagues = await leagueRepository.GetLeagues();
-
-            result = result.Select(x =>
-            {
-                var fullLeague = leagues.FirstOrDefault(league => league.Id == x.League.Id);
-                if (fullLeague != null)
-                {
-                    x.League = fullLeague;
-                }
-
-                return x;
-            });
-
-            return result;
+            return 1;
         }
 
         public async Task<int> WaitForMatchInserted(MatchEntity match)
@@ -151,15 +120,8 @@ namespace Score247.Management.Site.Repositories.Matches
 
         public async Task<int> DeleteMatchByDate(DateTime fromDate, DateTime toDate, int limitCount)
         {
-            try
-            {
-                var criteria = new DeleteMatchByDateCriteria() { FromDate = fromDate, ToDate = toDate, LimitCount = limitCount };
-                return await repository.ExecuteAsync(criteria);
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
+            var criteria = new DeleteMatchByDateCriteria() { FromDate = fromDate, ToDate = toDate, LimitCount = limitCount };
+            return await repository.ExecuteAsync(criteria);
         }
 
         public async Task<int> DeleteMatchById(string id)

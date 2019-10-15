@@ -47,8 +47,6 @@ namespace Score247.Management.Site.Services
 
             await ProcessScenario(match, scenario, delay);
             await timelineService.SendUpdateTimelines(match, scenario);
-
-            await triggerJobService.TriggerFetchLiveMatchTimeline();
         }
 
         public async Task<Scenario> RandomScenario(string matchId, int delay = 2000, bool limitedEvent = false)

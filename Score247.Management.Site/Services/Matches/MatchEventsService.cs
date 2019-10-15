@@ -116,7 +116,7 @@ namespace Score247.Management.Site.Services.Matches
                         : long.Parse(collection["payload.timeline.id"]),
                 time = eventTime,
                 type = collection["payload.timeline.type"],
-                match_time = isSuccessParseMatchTime ? matchTime : 0,
+                match_time = isSuccessParseMatchTime ? matchTime : 1,
                 match_clock = matchTime + ":00",
                 home_score = 0,
                 away_score = 0,
@@ -372,6 +372,8 @@ namespace Score247.Management.Site.Services.Matches
                     requestBody.payload.sport_event_status.match_status = MatchStatus.SecondHaft.DisplayName;
                     requestBody.payload.sport_event_status.period = 2;
                     requestBody.payload.timeline.type = EventType.PeriodStart.DisplayName;
+                    requestBody.payload.timeline.match_clock = "46:00";
+                    requestBody.payload.timeline.match_time = 46;
                     requestBody.payload.timeline.period = 2;
                     requestBody.payload.timeline.period_name = MatchStatus.SecondHaft.DisplayName;
                     requestBody.payload.timeline.period_type = PeriodType.RegularPeriod.DisplayName;
@@ -391,6 +393,8 @@ namespace Score247.Management.Site.Services.Matches
                         requestBody.payload.sport_event_status.period = 1;
                         requestBody.payload.timeline.period_type = null;
                         requestBody.payload.timeline.type = EventType.BreakStart.DisplayName;
+                        requestBody.payload.timeline.match_clock = "90:00";
+                        requestBody.payload.timeline.match_time = 90;
                         requestBody.payload.timeline.period_name = "Awaiting extra";
                         if (requestBody.payload.sport_event_status.period_scores.FirstOrDefault(x => x.type == PeriodType.Overtime.DisplayName) == null)
                         {
@@ -410,6 +414,8 @@ namespace Score247.Management.Site.Services.Matches
                         requestBody.payload.sport_event_status.match_status = MatchStatus.FirstHaftExtra.DisplayName;
                         requestBody.payload.sport_event_status.period = 1;
                         requestBody.payload.timeline.type = EventType.PeriodStart.DisplayName;
+                        requestBody.payload.timeline.match_clock = "91:00";
+                        requestBody.payload.timeline.match_time = 91;
                         requestBody.payload.timeline.period = 1;
                         requestBody.payload.timeline.period_name = MatchStatus.FirstHaftExtra.DisplayName;
                         requestBody.payload.timeline.period_type = PeriodType.Overtime.DisplayName;
@@ -454,6 +460,8 @@ namespace Score247.Management.Site.Services.Matches
                         requestBody.payload.sport_event_status.match_status = MatchStatus.SecondHaftExtra.DisplayName;
                         requestBody.payload.sport_event_status.period = 2;
                         requestBody.payload.timeline.type = EventType.PeriodStart.DisplayName;
+                        requestBody.payload.timeline.match_clock = "106:00";
+                        requestBody.payload.timeline.match_time = 106;
                         requestBody.payload.timeline.period = 2;
                         requestBody.payload.timeline.period_name = MatchStatus.SecondHaftExtra.DisplayName;
                         requestBody.payload.timeline.period_type = PeriodType.Overtime.DisplayName;
@@ -475,6 +483,8 @@ namespace Score247.Management.Site.Services.Matches
                         requestBody.payload.sport_event_status.match_status = MatchStatus.AwaitingPenalties.DisplayName;
                         requestBody.payload.sport_event_status.period = 1;
                         requestBody.payload.timeline.period_type = null;
+                        requestBody.payload.timeline.match_clock = "120:00";
+                        requestBody.payload.timeline.match_time = 120;
                         requestBody.payload.timeline.type = EventType.BreakStart.DisplayName;
                         requestBody.payload.timeline.period_name = MatchStatus.AwaitingPenalties.DisplayName;
                         if (requestBody.payload.sport_event_status.period_scores.FirstOrDefault(x => x.type == PeriodType.Penalties.DisplayName) == null)
@@ -495,6 +505,8 @@ namespace Score247.Management.Site.Services.Matches
                         requestBody.payload.sport_event_status.match_status = MatchStatus.Penalties.DisplayName;
                         requestBody.payload.sport_event_status.period = 1;
                         requestBody.payload.timeline.type = EventType.PeriodStart.DisplayName;
+                        requestBody.payload.timeline.match_clock = "120:00";
+                        requestBody.payload.timeline.match_time = 120;
                         requestBody.payload.timeline.period = 1;
                         requestBody.payload.timeline.period_name = MatchStatus.Penalties.DisplayName;
                         requestBody.payload.timeline.period_type = PeriodType.Penalties.DisplayName;
