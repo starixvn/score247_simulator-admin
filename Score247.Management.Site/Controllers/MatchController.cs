@@ -232,6 +232,7 @@ namespace Score247.Management.Site.Controllers
         [HttpPost("Match/DeleteAllMatches")]
         public async Task<JsonResult> DeleteAllMatches()
         {
+            await matchService.CloseAllLiveMatches();
             await matchService.DeleteAllMatches();
 
             return Json(true);
