@@ -424,10 +424,9 @@ namespace Score247.Management.Site.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ApplyScenario(string matchId, IFormCollection collection)
+        public ActionResult ApplyScenario(string matchId, IFormCollection collection)
         {
-            await scenarioService.ApplyScenario(matchId, collection);
-            await matchService.UpdateLiveMatch(matchId);
+            matchService.ApplyMatchScenarios(matchId, collection);
 
             return RedirectToAction(nameof(Details), new { id = matchId });
         }

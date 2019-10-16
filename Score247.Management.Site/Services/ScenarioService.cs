@@ -1,5 +1,7 @@
 ﻿using System;
 using Fanex.Logging;
+using Score247.Management.Site.Models.Events;
+using Score247.Management.Site.Repositories.Matches.Models;
 
 namespace Score247.Management.Site.Services
 {
@@ -87,7 +89,58 @@ namespace Score247.Management.Site.Services
                 var preEvent = SportEventMapper.MapEvent(scenarioEvent, match, scenario);
 
                 await simulatorService.SendMatchEvent(preEvent, delay);
+
+                var content = await MatchService.ReadLiveMatchFromFile() ?? new DailyResultDto
+                {
+                    generated_at = DateTime.UtcNow,
+                    schema = "Matches",
+                    results = new List<Result>()
+                };
+                var newLiveMatches = content.results.Where(x => x.sport_event.Id != match.Id).ToList();
+                var liveMatch = BuildLiveMatchFromMatch(match);
+
+                newLiveMatches.Add(liveMatch);
+                content.results = newLiveMatches;
+
+                MatchService.SaveLiveMatchToFile(content);
+                await simulatorService.SendLiveResult(content);
             }
+        }
+
+        private Result BuildLiveMatchFromMatch(Match match)
+        {
+            var result = new Result()
+            {
+                sport_event = new MatchEntity()
+                {
+                    Competitors = match.Teams,
+                    Id = match.Id,
+                    Scheduled = match.EventDate,
+                    TournamentRound = match.LeagueRound,
+                    Season = match.League.LeagueSeason,
+                    Tournament = match.League,
+                    Venue = match.Venue
+                },
+                sport_event_status = new Sport_Event_Status()
+                {
+                    status = "live",
+                    match_status = match.MatchResult?.MatchStatus.DisplayName,
+                    home_score = match.MatchResult?.HomeScore ?? 0,
+                    away_score = match.MatchResult?.AwayScore ?? 0,
+                    period = match.MatchResult?.Period ?? 0,
+                    clock = new Clock()
+                    {
+                        match_time = match.LatestTimeline?.MatchClock
+                    },
+                    period_scores = match.MatchResult?.MatchPeriods?.Select(MatchService.ConvertMatchPeriodToPeriodScore),
+                    aggregate_away_score = match.MatchResult?.AggregateAwayScore ?? 0,
+                    aggregate_home_score = match.MatchResult?.AggregateHomeScore ?? 0,
+                    aggregate_winner_id = match.MatchResult?.AggregateWinnerId,
+                    winner_id = match.MatchResult?.WinnerId
+                }
+            };
+
+            return result;
         }
 
         public async Task CreateScenario(string matchId, IFormCollection collection)

@@ -50,11 +50,13 @@ namespace Score247.Management.Site.Services
         Task EnableDisableCoverage(string matchId);
 
         Task DeleteAllMatches();
+
+        Task ApplyMatchScenarios(string matchId, IFormCollection collection);
     }
 
     public class MatchService : IMatchService
     {
-        private readonly string DirectoryRoot = AppDomain.CurrentDomain.BaseDirectory + "/App_Data";
+        private static readonly string DirectoryRoot = AppDomain.CurrentDomain.BaseDirectory + "/App_Data";
         private readonly IConfiguration configuration;
         private readonly ISimulatorService simulatorService;
         private readonly IQueryService queryService;
@@ -390,7 +392,7 @@ namespace Score247.Management.Site.Services
             }
         }
 
-        private void SaveLiveMatchToFile(DailyResultDto content)
+        public static void SaveLiveMatchToFile(DailyResultDto content)
         {
             var resultFolder = $"{DirectoryRoot}";
             Directory.CreateDirectory(resultFolder);
@@ -402,7 +404,7 @@ namespace Score247.Management.Site.Services
             File.WriteAllText(path, json);
         }
 
-        private async Task<DailyResultDto> ReadLiveMatchFromFile()
+        public static async Task<DailyResultDto> ReadLiveMatchFromFile()
         {
             try
             {
@@ -670,7 +672,7 @@ namespace Score247.Management.Site.Services
             return result;
         }
 
-        private Period_Scores ConvertMatchPeriodToPeriodScore(MatchPeriod matchPeriod)
+        public static Period_Scores ConvertMatchPeriodToPeriodScore(MatchPeriod matchPeriod)
         {
             return new Period_Scores()
             {
@@ -802,6 +804,11 @@ namespace Score247.Management.Site.Services
             await simulatorService.SendCleanExistData();
             var matchRepository = new MatchRepository();
             await matchRepository.DeleteAllMatches();
+        }
+
+        public async Task ApplyMatchScenarios(string matchId, IFormCollection collection)
+        {
+            await scenarioService.ApplyScenario(matchId, collection);
         }
     }
 }
