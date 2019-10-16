@@ -81,7 +81,14 @@
             <form>
                 <div class="match-info">
                     <label class="match-info-name">Coverage Info:</label>
-                    <label class="match-value">@Model.Match.Coverage?.Live</label>
+                    @if (@Model.Match.Coverage != null)
+                    {
+                        <label class="match-value">@Model.Match.Coverage.Live</label>
+                    }
+                    else
+                    {
+                        <label class="match-value">false</label>
+                    }
                     <button asp-controller="Match" asp-action="EnableDisableCoverage" asp-route-id="@Model.Match.Id" class="btn btn-primary ml-2">Enable/Disable Coverage</button>
                 </div>
             </form>

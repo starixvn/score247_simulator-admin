@@ -103,15 +103,15 @@ namespace Score247.Management.Site.Models.DataMappers
         {
             var coverageInfoDto = new CoverageInfoDto
             {
-                live_coverage = coverage.Live,
+                live_coverage = coverage?.Live ?? false,
                 level = "bronze",
                 coverage = new CoverageDto()
                 {
-                    commentary = coverage.Commentary,
-                    basic_score = coverage.BasicScore,
-                    key_events = coverage.KeyEvents,
-                    detailed_events = coverage.DetailedEvents,
-                    lineups = coverage.Lineups
+                    commentary = coverage?.Commentary ?? false,
+                    basic_score = coverage?.BasicScore ?? false,
+                    key_events = coverage?.KeyEvents ?? false,
+                    detailed_events = coverage?.DetailedEvents ?? false,
+                    lineups = coverage?.Lineups ?? false
                 }
             };
 
