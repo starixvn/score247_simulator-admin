@@ -51,7 +51,7 @@ namespace Score247.Management.Site.Services
                 var scenario = await scenarioRepo.GetScenario(int.Parse(collection["scenarioId"]));
 
                 await ProcessScenario(match, scenario, delay);
-                await timelineService.SendUpdateTimelines(match, scenario);
+                await timelineService.SendMatchTimeline(match.Id);
             }
             catch (Exception ex)
             {
