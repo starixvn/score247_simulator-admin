@@ -31,17 +31,19 @@ namespace Score247.Management.Site.Services
         private readonly ISimulatorService simulatorService;
         private readonly ITimelineService timelineService;
         private readonly ITriggerJobService triggerJobService;
+        private readonly IMatchService matchService;
         private readonly ILogger logger;
 
-        public ScenarioService(ISimulatorService simulatorService, ITimelineService timelineService, ITriggerJobService triggerJobService, ILogger logger)
+        public ScenarioService(ISimulatorService simulatorService, ITimelineService timelineService, ITriggerJobService triggerJobService, ILogger logger, IMatchService matchService)
         {
             this.simulatorService = simulatorService;
             this.timelineService = timelineService;
             this.triggerJobService = triggerJobService;
             this.logger = logger;
+            this.matchService = matchService;
         }
 
-        public async Task ApplyScenario(string matchId, IFormCollection collection, int delay = 1000)
+        public async Task ApplyScenario(string matchId, IFormCollection collection, int delay = 500)
         {
             try
             {
@@ -51,6 +53,7 @@ namespace Score247.Management.Site.Services
                 var scenario = await scenarioRepo.GetScenario(int.Parse(collection["scenarioId"]));
 
                 await ProcessScenario(match, scenario, delay);
+                await matchService.UpdateLiveMatch(matchId);
                 await timelineService.SendMatchTimeline(match.Id);
             }
             catch (Exception ex)
@@ -73,6 +76,7 @@ namespace Score247.Management.Site.Services
                 scenario.ScenarioEvents = events.GetRange(0, ran.Next(1, events.Count - 1));
             }
             await ProcessScenario(match, scenario, delay);
+            await matchService.UpdateLiveMatch(matchId);
             await timelineService.SendUpdateTimelines(match, scenario);
 
             await triggerJobService.TriggerFetchLiveMatchTimeline();
