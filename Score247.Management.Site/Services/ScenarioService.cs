@@ -1,4 +1,5 @@
 ﻿using System;
+using Fanex.Logging;
 
 namespace Score247.Management.Site.Services
 {
@@ -30,23 +31,32 @@ namespace Score247.Management.Site.Services
         private readonly ISimulatorService simulatorService;
         private readonly ITimelineService timelineService;
         private readonly ITriggerJobService triggerJobService;
+        private readonly ILogger logger;
 
-        public ScenarioService(ISimulatorService simulatorService, ITimelineService timelineService, ITriggerJobService triggerJobService)
+        public ScenarioService(ISimulatorService simulatorService, ITimelineService timelineService, ITriggerJobService triggerJobService, ILogger logger)
         {
             this.simulatorService = simulatorService;
             this.timelineService = timelineService;
             this.triggerJobService = triggerJobService;
+            this.logger = logger;
         }
 
-        public async Task ApplyScenario(string matchId, IFormCollection collection, int delay = 2000)
+        public async Task ApplyScenario(string matchId, IFormCollection collection, int delay = 1000)
         {
-            var matchRepo = new MatchRepository();
-            var scenarioRepo = new ScenarioRepository();
-            var match = await matchRepo.GetMatchById(matchId);
-            var scenario = await scenarioRepo.GetScenario(int.Parse(collection["scenarioId"]));
+            try
+            {
+                var matchRepo = new MatchRepository();
+                var scenarioRepo = new ScenarioRepository();
+                var match = await matchRepo.GetMatchById(matchId);
+                var scenario = await scenarioRepo.GetScenario(int.Parse(collection["scenarioId"]));
 
-            await ProcessScenario(match, scenario, delay);
-            await timelineService.SendUpdateTimelines(match, scenario);
+                await ProcessScenario(match, scenario, delay);
+                await timelineService.SendUpdateTimelines(match, scenario);
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message, "Apply Scenarios");
+            }
         }
 
         public async Task<Scenario> RandomScenario(string matchId, int delay = 2000, bool limitedEvent = false)

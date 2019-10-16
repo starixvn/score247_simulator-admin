@@ -61,6 +61,19 @@ namespace Score247.Management.Site
             RegisterServices(services);
 
             RegisterScheduledJobs(services);
+
+            LogManager
+                .SetDefaultLogCategory(Configuration.GetValue<string>("Sentry:DefaultCategory"))
+                .Use(new List<ILogEngine>
+                {
+                    new SentryLogging(new SentryEngineOptions
+                    {
+                        Dsn = new Dsn(Configuration.GetValue<string>("Sentry:Url")),
+                        FrontEndDsn = new Dsn(Configuration.GetValue<string>("Sentry:Url"))
+                    })
+                });
+
+            services.AddSingleton(Logger.Log);
         }
 
         private void RegisterServices(IServiceCollection services)
@@ -107,17 +120,6 @@ namespace Score247.Management.Site
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
-            LogManager
-             .SetDefaultLogCategory(Configuration.GetValue<string>("Sentry:DefaultCategory"))
-             .Use(new List<ILogEngine>
-             {
-                 new SentryLogging(new SentryEngineOptions
-                 {
-                     Dsn = new Dsn(Configuration.GetValue<string>("Sentry:Url")),
-                     FrontEndDsn = new Dsn(Configuration.GetValue<string>("Sentry:Url"))
-                 })
-             });
 
             var connections = Configuration
                  .GetSection("ConnectionStrings")

@@ -1,4 +1,5 @@
-﻿using Score247Management.Core.Scenarios.Models;
+﻿using Fanex.Logging;
+using Score247Management.Core.Scenarios.Models;
 
 namespace Score247.Management.Site.Services
 {
@@ -37,11 +38,14 @@ namespace Score247.Management.Site.Services
     public class SimulatorService : ISimulatorService
     {
         private readonly string DirectoryRoot = AppDomain.CurrentDomain.BaseDirectory + "/App_Data";
-        private IConfiguration configuration { get; }
+        private readonly IConfiguration configuration;
 
-        public SimulatorService(IConfiguration config)
+        private readonly ILogger logger;
+
+        public SimulatorService(IConfiguration config, ILogger logger)
         {
             configuration = config;
+            this.logger = logger;
         }
 
         public async Task SendCleanExistData()
@@ -83,7 +87,12 @@ namespace Score247.Management.Site.Services
 
                 if (responseMessage.IsSuccessStatusCode)
                 {
+                    logger.Info("Success send schedule odds", oddsSchedule);
                     return true;
+                }
+                else
+                {
+                    logger.Error(JsonConvert.SerializeObject(oddsSchedule), "Send schedule odds");
                 }
             }
 
