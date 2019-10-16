@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Score247.Management.Site.Helpers;
 using Score247.Management.Site.Models.Events;
 using Score247.Management.Site.Repositories.Matches.Models;
 using Score247Management.Core.Leagues.Models;
@@ -19,6 +20,7 @@ namespace Score247.Management.Site.Models.DataMappers
             var awayId = match.Teams.FirstOrDefault(x => !x.IsHome)?.Id;
             var differTime = match.EventDate - scenario.EventDate;
             var preEvent = JsonConvert.DeserializeObject<MatchPushEventDto>(scenarioEvent.EventRequest);
+            preEvent.payload.timeline.id = UniqueGenerator.GetLongId();
             preEvent.metadata.sport_event_id = match.Id;
             preEvent.metadata.tournament_id = match.League.Id;
             preEvent.payload.timeline.time = preEvent.payload.timeline.time + differTime;

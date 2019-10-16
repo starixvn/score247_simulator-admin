@@ -112,7 +112,7 @@ namespace Score247.Management.Site.Services.Matches
             {
                 id =
                     isNotDuplicateEvent
-                        ? UniqueGenerator.GetIntId()
+                        ? UniqueGenerator.GetLongId()
                         : long.Parse(collection["payload.timeline.id"]),
                 time = eventTime,
                 type = collection["payload.timeline.type"],

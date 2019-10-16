@@ -14,5 +14,10 @@
             //return Guid.NewGuid().GetHashCode();
             return Math.Abs((int)DateTime.Now.Ticks);
         }
+
+        public static long GetLongId()
+        {
+            return Math.Abs(DateTime.Now.Ticks);
+        }
     }
 }
