@@ -374,11 +374,15 @@ namespace Score247.Management.Site.Services
                 foreach (var postMatch in postMatches)
                 {
                     await scenarioService.RandomScenario(postMatch.sport_event.Id, 0);
+
+                    await UpdateLiveMatch(postMatch.sport_event.Id);
                 }
 
                 foreach (var liveMatch in liveMatches)
                 {
                     await scenarioService.RandomScenario(liveMatch.sport_event.Id, 0, true);
+
+                    await UpdateLiveMatch(liveMatch.sport_event.Id);
                 }
             }
             catch (Exception ex)

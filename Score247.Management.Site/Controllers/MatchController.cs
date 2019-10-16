@@ -427,6 +427,7 @@ namespace Score247.Management.Site.Controllers
         public async Task<ActionResult> ApplyScenario(string matchId, IFormCollection collection)
         {
             await scenarioService.ApplyScenario(matchId, collection);
+            await matchService.UpdateLiveMatch(matchId);
 
             return RedirectToAction(nameof(Details), new { id = matchId });
         }
