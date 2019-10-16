@@ -82,7 +82,8 @@ namespace Score247.Management.Site.Repositories.Matches
                 Id = eventDto.payload.timeline.id.ToString(),
                 MatchId = eventDto.metadata.sport_event_id,
                 TimelineId = eventDto.payload.timeline.id,
-                RequestBody = JsonConvert.SerializeObject(eventDto)
+                RequestBody = JsonConvert.SerializeObject(eventDto),
+                IsTimeline = true
             };
             return await repository.ExecuteAsync(criteria);
         }

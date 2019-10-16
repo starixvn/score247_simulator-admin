@@ -8,6 +8,7 @@ namespace Score247.Management.Site.Criterias.Match
         public string RequestBody { get; set; }
         public string MatchId { get; set; }
         public long TimelineId { get; set; }
+        public bool IsTimeline { get; set; }
 
         public override string GetSettingKey()
             => "TimelineLog_InsertLog";
