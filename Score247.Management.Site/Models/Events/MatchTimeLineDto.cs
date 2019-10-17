@@ -59,7 +59,7 @@ namespace Score247.Management.Site.Models.Events
         public string period_name { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public int match_time { get; set; }
+        public int? match_time { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string match_clock { get; set; }
