@@ -57,7 +57,7 @@ namespace Score247.Management.Site.Services
             }
             catch (Exception ex)
             {
-                logger.Error(ex.InnerException, "Apply Scenarios");
+                logger.Error(ex.InnerException?.Message, "Apply Scenarios");
             }
         }
 
