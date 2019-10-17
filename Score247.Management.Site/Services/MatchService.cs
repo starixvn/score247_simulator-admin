@@ -679,7 +679,7 @@ namespace Score247.Management.Site.Services
                 away_score = matchPeriod.AwayScore,
                 home_score = matchPeriod.HomeScore,
                 number = matchPeriod.Number,
-                type = matchPeriod.PeriodType.DisplayName
+                type = matchPeriod.PeriodType?.DisplayName
             };
         }
 
