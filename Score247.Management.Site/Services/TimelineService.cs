@@ -81,7 +81,7 @@ namespace Score247.Management.Site.Services
                 sport_event = SportEventMapper.MapSportEvent(match),
                 sport_event_status = latestTimeline?.payload.sport_event_status,
                 timeline = timelineLogs.Select(x => x.payload.timeline).ToList(),
-                coverage_info = SportEventMapper.MapCoverageInfoDto(match.Coverage)
+                coverage_info = new CoverageInfoDto()
             };
 
             matchTimelineDto.statistics = BuildStatisticFormTimelineDto(matchTimelineDto);
