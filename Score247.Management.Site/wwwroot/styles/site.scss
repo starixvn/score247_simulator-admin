@@ -184,7 +184,7 @@ header {
     background-color: $btn-datebar-bg;
     color: $btn-datebar-color;
 
-    &:hover, &:active {
+    &:hover, &.active {
         color: $btn-datebar-color-hover;
         background-color: $btn-datebar-bg-hover;
     }
@@ -236,8 +236,14 @@ header {
     }
 }
 
-.filter .form-group {
-    margin-right: 16px;
+.filter {
+    .form-group {
+        margin-right: 16px;
+    }
+
+    .list-button [class^="btn"]:first-child {
+        margin-right: 14px;
+    }
 }
 
 .create-form {

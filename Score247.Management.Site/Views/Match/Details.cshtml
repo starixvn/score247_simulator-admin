@@ -20,7 +20,6 @@
 }
 
 <h1 class="page-title">Details</h1>
-@*<partial name="_AutoPushEventPartial" view-data="eventViewData" />*@
 <div class="row">
     <div class="col-sm-4">
         <form class="filter" asp-action="ApplyScenario" asp-route-matchId="@Model.Match.Id">
@@ -79,7 +78,7 @@
                 <label class="match-value">@Html.DisplayFor(model => model.Match.MatchResult.MatchStatus.DisplayName) - @Html.DisplayFor(model => model.Match.MatchResult.MatchTime)'</label>
             </div>
             <form>
-                <div class="match-info">
+                <div class="match-info coverage-container">
                     <label class="match-info-name">Coverage Info:</label>
                     @if (@Model.Match.Coverage != null)
                     {
@@ -89,7 +88,7 @@
                     {
                         <label class="match-value">false</label>
                     }
-                    <button asp-controller="Match" asp-action="EnableDisableCoverage" asp-route-id="@Model.Match.Id" class="btn btn-primary ml-2">Enable/Disable Coverage</button>
+                    <button asp-controller="Match" asp-action="EnableDisableCoverage" asp-route-id="@Model.Match.Id" class="btn-default">Enable/Disable Coverage</button>
                 </div>
             </form>
         </div>
@@ -101,10 +100,10 @@
             <partial name="_CreatCardFaultEventPartial" model="Model.MatchCardEventDto" view-data="eventViewData" />
             <partial name="_CreateSubstitutionEventPartial" model="Model.MatchSubstitutionEventDto" view-data="eventViewData" />
             <partial name="_CreateMinorEventPartial" model="Model.MatchMinorEventDto" view-data="eventViewData" />
+            <partial name="_MatchStatisticPartial" model="Model.Statistic" view-data="eventViewData" />
         </div>
     </div>
     <div class="col-sm-8 timeline-events">
-        <partial name="_MatchStatisticPartial" model="Model.Statistic" view-data="eventViewData" />
         <partial name="_MatchTimelineEventPartial" model="Model.TimelineEvents" view-data="eventViewData" />
     </div>
 </div>

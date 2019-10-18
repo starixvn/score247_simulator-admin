@@ -126,9 +126,9 @@ header {
 .btn-datebar {
   background-color: #0B0D14;
   color: #fff; }
-  .btn-datebar:hover, .btn-datebar:active {
+  .btn-datebar:hover, .btn-datebar.active {
     color: #fff;
-    background-color: #020204; }
+    background-color: #FF7246; }
   .btn-datebar:disabled, .btn-datebar .disabled {
     background-color: #0B0D14 !important;
     color: #fff !important; }
@@ -164,6 +164,9 @@ header {
 
 .filter .form-group {
   margin-right: 16px; }
+
+.filter .list-button [class^="btn"]:first-child {
+  margin-right: 14px; }
 
 .create-form .form-row > [class*="col-"] {
   padding-right: 8px;

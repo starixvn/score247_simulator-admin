@@ -11,6 +11,9 @@
     font-weight: bold;
     margin-left: 8px; }
 
+.coverage-container .btn-default {
+  margin-left: 16px; }
+
 .score {
   background: #f24822;
   border-radius: 2px;
@@ -58,3 +61,6 @@
 
 .timeline-events {
   padding-left: 40px; }
+
+.statistic-form .row {
+  margin-bottom: 15px; }

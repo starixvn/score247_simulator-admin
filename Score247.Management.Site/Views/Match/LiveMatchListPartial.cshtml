@@ -1,27 +1,25 @@
 ﻿@model IEnumerable<Score247Management.Core.Matches.Models.MatchSummary>
-<div>
+<div class="filter">
     <div class="form-row">
-        <div class="form-group col-md-1">
+        <div class="form-group">
             <label>Post Count:</label>
             <input id="LivePostCount" class="form-control" name="LivePostCount" type="text" value="0" />
         </div>
-        <div class="form-group col-md-1">
+        <div class="form-group">
             <label>Live Count:</label>
             <input id="LiveCount" class="form-control" name="LiveCount" type="text" value="0" />
         </div>
-        <div class="form-group col-md-1">
+        <div class="form-group">
             <label>Pre Count:</label>
             <input id="LivePreCount" class="form-control" name="LivePreCount" type="text" value="0" />
         </div>
-        <div class="form-group col-md-1">
+        <div class="form-group">
             <label>League Limit:</label>
             <input id="LiveLeagueLimit" class="form-control" name="LiveLeagueLimit" type="text" value="20" />
         </div>
-        <div class="form-group col-md-1 my-auto">
+        <div class="form-group mt-auto list-button">
             <button id="btnCreateLiveMatches" class="btn-default">Create</button>
-        </div>
-        <div class="form-group col-md-1 my-auto">
-            <button id="btnCloseAllLiveMatches" class="btn-default" onclick="ShowLoadingSpinner('#listMatches'); SendCloseAllLiveMatches();">Close All</button>
+            <button id="btnCloseAllLiveMatches" class="btn-delete" onclick="ShowLoadingSpinner('#listMatches'); SendCloseAllLiveMatches();">Close All</button>
         </div>
     </div>
 </div>

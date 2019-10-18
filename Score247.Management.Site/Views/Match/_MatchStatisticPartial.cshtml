@@ -1,201 +1,191 @@
 ﻿@model Score247Management.Core.Statistics.Models.Statistic
 
-<div>
-    <h4>Statistic</h4>
-    <hr />
-    <form asp-action="ApplyMatchStatistic" asp-route-matchId="@Model.MatchId">
-        <div class="row">
-            <div class="col-sm-6">
+<div class="card">
+    <div class="card-header" id="matchStatisticHeading">
+        <div class="card-title collapsed" data-toggle="collapse" data-target="#matchStatistic" aria-expanded="true" aria-controls="matchStatistic">
+            Statistic
+        </div>
+    </div>
+    <div class="collapse" aria-labelledby="matchStatisticHeading" data-parent="#accordion" id="matchStatistic">
+        <div class="card-body create-form">
+            <form asp-action="ApplyMatchStatistic" asp-route-matchId="@Model.MatchId" class="create-form statistic-form">
                 <div class="row">
-                    <div class="col col-sm-2">
+                    <div class="col col-sm-4">
                     </div>
-                    <div class="col col-sm-5">
+                    <div class="col col-sm-4">
                         Home
                     </div>
-                    <div class="col col-sm-5">
+                    <div class="col col-sm-4">
                         Away
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col col-sm-2">
+                    <div class="col col-sm-4">
                         Possession
                     </div>
-                    <div class="col col-sm-5">
+                    <div class="col col-sm-4">
                         <input asp-for="HomeStatistic.Possession" class="form-control" />
                     </div>
-                    <div class="col col-sm-5">
+                    <div class="col col-sm-4">
                         <input asp-for="AwayStatistic.Possession" class="form-control" />
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col col-sm-2">
-                        FreeKicks
-                    </div>
-                    <div class="col col-sm-5">
-                        <input asp-for="HomeStatistic.FreeKicks" class="form-control" />
-                    </div>
-                    <div class="col col-sm-5">
-                        <input asp-for="AwayStatistic.FreeKicks" class="form-control" />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col col-sm-2">
-                        ThrowIns
-                    </div>
-                    <div class="col col-sm-5">
-                        <input asp-for="HomeStatistic.ThrowIns" class="form-control" />
-                    </div>
-                    <div class="col col-sm-5">
-                        <input asp-for="AwayStatistic.ThrowIns" class="form-control" />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col col-sm-2">
-                        GoalKicks
-                    </div>
-                    <div class="col col-sm-5">
-                        <input asp-for="HomeStatistic.GoalKicks" class="form-control" />
-                    </div>
-                    <div class="col col-sm-5">
-                        <input asp-for="AwayStatistic.GoalKicks" class="form-control" />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col col-sm-2">
-                        ShotsBlocked
-                    </div>
-                    <div class="col col-sm-5">
-                        <input asp-for="HomeStatistic.ShotsBlocked" class="form-control" />
-                    </div>
-                    <div class="col col-sm-5">
-                        <input asp-for="AwayStatistic.ShotsBlocked" class="form-control" />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col col-sm-2">
+                    <div class="col col-sm-4">
                         ShotsOnTarget
                     </div>
-                    <div class="col col-sm-5">
+                    <div class="col col-sm-4">
                         <input asp-for="HomeStatistic.ShotsOnTarget" class="form-control" />
                     </div>
-                    <div class="col col-sm-5">
+                    <div class="col col-sm-4">
                         <input asp-for="AwayStatistic.ShotsOnTarget" class="form-control" />
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col col-sm-2">
+                    <div class="col col-sm-4">
                         ShotsOffTarget
                     </div>
-                    <div class="col col-sm-5">
+                    <div class="col col-sm-4">
                         <input asp-for="HomeStatistic.ShotsOffTarget" class="form-control" />
                     </div>
-                    <div class="col col-sm-5">
+                    <div class="col col-sm-4">
                         <input asp-for="AwayStatistic.ShotsOffTarget" class="form-control" />
                     </div>
                 </div>
-            </div>
-
-            <div class="col-sm-6">
                 <div class="row">
-                    <div class="col col-sm-2">
+                    <div class="col col-sm-4">
+                        ShotsBlocked
                     </div>
-                    <div class="col col-sm-5">
-                        Home
+                    <div class="col col-sm-4">
+                        <input asp-for="HomeStatistic.ShotsBlocked" class="form-control" />
                     </div>
-                    <div class="col col-sm-5">
-                        Away
+                    <div class="col col-sm-4">
+                        <input asp-for="AwayStatistic.ShotsBlocked" class="form-control" />
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col col-sm-2">
+                    <div class="col col-sm-4">
                         CornerKicks
                     </div>
-                    <div class="col col-sm-5">
+                    <div class="col col-sm-4">
                         <input asp-for="HomeStatistic.CornerKicks" class="form-control" />
                     </div>
-                    <div class="col col-sm-5">
+                    <div class="col col-sm-4">
                         <input asp-for="AwayStatistic.CornerKicks" class="form-control" />
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col col-sm-2">
-                        Fouls
-                    </div>
-                    <div class="col col-sm-5">
-                        <input asp-for="HomeStatistic.Fouls" class="form-control" />
-                    </div>
-                    <div class="col col-sm-5">
-                        <input asp-for="AwayStatistic.Fouls" class="form-control" />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col col-sm-2">
-                        ShotsSaved
-                    </div>
-                    <div class="col col-sm-5">
-                        <input asp-for="HomeStatistic.ShotsSaved" class="form-control" />
-                    </div>
-                    <div class="col col-sm-5">
-                        <input asp-for="AwayStatistic.ShotsSaved" class="form-control" />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col col-sm-2">
-                        Offsides
-                    </div>
-                    <div class="col col-sm-5">
-                        <input asp-for="HomeStatistic.Offsides" class="form-control" />
-                    </div>
-                    <div class="col col-sm-5">
-                        <input asp-for="AwayStatistic.Offsides" class="form-control" />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col col-sm-2">
+                    <div class="col col-sm-4">
                         YellowCards
                     </div>
-                    <div class="col col-sm-5">
+                    <div class="col col-sm-4">
                         <input asp-for="HomeStatistic.YellowCards" class="form-control" />
                     </div>
-                    <div class="col col-sm-5">
+                    <div class="col col-sm-4">
                         <input asp-for="AwayStatistic.YellowCards" class="form-control" />
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col col-sm-2">
-                        RedCards
-                    </div>
-                    <div class="col col-sm-5">
-                        <input asp-for="HomeStatistic.RedCards" class="form-control" />
-                    </div>
-                    <div class="col col-sm-5">
-                        <input asp-for="AwayStatistic.RedCards" class="form-control" />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col col-sm-2">
+                    <div class="col col-sm-4">
                         YellowRedCards
                     </div>
-                    <div class="col col-sm-5">
+                    <div class="col col-sm-4">
                         <input asp-for="HomeStatistic.YellowRedCards" class="form-control" />
                     </div>
-                    <div class="col col-sm-5">
+                    <div class="col col-sm-4">
                         <input asp-for="AwayStatistic.YellowRedCards" class="form-control" />
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col col-sm-2">
+                    <div class="col col-sm-4">
+                        RedCards
+                    </div>
+                    <div class="col col-sm-4">
+                        <input asp-for="HomeStatistic.RedCards" class="form-control" />
+                    </div>
+                    <div class="col col-sm-4">
+                        <input asp-for="AwayStatistic.RedCards" class="form-control" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col col-sm-4">
+                        FreeKicks
+                    </div>
+                    <div class="col col-sm-4">
+                        <input asp-for="HomeStatistic.FreeKicks" class="form-control" />
+                    </div>
+                    <div class="col col-sm-4">
+                        <input asp-for="AwayStatistic.FreeKicks" class="form-control" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col col-sm-4">
+                        ShotsSaved
+                    </div>
+                    <div class="col col-sm-4">
+                        <input asp-for="HomeStatistic.ShotsSaved" class="form-control" />
+                    </div>
+                    <div class="col col-sm-4">
+                        <input asp-for="AwayStatistic.ShotsSaved" class="form-control" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col col-sm-4">
+                        Fouls
+                    </div>
+                    <div class="col col-sm-4">
+                        <input asp-for="HomeStatistic.Fouls" class="form-control" />
+                    </div>
+                    <div class="col col-sm-4">
+                        <input asp-for="AwayStatistic.Fouls" class="form-control" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col col-sm-4">
+                        Offsides
+                    </div>
+                    <div class="col col-sm-4">
+                        <input asp-for="HomeStatistic.Offsides" class="form-control" />
+                    </div>
+                    <div class="col col-sm-4">
+                        <input asp-for="AwayStatistic.Offsides" class="form-control" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col col-sm-4">
+                        ThrowIns
+                    </div>
+                    <div class="col col-sm-4">
+                        <input asp-for="HomeStatistic.ThrowIns" class="form-control" />
+                    </div>
+                    <div class="col col-sm-4">
+                        <input asp-for="AwayStatistic.ThrowIns" class="form-control" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col col-sm-4">
+                        GoalKicks
+                    </div>
+                    <div class="col col-sm-4">
+                        <input asp-for="HomeStatistic.GoalKicks" class="form-control" />
+                    </div>
+                    <div class="col col-sm-4">
+                        <input asp-for="AwayStatistic.GoalKicks" class="form-control" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col col-sm-4">
                         Injuries
                     </div>
-                    <div class="col col-sm-5">
+                    <div class="col col-sm-4">
                         <input asp-for="HomeStatistic.Injuries" class="form-control" />
                     </div>
-                    <div class="col col-sm-5">
+                    <div class="col col-sm-4">
                         <input asp-for="AwayStatistic.Injuries" class="form-control" />
                     </div>
                 </div>
-            </div>
+                <button type="submit" class="btn-submit">Apply Statistic</button>
+            </form>
         </div>
-        <button type="submit" class="btn btn-primary">Apply Statistic</button>
-    </form>
+    </div>
 </div>
