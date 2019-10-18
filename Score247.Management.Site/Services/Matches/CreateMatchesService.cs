@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Score247.Management.Site.Helpers;
 using Score247.Management.Site.Models;
+using Score247.Management.Site.Models.DataMappers;
 using Score247.Management.Site.Models.Events;
 using Score247.Management.Site.Repositories.Leagues;
 using Score247.Management.Site.Repositories.Matches;
@@ -124,6 +125,10 @@ namespace Score247.Management.Site.Services.Matches
                     };
                     jsonValue = JsonConvert.SerializeObject(dailyResultRequest);
                 }
+                else
+                {
+                    await UpdateMatchInitInfo(matches);
+                }
 
                 using (var client = new HttpClient())
                 {
@@ -149,6 +154,24 @@ namespace Score247.Management.Site.Services.Matches
             }
 
             return 1;
+        }
+
+        private async Task UpdateMatchInitInfo(IEnumerable<MatchEntity> matches)
+        {
+            foreach (var match in matches)
+            {
+                var matchTimelineDto = new MatchTimelineDto
+                {
+                    generated_at = match.Scheduled,
+                    schema = "http://schemas.sportradar.com/bsa/soccer/v1/json/endpoints/soccer/match_timeline.json",
+                    sport_event = SportEventMapper.MapSportEvent(match),
+                    sport_event_status = null,
+                    timeline = null,
+                    coverage_info = new CoverageInfoDto()
+                };
+
+                await simulatorService.SendMatchTimelines(matchTimelineDto);
+            }
         }
 
         public async Task<bool> CreateMatchesByDate(CreateDeleteMatchesModel createDeleteMatchesRequest, TimeSpan offset)

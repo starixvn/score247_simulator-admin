@@ -53,7 +53,9 @@ namespace Score247.Management.Site.Services
                 var scenario = await scenarioRepo.GetScenario(int.Parse(collection["scenarioId"]));
 
                 await ProcessScenario(match, scenario, delay);
-                await timelineService.SendMatchTimeline(match.Id);
+
+                await triggerJobService.TriggerFetchLiveMatchTimeline();
+                await Task.Delay(2000);
             }
             catch (Exception ex)
             {
@@ -75,9 +77,10 @@ namespace Score247.Management.Site.Services
                 scenario.ScenarioEvents = events.GetRange(0, ran.Next(1, events.Count - 1));
             }
             await ProcessScenario(match, scenario, delay);
-            await timelineService.SendUpdateTimelines(match, scenario);
 
             await triggerJobService.TriggerFetchLiveMatchTimeline();
+
+            await Task.Delay(2000);
 
             return scenario;
         }
@@ -101,9 +104,9 @@ namespace Score247.Management.Site.Services
 
                 newLiveMatches.Add(liveMatch);
                 content.results = newLiveMatches;
-
+                await timelineService.SendMatchTimeline(match.Id);
                 MatchService.SaveLiveMatchToFile(content);
-                await simulatorService.SendLiveResult(content);
+                simulatorService.SendLiveResult(content);
             }
         }
 

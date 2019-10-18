@@ -62,9 +62,6 @@ namespace Score247.Management.Site.Services
             var matchTimelineDto = await BuildCurrentMatchTimeline(matchId);
 
             await simulatorService.SendMatchTimelines(matchTimelineDto);
-            await triggerJobService.TriggerFetchLiveMatchTimeline();
-
-            await Task.Delay(2000);
         }
 
         private async Task<MatchTimelineDto> BuildCurrentMatchTimeline(string matchId)

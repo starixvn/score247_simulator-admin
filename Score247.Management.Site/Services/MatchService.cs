@@ -6,9 +6,11 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Score247.Management.Site.Models;
+using Score247.Management.Site.Models.DataMappers;
 using Score247.Management.Site.Models.Events;
 using Score247.Management.Site.Repositories.Leagues;
 using Score247.Management.Site.Repositories.Matches;
@@ -340,6 +342,7 @@ namespace Score247.Management.Site.Services
                 }).ToList();
 
                 await SendDailySchedule(matches, createDate);
+                await UpdateMatchInitInfo(matches);
                 await triggerJobService.TriggerCreateMatchJobs();
                 await CheckIfMatchInserted(matches.LastOrDefault()?.Id);
 
@@ -389,6 +392,24 @@ namespace Score247.Management.Site.Services
             }
             catch (Exception ex)
             {
+            }
+        }
+
+        private async Task UpdateMatchInitInfo(IEnumerable<MatchEntity> matches)
+        {
+            foreach (var match in matches)
+            {
+                var matchTimelineDto = new MatchTimelineDto
+                {
+                    generated_at = match.Scheduled,
+                    schema = "http://schemas.sportradar.com/bsa/soccer/v1/json/endpoints/soccer/match_timeline.json",
+                    sport_event = SportEventMapper.MapSportEvent(match),
+                    sport_event_status = null,
+                    timeline = null,
+                    coverage_info = new CoverageInfoDto()
+                };
+
+                await simulatorService.SendMatchTimelines(matchTimelineDto);
             }
         }
 
