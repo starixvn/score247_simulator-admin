@@ -613,6 +613,8 @@ namespace Score247.Management.Site.Services
 
             var matchRepository = new MatchRepository();
             var match = await matchRepository.GetMatchById(matchId);
+            var latestTimelineLog = await matchRepository.GetLatestMatchTimelinesLog(matchId);
+
             if (match == null)
             {
                 return;
@@ -625,7 +627,7 @@ namespace Score247.Management.Site.Services
                 results = new List<Result>()
             };
             var newLiveMatches = content.results.Where(x => x.sport_event.Id != match.Id).ToList();
-            var liveMatch = BuildLiveMatchFromMatch(match);
+            var liveMatch = BuildLiveMatchFromMatch(match, latestTimelineLog);
 
             newLiveMatches.Add(liveMatch);
             content.results = newLiveMatches;
@@ -636,7 +638,7 @@ namespace Score247.Management.Site.Services
             await triggerJobService.TriggerFetchLiveMatchTimeline();
         }
 
-        private Result BuildLiveMatchFromMatch(Match match)
+        private Result BuildLiveMatchFromMatch(Match match, MatchPushEventDto latestTimeline)
         {
             var result = new Result()
             {
@@ -650,23 +652,7 @@ namespace Score247.Management.Site.Services
                     Tournament = match.League,
                     Venue = match.Venue
                 },
-                sport_event_status = new Sport_Event_Status()
-                {
-                    status = "live",
-                    match_status = match.MatchResult?.MatchStatus?.DisplayName,
-                    home_score = match.MatchResult?.HomeScore ?? 0,
-                    away_score = match.MatchResult?.AwayScore ?? 0,
-                    period = match.MatchResult?.Period ?? 0,
-                    clock = new Clock()
-                    {
-                        match_time = match.LatestTimeline?.MatchClock
-                    },
-                    period_scores = match.MatchResult?.MatchPeriods?.Select(ConvertMatchPeriodToPeriodScore),
-                    aggregate_away_score = match.MatchResult?.AggregateAwayScore ?? 0,
-                    aggregate_home_score = match.MatchResult?.AggregateHomeScore ?? 0,
-                    aggregate_winner_id = match.MatchResult?.AggregateWinnerId,
-                    winner_id = match.MatchResult?.WinnerId
-                }
+                sport_event_status = latestTimeline?.payload.sport_event_status
             };
 
             return result;
@@ -802,6 +788,8 @@ namespace Score247.Management.Site.Services
         public async Task DeleteAllMatches()
         {
             await simulatorService.SendCleanExistData();
+            await simulatorService.SendCleanTimelines();
+
             var matchRepository = new MatchRepository();
             await matchRepository.DeleteAllMatches();
         }

@@ -75,6 +75,16 @@ namespace Score247.Management.Site.Repositories.Matches
             return result;
         }
 
+        public async Task<MatchPushEventDto> GetLatestMatchTimelinesLog(string id)
+        {
+            var timelinesLogs = await repository.FetchAsync<TimelineLog>(new GetMatchTimelineLogCriteria() { Id = id });
+
+            var result = timelinesLogs.Select(timelineLog =>
+                JsonConvert.DeserializeObject<MatchPushEventDto>(timelineLog.Value)).OrderByDescending(x => x.payload.timeline.time).FirstOrDefault();
+
+            return result;
+        }
+
         public async Task<int> InsertTimelineLog(MatchPushEventDto eventDto)
         {
             var criteria = new InsertTimelineLogCriteria
