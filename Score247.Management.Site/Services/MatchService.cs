@@ -653,7 +653,7 @@ namespace Score247.Management.Site.Services
                 sport_event_status = new Sport_Event_Status()
                 {
                     status = "live",
-                    match_status = match.MatchResult?.MatchStatus.DisplayName,
+                    match_status = match.MatchResult?.MatchStatus?.DisplayName,
                     home_score = match.MatchResult?.HomeScore ?? 0,
                     away_score = match.MatchResult?.AwayScore ?? 0,
                     period = match.MatchResult?.Period ?? 0,
