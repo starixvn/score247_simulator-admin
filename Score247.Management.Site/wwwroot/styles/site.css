@@ -150,7 +150,7 @@ header {
       cursor: pointer; }
     .list-quick-action .icon-live-match.active:before,
     .list-quick-action .icon-calendar.active:before {
-      color: #f24822; }
+      color: #FF7246; }
 
 .filter, .create-form {
   padding-top: 10px;

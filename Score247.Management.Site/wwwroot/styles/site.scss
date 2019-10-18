@@ -218,7 +218,7 @@ header {
         }
 
         &.active:before {
-            color: #f24822;
+            color: $btn-datebar-bg-hover;
         }
     }
 }
