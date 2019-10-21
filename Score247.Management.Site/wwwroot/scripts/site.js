@@ -597,8 +597,12 @@ function onBetTypeChange(matchId, betType) {
     });
 }
 
-function GetMatchByDate(searchDate, leagueId) {
+function GetMatchByDate(searchDate, leagueId, btnSelected) {
     ShowLoadingSpinner('#listMatches');
+    $(".btn-datebar").each(function () { $(this).removeClass("active"); });
+    $("#btnLive").removeClass("active");
+    console.log(btnSelected);
+    $(btnSelected).addClass("active");
     $.ajax({
         async: true,
         url: urlPrefix() + '/Match/GetMatchesByDate?searchDate=' + searchDate + "&leagueId=" + leagueId,
@@ -621,7 +625,8 @@ function GetMatchByDate(searchDate, leagueId) {
 function GetLiveMatch() {
     ShowLoadingSpinner('#listMatches');
     console.log($(".btn-datebar"));
-    $(".btn-datebar").each(function () { console.log($(this)); $(this).addClass("active"); });
+    $(".btn-datebar").each(function () { $(this).removeClass("active"); });
+    $("#btnLive").addClass("active");
     $.ajax({
         async: true,
         url: urlPrefix() + '/Match/GetLiveMatches',

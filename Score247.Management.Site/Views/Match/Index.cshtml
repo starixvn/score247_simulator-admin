@@ -16,11 +16,11 @@
     <button asp-action="CreateActiveLeagueMatch" class="btn-default">Create Match For Active Leagues</button>
 </form>
 <form class="list-quick-action">
-    <div class="icon-live-match mr-3" onclick="GetLiveMatch()"></div>
+    <div id="btnLive" class="icon-live-match mr-3" onclick="GetLiveMatch()"></div>
     @foreach (var item in Model.QuickDateSelectOptions)
     {
         <button type="button"
-                onclick="GetMatchByDate(`@item.Value`, `@Model.DateSearchModel.SelectedLeagueId`)"
+                onclick="GetMatchByDate(`@item.Value`, `@Model.DateSearchModel.SelectedLeagueId`, this)"
                 class="btn-datebar mr-3">
             <div>@item.DisplayName</div>
             <div>@item.DisplayDate</div>
