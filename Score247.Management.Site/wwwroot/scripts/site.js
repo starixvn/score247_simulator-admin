@@ -620,6 +620,8 @@ function GetMatchByDate(searchDate, leagueId) {
 
 function GetLiveMatch() {
     ShowLoadingSpinner('#listMatches');
+    console.log($(".btn-datebar"));
+    $(".btn-datebar").each(function () { console.log($(this)); $(this).addClass("active"); });
     $.ajax({
         async: true,
         url: urlPrefix() + '/Match/GetLiveMatches',
