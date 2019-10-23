@@ -57,7 +57,7 @@ namespace Score247.Management.Site.Services
 
         Task<LineUpsDto> GenerateLineups(string matchId, string homeFormation, string awayFormation);
 
-        Task ApplyLineups(string matchId, LineUpsDto lineUpsDto);
+        Task ApplyLineups(LineUpsDto lineUpsDto);
     }
 
     public class MatchService : IMatchService
@@ -837,9 +837,9 @@ namespace Score247.Management.Site.Services
             return lineUpDto;
         }
 
-        public async Task ApplyLineups(string matchId, LineUpsDto lineUpsDto)
+        public async Task ApplyLineups(LineUpsDto lineUpsDto)
         {
-            await simulatorService.SendLineups(matchId, lineUpsDto);
+            await simulatorService.SendLineups(lineUpsDto);
         }
     }
 }

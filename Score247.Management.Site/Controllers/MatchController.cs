@@ -471,7 +471,7 @@ namespace Score247.Management.Site.Controllers
         [HttpPost("/Match/Lineups/{matchId}")]
         public async Task<ActionResult> ApplyLineups(string matchId, [FromBody] LineUpsDto lineUpsDto)
         {
-            await matchService.ApplyLineups(matchId, lineUpsDto);
+            await matchService.ApplyLineups(lineUpsDto);
 
             return RedirectToAction(nameof(Details), new { matchId });
         }

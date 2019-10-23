@@ -35,7 +35,7 @@ namespace Score247.Management.Site.Services
 
         Task SendMatchTimelines(MatchTimelineDto matchTimeline);
 
-        Task SendLineups(string matchId, LineUpsDto lineUpsDto);
+        Task SendLineups(LineUpsDto lineUpsDto);
     }
 
     public class SimulatorService : ISimulatorService
@@ -234,12 +234,12 @@ namespace Score247.Management.Site.Services
             }
         }
 
-        public async Task SendLineups(string matchId, LineUpsDto lineUpsDto)
+        public async Task SendLineups(LineUpsDto lineUpsDto)
         {
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(configuration.GetValue<string>("Simulator:Url"));
-                var requestPath = configuration.GetValue<string>("Simulator:Lineups") + "?matchId=" + matchId;
+                var requestPath = configuration.GetValue<string>("Simulator:Lineups");
 
                 await client.PostAsJsonAsync(requestPath, lineUpsDto);
             }
