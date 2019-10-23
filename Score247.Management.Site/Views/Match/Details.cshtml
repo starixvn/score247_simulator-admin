@@ -1,5 +1,7 @@
-﻿@using  Score247Management.Core._Shared.Enumerations
+﻿@using Microsoft.Extensions.Configuration
+@using  Score247Management.Core._Shared.Enumerations
 
+@inject IConfiguration Configuration
 @model Score247.Management.Site.ViewModels.Matches.EventMatchViewModel
 
 @{
@@ -20,6 +22,10 @@
 }
 
 <h1 class="page-title">Details</h1>
+
+<div class="d-none">
+    <input type="text" id="urlPrefix" name="urlPrefix" value="@Configuration["PagePathPrefix"]" />
+</div>
 <div class="row">
     <div class="col-sm-4">
         <form class="filter" asp-action="ApplyScenario" asp-route-matchId="@Model.Match.Id">
@@ -101,9 +107,15 @@
             <partial name="_CreateSubstitutionEventPartial" model="Model.MatchSubstitutionEventDto" view-data="eventViewData" />
             <partial name="_CreateMinorEventPartial" model="Model.MatchMinorEventDto" view-data="eventViewData" />
             <partial name="_MatchStatisticPartial" model="Model.Statistic" view-data="eventViewData" />
+            <partial name="_CreateLineupsPartial" view-data="eventViewData" />
         </div>
     </div>
     <div class="col-sm-8 timeline-events">
         <partial name="_MatchTimelineEventPartial" model="Model.TimelineEvents" view-data="eventViewData" />
     </div>
 </div>
+
+@section Scripts
+{
+    <script src="~/bundles/matches.min.js"></script>
+}

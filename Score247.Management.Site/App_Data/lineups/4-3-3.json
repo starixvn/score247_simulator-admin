@@ -1,0 +1,156 @@
+{
+    "team": "home",
+    "formation": "4-3-3",
+    "manager": {
+        "id": "sr:player:138570",
+        "name": "Lopetegui, Julen",
+        "nationality": "Spain",
+        "country_code": "ESP"
+    },
+    "jersey": {
+        "type": "home",
+        "base": "ffffff",
+        "sleeve": "ffffff",
+        "number": "ce0000",
+        "squares": false,
+        "stripes": false,
+        "horizontal_stripes": false,
+        "split": false,
+        "shirt_type": "short_sleeves",
+        "sleeve_detail": "ffffff"
+    },
+    "starting_lineup": [
+        {
+            "id": "sr:player:23715",
+            "name": "Vaclik, Tomas",
+            "type": "goalkeeper",
+            "jersey_number": 1,
+            "position": "Goalkeeper",
+            "order": 1
+        },
+        {
+            "id": "sr:player:11869",
+            "name": "Navas, Jesus",
+            "type": "defender",
+            "jersey_number": 16,
+            "position": "Right back",
+            "order": 2
+        },
+        {
+            "id": "sr:player:604232",
+            "name": "Carlos, Diego",
+            "type": "defender",
+            "jersey_number": 20,
+            "position": "Central defender",
+            "order": 3
+        },
+        {
+            "id": "sr:player:940560",
+            "name": "Kounde, Jules",
+            "type": "defender",
+            "jersey_number": 12,
+            "position": "Central defender",
+            "order": 4
+        },
+        {
+            "id": "sr:player:777892",
+            "name": "Reguilon, Sergio",
+            "type": "defender",
+            "jersey_number": 23,
+            "position": "Left back",
+            "order": 5
+        },
+        {
+            "id": "sr:player:591750",
+            "name": "Jordan, Joan",
+            "type": "midfielder",
+            "jersey_number": 24,
+            "position": "Central midfielder",
+            "order": 6
+        },
+        {
+            "id": "sr:player:31981",
+            "name": "Banega, Ever",
+            "type": "midfielder",
+            "jersey_number": 10,
+            "position": "Central midfielder",
+            "order": 8
+        },
+        {
+            "id": "sr:player:41837",
+            "name": "Fernando",
+            "type": "midfielder",
+            "jersey_number": 25,
+            "position": "Central midfielder",
+            "order": 7
+        },
+        {
+            "id": "sr:player:123977",
+            "name": "Nolito",
+            "type": "forward",
+            "jersey_number": 8,
+            "position": "Striker",
+            "order": 11
+        },
+        {
+            "id": "sr:player:155702",
+            "name": "Ocampos, Lucas",
+            "type": "midfielder",
+            "jersey_number": 5,
+            "position": "Striker",
+            "order": 9
+        },
+        {
+            "id": "sr:player:34312",
+            "name": "Chicharito",
+            "type": "forward",
+            "jersey_number": 14,
+            "position": "Striker",
+            "order": 10
+        }
+    ],
+    "substitutes": [
+        {
+            "id": "sr:player:244009",
+            "name": "Yassine Bounou",
+            "type": "goalkeeper",
+            "jersey_number": 13
+        },
+        {
+            "id": "sr:player:88859",
+            "name": "Escudero, Sergio",
+            "type": "defender",
+            "jersey_number": 18
+        },
+        {
+            "id": "sr:player:125625",
+            "name": "Gomez, Sergi",
+            "type": "defender",
+            "jersey_number": 3
+        },
+        {
+            "id": "sr:player:190147",
+            "name": "Lopes, Rony",
+            "type": "midfielder",
+            "jersey_number": 7
+        },
+        {
+            "id": "sr:player:231776",
+            "name": "Torres, Oliver",
+            "type": "midfielder",
+            "jersey_number": 21
+        },
+        {
+            "id": "sr:player:215246",
+            "name": "Vazquez, Franco",
+            "type": "midfielder",
+            "jersey_number": 22
+        },
+        {
+            "id": "sr:player:40878",
+            "name": "De Jong, Luuk",
+            "type": "forward",
+            "jersey_number": 19
+        }
+    ]
+}

@@ -1,0 +1,156 @@
+{
+    "team":"away",
+    "formation":"3-5-2",
+    "manager":{
+       "id":"sr:player:205058",
+       "name":"Laurey, Thierry",
+       "nationality":"France",
+       "country_code":"FRA"
+    },
+    "jersey":{
+       "type":"home",
+       "base":"0061c1",
+       "sleeve":"0062c4",
+       "number":"ffffff",
+       "squares":false,
+       "stripes":false,
+       "horizontal_stripes":false,
+       "split":false,
+       "shirt_type":"short_sleeves",
+       "sleeve_detail":"ffffff"
+    },
+    "starting_lineup":[
+       {
+          "id":"sr:player:78152",
+          "name":"Sels, Matz",
+          "type":"goalkeeper",
+          "jersey_number":1,
+          "position":"Goalkeeper",
+          "order":1
+       },
+       {
+          "id":"sr:player:1016929",
+          "name":"Caci, Anthony",
+          "type":"defender",
+          "jersey_number":19,
+          "position":"Central defender",
+          "order":4
+       },
+       {
+          "id":"sr:player:51444",
+          "name":"Kone, Lamine",
+          "type":"defender",
+          "jersey_number":5,
+          "position":"Central defender",
+          "order":3
+       },
+       {
+          "id":"sr:player:1649488",
+          "name":"Simakan, Mohamed",
+          "type":"defender",
+          "jersey_number":2,
+          "position":"Central defender",
+          "order":2
+       },
+       {
+          "id":"sr:player:141080",
+          "name":"Lala, Kenny",
+          "type":"defender",
+          "jersey_number":27,
+          "position":"Right winger",
+          "order":5
+       },
+       {
+          "id":"sr:player:950204",
+          "name":"Sissoko, Ibrahima",
+          "type":"midfielder",
+          "jersey_number":18,
+          "position":"Central midfielder",
+          "order":6
+       },
+       {
+          "id":"sr:player:1011881",
+          "name":"Bellegarde, Jeanricner",
+          "type":"midfielder",
+          "jersey_number":17,
+          "position":"Central midfielder",
+          "order":7
+       },
+       {
+          "id":"sr:player:1567396",
+          "name":"Fofana, Youssouf",
+          "type":"midfielder",
+          "jersey_number":22,
+          "position":"Central midfielder",
+          "order":8
+       },
+       {
+          "id":"sr:player:122922",
+          "name":"Carole, Lionel",
+          "type":"defender",
+          "jersey_number":23,
+          "position":"Left winger",
+          "order":9
+       },
+       {
+          "id":"sr:player:343971",
+          "name":"Ajorque, Ludovic",
+          "type":"forward",
+          "jersey_number":25,
+          "position":"Striker",
+          "order":11
+       },
+       {
+          "id":"sr:player:231946",
+          "name":"Thomasson, Adrien",
+          "type":"midfielder",
+          "jersey_number":26,
+          "position":"Striker",
+          "order":10
+       }
+    ],
+    "substitutes":[
+       {
+          "id":"sr:player:583312",
+          "name":"Kamara, Bingourou",
+          "type":"goalkeeper",
+          "jersey_number":30
+       },
+       {
+          "id":"sr:player:275959",
+          "name":"N'Dour, Abdallah",
+          "type":"defender",
+          "jersey_number":3
+       },
+       {
+          "id":"sr:player:365358",
+          "name":"Lienard, Dimitri",
+          "type":"midfielder",
+          "jersey_number":11
+       },
+       {
+          "id":"sr:player:94822",
+          "name":"Prcic, Sanjin",
+          "type":"midfielder",
+          "jersey_number":14
+       },
+       {
+          "id":"sr:player:209374",
+          "name":"Da Costa, Nuno",
+          "type":"forward",
+          "jersey_number":29
+       },
+       {
+          "id":"sr:player:1011595",
+          "name":"Mothiba, Lebo",
+          "type":"forward",
+          "jersey_number":12
+       },
+       {
+          "id":"sr:player:1245266",
+          "name":"Zohi, Lucien Kevin",
+          "type":"forward",
+          "jersey_number":20
+       }
+    ]
+ }

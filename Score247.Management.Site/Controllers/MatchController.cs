@@ -457,5 +457,23 @@ namespace Score247.Management.Site.Controllers
 
             return RedirectToAction(nameof(Details), new { id });
         }
+
+        // Line-Ups
+
+        [HttpPost("/Match/Lineups")]
+        public async Task<ActionResult> GenerateLineups([FromQuery] string matchId, [FromQuery]  string homeFormation, [FromQuery] string awayFormation)
+        {
+            var lineupsDto = await matchService.GenerateLineups(matchId, homeFormation, awayFormation);
+
+            return Json(lineupsDto);
+        }
+
+        [HttpPost("/Match/Lineups/{matchId}")]
+        public async Task<ActionResult> ApplyLineups(string matchId, [FromBody] LineUpsDto lineUpsDto)
+        {
+            await matchService.ApplyLineups(matchId, lineUpsDto);
+
+            return RedirectToAction(nameof(Details), new { matchId });
+        }
     }
 }

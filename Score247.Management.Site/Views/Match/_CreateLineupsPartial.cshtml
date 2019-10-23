@@ -1,0 +1,57 @@
+﻿<div class="card">
+    <div class="card-header" id="minorEventHeading">
+        <div class="card-title collapsed" data-toggle="collapse" data-target="#lineups" aria-expanded="true" aria-controls="minorEvent">
+            Lineups
+        </div>
+    </div>
+    <div class="collapse" aria-labelledby="lineupsEventHeading" data-parent="#accordion" id="lineups">
+        <div class="card-body create-form">
+            <form id="generateLineupsData" onsubmit="generateLineupsData(`@ViewBag.MatchId`, event)">
+                <div class="form-group">
+                    <label class="control-label">Home Formation:</label>
+                    <select name="homeFormation" class="form-control">
+                        <option value="NoFormation">No Formation</option>
+                        <option value="3-4-3">3-4-3</option>
+                        <option value="3-5-2">3-5-2</option>
+                        <option value="4-1-4-1">4-1-4-1</option>
+                        <option value="4-3-1-2">4-3-1-2</option>
+                        <option value="4-3-3">4-3-3</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Away Formation:</label>
+                    <select name="awayFormation" class="form-control">
+                        <option value="NoFormation">No Formation</option>
+                        <option value="3-4-3">3-4-3</option>
+                        <option value="3-5-2">3-5-2</option>
+                        <option value="4-1-4-1">4-1-4-1</option>
+                        <option value="4-3-1-2">4-3-1-2</option>
+                        <option value="4-3-3">4-3-3</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Apply" class="btn-submit" />
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="lineupsRequest" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">LineUps Log</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <pre id="lineupsRequestContent"></pre>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnApplyLineups" type="button" class="btn btn-primary" data-dismiss="modal">Accept</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

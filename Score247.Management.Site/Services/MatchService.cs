@@ -54,6 +54,10 @@ namespace Score247.Management.Site.Services
         Task DeleteAllMatches();
 
         Task ApplyMatchScenarios(string matchId, IFormCollection collection);
+
+        Task<LineUpsDto> GenerateLineups(string matchId, string homeFormation, string awayFormation);
+
+        Task ApplyLineups(string matchId, LineUpsDto lineUpsDto);
     }
 
     public class MatchService : IMatchService
@@ -65,6 +69,7 @@ namespace Score247.Management.Site.Services
         private readonly ITriggerJobService triggerJobService;
         private readonly IScenarioService scenarioService;
         private readonly ITimelineService timelineService;
+        private readonly ILineupService lineupService;
 
         public MatchService(
             IConfiguration configuration,
@@ -72,7 +77,8 @@ namespace Score247.Management.Site.Services
             IQueryService queryService,
             ITriggerJobService triggerJobService,
             IScenarioService scenarioService,
-            ITimelineService timelineService)
+            ITimelineService timelineService,
+            ILineupService lineupService)
         {
             this.configuration = configuration;
             this.simulatorService = simulatorService;
@@ -80,6 +86,7 @@ namespace Score247.Management.Site.Services
             this.triggerJobService = triggerJobService;
             this.scenarioService = scenarioService;
             this.timelineService = timelineService;
+            this.lineupService = lineupService;
         }
 
         public async Task CreateMatchForActiveLeagues(DateTime createDate, TimeSpan offset)
@@ -818,6 +825,21 @@ namespace Score247.Management.Site.Services
         public async Task ApplyMatchScenarios(string matchId, IFormCollection collection)
         {
             await scenarioService.ApplyScenario(matchId, collection);
+        }
+
+        public async Task<LineUpsDto> GenerateLineups(string matchId, string homeFormation, string awayFormation)
+        {
+            var matchRepository = new MatchRepository();
+            var match = await matchRepository.GetMatchById(matchId);
+
+            var lineUpDto = lineupService.BuildLineups(match, homeFormation, awayFormation);
+
+            return lineUpDto;
+        }
+
+        public async Task ApplyLineups(string matchId, LineUpsDto lineUpsDto)
+        {
+            await simulatorService.SendLineups(matchId, lineUpsDto);
         }
     }
 }

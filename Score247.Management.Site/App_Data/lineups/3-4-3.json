@@ -1,0 +1,155 @@
+{
+    "team": "home",
+    "formation": "3-4-3",
+    "manager": {
+        "id": "sr:player:762",
+        "name": "Solskjaer, Ole Gunnar",
+        "nationality": "Norway",
+        "country_code": "NOR"
+    },
+    "jersey": {
+        "type": "home",
+        "base": "ea0000",
+        "sleeve": "ea0000",
+        "number": "000000",
+        "squares": false,
+        "stripes": false,
+        "horizontal_stripes": false,
+        "split": false,
+        "shirt_type": "short_sleeves"
+    },
+    "starting_lineup": [
+        {
+            "id": "sr:player:69378",
+            "name": "De Gea, David",
+            "type": "goalkeeper",
+            "jersey_number": 1,
+            "position": "Goalkeeper",
+            "order": 1
+        },
+        {
+            "id": "sr:player:46998",
+            "name": "Rojo, Marcos",
+            "type": "defender",
+            "jersey_number": 16,
+            "position": "Central defender",
+            "order": 4
+        },
+        {
+            "id": "sr:player:149380",
+            "name": "Maguire, Harry",
+            "type": "defender",
+            "jersey_number": 5,
+            "position": "Central defender",
+            "order": 3
+        },
+        {
+            "id": "sr:player:143334",
+            "name": "Lindelof, Victor",
+            "type": "defender",
+            "jersey_number": 2,
+            "position": "Central defender",
+            "order": 2
+        },
+        {
+            "id": "sr:player:1086144",
+            "name": "Wan-Bissaka, Aaron",
+            "type": "defender",
+            "jersey_number": 29,
+            "position": "Right winger",
+            "order": 5
+        },
+        {
+            "id": "sr:player:243623",
+            "name": "Fred",
+            "type": "midfielder",
+            "jersey_number": 17,
+            "position": "Central midfielder",
+            "order": 7
+        },
+        {
+            "id": "sr:player:908372",
+            "name": "McTominay, Scott",
+            "type": "midfielder",
+            "jersey_number": 39,
+            "position": "Central midfielder",
+            "order": 6
+        },
+        {
+            "id": "sr:player:10589",
+            "name": "Young, Ashley",
+            "type": "defender",
+            "jersey_number": 18,
+            "position": "Left winger",
+            "order": 8
+        },
+        {
+            "id": "sr:player:903830",
+            "name": "Rashford, Marcus",
+            "type": "forward",
+            "jersey_number": 10,
+            "position": "Striker",
+            "order": 10
+        },
+        {
+            "id": "sr:player:285949",
+            "name": "Pereira, Andreas",
+            "type": "midfielder",
+            "jersey_number": 15,
+            "position": "Striker",
+            "order": 9
+        },
+        {
+            "id": "sr:player:355520",
+            "name": "James, Daniel",
+            "type": "midfielder",
+            "jersey_number": 21,
+            "position": "Striker",
+            "order": 11
+        }
+    ],
+    "substitutes": [
+        {
+            "id": "sr:player:25566",
+            "name": "Romero, Sergio",
+            "type": "goalkeeper",
+            "jersey_number": 22
+        },
+        {
+            "id": "sr:player:1297380",
+            "name": "Williams, Brandon",
+            "type": "defender",
+            "jersey_number": 53
+        },
+        {
+            "id": "sr:player:93868",
+            "name": "Jones, Phil",
+            "type": "defender",
+            "jersey_number": 4
+        },
+        {
+            "id": "sr:player:1297412",
+            "name": "Garner, James",
+            "type": "midfielder",
+            "jersey_number": 37
+        },
+        {
+            "id": "sr:player:28367",
+            "name": "Mata, Juan",
+            "type": "midfielder",
+            "jersey_number": 8
+        },
+        {
+            "id": "sr:player:1546543",
+            "name": "Greenwood, Mason",
+            "type": "forward",
+            "jersey_number": 26
+        },
+        {
+            "id": "sr:player:191176",
+            "name": "Martial, Anthony",
+            "type": "forward",
+            "jersey_number": 9
+        }
+    ]
+}

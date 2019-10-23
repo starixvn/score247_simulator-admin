@@ -13,6 +13,7 @@ namespace Score247.Management.Site.Services
     using Models.Events;
     using Score247.Management.Site.Repositories.Matches;
     using Score247Management.Core.Odds.Dtos;
+    using Score247.Management.Site.Models;
 
     public interface ISimulatorService
     {
@@ -33,6 +34,8 @@ namespace Score247.Management.Site.Services
         Task SyncLiveMatches();
 
         Task SendMatchTimelines(MatchTimelineDto matchTimeline);
+
+        Task SendLineups(string matchId, LineUpsDto lineUpsDto);
     }
 
     public class SimulatorService : ISimulatorService
@@ -193,20 +196,14 @@ namespace Score247.Management.Site.Services
 
         private async Task WriteLiveMatchToFile(DailyResultDto resultDto)
         {
-            try
-            {
-                var resultFolder = $"{DirectoryRoot}";
-                System.IO.Directory.CreateDirectory(resultFolder);
-                var path = $"{resultFolder}/live.json";
-                var json = JsonConvert.SerializeObject(resultDto);
+            var resultFolder = $"{DirectoryRoot}";
+            System.IO.Directory.CreateDirectory(resultFolder);
+            var path = $"{resultFolder}/live.json";
+            var json = JsonConvert.SerializeObject(resultDto);
 
-                System.IO.Directory.CreateDirectory(resultFolder);
-                System.IO.File.Delete(path);
-                System.IO.File.WriteAllText(path, json);
-            }
-            catch (Exception)
-            {
-            }
+            System.IO.Directory.CreateDirectory(resultFolder);
+            System.IO.File.Delete(path);
+            System.IO.File.WriteAllText(path, json);
         }
 
         public async Task SyncLiveMatches()
@@ -233,10 +230,18 @@ namespace Score247.Management.Site.Services
                 client.BaseAddress = new Uri(configuration.GetValue<string>("Simulator:Url"));
                 var requestPath = configuration.GetValue<string>("Simulator:Timelines") + "?matchId=" +
                                   matchTimeline.sport_event.id;
-                var response = await client.PostAsJsonAsync(requestPath, matchTimeline);
-                if (!response.IsSuccessStatusCode)
-                {
-                }
+                await client.PostAsJsonAsync(requestPath, matchTimeline);
+            }
+        }
+
+        public async Task SendLineups(string matchId, LineUpsDto lineUpsDto)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(configuration.GetValue<string>("Simulator:Url"));
+                var requestPath = configuration.GetValue<string>("Simulator:Lineups") + "?matchId=" + matchId;
+
+                await client.PostAsJsonAsync(requestPath, lineUpsDto);
             }
         }
     }

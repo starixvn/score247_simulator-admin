@@ -105,6 +105,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="BuildBundlerMinifier" Version="3.2.435" />
     <PackageReference Include="Fanex.Data" Version="4.0.1" />
     <PackageReference Include="Fanex.Data.MySql" Version="4.0.1" />
     <PackageReference Include="Fanex.Data.Repository" Version="4.0.1" />
@@ -113,7 +114,7 @@
     <PackageReference Include="MessagePack.AspNetCoreMvcFormatter" Version="1.7.3.7" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.4" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="Quartz" Version="3.0.7" />
   </ItemGroup>
@@ -147,10 +148,27 @@
     <Content Update="appsettings.local-test.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="App_Data\lineups\3-4-3.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="App_Data\lineups\3-5-2.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="App_Data\lineups\4-1-4-1.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="App_Data\lineups\4-3-1-2.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="App_Data\lineups\4-3-3.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="App_Data\lineups\NoFormation.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="App_Data\live\" />
-    <Folder Include="wwwroot\bundles\" />
   </ItemGroup>
 </Project>

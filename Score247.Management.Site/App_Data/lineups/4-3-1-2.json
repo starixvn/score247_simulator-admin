@@ -1,0 +1,184 @@
+{
+    "team": "away",
+    "formation": "4-3-1-2",
+    "manager": {
+        "id": "sr:player:2689",
+        "name": "Liverani, Fabio",
+        "nationality": "Italy",
+        "country_code": "ITA"
+    },
+    "jersey": {
+        "type": "away",
+        "base": "ffffff",
+        "sleeve": "ffffff",
+        "number": "dd0000",
+        "squares": false,
+        "stripes": false,
+        "horizontal_stripes": false,
+        "split": false
+    },
+    "starting_lineup": [
+        {
+            "id": "sr:player:147467",
+            "name": "Gabriel",
+            "type": "goalkeeper",
+            "jersey_number": 21,
+            "position": "Goalkeeper",
+            "order": 1
+        },
+        {
+            "id": "sr:player:183249",
+            "name": "Meccariello, Biagio",
+            "type": "defender",
+            "jersey_number": 16,
+            "position": "Right back",
+            "order": 2
+        },
+        {
+            "id": "sr:player:131916",
+            "name": "Lucioni, Fabio",
+            "type": "defender",
+            "jersey_number": 5,
+            "position": "Central defender",
+            "order": 4
+        },
+        {
+            "id": "sr:player:29718",
+            "name": "Rossettini, Luca",
+            "type": "defender",
+            "jersey_number": 13,
+            "position": "Central defender",
+            "order": 3
+        },
+        {
+            "id": "sr:player:44003",
+            "name": "Calderoni, Marco",
+            "type": "defender",
+            "jersey_number": 27,
+            "position": "Left back",
+            "order": 5
+        },
+        {
+            "id": "sr:player:132852",
+            "name": "Tabanelli, Andrea",
+            "type": "midfielder",
+            "jersey_number": 23,
+            "position": "Right winger",
+            "order": 6
+        },
+        {
+            "id": "sr:player:32985",
+            "name": "Tachtsidis, Panagiotis",
+            "type": "midfielder",
+            "jersey_number": 77,
+            "position": "Central midfielder",
+            "order": 7
+        },
+        {
+            "id": "sr:player:25522",
+            "name": "Mancosu, Marco",
+            "type": "midfielder",
+            "jersey_number": 8,
+            "position": "Central midfielder",
+            "order": 9
+        },
+        {
+            "id": "sr:player:172599",
+            "name": "Majer, Zan",
+            "type": "midfielder",
+            "jersey_number": 37,
+            "position": "Left winger",
+            "order": 8
+        },
+        {
+            "id": "sr:player:142037",
+            "name": "Falco, Filippo",
+            "type": "forward",
+            "jersey_number": 10,
+            "position": "Striker",
+            "order": 10
+        },
+        {
+            "id": "sr:player:88697",
+            "name": "Babacar, Khouma",
+            "type": "forward",
+            "jersey_number": 30,
+            "position": "Striker",
+            "order": 11
+        }
+    ],
+    "substitutes": [
+        {
+            "id": "sr:player:41444",
+            "name": "Vigorito, Mauro",
+            "type": "goalkeeper",
+            "jersey_number": 22
+        },
+        {
+            "id": "sr:player:43910",
+            "name": "Rispoli, Andrea",
+            "type": "defender",
+            "jersey_number": 29
+        },
+        {
+            "id": "sr:player:558896",
+            "name": "Riccardi, Davide",
+            "type": "defender",
+            "jersey_number": 2
+        },
+        {
+            "id": "sr:player:1407451",
+            "name": "Vera, Brayan",
+            "type": "defender",
+            "jersey_number": 3
+        },
+        {
+            "id": "sr:player:131342",
+            "name": "Benzar, Romario",
+            "type": "defender",
+            "jersey_number": 6
+        },
+        {
+            "id": "sr:player:347494",
+            "name": "Dell'Orco, Cristian",
+            "type": "defender",
+            "jersey_number": 39
+        },
+        {
+            "id": "sr:player:41310",
+            "name": "Shakhov, Yevhen",
+            "type": "midfielder",
+            "jersey_number": 11
+        },
+        {
+            "id": "sr:player:573596",
+            "name": "Petriccione, Jacopo",
+            "type": "midfielder",
+            "jersey_number": 4
+        },
+        {
+            "id": "sr:player:147368",
+            "name": "Lapadula, Gianluca",
+            "type": "forward",
+            "jersey_number": 9
+        },
+        {
+            "id": "sr:player:41008",
+            "name": "Farias, Diego",
+            "type": "forward",
+            "jersey_number": 17
+        },
+        {
+            "id": "sr:player:96649",
+            "name": "La Mantia, Andrea",
+            "type": "forward",
+            "jersey_number": 19
+        },
+        {
+            "id": "sr:player:822656",
+            "name": "Lo Faso, Simone",
+            "type": "forward",
+            "jersey_number": 32
+        }
+    ]
+}

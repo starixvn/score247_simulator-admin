@@ -6,10 +6,22 @@
     ]
   },
   {
+    "outputFileName": "wwwroot/bundles/matches.min.js",
+    "inputFiles": [
+      "wwwroot/scripts/matches/detail.js"
+    ]
+  },
+  {
     "outputFileName": "wwwroot/bundles/site.min.css",
     "inputFiles": [
       "wwwroot/styles/livescore/style.css",
       "wwwroot/styles/site.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/bundles/jsonview.min.css",
+    "inputFiles": [
+      "wwwroot/styles/jsonview.css"
     ]
   }
 ]

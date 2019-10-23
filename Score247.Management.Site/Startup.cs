@@ -89,6 +89,7 @@ namespace Score247.Management.Site
             services.AddSingleton<IScenarioService, ScenarioService>();
             services.AddSingleton<IAutoEventService, AutoEventService>();
             services.AddSingleton<ITimelineService, TimelineService>();
+            services.AddSingleton<ILineupService, LineupService>();
         }
 
         private void RegisterScheduledJobs(IServiceCollection services)

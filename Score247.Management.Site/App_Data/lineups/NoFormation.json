@@ -1,0 +1,146 @@
+{
+    "team": "away",
+    "manager": {
+        "id": "sr:player:45986",
+        "name": "Belhocine, Karim",
+        "nationality": "France",
+        "country_code": "FRA"
+    },
+    "jersey": {
+        "type": "home",
+        "base": "ffffff",
+        "sleeve": "ffffff",
+        "number": "ffffff",
+        "squares": false,
+        "stripes": true,
+        "stripes_color": "000000",
+        "horizontal_stripes": false,
+        "split": false,
+        "shirt_type": "short_sleeves",
+        "sleeve_detail": "f8e374"
+    },
+    "starting_lineup": [
+        {
+            "id": "sr:player:94298",
+            "name": "Bruno, Massimo",
+            "type": "midfielder",
+            "jersey_number": 77
+        },
+        {
+            "id": "sr:player:344191",
+            "name": "Fortuna, Nurio",
+            "type": "defender",
+            "jersey_number": 25
+        },
+        {
+            "id": "sr:player:1554411",
+            "name": "Busi, Maxime",
+            "type": "defender",
+            "jersey_number": 4
+        },
+        {
+            "id": "sr:player:5560",
+            "name": "Penneteau, Nicolas",
+            "type": "goalkeeper",
+            "jersey_number": 1
+        },
+        {
+            "id": "sr:player:109376",
+            "name": "Morioka, Ryota",
+            "type": "midfielder",
+            "jersey_number": 44
+        },
+        {
+            "id": "sr:player:377812",
+            "name": "Rezaei, Kaveh",
+            "type": "forward",
+            "jersey_number": 10
+        },
+        {
+            "id": "sr:player:358198",
+            "name": "Ilaimaharitra, Marco",
+            "type": "midfielder",
+            "jersey_number": 26
+        },
+        {
+            "id": "sr:player:359350",
+            "name": "Gholizadeh, Ali",
+            "type": "forward",
+            "jersey_number": 8
+        },
+        {
+            "id": "sr:player:72913",
+            "name": "Diandy, Christophe",
+            "type": "midfielder",
+            "jersey_number": 13
+        },
+        {
+            "id": "sr:player:346998",
+            "name": "Diagne, Modou",
+            "type": "defender",
+            "jersey_number": 5
+        },
+        {
+            "id": "sr:player:149584",
+            "name": "Dessoleil, Dorian",
+            "type": "defender",
+            "jersey_number": 24
+        }
+    ],
+    "substitutes": [
+        {
+            "id": "sr:player:352908",
+            "name": "Descamps, Remy",
+            "type": "goalkeeper",
+            "jersey_number": 40
+        },
+        {
+            "id": "sr:player:1548257",
+            "name": "Imbrechts, Joachim",
+            "type": "goalkeeper",
+            "jersey_number": 14
+        },
+        {
+            "id": "sr:player:17359",
+            "name": "Marinos, Stergos",
+            "type": "defender",
+            "jersey_number": 17
+        },
+        {
+            "id": "sr:player:310518",
+            "name": "Willems, Steeven",
+            "type": "defender",
+            "jersey_number": 23
+        },
+        {
+            "id": "sr:player:190393",
+            "name": "Hendrickx, Gaetan",
+            "type": "midfielder",
+            "jersey_number": 22
+        },
+        {
+            "id": "sr:player:77291",
+            "name": "Saglik, Enes",
+            "type": "midfielder",
+            "jersey_number": 21
+        },
+        {
+            "id": "sr:player:792351",
+            "name": "Nicholson, Shamar",
+            "type": "forward",
+            "jersey_number": 16
+        },
+        {
+            "id": "sr:player:598266",
+            "name": "Henen, David",
+            "type": "forward",
+            "jersey_number": 7
+        },
+        {
+            "id": "sr:player:1413845",
+            "name": "Tsadjout, Frank",
+            "type": "forward",
+            "jersey_number": 18
+        }
+    ]
+}
