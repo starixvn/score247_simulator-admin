@@ -13,7 +13,6 @@ using Score247.Management.Site.Models.DataMappers;
 using Score247.Management.Site.Models.Events;
 using Score247.Management.Site.Repositories.Leagues;
 using Score247.Management.Site.Repositories.Matches;
-using Score247.Management.Site.Repositories.Matches.Models;
 using Score247.Management.Site.Repositories.Teams;
 using Score247Management.Core._Shared.Enumerations;
 using Score247Management.Core.Enumerations;
@@ -81,97 +80,6 @@ namespace Score247.Management.Site.Services.Matches
             await triggerJobService.TriggerCreateMatchJobs();
 
             return 1;
-        }
-
-        private async Task<int> SendCreateMatchesRequest(IEnumerable<MatchEntity> allMatches, bool requiredTriggerInsertMatch)
-        {
-            var matchByDateUtcGroup = allMatches.GroupBy(d => d.Scheduled.Date);
-            foreach (var matchByDate in matchByDateUtcGroup)
-            {
-                var createDate = matchByDate.Key;
-                var matches = matchByDate.ToList();
-                var content = new DailyScheduleDto
-                {
-                    generated_at = createDate,
-                    schema = "Matches",
-                    sport_events = matches
-                };
-                var jsonValue = JsonConvert.SerializeObject(content);
-
-                var beginDateToday = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day, 0, 0, 0, DateTimeKind.Utc);
-                var requestPath = configuration.GetValue<string>("Simulator:DailySchedule");
-
-                if (createDate < beginDateToday)
-                {
-                    requestPath = configuration.GetValue<string>("Simulator:DailyResults");
-                    var dailyResults = new List<Result>();
-
-                    foreach (var match in matches)
-                    {
-                        var matchWithResult = new Result()
-                        {
-                            sport_event = match,
-                            sport_event_status = RandomMatchEventStatus(match.Competitors.ElementAtOrDefault(0).Id, match.Competitors.ElementAtOrDefault(1).Id)
-                        };
-
-                        dailyResults.Add(matchWithResult);
-                    }
-
-                    var dailyResultRequest = new DailyResultDto
-                    {
-                        generated_at = createDate,
-                        schema = "Matches",
-                        results = dailyResults
-                    };
-                    jsonValue = JsonConvert.SerializeObject(dailyResultRequest);
-                }
-                else
-                {
-                    await UpdateMatchInitInfo(matches);
-                }
-
-                using (var client = new HttpClient())
-                {
-                    client.BaseAddress = new Uri(configuration.GetValue<string>("Simulator:Url"));
-
-                    using (var response = await client.PostAsync(
-                            string.Format(requestPath + "?date={0}",
-                            createDate.ToString("yyyy-MM-dd")),
-                            new StringContent(jsonValue, Encoding.UTF8,
-                            "application/json")))
-                    {
-                        if (!response.IsSuccessStatusCode)
-                        {
-                            return -1;
-                        }
-                    }
-                }
-            }
-
-            if (requiredTriggerInsertMatch)
-            {
-                await triggerJobService.TriggerCreateMatchJobs();
-            }
-
-            return 1;
-        }
-
-        private async Task UpdateMatchInitInfo(IEnumerable<MatchEntity> matches)
-        {
-            foreach (var match in matches)
-            {
-                var matchTimelineDto = new MatchTimelineDto
-                {
-                    generated_at = match.Scheduled,
-                    schema = "http://schemas.sportradar.com/bsa/soccer/v1/json/endpoints/soccer/match_timeline.json",
-                    sport_event = SportEventMapper.MapSportEvent(match),
-                    sport_event_status = null,
-                    timeline = null,
-                    coverage_info = new CoverageInfoDto()
-                };
-
-                await simulatorService.SendMatchTimelines(matchTimelineDto);
-            }
         }
 
         public async Task<bool> CreateMatchesByDate(CreateDeleteMatchesModel createDeleteMatchesRequest, TimeSpan offset)
@@ -272,6 +180,108 @@ namespace Score247.Management.Site.Services.Matches
             return newMatch.Id;
         }
 
+        public async Task<string> AutoCreateMatch(DateTimeOffset dateTimeOffset)
+        {
+            var matchRepository = new MatchRepository();
+            var matches = await GenerateMatches(dateTimeOffset.DateTime, 1, dateTimeOffset.Offset, 1, true);
+
+            await SendCreateMatchesRequest(matches, true);
+            await matchRepository.WaitForMatchInserted(matches.LastOrDefault());
+
+            return matches.First().Id;
+        }
+
+        private async Task<int> SendCreateMatchesRequest(IEnumerable<MatchEntity> allMatches, bool requiredTriggerInsertMatch)
+        {
+            var matchByDateUtcGroup = allMatches.GroupBy(d => d.Scheduled.Date);
+            foreach (var matchByDate in matchByDateUtcGroup)
+            {
+                var createDate = matchByDate.Key;
+                var matches = matchByDate.ToList();
+                var content = new DailyScheduleDto
+                {
+                    generated_at = createDate,
+                    schema = "Matches",
+                    sport_events = matches
+                };
+                var jsonValue = JsonConvert.SerializeObject(content);
+
+                var beginDateToday = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day, 0, 0, 0, DateTimeKind.Utc);
+                var requestPath = configuration.GetValue<string>("Simulator:DailySchedule");
+
+                if (createDate < beginDateToday)
+                {
+                    requestPath = configuration.GetValue<string>("Simulator:DailyResults");
+                    var dailyResults = new List<Result>();
+
+                    foreach (var match in matches)
+                    {
+                        var matchWithResult = new Result()
+                        {
+                            sport_event = match,
+                            sport_event_status = RandomMatchEventStatus(match.Competitors.ElementAtOrDefault(0).Id, match.Competitors.ElementAtOrDefault(1).Id)
+                        };
+
+                        dailyResults.Add(matchWithResult);
+                    }
+
+                    var dailyResultRequest = new DailyResultDto
+                    {
+                        generated_at = createDate,
+                        schema = "Matches",
+                        results = dailyResults
+                    };
+                    jsonValue = JsonConvert.SerializeObject(dailyResultRequest);
+                }
+                else
+                {
+                    await UpdateMatchInitInfo(matches);
+                }
+
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri(configuration.GetValue<string>("Simulator:Url"));
+
+                    using (var response = await client.PostAsync(
+                            string.Format(requestPath + "?date={0}",
+                            createDate.ToString("yyyy-MM-dd")),
+                            new StringContent(jsonValue, Encoding.UTF8,
+                            "application/json")))
+                    {
+                        if (!response.IsSuccessStatusCode)
+                        {
+                            return -1;
+                        }
+                    }
+                }
+            }
+
+            if (requiredTriggerInsertMatch)
+            {
+                await triggerJobService.TriggerCreateMatchJobs();
+            }
+
+            return 1;
+        }
+
+        private async Task UpdateMatchInitInfo(IEnumerable<MatchEntity> matches)
+        {
+            foreach (var match in matches)
+            {
+                var matchTimelineDto = new MatchTimelineDto
+                {
+                    generated_at = match.Scheduled,
+                    schema = "http://schemas.sportradar.com/bsa/soccer/v1/json/endpoints/soccer/match_timeline.json",
+                    sport_event = SportEventMapper.MapSportEvent(match),
+                    sport_event_status = null,
+                    timeline = null,
+                    coverage_info = new CoverageInfoDto()
+                };
+
+                await simulatorService.SendMatchTimelines(matchTimelineDto);
+            }
+        }
+
         private static async Task<HttpResponseMessage> SendCreatePostMatch(IConfiguration configuration, MatchEntity newMatch)
         {
             var dailyResults = new List<Result>();
@@ -364,17 +374,6 @@ namespace Score247.Management.Site.Services.Matches
             }
 
             return MatchStatus.Live.DisplayName;
-        }
-
-        public async Task<string> AutoCreateMatch(DateTimeOffset dateTimeOffset)
-        {
-            var matchRepository = new MatchRepository();
-            var matches = await GenerateMatches(dateTimeOffset.DateTime, 1, dateTimeOffset.Offset, 1, true);
-
-            await SendCreateMatchesRequest(matches, true);
-            await matchRepository.WaitForMatchInserted(matches.LastOrDefault());
-
-            return matches.First().Id;
         }
 
         private Sport_Event_Status RandomMatchEventStatus(string homeTeamId, string awayTeamId)

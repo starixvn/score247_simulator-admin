@@ -6,7 +6,7 @@
     {
         public static string GetIdWithPattern(string pattern)
         {
-            return pattern + Math.Abs((int)DateTime.Now.Ticks).ToString();
+            return pattern + Math.Abs(DateTime.Now.Ticks).ToString();
         }
 
         public static int GetIntId()

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using Score247.Management.Site.Repositories.Matches.Models;
+using Score247.Management.Site.Models;
 
 namespace Score247.Management.Site.ViewModels.Matches
 {

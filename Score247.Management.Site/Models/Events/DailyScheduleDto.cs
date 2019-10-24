@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using Score247.Management.Site.Repositories.Matches.Models;
 
     public class DailyResultDto
     {

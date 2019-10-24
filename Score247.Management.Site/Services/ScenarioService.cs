@@ -1,7 +1,6 @@
 ﻿using System;
 using Fanex.Logging;
 using Score247.Management.Site.Models.Events;
-using Score247.Management.Site.Repositories.Matches.Models;
 
 namespace Score247.Management.Site.Services
 {
@@ -16,6 +15,7 @@ namespace Score247.Management.Site.Services
     using Repositories.Scenarios;
     using Score247Management.Core.Matches.Models;
     using Score247Management.Core.Scenarios.Models;
+    using Score247.Management.Site.Models;
 
     public interface IScenarioService
     {

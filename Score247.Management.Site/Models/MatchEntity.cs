@@ -7,7 +7,7 @@ using Score247Management.Core.Matches.Models;
 using Score247Management.Core.Matches.Models.Soccer.Core.Matches.Models;
 using Score247Management.Core.Teams.Models;
 
-namespace Score247.Management.Site.Repositories.Matches.Models
+namespace Score247.Management.Site.Models
 {
     public class MatchEntity
     {

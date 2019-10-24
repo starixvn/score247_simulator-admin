@@ -7,7 +7,6 @@ using Microsoft.Extensions.Primitives;
 using Score247.Management.Site.Models;
 using Score247.Management.Site.Repositories.Leagues;
 using Score247.Management.Site.Repositories.Matches;
-using Score247.Management.Site.Repositories.Matches.Models;
 using Score247.Management.Site.Repositories.Scenarios;
 using Score247.Management.Site.Repositories.Teams;
 using Score247.Management.Site.Services;
