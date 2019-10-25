@@ -15,12 +15,12 @@
     {
         public DateTime generated_at { get; set; }
         public string schema { get; set; }
-        public IEnumerable<MatchEntity> sport_events { get; set; }
+        public IEnumerable<Sport_Event> sport_events { get; set; }
     }
 
     public class Result
     {
-        public MatchEntity sport_event { get; set; }
+        public Sport_Event sport_event { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Sport_Event_Status sport_event_status { get; set; }

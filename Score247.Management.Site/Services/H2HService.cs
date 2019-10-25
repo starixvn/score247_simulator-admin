@@ -30,31 +30,27 @@
             var competitors = match.Teams.Select(SportEventMapper.MapCompetitor).ToList();
             var newHomeTeam = competitors.FirstOrDefault(x => x.qualifier == "home");
             var newAwayTeam = competitors.FirstOrDefault(x => x.qualifier == "away");
-            foreach (var competitor in competitors)
-            {
-                competitor.qualifier = null;
-            }
 
             foreach (var result in h2hDto.last_meetings.results)
             {
-                foreach (var competitor in result.sport_event.Competitors)
+                foreach (var competitor in result.sport_event.competitors)
                 {
-                    if (competitor.Id == oldHomeId)
+                    if (competitor.id == oldHomeId)
                     {
-                        competitor.Id = newHomeTeam.id;
-                        competitor.Name = newHomeTeam.name;
-                        competitor.Country = newHomeTeam.country;
-                        competitor.CountryCode = newHomeTeam.country_code;
-                        competitor.Abbreviation = newHomeTeam.abbreviation;
+                        competitor.id = newHomeTeam.id;
+                        competitor.name = newHomeTeam.name;
+                        competitor.country = newHomeTeam.country;
+                        competitor.country_code = newHomeTeam.country_code;
+                        competitor.abbreviation = newHomeTeam.abbreviation;
                         competitor.qualifier = newHomeTeam.qualifier;
                     }
                     else
                     {
-                        competitor.Id = newAwayTeam.id;
-                        competitor.Name = newAwayTeam.name;
-                        competitor.Country = newAwayTeam.country;
-                        competitor.CountryCode = newAwayTeam.country_code;
-                        competitor.Abbreviation = newAwayTeam.abbreviation;
+                        competitor.id = newAwayTeam.id;
+                        competitor.name = newAwayTeam.name;
+                        competitor.country = newAwayTeam.country;
+                        competitor.country_code = newAwayTeam.country_code;
+                        competitor.abbreviation = newAwayTeam.abbreviation;
                         competitor.qualifier = newAwayTeam.qualifier;
                     }
                 }
@@ -80,29 +76,33 @@
 
             foreach (var result in h2hDto.next_meetings)
             {
-                foreach (var competitor in result.sport_event.Competitors)
+                foreach (var competitor in result.sport_event.competitors)
                 {
-                    if (competitor.Id == oldHomeId)
+                    if (competitor.id == oldHomeId)
                     {
-                        competitor.Id = newHomeTeam.id;
-                        competitor.Name = newHomeTeam.name;
-                        competitor.Country = newHomeTeam.country;
-                        competitor.CountryCode = newHomeTeam.country_code;
-                        competitor.Abbreviation = newHomeTeam.abbreviation;
+                        competitor.id = newHomeTeam.id;
+                        competitor.name = newHomeTeam.name;
+                        competitor.country = newHomeTeam.country;
+                        competitor.country_code = newHomeTeam.country_code;
+                        competitor.abbreviation = newHomeTeam.abbreviation;
                         competitor.qualifier = newHomeTeam.qualifier;
                     }
                     else
                     {
-                        competitor.Id = newAwayTeam.id;
-                        competitor.Name = newAwayTeam.name;
-                        competitor.Country = newAwayTeam.country;
-                        competitor.CountryCode = newAwayTeam.country_code;
-                        competitor.Abbreviation = newAwayTeam.abbreviation;
+                        competitor.id = newAwayTeam.id;
+                        competitor.name = newAwayTeam.name;
+                        competitor.country = newAwayTeam.country;
+                        competitor.country_code = newAwayTeam.country_code;
+                        competitor.abbreviation = newAwayTeam.abbreviation;
                         competitor.qualifier = newAwayTeam.qualifier;
                     }
                 }
             }
 
+            foreach (var competitor in competitors)
+            {
+                competitor.qualifier = null;
+            }
             h2hDto.teams = competitors;
 
             return h2hDto;

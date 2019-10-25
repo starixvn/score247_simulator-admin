@@ -3,8 +3,8 @@
 @model Score247.Management.Site.Models.Events.Result
 
 @{
-    var homeTeam = @Model.sport_event.Competitors.FirstOrDefault(x => x.qualifier == "home");
-    var awayTeam = @Model.sport_event.Competitors.FirstOrDefault(x => x.qualifier == "away");
+    var homeTeam = @Model.sport_event.competitors.FirstOrDefault(x => x.qualifier == "home");
+    var awayTeam = @Model.sport_event.competitors.FirstOrDefault(x => x.qualifier == "away");
 }
 @{
     IEnumerable<SelectListItem> statusList = MatchStatus.GetAll<MatchStatus>
@@ -16,14 +16,14 @@
 }
 <div class="row">
     <div class="col-md-12">
-        <form id="UpdateLiveMatchForm" onsubmit="return UpdateLiveMatch('@Model.sport_event.Id',event)" class="flex-column">
+        <form id="UpdateLiveMatchForm" onsubmit="return UpdateLiveMatch('@Model.sport_event.id',event)" class="flex-column">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="row">
                 <div class="col-md-4">
-                    <p>Home Team: @homeTeam.Name (@homeTeam.Id)</p>
-                    <p>Away Team: @awayTeam.Name (@awayTeam.Id)</p>
-                    <p>Tournament: @Model.sport_event.Tournament.Name (@Model.sport_event.Tournament.Id)</p>
-                    <p>Event Date: @Model.sport_event.Scheduled (UTC)</p>
+                    <p>Home Team: @homeTeam.name (@homeTeam.id)</p>
+                    <p>Away Team: @awayTeam.name (@awayTeam.id)</p>
+                    <p>Tournament: @Model.sport_event.tournament.name (@Model.sport_event.tournament.id)</p>
+                    <p>Event Date: @Model.sport_event.scheduled (UTC)</p>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">

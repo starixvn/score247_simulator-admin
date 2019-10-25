@@ -101,7 +101,7 @@ namespace Score247.Management.Site.Services
                     schema = "Matches",
                     results = new List<Result>()
                 };
-                var newLiveMatches = content.results.Where(x => x.sport_event.Id != match.Id).ToList();
+                var newLiveMatches = content.results.Where(x => x.sport_event.id != match.Id).ToList();
                 var liveMatch = BuildLiveMatchFromMatch(match, preEvent);
 
                 newLiveMatches.Add(liveMatch);
@@ -116,16 +116,7 @@ namespace Score247.Management.Site.Services
         {
             var result = new Result()
             {
-                sport_event = new MatchEntity()
-                {
-                    Competitors = match.Teams,
-                    Id = match.Id,
-                    Scheduled = match.EventDate,
-                    TournamentRound = match.LeagueRound,
-                    Season = match.League.LeagueSeason,
-                    Tournament = match.League,
-                    Venue = match.Venue
-                },
+                sport_event = SportEventMapper.MapSportEvent(match),
                 sport_event_status = eventDto.payload.sport_event_status
             };
 

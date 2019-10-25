@@ -254,7 +254,7 @@ namespace Score247.Management.Site.Services.Matches
                 schema = "Matches",
                 results = new List<Result>()
             };
-            var newLiveMatches = content.results.Where(x => x.sport_event.Id != match.Id).ToList();
+            var newLiveMatches = content.results.Where(x => x.sport_event.id != match.Id).ToList();
             var liveMatch = BuildLiveMatchFromMatch(match, latestTimelineLog);
 
             newLiveMatches.Add(liveMatch);
@@ -270,16 +270,7 @@ namespace Score247.Management.Site.Services.Matches
         {
             var result = new Result()
             {
-                sport_event = new MatchEntity()
-                {
-                    Competitors = match.Teams,
-                    Id = match.Id,
-                    Scheduled = match.EventDate,
-                    TournamentRound = match.LeagueRound,
-                    Season = match.League.LeagueSeason,
-                    Tournament = match.League,
-                    Venue = match.Venue
-                },
+                sport_event = SportEventMapper.MapSportEvent(match),
                 sport_event_status = latestTimeline?.payload.sport_event_status
             };
 
@@ -292,7 +283,7 @@ namespace Score247.Management.Site.Services.Matches
             foreach (var matchByDate in matchByDateUtcGroup)
             {
                 var createDate = matchByDate.Key;
-                var matches = matchByDate.ToList();
+                var matches = matchByDate.Select(SportEventMapper.MapSportEvent).ToList();
                 var content = new DailyScheduleDto
                 {
                     generated_at = createDate,
@@ -314,7 +305,7 @@ namespace Score247.Management.Site.Services.Matches
                         var matchWithResult = new Result()
                         {
                             sport_event = match,
-                            sport_event_status = RandomMatchEventStatus(match.Competitors.ElementAtOrDefault(0).Id, match.Competitors.ElementAtOrDefault(1).Id)
+                            sport_event_status = RandomMatchEventStatus(match.competitors.ElementAtOrDefault(0).id, match.competitors.ElementAtOrDefault(1).id)
                         };
 
                         dailyResults.Add(matchWithResult);
@@ -359,15 +350,15 @@ namespace Score247.Management.Site.Services.Matches
             return 1;
         }
 
-        private async Task UpdateMatchInitInfo(IEnumerable<MatchEntity> matches)
+        private async Task UpdateMatchInitInfo(IEnumerable<Sport_Event> matches)
         {
             foreach (var match in matches)
             {
                 var matchTimelineDto = new MatchTimelineDto
                 {
-                    generated_at = match.Scheduled,
+                    generated_at = match.scheduled,
                     schema = "http://schemas.sportradar.com/bsa/soccer/v1/json/endpoints/soccer/match_timeline.json",
-                    sport_event = SportEventMapper.MapSportEvent(match),
+                    sport_event = match,
                     sport_event_status = null,
                     timeline = null,
                     coverage_info = new CoverageInfoDto()
@@ -383,7 +374,7 @@ namespace Score247.Management.Site.Services.Matches
 
             var matchWithResult = new Result()
             {
-                sport_event = newMatch,
+                sport_event = SportEventMapper.MapSportEvent(newMatch),
                 sport_event_status = GenerateDefaultEventStatusFromMatchEntity(newMatch)
             };
 
@@ -418,7 +409,7 @@ namespace Score247.Management.Site.Services.Matches
                 {
                     generated_at = DateTime.UtcNow,
                     schema = "Matches",
-                    sport_events = matchEntities
+                    sport_events = matchEntities.Select(SportEventMapper.MapSportEvent)
                 };
                 var jsonValue = JsonConvert.SerializeObject(content);
 
@@ -602,7 +593,7 @@ namespace Score247.Management.Site.Services.Matches
             var subActiveLeague = activeLeagues.GetRange(0, Math.Min(leagueLimit, activeLeagues.Count));
 
             var dailyResults = new List<Result>();
-            var matches = new List<MatchEntity>();
+            var matches = new List<Sport_Event>();
 
             var preMatches = GenerateLivePreMatches(preCount, subActiveLeague, teams);
             dailyResults.AddRange(preMatches);
@@ -618,20 +609,18 @@ namespace Score247.Management.Site.Services.Matches
 
             matches = matches.Select(result =>
             {
-                result.Status = MatchStatus.NotStarted.DisplayName;
-                result.MatchStatus = null;
+                result.status = MatchStatus.NotStarted.DisplayName;
                 return result;
             }).ToList();
 
             await SendDailySchedule(matches, createDate);
             await UpdateMatchInitInfo(matches);
             await triggerJobService.TriggerCreateMatchJobs();
-            await CheckIfMatchInserted(matches.LastOrDefault()?.Id);
+            await CheckIfMatchInserted(matches.LastOrDefault()?.id);
 
             dailyResults = dailyResults.Select(result =>
             {
-                result.sport_event.Status = result.sport_event_status.status;
-                result.sport_event.MatchStatus = result.sport_event_status.match_status;
+                result.sport_event.status = result.sport_event_status.status;
 
                 return result;
             }).ToList();
@@ -660,16 +649,16 @@ namespace Score247.Management.Site.Services.Matches
 
             foreach (var postMatch in postMatches)
             {
-                await scenarioService.RandomScenario(postMatch.sport_event.Id, 0);
+                await scenarioService.RandomScenario(postMatch.sport_event.id, 0);
 
-                await UpdateLiveMatch(postMatch.sport_event.Id);
+                await UpdateLiveMatch(postMatch.sport_event.id);
             }
 
             foreach (var liveMatch in liveMatches)
             {
-                await scenarioService.RandomScenario(liveMatch.sport_event.Id, 0, true);
+                await scenarioService.RandomScenario(liveMatch.sport_event.id, 0, true);
 
-                await UpdateLiveMatch(liveMatch.sport_event.Id);
+                await UpdateLiveMatch(liveMatch.sport_event.id);
             }
         }
 
@@ -699,7 +688,7 @@ namespace Score247.Management.Site.Services.Matches
 
                 result.Add(new Result()
                 {
-                    sport_event = matchEntity,
+                    sport_event = SportEventMapper.MapSportEvent(matchEntity),
                     sport_event_status = new Sport_Event_Status()
                     {
                         status = "not_started"
@@ -736,7 +725,7 @@ namespace Score247.Management.Site.Services.Matches
 
                 var result = new Result()
                 {
-                    sport_event = matchEntity,
+                    sport_event = SportEventMapper.MapSportEvent(matchEntity),
                     sport_event_status = RandomLiveMatchEventStatus()
                 };
                 results.Add(result);
@@ -770,7 +759,7 @@ namespace Score247.Management.Site.Services.Matches
                 { MatchStatus = MatchStatus.Ended.DisplayName, Status = MatchStatus.Closed.DisplayName };
                 result.Add(new Result()
                 {
-                    sport_event = matchEntity,
+                    sport_event = SportEventMapper.MapSportEvent(matchEntity),
                     sport_event_status = new Sport_Event_Status()
                     {
                         status = "not_started"
@@ -799,7 +788,7 @@ namespace Score247.Management.Site.Services.Matches
             }
         }
 
-        private async Task SendDailySchedule(IEnumerable<MatchEntity> matches, DateTime eventDate)
+        private async Task SendDailySchedule(IEnumerable<Sport_Event> matches, DateTime eventDate)
         {
             var content = new DailyScheduleDto
             {

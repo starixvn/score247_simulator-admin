@@ -113,7 +113,7 @@ namespace Score247.Management.Site.Services
             var content = await matchFileService.ReadLiveMatchFromFile();
             if (content != null)
             {
-                var newLiveMatches = content.results.Where(x => x.sport_event.Id != matchId);
+                var newLiveMatches = content.results.Where(x => x.sport_event.id != matchId);
                 content.results = newLiveMatches;
                 content.generated_at = DateTime.UtcNow;
             }
@@ -174,7 +174,7 @@ namespace Score247.Management.Site.Services
         {
             var dailyResult = await matchFileService.ReadLiveMatchFromFile();
 
-            return dailyResult?.results?.FirstOrDefault(result => result.sport_event.Id == matchId);
+            return dailyResult?.results?.FirstOrDefault(result => result.sport_event.id == matchId);
         }
 
         public async Task SendCustomLiveMatch(string matchId, Sport_Event_Status sportEventStatus)
@@ -187,7 +187,7 @@ namespace Score247.Management.Site.Services
             sportEventStatus.period_scores = result.sport_event_status.period_scores;
 
             result.sport_event_status = sportEventStatus;
-            result.sport_event.Status = sportEventStatus.status;
+            result.sport_event.status = sportEventStatus.status;
 
             var content = await matchFileService.ReadLiveMatchFromFile() ?? new DailyResultDto
             {
@@ -195,7 +195,7 @@ namespace Score247.Management.Site.Services
                 schema = "Matches",
                 results = new List<Result>()
             };
-            var newLiveMatches = content.results.Where(x => x.sport_event.Id != matchId).ToList();
+            var newLiveMatches = content.results.Where(x => x.sport_event.id != matchId).ToList();
 
             newLiveMatches.Add(result);
             content.results = newLiveMatches;
