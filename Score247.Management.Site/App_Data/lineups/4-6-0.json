@@ -1,157 +1,157 @@
-{ 
-   "team":"away",
-   "formation":"4-2-2-2",
-   "manager":{ 
-      "id":"sr:player:1010",
-      "name":"Wilson, Lionel",
-      "nationality":"England",
-      "country_code":"ENG"
-   },
-   "jersey":{ 
-      "type":"home",
-      "base":"ca0000",
-      "sleeve":"ca0000",
-      "number":"ffffff",
-      "squares":false,
-      "stripes":true,
-      "stripes_color":"0062c4",
-      "horizontal_stripes":false,
-      "split":false,
-      "shirt_type":"short_sleeves",
-      "sleeve_detail":"ffffff"
-   },
-   "starting_lineup":[ 
-      { 
-         "id":"sr:player:1001",
-         "name":"Hennessey, Wayne",
-         "type":"goalkeeper",
-         "jersey_number":22,
-         "position":"Goalkeeper",
-         "order":1
-      },
-      { 
-         "id":"sr:player:1002",
-         "name":"Ward, Joel",
-         "type":"defender",
-         "jersey_number":2,
-         "position":"Right back",
-         "order":6
-      },
-      { 
-         "id":"sr:player:1003",
-         "name":"Cahill, Gary",
-         "type":"defender",
-         "jersey_number":14,
-         "position":"Central defender",
-         "order":2
-      },
-      { 
-         "id":"sr:player:1004",
-         "name":"Tomkins, James",
-         "type":"defender",
-         "jersey_number":33,
-         "position":"Central defender",
-         "order":9
-      },
-      { 
-         "id":"sr:player:1005",
-         "name":"Van Aanholt, Patrick",
-         "type":"midfielder",
-         "jersey_number":16,
-         "position":"Central defender",
-         "order":3
-      },
-      { 
-         "id":"sr:player:1006",
-         "name":"Zaha, Wilfried",
-         "type":"defender",
-         "jersey_number":6,
-         "position":"Left back",
-         "order":8
-      },
-      { 
-         "id":"sr:player:1007",
-         "name":"Milivojevic, Luka",
-         "type":"midfielder",
-         "jersey_number":7,
-         "position":"Central defender",
-         "order":11
-      },
-      { 
-         "id":"sr:player:1008",
-         "name":"McArthur, James",
-         "type":"forward",
-         "jersey_number":19,
-         "position":"Central midfielder",
-         "order":10
-      },
-      { 
-         "id":"sr:player:1009",
-         "name":"Kouyate, Cheikhou",
-         "type":"forward",
-         "jersey_number":11,
-         "position":"Central midfielder",
-         "order":5
-      },
-      { 
-         "id":"sr:player:1010",
-         "name":"Schlupp, Jeffrey",
-         "type":"forward",
-         "jersey_number":15,
-         "position":"Striker",
-         "order":7
-      },
-      { 
-         "id":"sr:player:103045",
-         "name":"Ayew, Jordan",
-         "type":"forward",
-         "jersey_number":8,
-         "position":"Striker",
-         "order":4
-      }
-   ],
-   "substitutes":[ 
-      { 
-         "id":"sr:player:26986",
-         "name":"Henderson, Stephen",
-         "type":"goalkeeper",
-         "jersey_number":22
-      },
-      { 
-         "id":"sr:player:20278",
-         "name":"Dann, Scott",
-         "type":"defender",
-         "jersey_number":6
-      },
-      { 
-         "id":"sr:player:285989",
-         "name":"Lambert, Jairo",
-         "type":"defender",
-         "jersey_number":18
-      },
-      { 
-         "id":"sr:player:39283",
-         "name":"McCarthy, James",
-         "type":"midfielder",
-         "jersey_number":11
-      },
-      { 
-         "id":"sr:player:187431",
-         "name":"Meyer, Max",
-         "type":"midfielder",
-         "jersey_number":7
-      },
-      { 
-         "id":"sr:player:47992",
-         "name":"Townsend, Andros",
-         "type":"midfielder",
-         "jersey_number":10
-      },
-      { 
-         "id":"sr:player:40040",
-         "name":"Messi, Christian",
-         "type":"forward",
-         "jersey_number":17
-      }
-   ]
+{
+  "team": "away",
+  "formation": "4-6-0",
+  "manager": {
+    "id": "sr:player:1010",
+    "name": "Wilson, Lionel",
+    "nationality": "England",
+    "country_code": "ENG"
+  },
+  "jersey": {
+    "type": "home",
+    "base": "ca0000",
+    "sleeve": "ca0000",
+    "number": "ffffff",
+    "squares": false,
+    "stripes": true,
+    "stripes_color": "0062c4",
+    "horizontal_stripes": false,
+    "split": false,
+    "shirt_type": "short_sleeves",
+    "sleeve_detail": "ffffff"
+  },
+  "starting_lineup": [
+    {
+      "id": "sr:player:1001",
+      "name": "Hennessey, Wayne",
+      "type": "goalkeeper",
+      "jersey_number": 22,
+      "position": "Goalkeeper",
+      "order": 1
+    },
+    {
+      "id": "sr:player:1002",
+      "name": "Ward, Joel",
+      "type": "defender",
+      "jersey_number": 2,
+      "position": "Right back",
+      "order": 6
+    },
+    {
+      "id": "sr:player:1003",
+      "name": "Cahill, Gary",
+      "type": "defender",
+      "jersey_number": 14,
+      "position": "Central defender",
+      "order": 2
+    },
+    {
+      "id": "sr:player:1004",
+      "name": "Tomkins, James",
+      "type": "defender",
+      "jersey_number": 33,
+      "position": "Central defender",
+      "order": 9
+    },
+    {
+      "id": "sr:player:1005",
+      "name": "Van Aanholt, Patrick",
+      "type": "midfielder",
+      "jersey_number": 16,
+      "position": "Central defender",
+      "order": 3
+    },
+    {
+      "id": "sr:player:1006",
+      "name": "Zaha, Wilfried",
+      "type": "defender",
+      "jersey_number": 6,
+      "position": "Left back",
+      "order": 8
+    },
+    {
+      "id": "sr:player:1007",
+      "name": "Milivojevic, Luka",
+      "type": "midfielder",
+      "jersey_number": 7,
+      "position": "Central defender",
+      "order": 11
+    },
+    {
+      "id": "sr:player:1008",
+      "name": "McArthur, James",
+      "type": "forward",
+      "jersey_number": 19,
+      "position": "Central midfielder",
+      "order": 10
+    },
+    {
+      "id": "sr:player:1009",
+      "name": "Kouyate, Cheikhou",
+      "type": "forward",
+      "jersey_number": 11,
+      "position": "Central midfielder",
+      "order": 5
+    },
+    {
+      "id": "sr:player:1010",
+      "name": "Schlupp, Jeffrey",
+      "type": "forward",
+      "jersey_number": 15,
+      "position": "Striker",
+      "order": 7
+    },
+    {
+      "id": "sr:player:103045",
+      "name": "Ayew, Jordan",
+      "type": "forward",
+      "jersey_number": 8,
+      "position": "Striker",
+      "order": 4
+    }
+  ],
+  "substitutes": [
+    {
+      "id": "sr:player:26986",
+      "name": "Henderson, Stephen",
+      "type": "goalkeeper",
+      "jersey_number": 22
+    },
+    {
+      "id": "sr:player:20278",
+      "name": "Dann, Scott",
+      "type": "defender",
+      "jersey_number": 6
+    },
+    {
+      "id": "sr:player:285989",
+      "name": "Lambert, Jairo",
+      "type": "defender",
+      "jersey_number": 18
+    },
+    {
+      "id": "sr:player:39283",
+      "name": "McCarthy, James",
+      "type": "midfielder",
+      "jersey_number": 11
+    },
+    {
+      "id": "sr:player:187431",
+      "name": "Meyer, Max",
+      "type": "midfielder",
+      "jersey_number": 7
+    },
+    {
+      "id": "sr:player:47992",
+      "name": "Townsend, Andros",
+      "type": "midfielder",
+      "jersey_number": 10
+    },
+    {
+      "id": "sr:player:40040",
+      "name": "Messi, Christian",
+      "type": "forward",
+      "jersey_number": 17
+    }
+  ]
 }
