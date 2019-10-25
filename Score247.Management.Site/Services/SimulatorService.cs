@@ -27,6 +27,12 @@
 
         Task<HttpResponseMessage> SendDailySchedule(DailyScheduleDto dailyResultDto);
 
+        Task<DailyResultDto> GetDailyResult(DateTime scheduleDate);
+
+        Task<DailyScheduleDto> GetDailySchedule(DateTime scheduleDate);
+
+        Task<DailyResultDto> GetLiveResult();
+
         Task SendMatchEvent(MatchPushEventDto matchPushEvent, int delay = 2000);
 
         Task SyncLiveMatches();
@@ -254,6 +260,21 @@
 
                 await client.PostAsJsonAsync(requestPath, h2HDto);
             }
+        }
+
+        public Task<DailyResultDto> GetDailyResult(DateTime scheduleDate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<DailyScheduleDto> GetDailySchedule(DateTime scheduleDate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<DailyResultDto> GetLiveResult()
+        {
+            throw new NotImplementedException();
         }
     }
 }

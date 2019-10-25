@@ -42,7 +42,6 @@
                         competitor.country = newHomeTeam.country;
                         competitor.country_code = newHomeTeam.country_code;
                         competitor.abbreviation = newHomeTeam.abbreviation;
-                        competitor.qualifier = newHomeTeam.qualifier;
                     }
                     else
                     {
@@ -51,7 +50,6 @@
                         competitor.country = newAwayTeam.country;
                         competitor.country_code = newAwayTeam.country_code;
                         competitor.abbreviation = newAwayTeam.abbreviation;
-                        competitor.qualifier = newAwayTeam.qualifier;
                     }
                 }
 
@@ -85,7 +83,6 @@
                         competitor.country = newHomeTeam.country;
                         competitor.country_code = newHomeTeam.country_code;
                         competitor.abbreviation = newHomeTeam.abbreviation;
-                        competitor.qualifier = newHomeTeam.qualifier;
                     }
                     else
                     {
@@ -94,7 +91,6 @@
                         competitor.country = newAwayTeam.country;
                         competitor.country_code = newAwayTeam.country_code;
                         competitor.abbreviation = newAwayTeam.abbreviation;
-                        competitor.qualifier = newAwayTeam.qualifier;
                     }
                 }
             }
