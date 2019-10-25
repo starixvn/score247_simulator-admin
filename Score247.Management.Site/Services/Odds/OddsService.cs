@@ -101,8 +101,6 @@ namespace Score247.Management.Site.Services.Odds
 
                 return result;
             }
-
-            return new MatchOddsMovement();
         }
 
         public async Task<bool> Send1X2OddsEvent(OddsChangeRequestModel request, TimeSpan offset)

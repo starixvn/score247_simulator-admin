@@ -30,14 +30,14 @@ namespace Score247.Management.Site.Services.Matches
     public class MatchEventsService : IMatchEventsService
     {
         private readonly ISimulatorService simulatorService;
-        private readonly IMatchService matchService;
         private readonly ITimelineService timelineService;
+        private readonly ICreateMatchesService createMatchesService;
 
-        public MatchEventsService(IMatchService matchService, ISimulatorService simulatorService, ITimelineService timelineService)
+        public MatchEventsService(ISimulatorService simulatorService, ITimelineService timelineService, ICreateMatchesService createMatchesService)
         {
-            this.matchService = matchService;
             this.simulatorService = simulatorService;
             this.timelineService = timelineService;
+            this.createMatchesService = createMatchesService;
         }
 
         public async Task CreateCardFaultEventPartial(string id, IFormCollection collection, TimeSpan offset)
@@ -57,7 +57,7 @@ namespace Score247.Management.Site.Services.Matches
 
             await simulatorService.SendMatchEvent(requestBody);
             await timelineService.SendMatchTimeline(id);
-            await matchService.UpdateLiveMatch(id);
+            await createMatchesService.UpdateLiveMatch(id);
         }
 
         public async Task CreateInjuryExtraTimeEventPartial(string id, IFormCollection collection, TimeSpan offset)
@@ -95,7 +95,7 @@ namespace Score247.Management.Site.Services.Matches
             await simulatorService.SendMatchEvent(requestBody);
 
             await timelineService.SendMatchTimeline(id);
-            await matchService.UpdateLiveMatch(id);
+            await createMatchesService.UpdateLiveMatch(id);
         }
 
         public async Task<MatchPushEventDto> InitEvent(string id, IFormCollection collection, TimeSpan offset)
@@ -276,7 +276,7 @@ namespace Score247.Management.Site.Services.Matches
             await simulatorService.SendMatchEvent(requestBody);
             await timelineService.SendMatchTimeline(id);
 
-            await matchService.UpdateLiveMatch(id);
+            await createMatchesService.UpdateLiveMatch(id);
         }
 
         public async Task CreateTimeEventPartial(string id, IFormCollection collection, TimeSpan offset)
@@ -617,7 +617,7 @@ namespace Score247.Management.Site.Services.Matches
             await simulatorService.SendMatchEvent(requestBody);
             await timelineService.SendMatchTimeline(id);
 
-            await matchService.UpdateLiveMatch(match.Id);
+            await createMatchesService.UpdateLiveMatch(match.Id);
         }
 
         private static async Task<MatchPushEventDto> UpdateScoreChange(MatchPushEventDto requestBody, string periodType, string matchId)

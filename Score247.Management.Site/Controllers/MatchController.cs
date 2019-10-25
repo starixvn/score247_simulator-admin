@@ -474,5 +474,23 @@ namespace Score247.Management.Site.Controllers
 
             return RedirectToAction(nameof(Details), new { matchId });
         }
+
+        // H2H
+
+        [HttpPost("/Team/H2H/Generate")]
+        public async Task<ActionResult> GenerateH2H([FromQuery]  string matchId)
+        {
+            var h2HDto = await matchService.GenerateH2H(matchId);
+
+            return Json(h2HDto);
+        }
+
+        [HttpPost("/Team/H2H/Apply/{matchId}")]
+        public async Task<ActionResult> ApplyH2H(string matchId, [FromBody] H2HDto h2HDto)
+        {
+            await matchService.ApplyH2H(h2HDto);
+
+            return RedirectToAction(nameof(Details), new { matchId });
+        }
     }
 }

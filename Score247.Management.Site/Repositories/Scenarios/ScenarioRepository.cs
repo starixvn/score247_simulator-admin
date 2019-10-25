@@ -40,20 +40,13 @@
 
         public async Task<IEnumerable<Scenario>> GetScenarios()
         {
-            try
+            var scenarios = await repository.FetchAsync<Scenario>(new GetAllScenariosCriteria());
+            foreach (var scenario in scenarios)
             {
-                var scenarios = await repository.FetchAsync<Scenario>(new GetAllScenariosCriteria());
-                foreach (var scenario in scenarios)
-                {
-                    scenario.ScenarioEvents = await repository.FetchAsync<ScenarioEvent>(new GetScenarioEventsCriteria() { ScenarioId = scenario.Id });
-                }
+                scenario.ScenarioEvents = await repository.FetchAsync<ScenarioEvent>(new GetScenarioEventsCriteria() { ScenarioId = scenario.Id });
+            }
 
-                return scenarios;
-            }
-            catch (System.Exception ex)
-            {
-                throw;
-            }
+            return scenarios;
         }
     }
 }

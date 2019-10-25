@@ -98,11 +98,6 @@ namespace Score247.Management.Site.Repositories.Matches
             return await repository.ExecuteAsync(criteria);
         }
 
-        public async Task<int> UpdateMatchValue(string matchId, string matchValue)
-        {
-            return 1;
-        }
-
         public async Task<int> WaitForMatchInserted(MatchEntity match)
         {
             if (match == null)

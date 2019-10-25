@@ -51,12 +51,13 @@ namespace Score247.Management.Site.Controllers
         {
             try
             {
-                // TODO: Add insert logic here
-                var criteria = new CreateLeagueCriteria();
-                criteria.CategoryId = collection["League.LeagueCategory.Id"];
-                criteria.LeagueId = UniqueGenerator.GetIdWithPattern("sr:tournament:");
-                criteria.LeagueName = collection["League.Name"];
-                criteria.LeagueOrder = Int32.Parse(collection["League.Order"]);
+                var criteria = new CreateLeagueCriteria
+                {
+                    CategoryId = collection["League.LeagueCategory.Id"],
+                    LeagueId = UniqueGenerator.GetIdWithPattern("sr:tournament:"),
+                    LeagueName = collection["League.Name"],
+                    LeagueOrder = Int32.Parse(collection["League.Order"])
+                };
 
                 var repository = new LeagueRepository();
                 await repository.CreateLeague(criteria);
@@ -76,23 +77,9 @@ namespace Score247.Management.Site.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return RedirectToAction(nameof(Index));
-            }
-        }
-
-        public ActionResult SyncLeagues(IFormCollection collection)
-        {
-            try
-            {
-                leagueService.SyncSportradarLeague();
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch (Exception ex)
-            {
-                throw;
             }
         }
     }

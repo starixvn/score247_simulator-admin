@@ -21,7 +21,7 @@ namespace Score247.Management.Site.Services
     {
         Task CreateScenario(string matchId, IFormCollection collection);
 
-        Task ApplyScenario(string matchId, IFormCollection collection, int delay = 2000);
+        Task ApplyScenario(string matchId, IFormCollection collection, int delay = 500);
 
         Task<Scenario> RandomScenario(string matchId, int delay = 2000, bool limitedEvent = false);
 
@@ -33,13 +33,15 @@ namespace Score247.Management.Site.Services
         private readonly ISimulatorService simulatorService;
         private readonly ITimelineService timelineService;
         private readonly ITriggerJobService triggerJobService;
+        private readonly IMatchFileService matchFileService;
         private readonly ILogger logger;
 
-        public ScenarioService(ISimulatorService simulatorService, ITimelineService timelineService, ITriggerJobService triggerJobService, ILogger logger)
+        public ScenarioService(ISimulatorService simulatorService, ITimelineService timelineService, ITriggerJobService triggerJobService, IMatchFileService matchFileService, ILogger logger)
         {
             this.simulatorService = simulatorService;
             this.timelineService = timelineService;
             this.triggerJobService = triggerJobService;
+            this.matchFileService = matchFileService;
             this.logger = logger;
         }
 
@@ -93,7 +95,7 @@ namespace Score247.Management.Site.Services
 
                 await simulatorService.SendMatchEvent(preEvent, delay);
 
-                var content = await MatchService.ReadLiveMatchFromFile() ?? new DailyResultDto
+                var content = await matchFileService.ReadLiveMatchFromFile() ?? new DailyResultDto
                 {
                     generated_at = DateTime.UtcNow,
                     schema = "Matches",
@@ -105,7 +107,7 @@ namespace Score247.Management.Site.Services
                 newLiveMatches.Add(liveMatch);
                 content.results = newLiveMatches;
                 await timelineService.SendMatchTimeline(match.Id);
-                MatchService.SaveLiveMatchToFile(content);
+                matchFileService.SaveLiveMatchToFile(content);
                 simulatorService.SendLiveResult(content);
             }
         }

@@ -1,8 +1,6 @@
-﻿using Fanex.Logging;
-using Score247Management.Core.Scenarios.Models;
-
-namespace Score247.Management.Site.Services
+﻿namespace Score247.Management.Site.Services
 {
+    using Fanex.Logging;
     using System;
     using System.IO;
     using System.Net.Http;
@@ -10,7 +8,7 @@ namespace Score247.Management.Site.Services
     using System.Threading.Tasks;
     using Microsoft.Extensions.Configuration;
     using Newtonsoft.Json;
-    using Models.Events;
+    using Score247.Management.Site.Models.Events;
     using Score247.Management.Site.Repositories.Matches;
     using Score247Management.Core.Odds.Dtos;
     using Score247.Management.Site.Models;
@@ -36,6 +34,8 @@ namespace Score247.Management.Site.Services
         Task SendMatchTimelines(MatchTimelineDto matchTimeline);
 
         Task SendLineups(LineUpsDto lineUpsDto);
+
+        Task SendH2H(H2HDto h2HDto);
     }
 
     public class SimulatorService : ISimulatorService
@@ -180,7 +180,7 @@ namespace Score247.Management.Site.Services
             try
             {
                 var resultFolder = $"{DirectoryRoot}";
-                System.IO.Directory.CreateDirectory(resultFolder);
+                Directory.CreateDirectory(resultFolder);
 
                 var path = $"{resultFolder}/live.json";
                 var jsonData = await File.ReadAllTextAsync(path);
@@ -197,13 +197,13 @@ namespace Score247.Management.Site.Services
         private async Task WriteLiveMatchToFile(DailyResultDto resultDto)
         {
             var resultFolder = $"{DirectoryRoot}";
-            System.IO.Directory.CreateDirectory(resultFolder);
+            Directory.CreateDirectory(resultFolder);
             var path = $"{resultFolder}/live.json";
             var json = JsonConvert.SerializeObject(resultDto);
 
-            System.IO.Directory.CreateDirectory(resultFolder);
-            System.IO.File.Delete(path);
-            System.IO.File.WriteAllText(path, json);
+            Directory.CreateDirectory(resultFolder);
+            File.Delete(path);
+            await File.WriteAllTextAsync(path, json);
         }
 
         public async Task SyncLiveMatches()
@@ -242,6 +242,17 @@ namespace Score247.Management.Site.Services
                 var requestPath = configuration.GetValue<string>("Simulator:Lineups");
 
                 await client.PostAsJsonAsync(requestPath, lineUpsDto);
+            }
+        }
+
+        public async Task SendH2H(H2HDto h2HDto)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(configuration.GetValue<string>("Simulator:Url"));
+                var requestPath = configuration.GetValue<string>("Simulator:H2H");
+
+                await client.PostAsJsonAsync(requestPath, h2HDto);
             }
         }
     }

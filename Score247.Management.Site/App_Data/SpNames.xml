@@ -13,6 +13,7 @@
     <Setting Key="Team_GetTeam" SpName="Team_GetTeam" DbName="DefaultConnection">
     </Setting>
     <Setting Key="Team_InsertTeam" SpName="Team_InsertTeam" DbName="DefaultConnection" />
+    <Setting Key="Team_GetById" SpName="Team_GetById" DbName="DefaultConnection" />
   </Function>
   <Function Name="TimelineLog">
     <Setting Key="TimelineLog_InsertLog" SpName="TimelineLog_InsertLog" DbName="DefaultConnection"></Setting>

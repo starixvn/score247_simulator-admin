@@ -70,27 +70,21 @@ namespace Score247.Management.Site.Services
 
         private async Task InseartLeague(League league, string region)
         {
-            try
+            var repo = new LeagueRepository();
+            var criteria = new CreateLeagueCriteria()
             {
-                var repo = new LeagueRepository();
-                var criteria = new CreateLeagueCriteria()
-                {
-                    LeagueId = league.Id,
-                    CategoryId = league.LeagueCategory?.Id,
-                    Country = league.LeagueCategory?.Name,
-                    CountryCode = league.LeagueCategory?.CountryCode,
-                    IsActive = false,
-                    LeagueName = league.Name,
-                    LeagueOrder = 1000,
-                    Language = "en-US",
-                    Region = region
-                };
+                LeagueId = league.Id,
+                CategoryId = league.LeagueCategory?.Id,
+                Country = league.LeagueCategory?.Name,
+                CountryCode = league.LeagueCategory?.CountryCode,
+                IsActive = false,
+                LeagueName = league.Name,
+                LeagueOrder = 1000,
+                Language = "en-US",
+                Region = region
+            };
 
-                await repo.CreateLeague(criteria);
-            }
-            catch (Exception ex)
-            {
-            }
+            await repo.CreateLeague(criteria);
         }
     }
 }

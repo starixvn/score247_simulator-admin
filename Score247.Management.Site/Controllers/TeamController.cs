@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Score247.Management.Site.Criterias.Team;
 using Score247.Management.Site.Helpers;
+using Score247.Management.Site.Models;
 using Score247.Management.Site.Repositories.Teams;
 
 namespace Score247.Management.Site.Controllers
@@ -15,12 +16,6 @@ namespace Score247.Management.Site.Controllers
             var repository = new TeamRepository();
             var teams = await repository.GetTeams();
             return View(teams);
-        }
-
-        // GET: Team/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
         }
 
         // GET: Team/Create
@@ -36,61 +31,16 @@ namespace Score247.Management.Site.Controllers
         {
             try
             {
-                // TODO: Add insert logic here
                 var repository = new TeamRepository();
-                var criteria = new CreateTeamCriteria();
-                criteria.Id = UniqueGenerator.GetIdWithPattern("sr:team:");
-                criteria.TeamName = collection["Name"];
-                criteria.Abbreviation = collection["Abbreviation"];
-                criteria.Country = collection["Country"];
-                criteria.CountryCode = collection["CountryCode"];
+                var criteria = new CreateTeamCriteria
+                {
+                    Id = UniqueGenerator.GetIdWithPattern("sr:team:"),
+                    TeamName = collection["Name"],
+                    Abbreviation = collection["Abbreviation"],
+                    Country = collection["Country"],
+                    CountryCode = collection["CountryCode"]
+                };
                 await repository.CreateTeam(criteria);
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Team/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Team/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Team/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Team/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
                 return RedirectToAction(nameof(Index));
             }
             catch

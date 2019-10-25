@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using Newtonsoft.Json;
 
     public class DailyResultDto
     {
@@ -20,6 +21,8 @@
     public class Result
     {
         public MatchEntity sport_event { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Sport_Event_Status sport_event_status { get; set; }
     }
 
@@ -65,9 +68,17 @@
         public string id { get; set; }
         public string name { get; set; }
         public int capacity { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string city_name { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string country_name { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string map_coordinates { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string country_code { get; set; }
     }
 
@@ -76,8 +87,12 @@
         public string id { get; set; }
         public string name { get; set; }
         public string country { get; set; }
+
         public string country_code { get; set; }
+
         public string abbreviation { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string qualifier { get; set; }
     }
 }

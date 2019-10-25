@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 using Score247.Management.Site.Helpers;
 using Score247Management.Core.Leagues.Models;
 using Score247Management.Core.Matches.Models;
@@ -12,21 +13,31 @@ namespace Score247.Management.Site.Models
     public class MatchEntity
     {
         public string Id { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string Status { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string MatchStatus { get; set; }
 
         [DataType(DataType.Date)]
         public DateTime Scheduled { get; set; }
 
         [DataType(DataType.Time)]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public TimeSpan ScheduledTime { get; set; }
 
         public LeagueRound TournamentRound { get; set; }
+
         public LeagueSeason Season { get; set; }
         public Score247Management.Core.Leagues.Models.League Tournament { get; set; }
         public IEnumerable<Team> Competitors { get; set; }
         public Venue Venue { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string Referee { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Coverage Coverage { get; set; }
 
         public MatchEntity()
