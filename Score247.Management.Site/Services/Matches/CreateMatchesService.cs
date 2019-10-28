@@ -624,6 +624,7 @@ namespace Score247.Management.Site.Services.Matches
             foreach (var match in matches)
             {
                 var lineups = lineupService.BuildLineups(match, "4-3-3", "4-3-3");
+                await simulatorService.SendLineups(lineups);
             }
 
             dailyResults = dailyResults.Select(result =>

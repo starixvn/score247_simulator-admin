@@ -12,6 +12,7 @@
     using Score247Management.Core.Odds.Dtos;
     using Score247.Management.Site.Models;
     using System.Linq;
+    using System.Collections.Generic;
 
     public interface ISimulatorService
     {
@@ -269,7 +270,11 @@
         private async Task<DailyResultDto> ProcessMergeResult(DailyResultDto newResult)
         {
             var simulatorResult = await GetDailyResult(newResult.generated_at);
-            var results = simulatorResult.results.ToList();
+            var results = simulatorResult.results?.ToList();
+            if (results == null)
+            {
+                results = new List<Result>();
+            }
             foreach (var result in newResult.results)
             {
                 if (results.FirstOrDefault(x => x.sport_event.id == result.sport_event.id) == null)
@@ -284,7 +289,11 @@
         private async Task<DailyScheduleDto> ProcessMergeSchedule(DailyScheduleDto newSchedule)
         {
             var simulatorSchedule = await GetDailySchedule(newSchedule.generated_at);
-            var matches = simulatorSchedule.sport_events.ToList();
+            var matches = simulatorSchedule.sport_events?.ToList();
+            if (matches == null)
+            {
+                matches = new List<Sport_Event>();
+            }
             foreach (var match in newSchedule.sport_events)
             {
                 if (matches.FirstOrDefault(x => x.id == match.id) == null)
