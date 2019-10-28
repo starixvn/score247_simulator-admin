@@ -73,7 +73,7 @@ namespace Score247.Management.Site.Services
             {
                 var resultFolder = $"{DirectoryRoot}";
                 Directory.CreateDirectory(resultFolder);
-                var resultDateFileName = scheduleDate.ToString("yyyy-MM-DD");
+                var resultDateFileName = scheduleDate.ToString("yyyy-MM-dd");
                 var path = $"{resultFolder}/result/{resultDateFileName}.json";
                 var jsonData = await File.ReadAllTextAsync(path);
                 var content = JsonConvert.DeserializeObject<DailyResultDto>(jsonData);
@@ -92,7 +92,7 @@ namespace Score247.Management.Site.Services
             {
                 var resultFolder = $"{DirectoryRoot}";
                 Directory.CreateDirectory(resultFolder);
-                var scheduleDateFilename = scheduleDate.ToString("yyyy-MM-DD");
+                var scheduleDateFilename = scheduleDate.ToString("yyyy-MM-dd");
                 var path = $"{resultFolder}/schedule/{scheduleDateFilename}.json";
                 var jsonData = await File.ReadAllTextAsync(path);
                 var content = JsonConvert.DeserializeObject<DailyScheduleDto>(jsonData);
@@ -121,7 +121,7 @@ namespace Score247.Management.Site.Services
         {
             var resultFolder = $"{DirectoryRoot}";
             Directory.CreateDirectory(resultFolder);
-            var resultDateFileName = result.generated_at.ToString("yyyy-MM-DD");
+            var resultDateFileName = result.generated_at.ToString("yyyy-MM-dd");
             var path = $"{resultFolder}/result/{resultDateFileName}.json";
             var json = JsonConvert.SerializeObject(result);
 
@@ -134,7 +134,7 @@ namespace Score247.Management.Site.Services
         {
             var resultFolder = $"{DirectoryRoot}";
             Directory.CreateDirectory(resultFolder);
-            var resultDateFileName = schedule.generated_at.ToString("yyyy-MM-DD");
+            var resultDateFileName = schedule.generated_at.ToString("yyyy-MM-dd");
             var path = $"{resultFolder}/result/{resultDateFileName}.json";
             var json = JsonConvert.SerializeObject(schedule);
 

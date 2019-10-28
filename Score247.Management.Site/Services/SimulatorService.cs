@@ -27,7 +27,7 @@
 
         Task<HttpResponseMessage> SendDailySchedule(DailyScheduleDto dailyResultDto);
 
-        Task<DailyResultDto> GetDailyResult(DateTime scheduleDate);
+        Task<DailyResultDto> GetDailyResult(DateTime resultDate);
 
         Task<DailyScheduleDto> GetDailySchedule(DateTime scheduleDate);
 
@@ -48,12 +48,14 @@
     {
         private readonly string DirectoryRoot = AppDomain.CurrentDomain.BaseDirectory + "/App_Data";
         private readonly IConfiguration configuration;
+        private readonly IMatchFileService matchFileService;
 
         private readonly ILogger logger;
 
-        public SimulatorService(IConfiguration config, ILogger logger)
+        public SimulatorService(IConfiguration config, IMatchFileService matchFileService, ILogger logger)
         {
             configuration = config;
+            this.matchFileService = matchFileService;
             this.logger = logger;
         }
 
@@ -68,8 +70,6 @@
 
                 await triggerClient.SendAsync(request);
             }
-
-            await SendCacheLiveMatches();
         }
 
         public async Task SendCleanTimelines()
@@ -170,63 +170,11 @@
             await Task.Delay(delay);
         }
 
-        private async Task SendCacheLiveMatches()
-        {
-            var liveCached = await ReadLiveMatchFromFile();
-            if (liveCached == null)
-            {
-                return;
-            }
-
-            await SendLiveResult(liveCached);
-        }
-
-        private async Task<DailyResultDto> ReadLiveMatchFromFile()
-        {
-            try
-            {
-                var resultFolder = $"{DirectoryRoot}";
-                Directory.CreateDirectory(resultFolder);
-
-                var path = $"{resultFolder}/live.json";
-                var jsonData = await File.ReadAllTextAsync(path);
-                var content = JsonConvert.DeserializeObject<DailyResultDto>(jsonData);
-
-                return content;
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-        }
-
-        private async Task WriteLiveMatchToFile(DailyResultDto resultDto)
-        {
-            var resultFolder = $"{DirectoryRoot}";
-            Directory.CreateDirectory(resultFolder);
-            var path = $"{resultFolder}/live.json";
-            var json = JsonConvert.SerializeObject(resultDto);
-
-            Directory.CreateDirectory(resultFolder);
-            File.Delete(path);
-            await File.WriteAllTextAsync(path, json);
-        }
-
         public async Task SyncLiveMatches()
         {
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(configuration.GetValue<string>("Simulator:Url"));
-                var response = await client.GetAsync(configuration.GetValue<string>("Simulator:LiveMatches"));
-                if (!response.IsSuccessStatusCode)
-                {
-                    return;
-                }
+            var liveMatches = await GetLiveResult();
 
-                var responseBody = await response.Content.ReadAsStringAsync();
-                var liveMatches = JsonConvert.DeserializeObject<DailyResultDto>(responseBody);
-                await WriteLiveMatchToFile(liveMatches);
-            }
+            matchFileService.SaveLiveMatchToFile(liveMatches);
         }
 
         public async Task SendMatchTimelines(MatchTimelineDto matchTimeline)
@@ -262,19 +210,60 @@
             }
         }
 
-        public Task<DailyResultDto> GetDailyResult(DateTime scheduleDate)
+        public async Task<DailyResultDto> GetDailyResult(DateTime resultDate)
         {
-            throw new NotImplementedException();
+            var resultDateName = resultDate.ToString("yyyy-MM-dd");
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(configuration.GetValue<string>("Simulator:Url"));
+                var response = await client.GetAsync($"/api/soccer-t3/other/en-US/schedules/{resultDateName}/results.json");
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new DailyResultDto();
+                }
+
+                var responseBody = await response.Content.ReadAsStringAsync();
+                var resultMatches = JsonConvert.DeserializeObject<DailyResultDto>(responseBody);
+
+                return resultMatches;
+            }
         }
 
-        public Task<DailyScheduleDto> GetDailySchedule(DateTime scheduleDate)
+        public async Task<DailyScheduleDto> GetDailySchedule(DateTime scheduleDate)
         {
-            throw new NotImplementedException();
+            var scheduleDateName = scheduleDate.ToString("yyyy-MM-dd");
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(configuration.GetValue<string>("Simulator:Url"));
+                var response = await client.GetAsync($"/api/soccer-t3/other/en-US/schedules/{scheduleDateName}/schedule.json");
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new DailyScheduleDto();
+                }
+
+                var responseBody = await response.Content.ReadAsStringAsync();
+                var scheduleMatches = JsonConvert.DeserializeObject<DailyScheduleDto>(responseBody);
+
+                return scheduleMatches;
+            }
         }
 
-        public Task<DailyResultDto> GetLiveResult()
+        public async Task<DailyResultDto> GetLiveResult()
         {
-            throw new NotImplementedException();
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(configuration.GetValue<string>("Simulator:Url"));
+                var response = await client.GetAsync(configuration.GetValue<string>("Simulator:LiveMatches"));
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new DailyResultDto();
+                }
+
+                var responseBody = await response.Content.ReadAsStringAsync();
+                var liveMatches = JsonConvert.DeserializeObject<DailyResultDto>(responseBody);
+
+                return liveMatches;
+            }
         }
     }
 }
