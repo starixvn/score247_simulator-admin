@@ -7,25 +7,6 @@
     [MessagePackObject(keyAsPropertyName: true)]
     public class Team : BaseModel
     {
-        [SerializationConstructor, JsonConstructor]
-        public Team(
-            string id,
-            string name,
-            string country,
-            string countryCode,
-            string flag,
-            bool isHome,
-            TeamStatistic statistic,
-            string abbreviation) : base(id, name)
-        {
-            Country = country;
-            CountryCode = countryCode;
-            Flag = flag;
-            IsHome = isHome;
-            Statistic = statistic;
-            Abbreviation = abbreviation;
-        }
-
         public string Country { get; set; }
 
         public string CountryCode { get; set; }
