@@ -1,556 +1,556 @@
-{ 
-   "generated_at":"2019-10-25T07:52:03+00:00",
-   "schema":"http:\/\/schemas.sportradar.com\/bsa\/soccer\/v1\/json\/endpoints\/soccer\/team_versus_matches.json",
-   "teams":[ 
-      { 
-         "id":"sr:competitor:17",
-         "name":"Manchester City",
-         "country":"England",
-         "country_code":"ENG",
-         "abbreviation":"MNC"
+{
+  "generated_at": "2019-10-25T07:52:03+00:00",
+  "schema": "http:\/\/schemas.sportradar.com\/bsa\/soccer\/v1\/json\/endpoints\/soccer\/team_versus_matches.json",
+  "teams": [
+    {
+      "id": "sr:competitor:17",
+      "name": "Manchester City",
+      "country": "England",
+      "country_code": "ENG",
+      "abbreviation": "MNC"
+    },
+    {
+      "id": "sr:competitor:40",
+      "name": "Aston Villa",
+      "country": "England",
+      "country_code": "ENG",
+      "abbreviation": "VIL"
+    }
+  ],
+  "last_meetings": {
+    "results": [
+      {
+        "sport_event": {
+          "id": "sr:match:7465016",
+          "scheduled": "2014-02-05T10:00:00+00:00",
+          "start_time_tbd": false,
+          "tournament_round": {
+            "type": "group",
+            "number": 29,
+            "phase": "regular season"
+          },
+          "season": {
+            "id": "sr:season:300",
+            "name": "J.League 14\/15",
+            "start_date": "2014-08-08",
+            "end_date": "2015-08-19",
+            "year": "14\/15",
+            "tournament_id": "sr:tournament:196"
+          },
+          "tournament": {
+            "id": "sr:tournament:196",
+            "name": "J.League",
+            "sport": {
+              "id": "sr:sport:1",
+              "name": "Soccer"
+            },
+            "category": {
+              "id": "sr:category:1",
+              "name": "Japan",
+              "country_code": "JPN"
+            }
+          },
+          "competitors": [
+            {
+              "id": "sr:competitor:17",
+              "name": "Manchester City",
+              "country": "England",
+              "country_code": "ENG",
+              "abbreviation": "MNC",
+              "qualifier": "home"
+            },
+            {
+              "id": "sr:competitor:40",
+              "name": "Aston Villa",
+              "country": "England",
+              "country_code": "ENG",
+              "abbreviation": "VIL",
+              "qualifier": "away"
+            }
+          ],
+          "venue": {
+            "id": "sr:venue:606",
+            "name": "Etihad Stadium",
+            "capacity": 46708,
+            "city_name": "Manchester",
+            "country_name": "England",
+            "map_coordinates": "53.484592,-2.202695",
+            "country_code": "ENG"
+          }
+        },
+        "sport_event_status": {
+          "status": "closed",
+          "home_score": 1,
+          "away_score": 1,
+          "aggregate_home_score": 2,
+          "aggregate_away_score": 3,
+          "aggregate_winner_id": "sr:competitor:40",
+          "period_scores": [
+            {
+              "home_score": 1,
+              "away_score": 0,
+              "type": "regular_period",
+              "number": 1
+            },
+            {
+              "home_score": 0,
+              "away_score": 1,
+              "type": "regular_period",
+              "number": 2
+            }
+          ]
+        }
       },
-      { 
-         "id":"sr:competitor:40",
-         "name":"Aston Villa",
-         "country":"England",
-         "country_code":"ENG",
-         "abbreviation":"VIL"
-      }
-   ],
-   "last_meetings":{ 
-      "results":[ 
-         { 
-            "sport_event":{ 
-               "id":"sr:match:7465016",
-               "scheduled":"2014-02-05T10:00:00+00:00",
-               "start_time_tbd":false,
-               "tournament_round":{ 
-                  "type":"group",
-                  "number":29,
-                  "phase":"regular season"
-               },
-               "season":{ 
-                  "id":"sr:season:300",
-                  "name":"J.League 14\/15",
-                  "start_date":"2014-08-08",
-                  "end_date":"2015-08-19",
-                  "year":"14\/15",
-                  "tournament_id":"sr:tournament:196"
-               },
-               "tournament":{ 
-                  "id":"sr:tournament:196",
-                  "name":"J.League",
-                  "sport":{ 
-                     "id":"sr:sport:1",
-                     "name":"Soccer"
-                  },
-                  "category":{ 
-                     "id":"sr:category:1",
-                     "name":"Japan",
-                     "country_code":"JPN"
-                  }
-               },
-               "competitors":[ 
-                  { 
-                     "id":"sr:competitor:17",
-                     "name":"Manchester City",
-                     "country":"England",
-                     "country_code":"ENG",
-                     "abbreviation":"MNC",
-                     "qualifier":"home"
-                  },
-                  { 
-                     "id":"sr:competitor:40",
-                     "name":"Aston Villa",
-                     "country":"England",
-                     "country_code":"ENG",
-                     "abbreviation":"VIL",
-                     "qualifier":"away"
-                  }
-               ],
-               "venue":{ 
-                  "id":"sr:venue:606",
-                  "name":"Etihad Stadium",
-                  "capacity":46708,
-                  "city_name":"Manchester",
-                  "country_name":"England",
-                  "map_coordinates":"53.484592,-2.202695",
-                  "country_code":"ENG"
-               }
+      {
+        "sport_event": {
+          "id": "sr:match:7465016",
+          "scheduled": "2015-03-05T10:00:00+00:00",
+          "start_time_tbd": false,
+          "tournament_round": {
+            "type": "group",
+            "number": 29,
+            "phase": "regular season"
+          },
+          "season": {
+            "id": "sr:season:300",
+            "name": "J.League 14\/15",
+            "start_date": "2014-08-08",
+            "end_date": "2015-08-19",
+            "year": "14\/15",
+            "tournament_id": "sr:tournament:196"
+          },
+          "tournament": {
+            "id": "sr:tournament:196",
+            "name": "J.League",
+            "sport": {
+              "id": "sr:sport:1",
+              "name": "Soccer"
             },
-            "sport_event_status":{ 
-               "status":"closed",
-               "home_score":1,
-               "away_score":1,
-               "aggregate_home_score":2,
-               "aggregate_away_score":3,
-               "aggregate_winner_id":"sr:competitor:40",
-               "period_scores":[ 
-                  { 
-                     "home_score":1,
-                     "away_score":0,
-                     "type":"regular_period",
-                     "number":1
-                  },
-                  { 
-                     "home_score":0,
-                     "away_score":1,
-                     "type":"regular_period",
-                     "number":2
-                  }
-               ]
+            "category": {
+              "id": "sr:category:1",
+              "name": "Japan",
+              "country_code": "JPN"
             }
-         },
-         { 
-            "sport_event":{ 
-               "id":"sr:match:7465016",
-               "scheduled":"2015-03-05T10:00:00+00:00",
-               "start_time_tbd":false,
-               "tournament_round":{ 
-                  "type":"group",
-                  "number":29,
-                  "phase":"regular season"
-               },
-               "season":{ 
-                  "id":"sr:season:300",
-                  "name":"J.League 14\/15",
-                  "start_date":"2014-08-08",
-                  "end_date":"2015-08-19",
-                  "year":"14\/15",
-                  "tournament_id":"sr:tournament:196"
-               },
-               "tournament":{ 
-                  "id":"sr:tournament:196",
-                  "name":"J.League",
-                  "sport":{ 
-                     "id":"sr:sport:1",
-                     "name":"Soccer"
-                  },
-                  "category":{ 
-                     "id":"sr:category:1",
-                     "name":"Japan",
-                     "country_code":"JPN"
-                  }
-               },
-               "competitors":[ 
-                  { 
-                     "id":"sr:competitor:17",
-                     "name":"Manchester City",
-                     "country":"England",
-                     "country_code":"ENG",
-                     "abbreviation":"MNC",
-                     "qualifier":"home"
-                  },
-                  { 
-                     "id":"sr:competitor:40",
-                     "name":"Aston Villa",
-                     "country":"England",
-                     "country_code":"ENG",
-                     "abbreviation":"VIL",
-                     "qualifier":"away"
-                  }
-               ],
-               "venue":{ 
-                  "id":"sr:venue:606",
-                  "name":"Etihad Stadium",
-                  "capacity":46708,
-                  "city_name":"Manchester",
-                  "country_name":"England",
-                  "map_coordinates":"53.484592,-2.202695",
-                  "country_code":"ENG"
-               }
+          },
+          "competitors": [
+            {
+              "id": "sr:competitor:17",
+              "name": "Manchester City",
+              "country": "England",
+              "country_code": "ENG",
+              "abbreviation": "MNC",
+              "qualifier": "home"
             },
-            "sport_event_status":{ 
-               "status":"closed",
-               "home_score":1,
-               "away_score":1,
-               "aggregate_home_score":2,
-               "aggregate_away_score":3,
-               "aggregate_winner_id":"sr:competitor:40",
-               "period_scores":[ 
-                  { 
-                     "home_score":1,
-                     "away_score":0,
-                     "type":"regular_period",
-                     "number":1
-                  },
-                  { 
-                     "home_score":0,
-                     "away_score":1,
-                     "type":"regular_period",
-                     "number":2
-                  }
-               ]
+            {
+              "id": "sr:competitor:40",
+              "name": "Aston Villa",
+              "country": "England",
+              "country_code": "ENG",
+              "abbreviation": "VIL",
+              "qualifier": "away"
             }
-         },
-         { 
-            "sport_event":{ 
-               "id":"sr:match:7465016",
-               "scheduled":"2017-06-15T11:00:00+00:00",
-               "start_time_tbd":false,
-               "tournament_round":{ 
-                  "type":"group",
-                  "number":29,
-                  "phase":"regular season"
-               },
-               "season":{ 
-                  "id":"sr:season:101",
-                  "name":"K-League 1 17\/18",
-                  "start_date":"2017-01-08",
-                  "end_date":"2018-01-18",
-                  "year":"17\/18",
-                  "tournament_id":"sr:tournament:410"
-               },
-               "tournament":{ 
-                  "id":"sr:tournament:410",
-                  "name":"K-League 1",
-                  "sport":{ 
-                     "id":"sr:sport:1",
-                     "name":"Soccer"
-                  },
-                  "category":{ 
-                     "id":"sr:category:1",
-                     "name":"Republic of Korea",
-                     "country_code":"KOR"
-                  }
-               },
-               "competitors":[ 
-                  { 
-                     "id":"sr:competitor:17",
-                     "name":"Manchester City",
-                     "country":"England",
-                     "country_code":"ENG",
-                     "abbreviation":"MNC",
-                     "qualifier":"home"
-                  },
-                  { 
-                     "id":"sr:competitor:40",
-                     "name":"Aston Villa",
-                     "country":"England",
-                     "country_code":"ENG",
-                     "abbreviation":"VIL",
-                     "qualifier":"away"
-                  }
-               ],
-               "venue":{ 
-                  "id":"sr:venue:606",
-                  "name":"Etihad Stadium",
-                  "capacity":46708,
-                  "city_name":"Manchester",
-                  "country_name":"England",
-                  "map_coordinates":"53.484592,-2.202695",
-                  "country_code":"ENG"
-               }
+          ],
+          "venue": {
+            "id": "sr:venue:606",
+            "name": "Etihad Stadium",
+            "capacity": 46708,
+            "city_name": "Manchester",
+            "country_name": "England",
+            "map_coordinates": "53.484592,-2.202695",
+            "country_code": "ENG"
+          }
+        },
+        "sport_event_status": {
+          "status": "closed",
+          "home_score": 1,
+          "away_score": 1,
+          "aggregate_home_score": 2,
+          "aggregate_away_score": 3,
+          "aggregate_winner_id": "sr:competitor:40",
+          "period_scores": [
+            {
+              "home_score": 1,
+              "away_score": 0,
+              "type": "regular_period",
+              "number": 1
             },
-            "sport_event_status":{ 
-               "status":"aet",
-               "home_score":3,
-               "away_score":3,
-               "aggregate_home_score":4,
-               "aggregate_away_score":4,
-               "aggregate_winner_id":"sr:competitor:17",
-               "period_scores":[ 
-                  { 
-                     "home_score":1,
-                     "away_score":1,
-                     "type":"regular_period",
-                     "number":1
-                  },
-                  { 
-                     "home_score":1,
-                     "away_score":1,
-                     "type":"regular_period",
-                     "number":2
-                  },
-                  { 
-                     "home_score":1,
-                     "away_score":1,
-                     "type":"overtime"
-                  }
-               ]
+            {
+              "home_score": 0,
+              "away_score": 1,
+              "type": "regular_period",
+              "number": 2
             }
-         },
-         { 
-            "sport_event":{ 
-               "id":"sr:match:7465016",
-               "scheduled":"2018-01-10T10:00:00+00:00",
-               "start_time_tbd":false,
-               "tournament_round":{ 
-                  "type":"group",
-                  "number":29,
-                  "phase":"regular season"
-               },
-               "season":{ 
-                  "id":"sr:season:302",
-                  "name":"Super Lig 18\/19",
-                  "start_date":"2018-02-08",
-                  "end_date":"2019-10-18",
-                  "year":"18\/19",
-                  "tournament_id":"sr:tournament:52"
-               },
-               "tournament":{ 
-                  "id":"sr:tournament:52",
-                  "name":"Super Lig",
-                  "sport":{ 
-                     "id":"sr:sport:1",
-                     "name":"Soccer"
-                  },
-                  "category":{ 
-                     "id":"sr:category:1",
-                     "name":"Turkey",
-                     "country_code":"TUR"
-                  }
-               },
-               "competitors":[ 
-                  { 
-                     "id":"sr:competitor:17",
-                     "name":"Manchester City",
-                     "country":"England",
-                     "country_code":"ENG",
-                     "abbreviation":"MNC",
-                     "qualifier":"home"
-                  },
-                  { 
-                     "id":"sr:competitor:40",
-                     "name":"Aston Villa",
-                     "country":"England",
-                     "country_code":"ENG",
-                     "abbreviation":"VIL",
-                     "qualifier":"away"
-                  }
-               ],
-               "venue":{ 
-                  "id":"sr:venue:606",
-                  "name":"Etihad Stadium",
-                  "capacity":46708,
-                  "city_name":"Manchester",
-                  "country_name":"England",
-                  "map_coordinates":"53.484592,-2.202695",
-                  "country_code":"ENG"
-               }
-            },
-            "sport_event_status":{ 
-               "status":"abandoned",
-               "home_score":1,
-               "away_score":0,
-               "period_scores":[ 
-                  { 
-                     "home_score":1,
-                     "away_score":1,
-                     "type":"regular_period",
-                     "number":1
-                  }
-               ]
-            }
-         },
-         { 
-            "sport_event":{ 
-               "id":"sr:match:7465016",
-               "scheduled":"2018-12-12T02:00:00+00:00",
-               "start_time_tbd":false,
-               "tournament_round":{ 
-                  "type":"group",
-                  "number":29,
-                  "phase":"regular season"
-               },
-               "season":{ 
-                  "id":"sr:season:302",
-                  "name":"Super Lig 18\/19",
-                  "start_date":"2018-02-08",
-                  "end_date":"2019-10-18",
-                  "year":"18\/19",
-                  "tournament_id":"sr:tournament:52"
-               },
-               "tournament":{ 
-                  "id":"sr:tournament:52",
-                  "name":"Super Lig",
-                  "sport":{ 
-                     "id":"sr:sport:1",
-                     "name":"Soccer"
-                  },
-                  "category":{ 
-                     "id":"sr:category:1",
-                     "name":"Turkey",
-                     "country_code":"TUR"
-                  }
-               },
-               "competitors":[ 
-                  { 
-                     "id":"sr:competitor:17",
-                     "name":"Manchester City",
-                     "country":"England",
-                     "country_code":"ENG",
-                     "abbreviation":"MNC",
-                     "qualifier":"home"
-                  },
-                  { 
-                     "id":"sr:competitor:40",
-                     "name":"Aston Villa",
-                     "country":"England",
-                     "country_code":"ENG",
-                     "abbreviation":"VIL",
-                     "qualifier":"away"
-                  }
-               ],
-               "venue":{ 
-                  "id":"sr:venue:606",
-                  "name":"Etihad Stadium",
-                  "capacity":46708,
-                  "city_name":"Manchester",
-                  "country_name":"England",
-                  "map_coordinates":"53.484592,-2.202695",
-                  "country_code":"ENG"
-               }
-            },
-            "sport_event_status":{ 
-               "status":"ap",
-               "home_score":3,
-               "away_score":3,
-               "winner_id":"sr:competitor:40",
-               "period_scores":[ 
-                  { 
-                     "home_score":2,
-                     "away_score":1,
-                     "type":"regular_period",
-                     "number":1
-                  },
-                  { 
-                     "home_score":1,
-                     "away_score":2,
-                     "type":"regular_period",
-                     "number":2
-                  },
-                  { 
-                     "home_score":4,
-                     "away_score":3,
-                     "type":"penalties"
-                  }
-               ]
-            }
-         }
-      ]
-   },
-   "next_meetings":[ 
-      { 
-         "sport_event":{ 
-            "id":"sr:match:7465016",
-            "scheduled":"2019-11-12T07:00:00+00:00",
-            "status":"postponed",
-            "start_time_tbd":false,
-            "tournament_round":{ 
-               "type":"group",
-               "number":29,
-               "phase":"regular season"
-            },
-            "season":{ 
-               "id":"sr:season:400",
-               "name":"Superliga 19\/20",
-               "start_date":"2019-5-08",
-               "end_date":"2020-06-18",
-               "year":"19\/20",
-               "tournament_id":"sr:tournament:155"
-            },
-            "tournament":{ 
-               "id":"sr:tournament:155",
-               "name":"Superliga",
-               "sport":{ 
-                  "id":"sr:sport:1",
-                  "name":"Soccer"
-               },
-               "category":{ 
-                  "id":"sr:category:1",
-                  "name":"Argentina",
-                  "country_code":"ARG"
-               }
-            },
-            "competitors":[ 
-               { 
-                  "id":"sr:competitor:17",
-                  "name":"Manchester City",
-                  "country":"England",
-                  "country_code":"ENG",
-                  "abbreviation":"MNC",
-                  "qualifier":"home"
-               },
-               { 
-                  "id":"sr:competitor:40",
-                  "name":"Aston Villa",
-                  "country":"England",
-                  "country_code":"ENG",
-                  "abbreviation":"VIL",
-                  "qualifier":"away"
-               }
-            ],
-            "venue":{ 
-               "id":"sr:venue:606",
-               "name":"Etihad Stadium",
-               "capacity":46708,
-               "city_name":"Manchester",
-               "country_name":"England",
-               "map_coordinates":"53.484592,-2.202695",
-               "country_code":"ENG"
-            }
-         }
+          ]
+        }
       },
-      { 
-         "sport_event":{ 
-            "id":"sr:match:7465016",
-            "scheduled":"2020-4-12T11:00:00+00:00",
-            "start_time_tbd":false,
-            "tournament_round":{ 
-               "type":"group",
-               "number":29,
-               "phase":"regular season"
+      {
+        "sport_event": {
+          "id": "sr:match:7465016",
+          "scheduled": "2017-06-15T11:00:00+00:00",
+          "start_time_tbd": false,
+          "tournament_round": {
+            "type": "group",
+            "number": 29,
+            "phase": "regular season"
+          },
+          "season": {
+            "id": "sr:season:101",
+            "name": "K-League 1 17\/18",
+            "start_date": "2017-01-08",
+            "end_date": "2018-01-18",
+            "year": "17\/18",
+            "tournament_id": "sr:tournament:410"
+          },
+          "tournament": {
+            "id": "sr:tournament:410",
+            "name": "K-League 1",
+            "sport": {
+              "id": "sr:sport:1",
+              "name": "Soccer"
             },
-            "season":{ 
-               "id":"sr:season:400",
-               "name":"Superliga 19\/20",
-               "start_date":"2019-5-08",
-               "end_date":"2020-06-18",
-               "year":"19\/20",
-               "tournament_id":"sr:tournament:155"
-            },
-            "tournament":{ 
-               "id":"sr:tournament:155",
-               "name":"Superliga",
-               "sport":{ 
-                  "id":"sr:sport:1",
-                  "name":"Soccer"
-               },
-               "category":{ 
-                  "id":"sr:category:1",
-                  "name":"Argentina",
-                  "country_code":"ARG"
-               }
-            },
-            "competitors":[ 
-               { 
-                  "id":"sr:competitor:17",
-                  "name":"Manchester City",
-                  "country":"England",
-                  "country_code":"ENG",
-                  "abbreviation":"MNC",
-                  "qualifier":"home"
-               },
-               { 
-                  "id":"sr:competitor:40",
-                  "name":"Aston Villa",
-                  "country":"England",
-                  "country_code":"ENG",
-                  "abbreviation":"VIL",
-                  "qualifier":"away"
-               }
-            ],
-            "venue":{ 
-               "id":"sr:venue:606",
-               "name":"Etihad Stadium",
-               "capacity":46708,
-               "city_name":"Manchester",
-               "country_name":"England",
-               "map_coordinates":"53.484592,-2.202695",
-               "country_code":"ENG"
+            "category": {
+              "id": "sr:category:1",
+              "name": "Republic of Korea",
+              "country_code": "KOR"
             }
-         }
+          },
+          "competitors": [
+            {
+              "id": "sr:competitor:17",
+              "name": "Manchester City",
+              "country": "England",
+              "country_code": "ENG",
+              "abbreviation": "MNC",
+              "qualifier": "home"
+            },
+            {
+              "id": "sr:competitor:40",
+              "name": "Aston Villa",
+              "country": "England",
+              "country_code": "ENG",
+              "abbreviation": "VIL",
+              "qualifier": "away"
+            }
+          ],
+          "venue": {
+            "id": "sr:venue:606",
+            "name": "Etihad Stadium",
+            "capacity": 46708,
+            "city_name": "Manchester",
+            "country_name": "England",
+            "map_coordinates": "53.484592,-2.202695",
+            "country_code": "ENG"
+          }
+        },
+        "sport_event_status": {
+          "status": "aet",
+          "home_score": 3,
+          "away_score": 3,
+          "aggregate_home_score": 4,
+          "aggregate_away_score": 4,
+          "aggregate_winner_id": "sr:competitor:17",
+          "period_scores": [
+            {
+              "home_score": 1,
+              "away_score": 1,
+              "type": "regular_period",
+              "number": 1
+            },
+            {
+              "home_score": 1,
+              "away_score": 1,
+              "type": "regular_period",
+              "number": 2
+            },
+            {
+              "home_score": 1,
+              "away_score": 1,
+              "type": "overtime"
+            }
+          ]
+        }
+      },
+      {
+        "sport_event": {
+          "id": "sr:match:7465016",
+          "scheduled": "2018-01-10T10:00:00+00:00",
+          "start_time_tbd": false,
+          "tournament_round": {
+            "type": "group",
+            "number": 29,
+            "phase": "regular season"
+          },
+          "season": {
+            "id": "sr:season:302",
+            "name": "Super Lig 18\/19",
+            "start_date": "2018-02-08",
+            "end_date": "2019-10-18",
+            "year": "18\/19",
+            "tournament_id": "sr:tournament:52"
+          },
+          "tournament": {
+            "id": "sr:tournament:52",
+            "name": "Super Lig",
+            "sport": {
+              "id": "sr:sport:1",
+              "name": "Soccer"
+            },
+            "category": {
+              "id": "sr:category:1",
+              "name": "Turkey",
+              "country_code": "TUR"
+            }
+          },
+          "competitors": [
+            {
+              "id": "sr:competitor:17",
+              "name": "Manchester City",
+              "country": "England",
+              "country_code": "ENG",
+              "abbreviation": "MNC",
+              "qualifier": "home"
+            },
+            {
+              "id": "sr:competitor:40",
+              "name": "Aston Villa",
+              "country": "England",
+              "country_code": "ENG",
+              "abbreviation": "VIL",
+              "qualifier": "away"
+            }
+          ],
+          "venue": {
+            "id": "sr:venue:606",
+            "name": "Etihad Stadium",
+            "capacity": 46708,
+            "city_name": "Manchester",
+            "country_name": "England",
+            "map_coordinates": "53.484592,-2.202695",
+            "country_code": "ENG"
+          }
+        },
+        "sport_event_status": {
+          "status": "abandoned",
+          "home_score": 1,
+          "away_score": 0,
+          "period_scores": [
+            {
+              "home_score": 1,
+              "away_score": 1,
+              "type": "regular_period",
+              "number": 1
+            }
+          ]
+        }
+      },
+      {
+        "sport_event": {
+          "id": "sr:match:7465016",
+          "scheduled": "2019-07-12T02:00:00+00:00",
+          "start_time_tbd": false,
+          "tournament_round": {
+            "type": "group",
+            "number": 29,
+            "phase": "regular season"
+          },
+          "season": {
+            "id": "sr:season:302",
+            "name": "Super Lig 18\/19",
+            "start_date": "2018-02-08",
+            "end_date": "2019-10-18",
+            "year": "18\/19",
+            "tournament_id": "sr:tournament:52"
+          },
+          "tournament": {
+            "id": "sr:tournament:52",
+            "name": "Super Lig",
+            "sport": {
+              "id": "sr:sport:1",
+              "name": "Soccer"
+            },
+            "category": {
+              "id": "sr:category:1",
+              "name": "Turkey",
+              "country_code": "TUR"
+            }
+          },
+          "competitors": [
+            {
+              "id": "sr:competitor:17",
+              "name": "Manchester City",
+              "country": "England",
+              "country_code": "ENG",
+              "abbreviation": "MNC",
+              "qualifier": "home"
+            },
+            {
+              "id": "sr:competitor:40",
+              "name": "Aston Villa",
+              "country": "England",
+              "country_code": "ENG",
+              "abbreviation": "VIL",
+              "qualifier": "away"
+            }
+          ],
+          "venue": {
+            "id": "sr:venue:606",
+            "name": "Etihad Stadium",
+            "capacity": 46708,
+            "city_name": "Manchester",
+            "country_name": "England",
+            "map_coordinates": "53.484592,-2.202695",
+            "country_code": "ENG"
+          }
+        },
+        "sport_event_status": {
+          "status": "ap",
+          "home_score": 3,
+          "away_score": 3,
+          "winner_id": "sr:competitor:40",
+          "period_scores": [
+            {
+              "home_score": 2,
+              "away_score": 1,
+              "type": "regular_period",
+              "number": 1
+            },
+            {
+              "home_score": 1,
+              "away_score": 2,
+              "type": "regular_period",
+              "number": 2
+            },
+            {
+              "home_score": 4,
+              "away_score": 3,
+              "type": "penalties"
+            }
+          ]
+        }
       }
-   ]
+    ]
+  },
+  "next_meetings": [
+    {
+      "sport_event": {
+        "id": "sr:match:7465016",
+        "scheduled": "2019-11-12T07:00:00+00:00",
+        "status": "postponed",
+        "start_time_tbd": false,
+        "tournament_round": {
+          "type": "group",
+          "number": 29,
+          "phase": "regular season"
+        },
+        "season": {
+          "id": "sr:season:400",
+          "name": "Superliga 19\/20",
+          "start_date": "2019-5-08",
+          "end_date": "2020-06-18",
+          "year": "19\/20",
+          "tournament_id": "sr:tournament:155"
+        },
+        "tournament": {
+          "id": "sr:tournament:155",
+          "name": "Superliga",
+          "sport": {
+            "id": "sr:sport:1",
+            "name": "Soccer"
+          },
+          "category": {
+            "id": "sr:category:1",
+            "name": "Argentina",
+            "country_code": "ARG"
+          }
+        },
+        "competitors": [
+          {
+            "id": "sr:competitor:17",
+            "name": "Manchester City",
+            "country": "England",
+            "country_code": "ENG",
+            "abbreviation": "MNC",
+            "qualifier": "home"
+          },
+          {
+            "id": "sr:competitor:40",
+            "name": "Aston Villa",
+            "country": "England",
+            "country_code": "ENG",
+            "abbreviation": "VIL",
+            "qualifier": "away"
+          }
+        ],
+        "venue": {
+          "id": "sr:venue:606",
+          "name": "Etihad Stadium",
+          "capacity": 46708,
+          "city_name": "Manchester",
+          "country_name": "England",
+          "map_coordinates": "53.484592,-2.202695",
+          "country_code": "ENG"
+        }
+      }
+    },
+    {
+      "sport_event": {
+        "id": "sr:match:7465016",
+        "scheduled": "2020-4-12T11:00:00+00:00",
+        "start_time_tbd": false,
+        "tournament_round": {
+          "type": "group",
+          "number": 29,
+          "phase": "regular season"
+        },
+        "season": {
+          "id": "sr:season:400",
+          "name": "Superliga 19\/20",
+          "start_date": "2019-5-08",
+          "end_date": "2020-06-18",
+          "year": "19\/20",
+          "tournament_id": "sr:tournament:155"
+        },
+        "tournament": {
+          "id": "sr:tournament:155",
+          "name": "Superliga",
+          "sport": {
+            "id": "sr:sport:1",
+            "name": "Soccer"
+          },
+          "category": {
+            "id": "sr:category:1",
+            "name": "Argentina",
+            "country_code": "ARG"
+          }
+        },
+        "competitors": [
+          {
+            "id": "sr:competitor:17",
+            "name": "Manchester City",
+            "country": "England",
+            "country_code": "ENG",
+            "abbreviation": "MNC",
+            "qualifier": "home"
+          },
+          {
+            "id": "sr:competitor:40",
+            "name": "Aston Villa",
+            "country": "England",
+            "country_code": "ENG",
+            "abbreviation": "VIL",
+            "qualifier": "away"
+          }
+        ],
+        "venue": {
+          "id": "sr:venue:606",
+          "name": "Etihad Stadium",
+          "capacity": 46708,
+          "city_name": "Manchester",
+          "country_name": "England",
+          "map_coordinates": "53.484592,-2.202695",
+          "country_code": "ENG"
+        }
+      }
+    }
+  ]
 }
