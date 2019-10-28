@@ -47,13 +47,15 @@ namespace Score247.Management.Site.Services.Matches
         private readonly ITimelineService timelineService;
         private readonly IMatchFileService matchFileService;
         private readonly IScenarioService scenarioService;
+        private readonly ILineupService lineupService;
 
         public CreateMatchesService(ISimulatorService simulatorService,
             ITriggerJobService triggerJobService,
             IConfiguration configuration,
             ITimelineService timelineService,
             IMatchFileService matchFileService,
-            IScenarioService scenarioService)
+            IScenarioService scenarioService,
+            ILineupService lineupService)
         {
             this.simulatorService = simulatorService;
             this.triggerJobService = triggerJobService;
@@ -61,6 +63,7 @@ namespace Score247.Management.Site.Services.Matches
             this.timelineService = timelineService;
             this.matchFileService = matchFileService;
             this.scenarioService = scenarioService;
+            this.lineupService = lineupService;
         }
 
         public async Task CreateMatchForActiveLeagues(DateTime createDate, TimeSpan offset)
@@ -617,6 +620,11 @@ namespace Score247.Management.Site.Services.Matches
             await UpdateMatchInitInfo(matches);
             await triggerJobService.TriggerCreateMatchJobs();
             await CheckIfMatchInserted(matches.LastOrDefault()?.id);
+
+            foreach (var match in matches)
+            {
+                var lineups = lineupService.BuildLineups(match, "4-3-3", "4-3-3");
+            }
 
             dailyResults = dailyResults.Select(result =>
             {

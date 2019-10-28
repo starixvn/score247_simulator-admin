@@ -1,11 +1,13 @@
-﻿using System;
-using Newtonsoft.Json;
-using Score247Management.Core.Base;
-
-namespace Score247Management.Core.Leagues.Models
+﻿namespace Score247Management.Core.Leagues.Models
 {
-    public class LeagueSeason : BaseModel
+    using System;
+    using Newtonsoft.Json;
+
+    public class LeagueSeason
     {
+        public string Id { get; set; }
+        public string Name { get; set; }
+
         [JsonProperty("start_date")]
         public DateTimeOffset StartDate { get; set; }
 

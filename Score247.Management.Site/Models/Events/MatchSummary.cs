@@ -74,10 +74,10 @@ namespace Score247.Management.Site.Models.Events
         public string winner_id { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public int aggregate_home_score { get; set; }
+        public int? aggregate_home_score { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public int aggregate_away_score { get; set; }
+        public int? aggregate_away_score { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string aggregate_winner_id { get; set; }

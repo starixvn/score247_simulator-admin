@@ -1,11 +1,31 @@
 ﻿namespace Score247Management.Core.Teams.Models
 {
-    using System.Collections.Generic;
+    using MessagePack;
     using Newtonsoft.Json;
     using Score247Management.Core.Base;
 
+    [MessagePackObject(keyAsPropertyName: true)]
     public class Team : BaseModel
     {
+        [SerializationConstructor, JsonConstructor]
+        public Team(
+            string id,
+            string name,
+            string country,
+            string countryCode,
+            string flag,
+            bool isHome,
+            TeamStatistic statistic,
+            string abbreviation) : base(id, name)
+        {
+            Country = country;
+            CountryCode = countryCode;
+            Flag = flag;
+            IsHome = isHome;
+            Statistic = statistic;
+            Abbreviation = abbreviation;
+        }
+
         public string Country { get; set; }
 
         public string CountryCode { get; set; }
@@ -17,22 +37,10 @@
         public bool IsHome { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public IEnumerable<Player> Players { get; set; }
-
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public TeamStatistic Statistic { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public Coach Coach { get; set; }
-
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public string Formation { get; set; }
-
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string Abbreviation { get; set; }
-
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public IEnumerable<Player> Substitutions { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string qualifier { get; set; }

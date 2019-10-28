@@ -2,7 +2,6 @@
 {
     using Fanex.Logging;
     using System;
-    using System.IO;
     using System.Net.Http;
     using System.Text;
     using System.Threading.Tasks;
@@ -12,6 +11,7 @@
     using Score247.Management.Site.Repositories.Matches;
     using Score247Management.Core.Odds.Dtos;
     using Score247.Management.Site.Models;
+    using System.Linq;
 
     public interface ISimulatorService
     {
@@ -46,7 +46,6 @@
 
     public class SimulatorService : ISimulatorService
     {
-        private readonly string DirectoryRoot = AppDomain.CurrentDomain.BaseDirectory + "/App_Data";
         private readonly IConfiguration configuration;
         private readonly IMatchFileService matchFileService;
 
@@ -110,7 +109,8 @@
 
         public async Task<HttpResponseMessage> SendDailyResult(DailyResultDto dailyResultDto)
         {
-            var jsonValue = JsonConvert.SerializeObject(dailyResultDto);
+            var result = await ProcessMergeResult(dailyResultDto);
+            var jsonValue = JsonConvert.SerializeObject(result);
             var requestPath = configuration.GetValue<string>("Simulator:DailyResults");
             using (var client = new HttpClient())
             {
@@ -124,17 +124,17 @@
             }
         }
 
-        public async Task<HttpResponseMessage> SendDailySchedule(DailyScheduleDto dailyResultDto)
+        public async Task<HttpResponseMessage> SendDailySchedule(DailyScheduleDto dailyScheduleDto)
         {
+            var schedule = await ProcessMergeSchedule(dailyScheduleDto);
+            var jsonValue = JsonConvert.SerializeObject(schedule);
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(configuration.GetValue<string>("Simulator:Url"));
 
-                var jsonValue = JsonConvert.SerializeObject(dailyResultDto);
-
                 var requestPath = configuration.GetValue<string>("Simulator:DailySchedule");
 
-                return await client.PostAsync(string.Format(requestPath + "?date={0}", dailyResultDto.generated_at.ToString("yyyy-MM-dd")), new StringContent(jsonValue, Encoding.UTF8, "application/json"));
+                return await client.PostAsync(string.Format(requestPath + "?date={0}", dailyScheduleDto.generated_at.ToString("yyyy-MM-dd")), new StringContent(jsonValue, Encoding.UTF8, "application/json"));
             }
         }
 
@@ -264,6 +264,36 @@
 
                 return liveMatches;
             }
+        }
+
+        private async Task<DailyResultDto> ProcessMergeResult(DailyResultDto newResult)
+        {
+            var simulatorResult = await GetDailyResult(newResult.generated_at);
+            var results = simulatorResult.results.ToList();
+            foreach (var result in newResult.results)
+            {
+                if (results.FirstOrDefault(x => x.sport_event.id == result.sport_event.id) == null)
+                {
+                    results.Add(result);
+                }
+            }
+            simulatorResult.results = results;
+            return simulatorResult;
+        }
+
+        private async Task<DailyScheduleDto> ProcessMergeSchedule(DailyScheduleDto newSchedule)
+        {
+            var simulatorSchedule = await GetDailySchedule(newSchedule.generated_at);
+            var matches = simulatorSchedule.sport_events.ToList();
+            foreach (var match in newSchedule.sport_events)
+            {
+                if (matches.FirstOrDefault(x => x.id == match.id) == null)
+                {
+                    matches.Add(match);
+                }
+            }
+            simulatorSchedule.sport_events = matches;
+            return simulatorSchedule;
         }
     }
 }

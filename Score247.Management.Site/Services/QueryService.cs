@@ -19,6 +19,8 @@ namespace Score247.Management.Site.Services
         Task<IEnumerable<MatchSummary>> GetMatchesByDateRange(DateTimeOffset fromDate, DateTimeOffset toDate, string language, TimeSpan offset);
 
         Task<Statistic> GetMatchStatistic(string matchId, string language);
+
+        Task<MatchLineups> GetLineUps(string matchId, string language);
     }
 
     public class QueryService : IQueryService
@@ -28,6 +30,11 @@ namespace Score247.Management.Site.Services
         public QueryService(IConfiguration configuration)
         {
             this.configuration = configuration;
+        }
+
+        public Task<MatchLineups> GetLineUps(string matchId, string language)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<IEnumerable<MatchSummary>> GetLiveMatches(string language)

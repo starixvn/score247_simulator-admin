@@ -1,9 +1,9 @@
 ﻿namespace Score247Management.Core.Matches.Models
 {
-    using Score247Management.Core.Base;
-
-    public class Venue : BaseModel
+    public class Venue
     {
+        public string Id { get; set; }
+        public string Name { get; set; }
         public int Capacity { get; set; }
 
         public string CityName { get; set; }

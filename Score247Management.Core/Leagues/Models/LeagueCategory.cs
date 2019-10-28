@@ -1,10 +1,12 @@
 ﻿namespace Score247Management.Core.Leagues.Models
 {
     using Newtonsoft.Json;
-    using Score247Management.Core.Base;
 
-    public class LeagueCategory : BaseModel
+    public class LeagueCategory
     {
+        public string Id { get; set; }
+        public string Name { get; set; }
+
         [JsonProperty("country_code")]
         public string CountryCode { get; set; }
 
