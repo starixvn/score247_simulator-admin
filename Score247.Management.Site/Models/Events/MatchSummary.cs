@@ -71,6 +71,8 @@ namespace Score247.Management.Site.Models.Events
 
         public int home_score { get; set; }
         public int away_score { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string winner_id { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
