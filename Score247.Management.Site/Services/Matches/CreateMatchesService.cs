@@ -655,6 +655,7 @@ namespace Score247.Management.Site.Services.Matches
 
             await simulatorService.SendLiveResult(content);
             await triggerJobService.TriggerFetchLiveMatch();
+            await triggerJobService.TriggerFetchLiveMatchTimeline();
 
             foreach (var postMatch in postMatches)
             {
