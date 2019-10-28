@@ -14,7 +14,6 @@
             $("#lineupsRequestContent").text("");
             let target = '#lineupsRequestContent';
             jsonView.format(lineupsDto, target);
-            //$("#lineupsRequestContent").text(JSON.stringify(lineupsDto, null, '\t'));
             $('#lineupsRequest').modal();
         },
         error: function () {
@@ -40,11 +39,12 @@ function applyLineups(matchId, lineUpsDto) {
 }
 
 function generateH2HData(matchId, e) {
-    e.preventDefault();
+    e.preventDefault(); 
     console.log(matchId);
+    var values = $("#generateH2HData").serialize();
     $.ajax({
         type: "POST",
-        url: urlPrefix() + '/Team/H2H/Generate?matchId=' + matchId,
+        url: urlPrefix() + '/Team/H2H/Generate?matchId=' + matchId + '&' + values,
         contentType: "application/json; charset=utf-8",
         success: function (h2HDto) {
             $('#btnApplyH2H').on("click", function () {

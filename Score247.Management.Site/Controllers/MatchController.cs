@@ -478,7 +478,7 @@ namespace Score247.Management.Site.Controllers
         // H2H
 
         [HttpPost("/Team/H2H/Generate")]
-        public async Task<ActionResult> GenerateH2H([FromQuery]  string matchId)
+        public async Task<ActionResult> GenerateH2H([FromQuery]  string matchId, [FromQuery] string h2hCase)
         {
             var h2HDto = await matchService.GenerateH2H(matchId);
 

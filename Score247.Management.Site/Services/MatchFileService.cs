@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -14,6 +15,10 @@ namespace Score247.Management.Site.Services
         Task<H2HDto> ReadH2HFromFile(string h2hName);
 
         void SaveLiveMatchToFile(DailyResultDto content);
+
+        Task UpdateSchedule(Result result);
+
+        Task ReadSchedule(DateTime scheduleDate);
     }
 
     public class MatchFileService : IMatchFileService
@@ -68,6 +73,16 @@ namespace Score247.Management.Site.Services
             Directory.CreateDirectory(resultFolder);
             File.Delete(path);
             File.WriteAllText(path, json);
+        }
+
+        public async Task ReadSchedule(DateTime scheduleDate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UpdateSchedule(Result result)
+        {
+            throw new NotImplementedException();
         }
     }
 }

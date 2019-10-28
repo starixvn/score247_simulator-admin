@@ -149,6 +149,9 @@
     <Content Update="appsettings.local-test.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="App_Data\h2h\Case1.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="App_Data\h2h\default.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -186,5 +189,6 @@
 
   <ItemGroup>
     <Folder Include="App_Data\live\" />
+    <Folder Include="App_Data\schedule\" />
   </ItemGroup>
 </Project>

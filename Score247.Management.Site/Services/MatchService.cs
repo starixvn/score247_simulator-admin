@@ -49,7 +49,7 @@ namespace Score247.Management.Site.Services
 
         Task ApplyH2H(H2HDto h2HDto);
 
-        Task<H2HDto> GenerateH2H(string matchId);
+        Task<H2HDto> GenerateH2H(string matchId, string h2hCase = "default");
     }
 
     public class MatchService : IMatchService
@@ -307,9 +307,9 @@ namespace Score247.Management.Site.Services
             triggerJobService.TriggerCreateMatchJobs();
         }
 
-        public async Task<H2HDto> GenerateH2H(string matchId)
+        public async Task<H2HDto> GenerateH2H(string matchId, string h2hCase = "default")
         {
-            var h2hDto = await h2HService.GenerateH2HData(matchId);
+            var h2hDto = await h2HService.GenerateH2HData(matchId, h2hCase);
 
             return h2hDto;
         }

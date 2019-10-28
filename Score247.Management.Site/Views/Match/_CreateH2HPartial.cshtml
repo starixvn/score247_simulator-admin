@@ -7,8 +7,14 @@
     <div class="collapse" aria-labelledby="h2hEventHeading" data-parent="#accordion" id="h2h">
         <div class="card-body create-form">
             <form id="generateH2HData">
-                <div class="form-group">
-                    <button class="btn btn-primary" onclick="generateH2HData(`@ViewBag.MatchId`, event)">Generate H2H Data</button>
+                <div class="input-group mb-3">
+                    <select class="custom-select" name="h2hCase">
+                        <option value="default" selected>Default</option>
+                        <option value="Case1">Case 1</option>
+                    </select>
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" onclick="generateH2HData(`@ViewBag.MatchId`, event)">Generate H2H Data</button>
+                    </div>
                 </div>
             </form>
         </div>

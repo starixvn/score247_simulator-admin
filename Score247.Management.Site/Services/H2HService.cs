@@ -8,7 +8,7 @@
 
     public interface IH2HService
     {
-        Task<H2HDto> GenerateH2HData(string matchId);
+        Task<H2HDto> GenerateH2HData(string matchId, string h2hCase = "default");
     }
 
     public class H2HService : IH2HService
@@ -20,11 +20,11 @@
             this.matchFileService = matchFileService;
         }
 
-        public async Task<H2HDto> GenerateH2HData(string matchId)
+        public async Task<H2HDto> GenerateH2HData(string matchId, string h2hCase = "default")
         {
             var matchRepository = new MatchRepository();
             var match = await matchRepository.GetMatchById(matchId);
-            var h2hDto = await matchFileService.ReadH2HFromFile("default");
+            var h2hDto = await matchFileService.ReadH2HFromFile(h2hCase);
             var oldHomeId = h2hDto.teams.ToList()[0].id;
             var oldAwayId = h2hDto.teams.ToList()[1].id;
             var competitors = match.Teams.Select(SportEventMapper.MapCompetitor).ToList();
