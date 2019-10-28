@@ -16,9 +16,13 @@ namespace Score247.Management.Site.Services
 
         void SaveLiveMatchToFile(DailyResultDto content);
 
-        Task UpdateSchedule(Result result);
+        Task UpdateSchedule(DailyScheduleDto result);
 
-        Task ReadSchedule(DateTime scheduleDate);
+        Task<DailyScheduleDto> ReadSchedule(DateTime scheduleDate);
+
+        Task UpdateResult(DailyResultDto result);
+
+        Task<DailyResultDto> ReadResult(DateTime scheduleDate);
     }
 
     public class MatchFileService : IMatchFileService
@@ -63,6 +67,44 @@ namespace Score247.Management.Site.Services
             }
         }
 
+        public async Task<DailyResultDto> ReadResult(DateTime scheduleDate)
+        {
+            try
+            {
+                var resultFolder = $"{DirectoryRoot}";
+                Directory.CreateDirectory(resultFolder);
+                var resultDateFileName = scheduleDate.ToString("yyyy-MM-DD");
+                var path = $"{resultFolder}/result/{resultDateFileName}.json";
+                var jsonData = await File.ReadAllTextAsync(path);
+                var content = JsonConvert.DeserializeObject<DailyResultDto>(jsonData);
+
+                return content;
+            }
+            catch (Exception)
+            {
+                return new DailyResultDto();
+            }
+        }
+
+        public async Task<DailyScheduleDto> ReadSchedule(DateTime scheduleDate)
+        {
+            try
+            {
+                var resultFolder = $"{DirectoryRoot}";
+                Directory.CreateDirectory(resultFolder);
+                var scheduleDateFilename = scheduleDate.ToString("yyyy-MM-DD");
+                var path = $"{resultFolder}/schedule/{scheduleDateFilename}.json";
+                var jsonData = await File.ReadAllTextAsync(path);
+                var content = JsonConvert.DeserializeObject<DailyScheduleDto>(jsonData);
+
+                return content;
+            }
+            catch (Exception)
+            {
+                return new DailyScheduleDto();
+            }
+        }
+
         public void SaveLiveMatchToFile(DailyResultDto content)
         {
             var resultFolder = $"{DirectoryRoot}";
@@ -75,14 +117,30 @@ namespace Score247.Management.Site.Services
             File.WriteAllText(path, json);
         }
 
-        public async Task ReadSchedule(DateTime scheduleDate)
+        public async Task UpdateResult(DailyResultDto result)
         {
-            throw new NotImplementedException();
+            var resultFolder = $"{DirectoryRoot}";
+            Directory.CreateDirectory(resultFolder);
+            var resultDateFileName = result.generated_at.ToString("yyyy-MM-DD");
+            var path = $"{resultFolder}/result/{resultDateFileName}.json";
+            var json = JsonConvert.SerializeObject(result);
+
+            Directory.CreateDirectory(resultFolder);
+            File.Delete(path);
+            File.WriteAllText(path, json);
         }
 
-        public Task UpdateSchedule(Result result)
+        public async Task UpdateSchedule(DailyScheduleDto schedule)
         {
-            throw new NotImplementedException();
+            var resultFolder = $"{DirectoryRoot}";
+            Directory.CreateDirectory(resultFolder);
+            var resultDateFileName = schedule.generated_at.ToString("yyyy-MM-DD");
+            var path = $"{resultFolder}/result/{resultDateFileName}.json";
+            var json = JsonConvert.SerializeObject(schedule);
+
+            Directory.CreateDirectory(resultFolder);
+            File.Delete(path);
+            File.WriteAllText(path, json);
         }
     }
 }

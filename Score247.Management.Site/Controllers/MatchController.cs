@@ -480,7 +480,7 @@ namespace Score247.Management.Site.Controllers
         [HttpPost("/Team/H2H/Generate")]
         public async Task<ActionResult> GenerateH2H([FromQuery]  string matchId, [FromQuery] string h2hCase)
         {
-            var h2HDto = await matchService.GenerateH2H(matchId);
+            var h2HDto = await matchService.GenerateH2H(matchId, h2hCase);
 
             return Json(h2HDto);
         }

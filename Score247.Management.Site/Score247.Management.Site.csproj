@@ -189,6 +189,7 @@
 
   <ItemGroup>
     <Folder Include="App_Data\live\" />
+    <Folder Include="App_Data\result\" />
     <Folder Include="App_Data\schedule\" />
   </ItemGroup>
 </Project>
