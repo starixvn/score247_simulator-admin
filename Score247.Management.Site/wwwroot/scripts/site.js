@@ -98,8 +98,8 @@ $(document).ready(function () {
         locale: { format: 'MM/DD/YYYY' },
         singleDatePicker: true,
         showDropdowns: true,
-        minYear: 2010,
-        maxYear: parseInt(moment().format('YYYY'), 10)
+        minYear: 1990,
+        maxYear: parseInt(moment().format('YYYY'), 50)
     }, function (start, end, label) {
         var years = moment().diff(start, 'years');
     });
@@ -107,8 +107,8 @@ $(document).ready(function () {
         locale: { format: 'MM/DD/YYYY' },
         singleDatePicker: true,
         showDropdowns: true,
-        minYear: 2010,
-        maxYear: parseInt(moment().format('YYYY'), 10)
+        minYear: 1990,
+        maxYear: parseInt(moment().format('YYYY'), 50)
     }, function (start, end, label) {
         var years = moment().diff(start, 'years');
     });
@@ -117,11 +117,11 @@ $(document).ready(function () {
         locale: { format: 'MM/DD/YYYY HH:mm:ss' },
         singleDatePicker: true,
         showDropdowns: true,
-        minYear: 2010,
+        minYear: 1990,
         startDate: moment().startOf('hour'),
         timePicker: true,
         drops: 'up',
-        maxYear: parseInt(moment().format('YYYY'), 10)
+        maxYear: parseInt(moment().format('YYYY'), 50)
     });
 
     $('.timezone-hidden').val(sessionStorage.getItem("Timezone"));
