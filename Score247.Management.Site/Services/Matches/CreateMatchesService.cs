@@ -621,11 +621,7 @@ namespace Score247.Management.Site.Services.Matches
             await triggerJobService.TriggerCreateMatchJobs();
             await CheckIfMatchInserted(matches.LastOrDefault()?.id);
 
-            foreach (var match in matches)
-            {
-                var lineups = lineupService.BuildLineups(match, "4-3-3", "4-3-3");
-                await simulatorService.SendLineups(lineups);
-            }
+            await ApplyRandomFormation(matches);
 
             dailyResults = dailyResults.Select(result =>
             {
@@ -669,6 +665,19 @@ namespace Score247.Management.Site.Services.Matches
                 await scenarioService.RandomScenario(liveMatch.sport_event.id, 0, true);
 
                 await UpdateLiveMatch(liveMatch.sport_event.id);
+            }
+        }
+
+        private async Task ApplyRandomFormation(List<Sport_Event> matches)
+        {
+            var formations = FormationType.GetAll<FormationType>().ToList();
+            var rand = new Random();
+            foreach (var match in matches)
+            {
+                var homeFormation = formations[rand.Next(formations.Count)];
+                var awayFormation = formations[rand.Next(formations.Count)];
+                var lineups = lineupService.BuildLineups(match, homeFormation.DisplayName, awayFormation.DisplayName);
+                await simulatorService.SendLineups(lineups);
             }
         }
 
