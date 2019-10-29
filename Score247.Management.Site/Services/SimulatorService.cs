@@ -217,7 +217,7 @@
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(configuration.GetValue<string>("Simulator:Url"));
-                var response = await client.GetAsync($"/api/soccer-t3/other/en-US/schedules/{resultDateName}/results.json");
+                var response = await client.GetAsync($"api/soccer-t3/other/en-US/schedules/{resultDateName}/results.json");
                 if (!response.IsSuccessStatusCode)
                 {
                     return new DailyResultDto();
@@ -236,7 +236,7 @@
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(configuration.GetValue<string>("Simulator:Url"));
-                var response = await client.GetAsync($"/api/soccer-t3/other/en-US/schedules/{scheduleDateName}/schedule.json");
+                var response = await client.GetAsync($"api/soccer-t3/other/en-US/schedules/{scheduleDateName}/schedule.json");
                 if (!response.IsSuccessStatusCode)
                 {
                     return new DailyScheduleDto();
