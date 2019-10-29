@@ -4,6 +4,7 @@ using Score247Management.Core.Statistics.Models;
 namespace Score247.Management.Site.ViewModels.Matches
 {
     using System.Collections.Generic;
+    using Score247.Management.Site.Helpers;
     using Score247.Management.Site.Models.Events;
     using Score247Management.Core.Matches.Models;
     using Score247Management.Core.Scenarios.Models;
@@ -36,18 +37,18 @@ namespace Score247.Management.Site.ViewModels.Matches
 
             MatchCardEventDto.payload.timeline.player = new TimelinePlayer
             {
-                name = "Player_" + ran.Next(909090).ToString()
+                name = NameGenerator.GeneratePlayerName()
             };
             MatchGoalEventDto = new MatchPushEventDto(match, offset);
             MatchGoalEventDto.payload.timeline.goal_scorer = new Goal_Scorer
             {
-                name = "Player_" + ran.Next(909090).ToString()
+                name = NameGenerator.GeneratePlayerName()
             };
             MatchInjuryExtraEventDto = new MatchPushEventDto(match, offset);
             MatchPenaltyEventDto = new MatchPushEventDto(match, offset);
             MatchPenaltyEventDto.payload.timeline.goal_scorer = new Goal_Scorer
             {
-                name = "Player_" + ran.Next(909090).ToString()
+                name = NameGenerator.GeneratePlayerName()
             };
             MatchTimeEventDto = new MatchPushEventDto(match, offset);
 
@@ -56,11 +57,11 @@ namespace Score247.Management.Site.ViewModels.Matches
             MatchSubstitutionEventDto = new MatchPushEventDto(match, offset);
             MatchSubstitutionEventDto.payload.timeline.player_in = new Player_In
             {
-                name = "Player_" + ran.Next(909090).ToString()
+                name = NameGenerator.GeneratePlayerName()
             };
             MatchSubstitutionEventDto.payload.timeline.player_out = new Player_Out()
             {
-                name = "Player_" + ran.Next(909090).ToString()
+                name = NameGenerator.GeneratePlayerName()
             };
         }
     }

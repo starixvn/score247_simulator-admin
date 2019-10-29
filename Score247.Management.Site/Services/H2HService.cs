@@ -2,6 +2,7 @@
 {
     using System.Linq;
     using System.Threading.Tasks;
+    using Score247.Management.Site.Helpers;
     using Score247.Management.Site.Models;
     using Score247.Management.Site.Models.DataMappers;
     using Score247.Management.Site.Repositories.Matches;
@@ -33,6 +34,7 @@
 
             foreach (var result in h2hDto.last_meetings.results)
             {
+                result.sport_event.id = UniqueGenerator.GetIdWithPattern("sr:match:");
                 foreach (var competitor in result.sport_event.competitors)
                 {
                     if (competitor.id == oldHomeId)
@@ -74,6 +76,7 @@
 
             foreach (var result in h2hDto.next_meetings)
             {
+                result.sport_event.id = UniqueGenerator.GetIdWithPattern("sr:match:");
                 foreach (var competitor in result.sport_event.competitors)
                 {
                     if (competitor.id == oldHomeId)

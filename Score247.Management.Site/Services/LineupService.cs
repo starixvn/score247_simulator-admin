@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
+using Score247.Management.Site.Helpers;
 using Score247.Management.Site.Models;
 using Score247.Management.Site.Models.DataMappers;
 using Score247.Management.Site.Models.Events;
@@ -82,7 +83,15 @@ namespace Score247.Management.Site.Services
                 var path = $"{resultFolder}/{formation}.json";
                 var jsonData = File.ReadAllText(path);
                 var content = JsonConvert.DeserializeObject<LineUp>(jsonData);
-
+                foreach (var player in content.starting_lineup)
+                {
+                    player.name = NameGenerator.GeneratePlayerName();
+                }
+                foreach (var player in content.substitutes)
+                {
+                    player.name = NameGenerator.GeneratePlayerName();
+                }
+                content.manager.name = NameGenerator.GeneratePlayerName();
                 return content;
             }
             catch (Exception)

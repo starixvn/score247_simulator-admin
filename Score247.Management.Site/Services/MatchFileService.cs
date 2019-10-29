@@ -23,6 +23,10 @@ namespace Score247.Management.Site.Services
         Task UpdateResult(DailyResultDto result);
 
         Task<DailyResultDto> ReadResult(DateTime scheduleDate);
+
+        Task UpdateTeamResult(TeamResultDto result);
+
+        Task<TeamResultDto> ReadTeamResult(string teamId);
     }
 
     public class MatchFileService : IMatchFileService
@@ -105,6 +109,11 @@ namespace Score247.Management.Site.Services
             }
         }
 
+        public Task<TeamResultDto> ReadTeamResult(string teamId)
+        {
+            throw new NotImplementedException();
+        }
+
         public void SaveLiveMatchToFile(DailyResultDto content)
         {
             var resultFolder = $"{DirectoryRoot}";
@@ -141,6 +150,11 @@ namespace Score247.Management.Site.Services
             Directory.CreateDirectory(resultFolder);
             File.Delete(path);
             File.WriteAllText(path, json);
+        }
+
+        public Task UpdateTeamResult(TeamResultDto result)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,0 +1,744 @@
+{
+    "generated_at": "2019-10-29T02:31:40+00:00",
+    "schema": "http:\/\/schemas.sportradar.com\/bsa\/soccer\/v1\/json\/endpoints\/soccer\/team_results.json",
+    "team": {
+        "id": "sr:competitor:44",
+        "name": "Liverpool FC",
+        "country": "England",
+        "country_code": "ENG",
+        "abbreviation": "LFC"
+    },
+    "results": [
+        {
+            "sport_event": {
+                "id": "sr:match:18427710",
+                "scheduled": "2019-10-27T16:30:00+00:00",
+                "start_time_tbd": false,
+                "tournament_round": {
+                    "type": "group",
+                    "number": 10,
+                    "phase": "regular season"
+                },
+                "season": {
+                    "id": "sr:season:66441",
+                    "name": "Premier League 19\/20",
+                    "start_date": "2019-08-09",
+                    "end_date": "2020-05-18",
+                    "year": "19\/20",
+                    "tournament_id": "sr:tournament:17"
+                },
+                "tournament": {
+                    "id": "sr:tournament:17",
+                    "name": "Premier League",
+                    "sport": {
+                        "id": "sr:sport:1",
+                        "name": "Soccer"
+                    },
+                    "category": {
+                        "id": "sr:category:1",
+                        "name": "England",
+                        "country_code": "ENG"
+                    }
+                },
+                "competitors": [
+                    {
+                        "id": "sr:competitor:44",
+                        "name": "Liverpool FC",
+                        "country": "England",
+                        "country_code": "ENG",
+                        "abbreviation": "LFC",
+                        "qualifier": "home"
+                    },
+                    {
+                        "id": "sr:competitor:33",
+                        "name": "Tottenham Hotspur",
+                        "country": "England",
+                        "country_code": "ENG",
+                        "abbreviation": "TOT",
+                        "qualifier": "away"
+                    }
+                ],
+                "venue": {
+                    "id": "sr:venue:579",
+                    "name": "Anfield",
+                    "capacity": 54074,
+                    "city_name": "Liverpool",
+                    "country_name": "England",
+                    "map_coordinates": "53.430622,-2.960919",
+                    "country_code": "ENG"
+                }
+            },
+            "sport_event_status": {
+                "status": "closed",
+                "match_status": "ended",
+                "home_score": 2,
+                "away_score": 1,
+                "winner_id": "sr:competitor:44",
+                "period_scores": [
+                    {
+                        "home_score": 0,
+                        "away_score": 1,
+                        "type": "regular_period",
+                        "number": 1
+                    },
+                    {
+                        "home_score": 2,
+                        "away_score": 0,
+                        "type": "regular_period",
+                        "number": 2
+                    }
+                ]
+            }
+        },
+        {
+            "sport_event": {
+                "id": "sr:match:19323790",
+                "scheduled": "2019-10-23T19:00:00+00:00",
+                "start_time_tbd": false,
+                "tournament_round": {
+                    "type": "group",
+                    "number": 3,
+                    "group": "E",
+                    "phase": "group_phase_1"
+                },
+                "season": {
+                    "id": "sr:season:67681",
+                    "name": "UEFA Champions League 19\/20",
+                    "start_date": "2019-06-25",
+                    "end_date": "2020-06-01",
+                    "year": "19\/20",
+                    "tournament_id": "sr:tournament:7"
+                },
+                "tournament": {
+                    "id": "sr:tournament:7",
+                    "name": "UEFA Champions League",
+                    "sport": {
+                        "id": "sr:sport:1",
+                        "name": "Soccer"
+                    },
+                    "category": {
+                        "id": "sr:category:393",
+                        "name": "International Clubs"
+                    }
+                },
+                "competitors": [
+                    {
+                        "id": "sr:competitor:2890",
+                        "name": "KRC Genk",
+                        "country": "Belgium",
+                        "country_code": "BEL",
+                        "abbreviation": "GEN",
+                        "qualifier": "home"
+                    },
+                    {
+                        "id": "sr:competitor:44",
+                        "name": "Liverpool FC",
+                        "country": "England",
+                        "country_code": "ENG",
+                        "abbreviation": "LFC",
+                        "qualifier": "away"
+                    }
+                ],
+                "venue": {
+                    "id": "sr:venue:1204",
+                    "name": "Luminus Arena",
+                    "capacity": 24956,
+                    "city_name": "Genk",
+                    "country_name": "Belgium",
+                    "map_coordinates": "51.005000,5.533333",
+                    "country_code": "BEL"
+                }
+            },
+            "sport_event_status": {
+                "status": "closed",
+                "match_status": "ended",
+                "home_score": 1,
+                "away_score": 4,
+                "winner_id": "sr:competitor:44",
+                "period_scores": [
+                    {
+                        "home_score": 0,
+                        "away_score": 1,
+                        "type": "regular_period",
+                        "number": 1
+                    },
+                    {
+                        "home_score": 1,
+                        "away_score": 3,
+                        "type": "regular_period",
+                        "number": 2
+                    }
+                ]
+            }
+        },
+        {
+            "sport_event": {
+                "id": "sr:match:18427696",
+                "scheduled": "2019-10-20T15:30:00+00:00",
+                "start_time_tbd": false,
+                "tournament_round": {
+                    "type": "group",
+                    "number": 9,
+                    "phase": "regular season"
+                },
+                "season": {
+                    "id": "sr:season:66441",
+                    "name": "Premier League 19\/20",
+                    "start_date": "2019-08-09",
+                    "end_date": "2020-05-18",
+                    "year": "19\/20",
+                    "tournament_id": "sr:tournament:17"
+                },
+                "tournament": {
+                    "id": "sr:tournament:17",
+                    "name": "Premier League",
+                    "sport": {
+                        "id": "sr:sport:1",
+                        "name": "Soccer"
+                    },
+                    "category": {
+                        "id": "sr:category:1",
+                        "name": "England",
+                        "country_code": "ENG"
+                    }
+                },
+                "competitors": [
+                    {
+                        "id": "sr:competitor:35",
+                        "name": "Manchester United",
+                        "country": "England",
+                        "country_code": "ENG",
+                        "abbreviation": "MNU",
+                        "qualifier": "home"
+                    },
+                    {
+                        "id": "sr:competitor:44",
+                        "name": "Liverpool FC",
+                        "country": "England",
+                        "country_code": "ENG",
+                        "abbreviation": "LFC",
+                        "qualifier": "away"
+                    }
+                ],
+                "venue": {
+                    "id": "sr:venue:9",
+                    "name": "Old Trafford",
+                    "capacity": 75635,
+                    "city_name": "Manchester",
+                    "country_name": "England",
+                    "map_coordinates": "53.463150,-2.291444",
+                    "country_code": "ENG"
+                }
+            },
+            "sport_event_status": {
+                "status": "closed",
+                "match_status": "ended",
+                "home_score": 1,
+                "away_score": 1,
+                "period_scores": [
+                    {
+                        "home_score": 1,
+                        "away_score": 0,
+                        "type": "regular_period",
+                        "number": 1
+                    },
+                    {
+                        "home_score": 0,
+                        "away_score": 1,
+                        "type": "regular_period",
+                        "number": 2
+                    }
+                ]
+            }
+        },
+        {
+            "sport_event": {
+                "id": "sr:match:18427670",
+                "scheduled": "2019-10-05T14:00:00+00:00",
+                "start_time_tbd": false,
+                "tournament_round": {
+                    "type": "group",
+                    "number": 8,
+                    "phase": "regular season"
+                },
+                "season": {
+                    "id": "sr:season:66441",
+                    "name": "Premier League 19\/20",
+                    "start_date": "2019-08-09",
+                    "end_date": "2020-05-18",
+                    "year": "19\/20",
+                    "tournament_id": "sr:tournament:17"
+                },
+                "tournament": {
+                    "id": "sr:tournament:17",
+                    "name": "Premier League",
+                    "sport": {
+                        "id": "sr:sport:1",
+                        "name": "Soccer"
+                    },
+                    "category": {
+                        "id": "sr:category:1",
+                        "name": "England",
+                        "country_code": "ENG"
+                    }
+                },
+                "competitors": [
+                    {
+                        "id": "sr:competitor:44",
+                        "name": "Liverpool FC",
+                        "country": "England",
+                        "country_code": "ENG",
+                        "abbreviation": "LFC",
+                        "qualifier": "home"
+                    },
+                    {
+                        "id": "sr:competitor:31",
+                        "name": "Leicester City",
+                        "country": "England",
+                        "country_code": "ENG",
+                        "abbreviation": "LEI",
+                        "qualifier": "away"
+                    }
+                ],
+                "venue": {
+                    "id": "sr:venue:579",
+                    "name": "Anfield",
+                    "capacity": 54074,
+                    "city_name": "Liverpool",
+                    "country_name": "England",
+                    "map_coordinates": "53.430622,-2.960919",
+                    "country_code": "ENG"
+                }
+            },
+            "sport_event_status": {
+                "status": "closed",
+                "match_status": "ended",
+                "home_score": 2,
+                "away_score": 1,
+                "winner_id": "sr:competitor:44",
+                "period_scores": [
+                    {
+                        "home_score": 1,
+                        "away_score": 0,
+                        "type": "regular_period",
+                        "number": 1
+                    },
+                    {
+                        "home_score": 1,
+                        "away_score": 1,
+                        "type": "regular_period",
+                        "number": 2
+                    }
+                ]
+            }
+        },
+        {
+            "sport_event": {
+                "id": "sr:match:19323786",
+                "scheduled": "2019-10-02T19:00:00+00:00",
+                "start_time_tbd": false,
+                "tournament_round": {
+                    "type": "group",
+                    "number": 2,
+                    "group": "E",
+                    "phase": "group_phase_1"
+                },
+                "season": {
+                    "id": "sr:season:67681",
+                    "name": "UEFA Champions League 19\/20",
+                    "start_date": "2019-06-25",
+                    "end_date": "2020-06-01",
+                    "year": "19\/20",
+                    "tournament_id": "sr:tournament:7"
+                },
+                "tournament": {
+                    "id": "sr:tournament:7",
+                    "name": "UEFA Champions League",
+                    "sport": {
+                        "id": "sr:sport:1",
+                        "name": "Soccer"
+                    },
+                    "category": {
+                        "id": "sr:category:393",
+                        "name": "International Clubs"
+                    }
+                },
+                "competitors": [
+                    {
+                        "id": "sr:competitor:44",
+                        "name": "Liverpool FC",
+                        "country": "England",
+                        "country_code": "ENG",
+                        "abbreviation": "LFC",
+                        "qualifier": "home"
+                    },
+                    {
+                        "id": "sr:competitor:2046",
+                        "name": "FC Salzburg",
+                        "country": "Austria",
+                        "country_code": "AUT",
+                        "abbreviation": "SAL",
+                        "qualifier": "away"
+                    }
+                ],
+                "venue": {
+                    "id": "sr:venue:579",
+                    "name": "Anfield",
+                    "capacity": 54074,
+                    "city_name": "Liverpool",
+                    "country_name": "England",
+                    "map_coordinates": "53.430622,-2.960919",
+                    "country_code": "ENG"
+                }
+            },
+            "sport_event_status": {
+                "status": "closed",
+                "match_status": "ended",
+                "home_score": 4,
+                "away_score": 3,
+                "winner_id": "sr:competitor:44",
+                "period_scores": [
+                    {
+                        "home_score": 3,
+                        "away_score": 1,
+                        "type": "regular_period",
+                        "number": 1
+                    },
+                    {
+                        "home_score": 1,
+                        "away_score": 2,
+                        "type": "regular_period",
+                        "number": 2
+                    }
+                ]
+            }
+        },
+        {
+            "sport_event": {
+                "id": "sr:match:18427658",
+                "scheduled": "2019-09-28T11:30:00+00:00",
+                "start_time_tbd": false,
+                "tournament_round": {
+                    "type": "group",
+                    "number": 7,
+                    "phase": "regular season"
+                },
+                "season": {
+                    "id": "sr:season:66441",
+                    "name": "Premier League 19\/20",
+                    "start_date": "2019-08-09",
+                    "end_date": "2020-05-18",
+                    "year": "19\/20",
+                    "tournament_id": "sr:tournament:17"
+                },
+                "tournament": {
+                    "id": "sr:tournament:17",
+                    "name": "Premier League",
+                    "sport": {
+                        "id": "sr:sport:1",
+                        "name": "Soccer"
+                    },
+                    "category": {
+                        "id": "sr:category:1",
+                        "name": "England",
+                        "country_code": "ENG"
+                    }
+                },
+                "competitors": [
+                    {
+                        "id": "sr:competitor:15",
+                        "name": "Sheffield United",
+                        "country": "England",
+                        "country_code": "ENG",
+                        "abbreviation": "SHU",
+                        "qualifier": "home"
+                    },
+                    {
+                        "id": "sr:competitor:44",
+                        "name": "Liverpool FC",
+                        "country": "England",
+                        "country_code": "ENG",
+                        "abbreviation": "LFC",
+                        "qualifier": "away"
+                    }
+                ],
+                "venue": {
+                    "id": "sr:venue:598",
+                    "name": "Bramall Lane",
+                    "capacity": 32702,
+                    "city_name": "Sheffield",
+                    "country_name": "England",
+                    "map_coordinates": "53.370278,-1.470833",
+                    "country_code": "ENG"
+                }
+            },
+            "sport_event_status": {
+                "status": "closed",
+                "match_status": "ended",
+                "home_score": 0,
+                "away_score": 1,
+                "winner_id": "sr:competitor:44",
+                "period_scores": [
+                    {
+                        "home_score": 0,
+                        "away_score": 0,
+                        "type": "regular_period",
+                        "number": 1
+                    },
+                    {
+                        "home_score": 0,
+                        "away_score": 1,
+                        "type": "regular_period",
+                        "number": 2
+                    }
+                ]
+            }
+        },
+        {
+            "sport_event": {
+                "id": "sr:match:19311406",
+                "scheduled": "2019-09-25T18:45:00+00:00",
+                "start_time_tbd": false,
+                "tournament_round": {
+                    "type": "cup",
+                    "number": 3,
+                    "name": "cupround",
+                    "cup_round_match_number": 1,
+                    "cup_round_matches": 1,
+                    "phase": "knockout_stage"
+                },
+                "season": {
+                    "id": "sr:season:66629",
+                    "name": "EFL Cup 19\/20",
+                    "start_date": "2019-08-06",
+                    "end_date": "2020-03-02",
+                    "year": "19\/20",
+                    "tournament_id": "sr:tournament:21"
+                },
+                "tournament": {
+                    "id": "sr:tournament:21",
+                    "name": "EFL Cup",
+                    "sport": {
+                        "id": "sr:sport:1",
+                        "name": "Soccer"
+                    },
+                    "category": {
+                        "id": "sr:category:1",
+                        "name": "England",
+                        "country_code": "ENG"
+                    }
+                },
+                "competitors": [
+                    {
+                        "id": "sr:competitor:4",
+                        "name": "Milton Keynes Dons",
+                        "country": "England",
+                        "country_code": "ENG",
+                        "abbreviation": "MKD",
+                        "qualifier": "home"
+                    },
+                    {
+                        "id": "sr:competitor:44",
+                        "name": "Liverpool FC",
+                        "country": "England",
+                        "country_code": "ENG",
+                        "abbreviation": "LFC",
+                        "qualifier": "away"
+                    }
+                ],
+                "venue": {
+                    "id": "sr:venue:2312",
+                    "name": "Stadium MK",
+                    "capacity": 30500,
+                    "city_name": "Milton Keynes",
+                    "country_name": "England",
+                    "map_coordinates": "52.009444,-0.733333",
+                    "country_code": "ENG"
+                }
+            },
+            "sport_event_status": {
+                "status": "closed",
+                "match_status": "ended",
+                "home_score": 0,
+                "away_score": 2,
+                "winner_id": "sr:competitor:44",
+                "period_scores": [
+                    {
+                        "home_score": 0,
+                        "away_score": 1,
+                        "type": "regular_period",
+                        "number": 1
+                    },
+                    {
+                        "home_score": 0,
+                        "away_score": 1,
+                        "type": "regular_period",
+                        "number": 2
+                    }
+                ]
+            }
+        },
+        {
+            "sport_event": {
+                "id": "sr:match:18427628",
+                "scheduled": "2019-09-22T15:30:00+00:00",
+                "start_time_tbd": false,
+                "tournament_round": {
+                    "type": "group",
+                    "number": 6,
+                    "phase": "regular season"
+                },
+                "season": {
+                    "id": "sr:season:66441",
+                    "name": "Premier League 19\/20",
+                    "start_date": "2019-08-09",
+                    "end_date": "2020-05-18",
+                    "year": "19\/20",
+                    "tournament_id": "sr:tournament:17"
+                },
+                "tournament": {
+                    "id": "sr:tournament:17",
+                    "name": "Premier League",
+                    "sport": {
+                        "id": "sr:sport:1",
+                        "name": "Soccer"
+                    },
+                    "category": {
+                        "id": "sr:category:1",
+                        "name": "England",
+                        "country_code": "ENG"
+                    }
+                },
+                "competitors": [
+                    {
+                        "id": "sr:competitor:38",
+                        "name": "Chelsea FC",
+                        "country": "England",
+                        "country_code": "ENG",
+                        "abbreviation": "CFC",
+                        "qualifier": "home"
+                    },
+                    {
+                        "id": "sr:competitor:44",
+                        "name": "Liverpool FC",
+                        "country": "England",
+                        "country_code": "ENG",
+                        "abbreviation": "LFC",
+                        "qualifier": "away"
+                    }
+                ],
+                "venue": {
+                    "id": "sr:venue:799",
+                    "name": "Stamford Bridge",
+                    "capacity": 41798,
+                    "city_name": "London",
+                    "country_name": "England",
+                    "map_coordinates": "51.481579,-0.191094",
+                    "country_code": "ENG"
+                }
+            },
+            "sport_event_status": {
+                "status": "closed",
+                "match_status": "ended",
+                "home_score": 1,
+                "away_score": 2,
+                "winner_id": "sr:competitor:44",
+                "period_scores": [
+                    {
+                        "home_score": 0,
+                        "away_score": 2,
+                        "type": "regular_period",
+                        "number": 1
+                    },
+                    {
+                        "home_score": 1,
+                        "away_score": 0,
+                        "type": "regular_period",
+                        "number": 2
+                    }
+                ]
+            }
+        },
+        {
+            "sport_event": {
+                "id": "sr:match:19323780",
+                "scheduled": "2019-09-17T19:00:00+00:00",
+                "start_time_tbd": false,
+                "tournament_round": {
+                    "type": "group",
+                    "number": 1,
+                    "group": "E",
+                    "phase": "group_phase_1"
+                },
+                "season": {
+                    "id": "sr:season:67681",
+                    "name": "UEFA Champions League 19\/20",
+                    "start_date": "2019-06-25",
+                    "end_date": "2020-06-01",
+                    "year": "19\/20",
+                    "tournament_id": "sr:tournament:7"
+                },
+                "tournament": {
+                    "id": "sr:tournament:7",
+                    "name": "UEFA Champions League",
+                    "sport": {
+                        "id": "sr:sport:1",
+                        "name": "Soccer"
+                    },
+                    "category": {
+                        "id": "sr:category:393",
+                        "name": "International Clubs"
+                    }
+                },
+                "competitors": [
+                    {
+                        "id": "sr:competitor:2714",
+                        "name": "SSC Napoli",
+                        "country": "Italy",
+                        "country_code": "ITA",
+                        "abbreviation": "NAP",
+                        "qualifier": "home"
+                    },
+                    {
+                        "id": "sr:competitor:44",
+                        "name": "Liverpool FC",
+                        "country": "England",
+                        "country_code": "ENG",
+                        "abbreviation": "LFC",
+                        "qualifier": "away"
+                    }
+                ],
+                "venue": {
+                    "id": "sr:venue:872",
+                    "name": "Stadio San Paolo",
+                    "capacity": 60240,
+                    "city_name": "Naples",
+                    "country_name": "Italy",
+                    "map_coordinates": "40.827967,14.193008",
+                    "country_code": "ITA"
+                }
+            },
+            "sport_event_status": {
+                "status": "closed",
+                "match_status": "ended",
+                "home_score": 2,
+                "away_score": 0,
+                "winner_id": "sr:competitor:2714",
+                "period_scores": [
+                    {
+                        "home_score": 0,
+                        "away_score": 0,
+                        "type": "regular_period",
+                        "number": 1
+                    },
+                    {
+                        "home_score": 2,
+                        "away_score": 0,
+                        "type": "regular_period",
+                        "number": 2
+                    }
+                ]
+            }
+        }
+    ]
+}

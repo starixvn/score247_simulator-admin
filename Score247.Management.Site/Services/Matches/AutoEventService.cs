@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Score247.Management.Site.Helpers;
 using Score247.Management.Site.Repositories.Matches;
 
 namespace Score247.Management.Site.Services.Matches
@@ -44,19 +45,19 @@ namespace Score247.Management.Site.Services.Matches
 
             // Card Event
             currentMatchTime = 15;
-            eventMatch = MatchCardEventCreator.CreateYellowCardEvent(match, match.EventDate.AddMinutes(currentMatchTime), currentMatchTime, "home", "Player_" + rand.Next(999).ToString(), 0);
+            eventMatch = MatchCardEventCreator.CreateYellowCardEvent(match, match.EventDate.AddMinutes(currentMatchTime), currentMatchTime, "home", NameGenerator.GeneratePlayerName(), 0);
             await simulatorService.SendMatchEvent(eventMatch);
             match = await matchRepository.GetMatchById(matchId);
 
             // Score event
             currentMatchTime = 20;
-            eventMatch = MatchScoreEventCreator.CreateNormalScore(match, match.EventDate.AddMinutes(currentMatchTime), currentMatchTime, "home", "Player_" + rand.Next(999).ToString(), false);
+            eventMatch = MatchScoreEventCreator.CreateNormalScore(match, match.EventDate.AddMinutes(currentMatchTime), currentMatchTime, "home", NameGenerator.GeneratePlayerName(), false);
             await simulatorService.SendMatchEvent(eventMatch);
             match = await matchRepository.GetMatchById(matchId);
 
             // Own Score
             currentMatchTime = 30;
-            eventMatch = MatchScoreEventCreator.CreateNormalScore(match, match.EventDate.AddMinutes(currentMatchTime), currentMatchTime, "home", "Player_" + rand.Next(999).ToString(), true);
+            eventMatch = MatchScoreEventCreator.CreateNormalScore(match, match.EventDate.AddMinutes(currentMatchTime), currentMatchTime, "home", NameGenerator.GeneratePlayerName(), true);
             await simulatorService.SendMatchEvent(eventMatch);
             match = await matchRepository.GetMatchById(matchId);
 
@@ -68,7 +69,7 @@ namespace Score247.Management.Site.Services.Matches
             match = await matchRepository.GetMatchById(matchId);
 
             // Card Event
-            eventMatch = MatchCardEventCreator.CreateRedCardEvent(match, match.EventDate.AddMinutes(currentMatchTime + 1), currentMatchTime, "away", "Player_" + rand.Next(999).ToString(), 1);
+            eventMatch = MatchCardEventCreator.CreateRedCardEvent(match, match.EventDate.AddMinutes(currentMatchTime + 1), currentMatchTime, "away", NameGenerator.GeneratePlayerName(), 1);
             await simulatorService.SendMatchEvent(eventMatch);
             match = await matchRepository.GetMatchById(matchId);
 
@@ -85,13 +86,13 @@ namespace Score247.Management.Site.Services.Matches
 
             // Card Event
             currentMatchTime = 49;
-            eventMatch = MatchCardEventCreator.CreateYellowRedCardEvent(match, match.EventDate.AddMinutes(currentMatchTime + extraTime + breakHalfTime), currentMatchTime, "away", "Player_" + rand.Next(999).ToString(), 0);
+            eventMatch = MatchCardEventCreator.CreateYellowRedCardEvent(match, match.EventDate.AddMinutes(currentMatchTime + extraTime + breakHalfTime), currentMatchTime, "away", NameGenerator.GeneratePlayerName(), 0);
             await simulatorService.SendMatchEvent(eventMatch);
             match = await matchRepository.GetMatchById(matchId);
 
             // Score event
             currentMatchTime = 52;
-            eventMatch = MatchScoreEventCreator.CreatePenaltyScore(match, match.EventDate.AddMinutes(currentMatchTime + extraTime + breakHalfTime), currentMatchTime, "away", "Player_" + rand.Next(999).ToString());
+            eventMatch = MatchScoreEventCreator.CreatePenaltyScore(match, match.EventDate.AddMinutes(currentMatchTime + extraTime + breakHalfTime), currentMatchTime, "away", NameGenerator.GeneratePlayerName());
             await simulatorService.SendMatchEvent(eventMatch);
             match = await matchRepository.GetMatchById(matchId);
 
@@ -103,7 +104,7 @@ namespace Score247.Management.Site.Services.Matches
             match = await matchRepository.GetMatchById(matchId);
 
             // Card Event
-            eventMatch = MatchCardEventCreator.CreateYellowCardEvent(match, match.EventDate.AddMinutes(currentMatchTime + breakHalfTime + 3), currentMatchTime, "away", "Player_" + rand.Next(999).ToString(), 2);
+            eventMatch = MatchCardEventCreator.CreateYellowCardEvent(match, match.EventDate.AddMinutes(currentMatchTime + breakHalfTime + 3), currentMatchTime, "away", NameGenerator.GeneratePlayerName(), 2);
             await simulatorService.SendMatchEvent(eventMatch);
             match = await matchRepository.GetMatchById(matchId);
 
@@ -134,19 +135,19 @@ namespace Score247.Management.Site.Services.Matches
 
             // Card Event
             currentMatchTime = 15;
-            eventMatch = MatchCardEventCreator.CreateYellowCardEvent(match, match.EventDate.AddMinutes(currentMatchTime), currentMatchTime, "home", "Player_" + rand.Next(999).ToString(), 0);
+            eventMatch = MatchCardEventCreator.CreateYellowCardEvent(match, match.EventDate.AddMinutes(currentMatchTime), currentMatchTime, "home", NameGenerator.GeneratePlayerName(), 0);
             await simulatorService.SendMatchEvent(eventMatch);
             match = await matchRepository.GetMatchById(matchId);
 
             // Score event
             currentMatchTime = 20;
-            eventMatch = MatchScoreEventCreator.CreateNormalScore(match, match.EventDate.AddMinutes(currentMatchTime), currentMatchTime, "home", "Player_" + rand.Next(999).ToString(), false);
+            eventMatch = MatchScoreEventCreator.CreateNormalScore(match, match.EventDate.AddMinutes(currentMatchTime), currentMatchTime, "home", NameGenerator.GeneratePlayerName(), false);
             await simulatorService.SendMatchEvent(eventMatch);
             match = await matchRepository.GetMatchById(matchId);
 
             // Own Score
             currentMatchTime = 30;
-            eventMatch = MatchScoreEventCreator.CreateNormalScore(match, match.EventDate.AddMinutes(currentMatchTime), currentMatchTime, "home", "Player_" + rand.Next(999).ToString(), true);
+            eventMatch = MatchScoreEventCreator.CreateNormalScore(match, match.EventDate.AddMinutes(currentMatchTime), currentMatchTime, "home", NameGenerator.GeneratePlayerName(), true);
             await simulatorService.SendMatchEvent(eventMatch);
             match = await matchRepository.GetMatchById(matchId);
 
@@ -158,7 +159,7 @@ namespace Score247.Management.Site.Services.Matches
             match = await matchRepository.GetMatchById(matchId);
 
             // Card Event
-            eventMatch = MatchCardEventCreator.CreateRedCardEvent(match, match.EventDate.AddMinutes(currentMatchTime + 1), currentMatchTime, "away", "Player_" + rand.Next(999).ToString(), 1);
+            eventMatch = MatchCardEventCreator.CreateRedCardEvent(match, match.EventDate.AddMinutes(currentMatchTime + 1), currentMatchTime, "away", NameGenerator.GeneratePlayerName(), 1);
             await simulatorService.SendMatchEvent(eventMatch);
             match = await matchRepository.GetMatchById(matchId);
 
@@ -175,13 +176,13 @@ namespace Score247.Management.Site.Services.Matches
 
             // Card Event
             currentMatchTime = 49;
-            eventMatch = MatchCardEventCreator.CreateYellowRedCardEvent(match, match.EventDate.AddMinutes(currentMatchTime + extraTime + breakHalfTime), currentMatchTime, "away", "Player_" + rand.Next(999).ToString(), 0);
+            eventMatch = MatchCardEventCreator.CreateYellowRedCardEvent(match, match.EventDate.AddMinutes(currentMatchTime + extraTime + breakHalfTime), currentMatchTime, "away", NameGenerator.GeneratePlayerName(), 0);
             await simulatorService.SendMatchEvent(eventMatch);
             match = await matchRepository.GetMatchById(matchId);
 
             // Score event
             currentMatchTime = 52;
-            eventMatch = MatchScoreEventCreator.CreatePenaltyScore(match, match.EventDate.AddMinutes(currentMatchTime + extraTime + breakHalfTime), currentMatchTime, "away", "Player_" + rand.Next(999).ToString());
+            eventMatch = MatchScoreEventCreator.CreatePenaltyScore(match, match.EventDate.AddMinutes(currentMatchTime + extraTime + breakHalfTime), currentMatchTime, "away", NameGenerator.GeneratePlayerName());
             await simulatorService.SendMatchEvent(eventMatch);
             match = await matchRepository.GetMatchById(matchId);
 
@@ -193,7 +194,7 @@ namespace Score247.Management.Site.Services.Matches
             match = await matchRepository.GetMatchById(matchId);
 
             // Card Event
-            eventMatch = MatchCardEventCreator.CreateYellowCardEvent(match, match.EventDate.AddMinutes(currentMatchTime + breakHalfTime + 4), currentMatchTime, "away", "Player_" + rand.Next(999).ToString(), 2);
+            eventMatch = MatchCardEventCreator.CreateYellowCardEvent(match, match.EventDate.AddMinutes(currentMatchTime + breakHalfTime + 4), currentMatchTime, "away", NameGenerator.GeneratePlayerName(), 2);
             await simulatorService.SendMatchEvent(eventMatch);
             match = await matchRepository.GetMatchById(matchId);
 
@@ -210,7 +211,7 @@ namespace Score247.Management.Site.Services.Matches
 
             // Card Event
             currentMatchTime = 100;
-            eventMatch = MatchCardEventCreator.CreateYellowCardEvent(match, match.EventDate.AddMinutes(currentMatchTime + breakHalfTime + extraTime + awaitingExtra), currentMatchTime, "away", "Player_" + rand.Next(999).ToString(), 2);
+            eventMatch = MatchCardEventCreator.CreateYellowCardEvent(match, match.EventDate.AddMinutes(currentMatchTime + breakHalfTime + extraTime + awaitingExtra), currentMatchTime, "away", NameGenerator.GeneratePlayerName(), 2);
             await simulatorService.SendMatchEvent(eventMatch);
             match = await matchRepository.GetMatchById(matchId);
 
@@ -229,7 +230,7 @@ namespace Score247.Management.Site.Services.Matches
 
             // Score event
             currentMatchTime = 115;
-            eventMatch = MatchScoreEventCreator.CreateOvertimeScore(match, match.EventDate.AddMinutes(currentMatchTime + breakHalfTime + extraTime + awaitingExtra + breakExtraTime), currentMatchTime, "home", "Player_" + rand.Next(999).ToString(), false);
+            eventMatch = MatchScoreEventCreator.CreateOvertimeScore(match, match.EventDate.AddMinutes(currentMatchTime + breakHalfTime + extraTime + awaitingExtra + breakExtraTime), currentMatchTime, "home", NameGenerator.GeneratePlayerName(), false);
             await simulatorService.SendMatchEvent(eventMatch);
             match = await matchRepository.GetMatchById(matchId);
 
@@ -261,19 +262,19 @@ namespace Score247.Management.Site.Services.Matches
 
             // Card Event
             currentMatchTime = 15;
-            eventMatch = MatchCardEventCreator.CreateYellowCardEvent(match, match.EventDate.AddMinutes(currentMatchTime), currentMatchTime, "home", "Player_" + rand.Next(999).ToString(), 0);
+            eventMatch = MatchCardEventCreator.CreateYellowCardEvent(match, match.EventDate.AddMinutes(currentMatchTime), currentMatchTime, "home", NameGenerator.GeneratePlayerName(), 0);
             await simulatorService.SendMatchEvent(eventMatch);
             match = await matchRepository.GetMatchById(matchId);
 
             // Score event
             currentMatchTime = 20;
-            eventMatch = MatchScoreEventCreator.CreateNormalScore(match, match.EventDate.AddMinutes(currentMatchTime), currentMatchTime, "home", "Player_" + rand.Next(999).ToString(), false);
+            eventMatch = MatchScoreEventCreator.CreateNormalScore(match, match.EventDate.AddMinutes(currentMatchTime), currentMatchTime, "home", NameGenerator.GeneratePlayerName(), false);
             await simulatorService.SendMatchEvent(eventMatch);
             match = await matchRepository.GetMatchById(matchId);
 
             // Own Score
             currentMatchTime = 30;
-            eventMatch = MatchScoreEventCreator.CreateNormalScore(match, match.EventDate.AddMinutes(currentMatchTime), currentMatchTime, "home", "Player_" + rand.Next(999).ToString(), true);
+            eventMatch = MatchScoreEventCreator.CreateNormalScore(match, match.EventDate.AddMinutes(currentMatchTime), currentMatchTime, "home", NameGenerator.GeneratePlayerName(), true);
             await simulatorService.SendMatchEvent(eventMatch);
             match = await matchRepository.GetMatchById(matchId);
 
@@ -285,7 +286,7 @@ namespace Score247.Management.Site.Services.Matches
             match = await matchRepository.GetMatchById(matchId);
 
             // Card Event
-            eventMatch = MatchCardEventCreator.CreateRedCardEvent(match, match.EventDate.AddMinutes(currentMatchTime + 1), currentMatchTime, "away", "Player_" + rand.Next(999).ToString(), 1);
+            eventMatch = MatchCardEventCreator.CreateRedCardEvent(match, match.EventDate.AddMinutes(currentMatchTime + 1), currentMatchTime, "away", NameGenerator.GeneratePlayerName(), 1);
             await simulatorService.SendMatchEvent(eventMatch);
             match = await matchRepository.GetMatchById(matchId);
 
@@ -302,13 +303,13 @@ namespace Score247.Management.Site.Services.Matches
 
             // Card Event
             currentMatchTime = 49;
-            eventMatch = MatchCardEventCreator.CreateYellowRedCardEvent(match, match.EventDate.AddMinutes(currentMatchTime + extraTime + breakHalfTime), currentMatchTime, "away", "Player_" + rand.Next(999).ToString(), 0);
+            eventMatch = MatchCardEventCreator.CreateYellowRedCardEvent(match, match.EventDate.AddMinutes(currentMatchTime + extraTime + breakHalfTime), currentMatchTime, "away", NameGenerator.GeneratePlayerName(), 0);
             await simulatorService.SendMatchEvent(eventMatch);
             match = await matchRepository.GetMatchById(matchId);
 
             // Score event
             currentMatchTime = 52;
-            eventMatch = MatchScoreEventCreator.CreatePenaltyScore(match, match.EventDate.AddMinutes(currentMatchTime + extraTime + breakHalfTime), currentMatchTime, "away", "Player_" + rand.Next(999).ToString());
+            eventMatch = MatchScoreEventCreator.CreatePenaltyScore(match, match.EventDate.AddMinutes(currentMatchTime + extraTime + breakHalfTime), currentMatchTime, "away", NameGenerator.GeneratePlayerName());
             await simulatorService.SendMatchEvent(eventMatch);
             match = await matchRepository.GetMatchById(matchId);
 
@@ -320,7 +321,7 @@ namespace Score247.Management.Site.Services.Matches
             match = await matchRepository.GetMatchById(matchId);
 
             // Card Event
-            eventMatch = MatchCardEventCreator.CreateYellowCardEvent(match, match.EventDate.AddMinutes(currentMatchTime + breakHalfTime + 4), currentMatchTime, "away", "Player_" + rand.Next(999).ToString(), 2);
+            eventMatch = MatchCardEventCreator.CreateYellowCardEvent(match, match.EventDate.AddMinutes(currentMatchTime + breakHalfTime + 4), currentMatchTime, "away", NameGenerator.GeneratePlayerName(), 2);
             await simulatorService.SendMatchEvent(eventMatch);
             match = await matchRepository.GetMatchById(matchId);
 
@@ -337,7 +338,7 @@ namespace Score247.Management.Site.Services.Matches
 
             // Card Event
             currentMatchTime = 100;
-            eventMatch = MatchCardEventCreator.CreateYellowCardEvent(match, match.EventDate.AddMinutes(currentMatchTime + breakHalfTime + extraTime + awaitingExtra), currentMatchTime, "away", "Player_" + rand.Next(999).ToString(), 0);
+            eventMatch = MatchCardEventCreator.CreateYellowCardEvent(match, match.EventDate.AddMinutes(currentMatchTime + breakHalfTime + extraTime + awaitingExtra), currentMatchTime, "away", NameGenerator.GeneratePlayerName(), 0);
             await simulatorService.SendMatchEvent(eventMatch);
             match = await matchRepository.GetMatchById(matchId);
 
@@ -355,7 +356,7 @@ namespace Score247.Management.Site.Services.Matches
 
             // Score event
             currentMatchTime = 115;
-            eventMatch = MatchScoreEventCreator.CreateOvertimeScore(match, match.EventDate.AddMinutes(currentMatchTime + breakHalfTime + extraTime + awaitingExtra + breakExtraTime), currentMatchTime, "home", "Player_" + rand.Next(999).ToString(), false);
+            eventMatch = MatchScoreEventCreator.CreateOvertimeScore(match, match.EventDate.AddMinutes(currentMatchTime + breakHalfTime + extraTime + awaitingExtra + breakExtraTime), currentMatchTime, "home", NameGenerator.GeneratePlayerName(), false);
             await simulatorService.SendMatchEvent(eventMatch);
             match = await matchRepository.GetMatchById(matchId);
 
@@ -373,61 +374,61 @@ namespace Score247.Management.Site.Services.Matches
 
             // Pen - 1 - Home - scored
             currentMatchTime = 122;
-            eventMatch = MatchPenaltyEventCreator.CreatePenaltyEvent(match, match.EventDate.AddMinutes(currentMatchTime + breakHalfTime + extraTime + awaitingExtra + breakExtraTime + awaitPenalty), "home", "Player_" + rand.Next(999).ToString(), "scored");
+            eventMatch = MatchPenaltyEventCreator.CreatePenaltyEvent(match, match.EventDate.AddMinutes(currentMatchTime + breakHalfTime + extraTime + awaitingExtra + breakExtraTime + awaitPenalty), "home", NameGenerator.GeneratePlayerName(), "scored");
             await simulatorService.SendMatchEvent(eventMatch);
             match = await matchRepository.GetMatchById(matchId);
 
             // Pen - 1 - Away - scored
             currentMatchTime = 123;
-            eventMatch = MatchPenaltyEventCreator.CreatePenaltyEvent(match, match.EventDate.AddMinutes(currentMatchTime + breakHalfTime + extraTime + awaitingExtra + breakExtraTime + awaitPenalty), "away", "Player_" + rand.Next(999).ToString(), "scored");
+            eventMatch = MatchPenaltyEventCreator.CreatePenaltyEvent(match, match.EventDate.AddMinutes(currentMatchTime + breakHalfTime + extraTime + awaitingExtra + breakExtraTime + awaitPenalty), "away", NameGenerator.GeneratePlayerName(), "scored");
             await simulatorService.SendMatchEvent(eventMatch);
             match = await matchRepository.GetMatchById(matchId);
 
             // Pen - 2 - Home - missed
             currentMatchTime = 124;
-            eventMatch = MatchPenaltyEventCreator.CreatePenaltyEvent(match, match.EventDate.AddMinutes(currentMatchTime + breakHalfTime + extraTime + awaitingExtra + breakExtraTime + awaitPenalty), "home", "Player_" + rand.Next(999).ToString(), "missed");
+            eventMatch = MatchPenaltyEventCreator.CreatePenaltyEvent(match, match.EventDate.AddMinutes(currentMatchTime + breakHalfTime + extraTime + awaitingExtra + breakExtraTime + awaitPenalty), "home", NameGenerator.GeneratePlayerName(), "missed");
             await simulatorService.SendMatchEvent(eventMatch);
             match = await matchRepository.GetMatchById(matchId);
 
             // Pen - 2 - Away - scored
             currentMatchTime = 125;
-            eventMatch = MatchPenaltyEventCreator.CreatePenaltyEvent(match, match.EventDate.AddMinutes(currentMatchTime + breakHalfTime + extraTime + awaitingExtra + breakExtraTime + awaitPenalty), "away", "Player_" + rand.Next(999).ToString(), "scored");
+            eventMatch = MatchPenaltyEventCreator.CreatePenaltyEvent(match, match.EventDate.AddMinutes(currentMatchTime + breakHalfTime + extraTime + awaitingExtra + breakExtraTime + awaitPenalty), "away", NameGenerator.GeneratePlayerName(), "scored");
             await simulatorService.SendMatchEvent(eventMatch);
             match = await matchRepository.GetMatchById(matchId);
 
             // Pen - 3 - Home - scored
             currentMatchTime = 126;
-            eventMatch = MatchPenaltyEventCreator.CreatePenaltyEvent(match, match.EventDate.AddMinutes(currentMatchTime + breakHalfTime + extraTime + awaitingExtra + breakExtraTime + awaitPenalty), "home", "Player_" + rand.Next(999).ToString(), "scored");
+            eventMatch = MatchPenaltyEventCreator.CreatePenaltyEvent(match, match.EventDate.AddMinutes(currentMatchTime + breakHalfTime + extraTime + awaitingExtra + breakExtraTime + awaitPenalty), "home", NameGenerator.GeneratePlayerName(), "scored");
             await simulatorService.SendMatchEvent(eventMatch);
             match = await matchRepository.GetMatchById(matchId);
 
             // Pen - 3 - Away - missed
             currentMatchTime = 127;
-            eventMatch = MatchPenaltyEventCreator.CreatePenaltyEvent(match, match.EventDate.AddMinutes(currentMatchTime + breakHalfTime + extraTime + awaitingExtra + breakExtraTime + awaitPenalty), "away", "Player_" + rand.Next(999).ToString(), "missed");
+            eventMatch = MatchPenaltyEventCreator.CreatePenaltyEvent(match, match.EventDate.AddMinutes(currentMatchTime + breakHalfTime + extraTime + awaitingExtra + breakExtraTime + awaitPenalty), "away", NameGenerator.GeneratePlayerName(), "missed");
             await simulatorService.SendMatchEvent(eventMatch);
             match = await matchRepository.GetMatchById(matchId);
 
             // Pen - 4 - Home - scored
             currentMatchTime = 128;
-            eventMatch = MatchPenaltyEventCreator.CreatePenaltyEvent(match, match.EventDate.AddMinutes(currentMatchTime + breakHalfTime + extraTime + awaitingExtra + breakExtraTime + awaitPenalty), "home", "Player_" + rand.Next(999).ToString(), "scored");
+            eventMatch = MatchPenaltyEventCreator.CreatePenaltyEvent(match, match.EventDate.AddMinutes(currentMatchTime + breakHalfTime + extraTime + awaitingExtra + breakExtraTime + awaitPenalty), "home", NameGenerator.GeneratePlayerName(), "scored");
             await simulatorService.SendMatchEvent(eventMatch);
             match = await matchRepository.GetMatchById(matchId);
 
             // Pen - 4 - Away - scored
             currentMatchTime = 129;
-            eventMatch = MatchPenaltyEventCreator.CreatePenaltyEvent(match, match.EventDate.AddMinutes(currentMatchTime + breakHalfTime + extraTime + awaitingExtra + breakExtraTime + awaitPenalty), "away", "Player_" + rand.Next(999).ToString(), "scored");
+            eventMatch = MatchPenaltyEventCreator.CreatePenaltyEvent(match, match.EventDate.AddMinutes(currentMatchTime + breakHalfTime + extraTime + awaitingExtra + breakExtraTime + awaitPenalty), "away", NameGenerator.GeneratePlayerName(), "scored");
             await simulatorService.SendMatchEvent(eventMatch);
             match = await matchRepository.GetMatchById(matchId);
 
             // Pen - 5 - Home - scored
             currentMatchTime = 130;
-            eventMatch = MatchPenaltyEventCreator.CreatePenaltyEvent(match, match.EventDate.AddMinutes(currentMatchTime + breakHalfTime + extraTime + awaitingExtra + breakExtraTime + awaitPenalty), "home", "Player_" + rand.Next(999).ToString(), "scored");
+            eventMatch = MatchPenaltyEventCreator.CreatePenaltyEvent(match, match.EventDate.AddMinutes(currentMatchTime + breakHalfTime + extraTime + awaitingExtra + breakExtraTime + awaitPenalty), "home", NameGenerator.GeneratePlayerName(), "scored");
             await simulatorService.SendMatchEvent(eventMatch);
             match = await matchRepository.GetMatchById(matchId);
 
             // Pen - 5 - Away - missed
             currentMatchTime = 131;
-            eventMatch = MatchPenaltyEventCreator.CreatePenaltyEvent(match, match.EventDate.AddMinutes(currentMatchTime + breakHalfTime + extraTime + awaitingExtra + breakExtraTime + awaitPenalty), "away", "Player_" + rand.Next(999).ToString(), "missed");
+            eventMatch = MatchPenaltyEventCreator.CreatePenaltyEvent(match, match.EventDate.AddMinutes(currentMatchTime + breakHalfTime + extraTime + awaitingExtra + breakExtraTime + awaitPenalty), "away", NameGenerator.GeneratePlayerName(), "missed");
             await simulatorService.SendMatchEvent(eventMatch);
             match = await matchRepository.GetMatchById(matchId);
 
