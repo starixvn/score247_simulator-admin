@@ -8,6 +8,7 @@ using Score247.Management.Site.Models.DataMappers;
 using Score247.Management.Site.Models.Events;
 using Score247.Management.Site.Repositories.Matches;
 using Score247.Management.Site.Services.Matches;
+using Score247Management.Core.Matches.Models;
 using Score247Management.Core.Matches.Models.Soccer.Core.Matches.Models;
 using Score247Management.Core.Statistics.Models;
 using Score247Management.Core.Teams.Models;
@@ -50,6 +51,10 @@ namespace Score247.Management.Site.Services
         Task ApplyH2H(H2HDto h2HDto);
 
         Task<H2HDto> GenerateH2H(string matchId, string h2hCase = "default");
+
+        Task<MatchPitchViewLineups> GetLineups(string matchId);
+
+        Task<IEnumerable<MatchSummary>> GetH2H(string matchId);
     }
 
     public class MatchService : IMatchService
@@ -312,6 +317,21 @@ namespace Score247.Management.Site.Services
             var h2hDto = await h2HService.GenerateH2HData(matchId, h2hCase);
 
             return h2hDto;
+        }
+
+        public async Task<MatchPitchViewLineups> GetLineups(string matchId)
+        {
+            return await queryService.GetLineUps(matchId, "en-US");
+        }
+
+        public async Task<IEnumerable<MatchSummary>> GetH2H(string matchId)
+        {
+            var matchRepo = new MatchRepository();
+            var match = await matchRepo.GetMatchById(matchId);
+            var homeId = match.Teams.FirstOrDefault(x => x.IsHome)?.Id;
+            var awayId = match.Teams.FirstOrDefault(x => !x.IsHome)?.Id;
+
+            return await queryService.GetH2H(homeId, awayId, "en-US");
         }
     }
 }

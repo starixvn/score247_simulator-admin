@@ -38,8 +38,29 @@ function applyLineups(matchId, lineUpsDto) {
     });
 }
 
+function getMatchLineups(matchId, e) {
+    e.preventDefault();
+    $.ajax({
+        type: "GET",
+        url: urlPrefix() + '/Match/Lineups/' + matchId,
+        contentType: "application/json; charset=utf-8",
+        success: function (lineUpData) {
+            $("#lineupsDataContent").text("");
+            document.getElementById('lineupsImage').innerHTML = lineUpData.pitchView;
+            lineUpData.pitchView = null;
+            let target = '#lineupsDataContent';
+            jsonView.format(lineUpData, target);
+            $('#lineupsData').modal();
+        },
+        error: function () {
+            $("#lineupsDataContent").text("No Data");
+            $('#lineupsData').modal();
+        }
+    });
+}
+
 function generateH2HData(matchId, e) {
-    e.preventDefault(); 
+    e.preventDefault();
     console.log(matchId);
     var values = $("#generateH2HData").serialize();
     $.ajax({
@@ -77,6 +98,24 @@ function applyH2H(matchId, h2HDto) {
     });
 }
 
+function getMatchH2H(matchId, e) {
+    e.preventDefault();
+    $.ajax({
+        type: "GET",
+        url: urlPrefix() + '/Team/H2H/' + matchId,
+        contentType: "application/json; charset=utf-8",
+        success: function (h2hData) {
+            $("#h2hDataContent").text("");
+            let target = '#h2hDataContent';
+            jsonView.format(h2hData, target);
+            $('#h2hData').modal();
+        },
+        error: function () {
+            $("#h2hDataContent").text("No Data");
+            $('#h2hData').modal();
+        }
+    });
+}
 function getRootUrl() {
     return window.location.origin
         ? window.location.origin + '/'

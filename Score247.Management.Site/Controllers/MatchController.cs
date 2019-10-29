@@ -475,6 +475,14 @@ namespace Score247.Management.Site.Controllers
             return RedirectToAction(nameof(Details), new { matchId });
         }
 
+        [HttpGet("/Match/Lineups/{matchId}")]
+        public async Task<ActionResult> GetLineups(string matchId)
+        {
+            var lineupsData = await matchService.GetLineups(matchId);
+
+            return Json(lineupsData);
+        }
+
         // H2H
 
         [HttpPost("/Team/H2H/Generate")]
@@ -491,6 +499,14 @@ namespace Score247.Management.Site.Controllers
             await matchService.ApplyH2H(h2HDto);
 
             return RedirectToAction(nameof(Details), new { matchId });
+        }
+
+        [HttpGet("/Team/H2H/{matchId}")]
+        public async Task<ActionResult> GetH2H(string matchId)
+        {
+            var h2hData = await matchService.GetH2H(matchId);
+
+            return Json(h2hData);
         }
     }
 }

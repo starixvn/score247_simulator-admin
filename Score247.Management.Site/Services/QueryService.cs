@@ -20,7 +20,9 @@ namespace Score247.Management.Site.Services
 
         Task<Statistic> GetMatchStatistic(string matchId, string language);
 
-        Task<MatchLineups> GetLineUps(string matchId, string language);
+        Task<MatchPitchViewLineups> GetLineUps(string matchId, string language);
+
+        Task<IEnumerable<MatchSummary>> GetH2H(string homeTeamId, string awayTeamId, string language);
     }
 
     public class QueryService : IQueryService
@@ -32,9 +34,60 @@ namespace Score247.Management.Site.Services
             this.configuration = configuration;
         }
 
-        public Task<MatchLineups> GetLineUps(string matchId, string language)
+        public async Task<IEnumerable<MatchSummary>> GetH2H(string homeTeamId, string awayTeamId, string language)
         {
-            throw new NotImplementedException();
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(configuration.GetValue<string>("QueryApi:Url"));
+
+                client.DefaultRequestHeaders.Add("Accept", "application/x-msgpack");
+
+                var requestPath = $"api/soccer/{language}/teams/{homeTeamId}/versus/{awayTeamId}";
+                var responseMessage = await client.GetAsync(requestPath);
+
+                if (responseMessage.IsSuccessStatusCode)
+                {
+                    try
+                    {
+                        var bytes = await responseMessage.Content.ReadAsByteArrayAsync();
+
+                        return MessagePackSerializer.Deserialize<IEnumerable<MatchSummary>>(bytes);
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
+            }
+
+            return new List<MatchSummary>();
+        }
+
+        public async Task<MatchPitchViewLineups> GetLineUps(string matchId, string language)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(configuration.GetValue<string>("QueryApi:Url"));
+
+                client.DefaultRequestHeaders.Add("Accept", "application/x-msgpack");
+
+                var requestPath = $"api/soccer/{language}/matches/{matchId}/lineups";
+                var responseMessage = await client.GetAsync(requestPath);
+
+                if (responseMessage.IsSuccessStatusCode)
+                {
+                    try
+                    {
+                        var bytes = await responseMessage.Content.ReadAsByteArrayAsync();
+
+                        return MessagePackSerializer.Deserialize<MatchPitchViewLineups>(bytes);
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
+            }
+
+            return new MatchPitchViewLineups();
         }
 
         public async Task<IEnumerable<MatchSummary>> GetLiveMatches(string language)

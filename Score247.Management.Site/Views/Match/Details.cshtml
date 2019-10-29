@@ -97,6 +97,12 @@
                     <button asp-controller="Match" asp-action="EnableDisableCoverage" asp-route-id="@Model.Match.Id" class="btn-default">Enable/Disable Coverage</button>
                 </div>
             </form>
+            <form>
+                <div class="match-info coverage-container">
+                    <button id="btnGetH2H" onclick="getMatchH2H('@Model.Match.Id', event)" class="btn-default">Head To Head</button>
+                    <button id="btnGetLineups" onclick="getMatchLineups('@Model.Match.Id', event)" class="btn-default">LineUps</button>
+                </div>
+            </form>
         </div>
         <div id="accordion">
             <partial name="_CreateTimeEventPartial" model="Model.MatchTimeEventDto" view-data="eventViewData" />
