@@ -1,893 +1,893 @@
-{ 
-   "generated_at":"2019-10-25T07:52:03+00:00",
-   "schema":"http:\/\/schemas.sportradar.com\/bsa\/soccer\/v1\/json\/endpoints\/soccer\/team_versus_matches.json",
-   "teams":[ 
-      { 
-         "id":"sr:competitor:17",
-         "name":"Manchester City",
-         "country":"England",
-         "country_code":"ENG",
-         "abbreviation":"MNC"
+{
+  "generated_at": "2019-10-25T07:52:03+00:00",
+  "schema": "http:\/\/schemas.sportradar.com\/bsa\/soccer\/v1\/json\/endpoints\/soccer\/team_versus_matches.json",
+  "teams": [
+    {
+      "id": "sr:competitor:17",
+      "name": "Manchester City",
+      "country": "England",
+      "country_code": "ENG",
+      "abbreviation": "MNC"
+    },
+    {
+      "id": "sr:competitor:40",
+      "name": "Aston Villa",
+      "country": "England",
+      "country_code": "ENG",
+      "abbreviation": "VIL"
+    }
+  ],
+  "last_meetings": {
+    "results": [
+      {
+        "sport_event": {
+          "id": "sr:match:7465016",
+          "scheduled": "2012-03-05T10:00:00+00:00",
+          "start_time_tbd": false,
+          "tournament_round": {
+            "type": "group",
+            "number": 29,
+            "phase": "regular season"
+          },
+          "season": {
+            "id": "sr:season:100",
+            "name": "LaLiga 11\/12",
+            "start_date": "2011-08-08",
+            "end_date": "2012-07-18",
+            "year": "11\/12",
+            "tournament_id": "sr:tournament:8"
+          },
+          "tournament": {
+            "id": "sr:tournament:8",
+            "name": "LaLiga",
+            "sport": {
+              "id": "sr:sport:1",
+              "name": "Soccer"
+            },
+            "category": {
+              "id": "sr:category:1",
+              "name": "Spain",
+              "country_code": "ESP"
+            }
+          },
+          "competitors": [
+            {
+              "id": "sr:competitor:17",
+              "name": "Manchester City",
+              "country": "England",
+              "country_code": "ENG",
+              "abbreviation": "MNC",
+              "qualifier": "home"
+            },
+            {
+              "id": "sr:competitor:40",
+              "name": "Aston Villa",
+              "country": "England",
+              "country_code": "ENG",
+              "abbreviation": "VIL",
+              "qualifier": "away"
+            }
+          ],
+          "venue": {
+            "id": "sr:venue:606",
+            "name": "Etihad Stadium",
+            "capacity": 46708,
+            "city_name": "Manchester",
+            "country_name": "England",
+            "map_coordinates": "53.484592,-2.202695",
+            "country_code": "ENG"
+          }
+        },
+        "sport_event_status": {
+          "status": "closed",
+          "home_score": 3,
+          "away_score": 1,
+          "winner_id": "sr:competitor:17",
+          "period_scores": [
+            {
+              "home_score": 2,
+              "away_score": 0,
+              "type": "regular_period",
+              "number": 1
+            },
+            {
+              "home_score": 1,
+              "away_score": 1,
+              "type": "regular_period",
+              "number": 2
+            }
+          ]
+        }
       },
-      { 
-         "id":"sr:competitor:40",
-         "name":"Aston Villa",
-         "country":"England",
-         "country_code":"ENG",
-         "abbreviation":"VIL"
-      }
-   ],
-   "last_meetings":{ 
-      "results":[ 
-         { 
-            "sport_event":{ 
-               "id":"sr:match:7465016",
-               "scheduled":"2012-03-05T10:00:00+00:00",
-               "start_time_tbd":false,
-               "tournament_round":{ 
-                  "type":"group",
-                  "number":29,
-                  "phase":"regular season"
-               },
-               "season":{ 
-                  "id":"sr:season:100",
-                  "name":"LaLiga 11\/12",
-                  "start_date":"2011-08-08",
-                  "end_date":"2012-07-18",
-                  "year":"11\/12",
-                  "tournament_id":"sr:tournament:8"
-               },
-               "tournament":{ 
-                  "id":"sr:tournament:8",
-                  "name":"LaLiga",
-                  "sport":{ 
-                     "id":"sr:sport:1",
-                     "name":"Soccer"
-                  },
-                  "category":{ 
-                     "id":"sr:category:1",
-                     "name":"Spain",
-                     "country_code":"ESP"
-                  }
-               },
-               "competitors":[ 
-                  { 
-                     "id":"sr:competitor:17",
-                     "name":"Manchester City",
-                     "country":"England",
-                     "country_code":"ENG",
-                     "abbreviation":"MNC",
-                     "qualifier":"home"
-                  },
-                  { 
-                     "id":"sr:competitor:40",
-                     "name":"Aston Villa",
-                     "country":"England",
-                     "country_code":"ENG",
-                     "abbreviation":"VIL",
-                     "qualifier":"away"
-                  }
-               ],
-               "venue":{ 
-                  "id":"sr:venue:606",
-                  "name":"Etihad Stadium",
-                  "capacity":46708,
-                  "city_name":"Manchester",
-                  "country_name":"England",
-                  "map_coordinates":"53.484592,-2.202695",
-                  "country_code":"ENG"
-               }
+      {
+        "sport_event": {
+          "id": "sr:match:281000",
+          "scheduled": "2015-05-05T12:00:00+00:00",
+          "start_time_tbd": false,
+          "tournament_round": {
+            "type": "group",
+            "number": 29,
+            "phase": "regular season"
+          },
+          "season": {
+            "id": "sr:season:100",
+            "name": "LaLiga 14\/15",
+            "start_date": "2014-08-08",
+            "end_date": "2015-12-18",
+            "year": "14\/15",
+            "tournament_id": "sr:tournament:8"
+          },
+          "tournament": {
+            "id": "sr:tournament:8",
+            "name": "LaLiga",
+            "sport": {
+              "id": "sr:sport:1",
+              "name": "Soccer"
             },
-            "sport_event_status":{ 
-               "status":"closed",
-               "home_score":3,
-               "away_score":1,
-               "winner_id":"sr:competitor:17",
-               "period_scores":[ 
-                  { 
-                     "home_score":2,
-                     "away_score":0,
-                     "type":"regular_period",
-                     "number":1
-                  },
-                  { 
-                     "home_score":1,
-                     "away_score":1,
-                     "type":"regular_period",
-                     "number":2
-                  }
-               ]
+            "category": {
+              "id": "sr:category:1",
+              "name": "Spain",
+              "country_code": "ESP"
             }
-         },
-         { 
-            "sport_event":{ 
-               "id":"sr:match:281000",
-               "scheduled":"2015-05-05T12:00:00+00:00",
-               "start_time_tbd":false,
-               "tournament_round":{ 
-                  "type":"group",
-                  "number":29,
-                  "phase":"regular season"
-               },
-               "season":{ 
-                  "id":"sr:season:100",
-                  "name":"LaLiga 14\/15",
-                  "start_date":"2014-08-08",
-                  "end_date":"2015-12-18",
-                  "year":"14\/15",
-                  "tournament_id":"sr:tournament:8"
-               },
-               "tournament":{ 
-                  "id":"sr:tournament:8",
-                  "name":"LaLiga",
-                  "sport":{ 
-                     "id":"sr:sport:1",
-                     "name":"Soccer"
-                  },
-                  "category":{ 
-                     "id":"sr:category:1",
-                     "name":"Spain",
-                     "country_code":"ESP"
-                  }
-               },
-               "competitors":[ 
-                  { 
-                     "id":"sr:competitor:17",
-                     "name":"Manchester City",
-                     "country":"England",
-                     "country_code":"ENG",
-                     "abbreviation":"MNC",
-                     "qualifier":"home"
-                  },
-                  { 
-                     "id":"sr:competitor:40",
-                     "name":"Aston Villa",
-                     "country":"England",
-                     "country_code":"ENG",
-                     "abbreviation":"VIL",
-                     "qualifier":"away"
-                  }
-               ],
-               "venue":{ 
-                  "id":"sr:venue:606",
-                  "name":"Etihad Stadium",
-                  "capacity":46708,
-                  "city_name":"Manchester",
-                  "country_name":"England",
-                  "map_coordinates":"53.484592,-2.202695",
-                  "country_code":"ENG"
-               }
+          },
+          "competitors": [
+            {
+              "id": "sr:competitor:17",
+              "name": "Manchester City",
+              "country": "England",
+              "country_code": "ENG",
+              "abbreviation": "MNC",
+              "qualifier": "home"
             },
-            "sport_event_status":{ 
-               "status":"closed",
-               "home_score":3,
-               "away_score":4,
-               "winner_id":"sr:competitor:40",
-               "period_scores":[ 
-                  { 
-                     "home_score":2,
-                     "away_score":0,
-                     "type":"regular_period",
-                     "number":1
-                  },
-                  { 
-                     "home_score":1,
-                     "away_score":1,
-                     "type":"regular_period",
-                     "number":2
-                  }
-               ]
+            {
+              "id": "sr:competitor:40",
+              "name": "Aston Villa",
+              "country": "England",
+              "country_code": "ENG",
+              "abbreviation": "VIL",
+              "qualifier": "away"
             }
-         },
-         { 
-            "sport_event":{ 
-               "id":"sr:match:281001",
-               "scheduled":"2016-09-05T12:00:00+00:00",
-               "start_time_tbd":false,
-               "tournament_round":{ 
-                  "type":"group",
-                  "number":29,
-                  "phase":"regular season"
-               },
-               "season":{ 
-                  "id":"sr:season:100",
-                  "name":"LaLiga 16\/17",
-                  "start_date":"2016-01-08",
-                  "end_date":"2017-02-18",
-                  "year":"16\/17",
-                  "tournament_id":"sr:tournament:8"
-               },
-               "tournament":{ 
-                  "id":"sr:tournament:8",
-                  "name":"LaLiga",
-                  "sport":{ 
-                     "id":"sr:sport:1",
-                     "name":"Soccer"
-                  },
-                  "category":{ 
-                     "id":"sr:category:1",
-                     "name":"Spain",
-                     "country_code":"ESP"
-                  }
-               },
-               "competitors":[ 
-                  { 
-                     "id":"sr:competitor:17",
-                     "name":"Manchester City",
-                     "country":"England",
-                     "country_code":"ENG",
-                     "abbreviation":"MNC",
-                     "qualifier":"home"
-                  },
-                  { 
-                     "id":"sr:competitor:40",
-                     "name":"Aston Villa",
-                     "country":"England",
-                     "country_code":"ENG",
-                     "abbreviation":"VIL",
-                     "qualifier":"away"
-                  }
-               ],
-               "venue":{ 
-                  "id":"sr:venue:606",
-                  "name":"Etihad Stadium",
-                  "capacity":46708,
-                  "city_name":"Manchester",
-                  "country_name":"England",
-                  "map_coordinates":"53.484592,-2.202695",
-                  "country_code":"ENG"
-               }
+          ],
+          "venue": {
+            "id": "sr:venue:606",
+            "name": "Etihad Stadium",
+            "capacity": 46708,
+            "city_name": "Manchester",
+            "country_name": "England",
+            "map_coordinates": "53.484592,-2.202695",
+            "country_code": "ENG"
+          }
+        },
+        "sport_event_status": {
+          "status": "closed",
+          "home_score": 3,
+          "away_score": 4,
+          "winner_id": "sr:competitor:40",
+          "period_scores": [
+            {
+              "home_score": 2,
+              "away_score": 0,
+              "type": "regular_period",
+              "number": 1
             },
-            "sport_event_status":{ 
-               "status":"closed",
-               "match_status":"aet",
-               "home_score":3,
-               "away_score":4,
-               "winner_id":"sr:competitor:40",
-               "period_scores":[ 
-                  { 
-                     "home_score":2,
-                     "away_score":2,
-                     "type":"regular_period",
-                     "number":1
-                  },
-                  { 
-                     "home_score":1,
-                     "away_score":1,
-                     "type":"regular_period",
-                     "number":2
-                  },
-                  { 
-                     "home_score":0,
-                     "away_score":1,
-                     "type":"overtime"
-                  }
-               ]
+            {
+              "home_score": 1,
+              "away_score": 1,
+              "type": "regular_period",
+              "number": 2
             }
-         },
-         { 
-            "sport_event":{ 
-               "id":"sr:match:281002",
-               "scheduled":"2015-06-05T11:00:00+00:00",
-               "start_time_tbd":false,
-               "tournament_round":{ 
-                  "type":"group",
-                  "number":29,
-                  "phase":"regular season"
-               },
-               "season":{ 
-                  "id":"sr:season:101",
-                  "name":"LaLiga 15\/16",
-                  "start_date":"2015-01-08",
-                  "end_date":"2016-01-18",
-                  "year":"15\/16",
-                  "tournament_id":"sr:tournament:8"
-               },
-               "tournament":{ 
-                  "id":"sr:tournament:8",
-                  "name":"LaLiga",
-                  "sport":{ 
-                     "id":"sr:sport:1",
-                     "name":"Soccer"
-                  },
-                  "category":{ 
-                     "id":"sr:category:1",
-                     "name":"Spain",
-                     "country_code":"ESP"
-                  }
-               },
-               "competitors":[ 
-                  { 
-                     "id":"sr:competitor:17",
-                     "name":"Manchester City",
-                     "country":"England",
-                     "country_code":"ENG",
-                     "abbreviation":"MNC",
-                     "qualifier":"home"
-                  },
-                  { 
-                     "id":"sr:competitor:40",
-                     "name":"Aston Villa",
-                     "country":"England",
-                     "country_code":"ENG",
-                     "abbreviation":"VIL",
-                     "qualifier":"away"
-                  }
-               ],
-               "venue":{ 
-                  "id":"sr:venue:606",
-                  "name":"Etihad Stadium",
-                  "capacity":46708,
-                  "city_name":"Manchester",
-                  "country_name":"England",
-                  "map_coordinates":"53.484592,-2.202695",
-                  "country_code":"ENG"
-               }
-            },
-            "sport_event_status":{ 
-               "status":"closed",
-               "home_score":3,
-               "away_score":2,
-               "winner_id":"sr:competitor:17",
-               "period_scores":[ 
-                  { 
-                     "home_score":2,
-                     "away_score":0,
-                     "type":"regular_period",
-                     "number":1
-                  },
-                  { 
-                     "home_score":1,
-                     "away_score":2,
-                     "type":"regular_period",
-                     "number":2
-                  }
-               ]
-            }
-         },
-         { 
-            "sport_event":{ 
-               "id":"sr:match:281003",
-               "scheduled":"2017-07-12T03:00:00+00:00",
-               "start_time_tbd":false,
-               "tournament_round":{ 
-                  "type":"group",
-                  "number":29,
-                  "phase":"regular season"
-               },
-               "season":{ 
-                  "id":"sr:season:102",
-                  "name":"LaLiga 17\/18",
-                  "start_date":"2017-02-08",
-                  "end_date":"2018-06-18",
-                  "year":"17\/18",
-                  "tournament_id":"sr:tournament:8"
-               },
-               "tournament":{ 
-                  "id":"sr:tournament:8",
-                  "name":"LaLiga",
-                  "sport":{ 
-                     "id":"sr:sport:1",
-                     "name":"Soccer"
-                  },
-                  "category":{ 
-                     "id":"sr:category:1",
-                     "name":"Spain",
-                     "country_code":"ESP"
-                  }
-               },
-               "competitors":[ 
-                  { 
-                     "id":"sr:competitor:17",
-                     "name":"Manchester City",
-                     "country":"England",
-                     "country_code":"ENG",
-                     "abbreviation":"MNC",
-                     "qualifier":"home"
-                  },
-                  { 
-                     "id":"sr:competitor:40",
-                     "name":"Aston Villa",
-                     "country":"England",
-                     "country_code":"ENG",
-                     "abbreviation":"VIL",
-                     "qualifier":"away"
-                  }
-               ],
-               "venue":{ 
-                  "id":"sr:venue:606",
-                  "name":"Etihad Stadium",
-                  "capacity":46708,
-                  "city_name":"Manchester",
-                  "country_name":"England",
-                  "map_coordinates":"53.484592,-2.202695",
-                  "country_code":"ENG"
-               }
-            },
-            "sport_event_status":{ 
-               "status":"closed",
-               "home_score":4,
-               "away_score":3,
-               "aggregate_home_score":4,
-               "aggregate_away_score":3,
-               "aggregate_winner_id":"sr:competitor:17",
-               "winner_id":"sr:competitor:17",
-               "period_scores":[ 
-                  { 
-                     "home_score":2,
-                     "away_score":1,
-                     "type":"regular_period",
-                     "number":1
-                  },
-                  { 
-                     "home_score":2,
-                     "away_score":2,
-                     "type":"regular_period",
-                     "number":2
-                  }
-               ]
-            }
-         },
-         { 
-            "sport_event":{ 
-               "id":"sr:match:281004",
-               "scheduled":"2018-12-12T01:00:00+00:00",
-               "start_time_tbd":false,
-               "tournament_round":{ 
-                  "type":"group",
-                  "number":29,
-                  "phase":"regular season"
-               },
-               "season":{ 
-                  "id":"sr:season:102",
-                  "name":"LaLiga 17\/18",
-                  "start_date":"2017-02-08",
-                  "end_date":"2018-12-30",
-                  "year":"17\/18",
-                  "tournament_id":"sr:tournament:8"
-               },
-               "tournament":{ 
-                  "id":"sr:tournament:8",
-                  "name":"LaLiga",
-                  "sport":{ 
-                     "id":"sr:sport:1",
-                     "name":"Soccer"
-                  },
-                  "category":{ 
-                     "id":"sr:category:1",
-                     "name":"Spain",
-                     "country_code":"ESP"
-                  }
-               },
-               "competitors":[ 
-                  { 
-                     "id":"sr:competitor:17",
-                     "name":"Manchester City",
-                     "country":"England",
-                     "country_code":"ENG",
-                     "abbreviation":"MNC",
-                     "qualifier":"home"
-                  },
-                  { 
-                     "id":"sr:competitor:40",
-                     "name":"Aston Villa",
-                     "country":"England",
-                     "country_code":"ENG",
-                     "abbreviation":"VIL",
-                     "qualifier":"away"
-                  }
-               ],
-               "venue":{ 
-                  "id":"sr:venue:606",
-                  "name":"Etihad Stadium",
-                  "capacity":46708,
-                  "city_name":"Manchester",
-                  "country_name":"England",
-                  "map_coordinates":"53.484592,-2.202695",
-                  "country_code":"ENG"
-               }
-            },
-            "sport_event_status":{ 
-               "status":"closed",
-               "match_status":"ap",
-               "home_score":1,
-               "away_score":1,
-               "winner_id":"sr:competitor:17",
-               "period_scores":[ 
-                  { 
-                     "home_score":0,
-                     "away_score":0,
-                     "type":"regular_period",
-                     "number":1
-                  },
-                  { 
-                     "home_score":1,
-                     "away_score":1,
-                     "type":"regular_period",
-                     "number":2
-                  },
-                  { 
-                     "home_score":0,
-                     "away_score":0,
-                     "type":"overtime"
-                  },
-                  { 
-                     "home_score":3,
-                     "away_score":2,
-                     "type":"penalties"
-                  }
-               ]
-            }
-         },
-         { 
-            "sport_event":{ 
-               "id":"sr:match:281005",
-               "scheduled":"2019-01-12T04:00:00+00:00",
-               "start_time_tbd":false,
-               "tournament_round":{ 
-                  "type":"group",
-                  "number":29,
-                  "phase":"regular season"
-               },
-               "season":{ 
-                  "id":"sr:season:102",
-                  "name":"LaLiga 18\/19",
-                  "start_date":"2018-02-08",
-                  "end_date":"2019-10-18",
-                  "year":"18\/19",
-                  "tournament_id":"sr:tournament:8"
-               },
-               "tournament":{ 
-                  "id":"sr:tournament:8",
-                  "name":"LaLiga",
-                  "sport":{ 
-                     "id":"sr:sport:1",
-                     "name":"Soccer"
-                  },
-                  "category":{ 
-                     "id":"sr:category:1",
-                     "name":"Spain",
-                     "country_code":"ESP"
-                  }
-               },
-               "competitors":[ 
-                  { 
-                     "id":"sr:competitor:17",
-                     "name":"Manchester City",
-                     "country":"England",
-                     "country_code":"ENG",
-                     "abbreviation":"MNC",
-                     "qualifier":"home"
-                  },
-                  { 
-                     "id":"sr:competitor:40",
-                     "name":"Aston Villa",
-                     "country":"England",
-                     "country_code":"ENG",
-                     "abbreviation":"VIL",
-                     "qualifier":"away"
-                  }
-               ],
-               "venue":{ 
-                  "id":"sr:venue:606",
-                  "name":"Etihad Stadium",
-                  "capacity":46708,
-                  "city_name":"Manchester",
-                  "country_name":"England",
-                  "map_coordinates":"53.484592,-2.202695",
-                  "country_code":"ENG"
-               }
-            },
-            "sport_event_status":{ 
-               "status":"closed",
-               "home_score":3,
-               "away_score":3,
-               "period_scores":[ 
-                  { 
-                     "home_score":1,
-                     "away_score":1,
-                     "type":"regular_period",
-                     "number":1
-                  },
-                  { 
-                     "home_score":1,
-                     "away_score":2,
-                     "type":"regular_period",
-                     "number":2
-                  }
-               ]
-            }
-         },
-         { 
-            "sport_event":{ 
-               "id":"sr:match:281006",
-               "scheduled":"2016-07-12T02:00:00+00:00",
-               "start_time_tbd":false,
-               "tournament_round":{ 
-                  "type":"group",
-                  "number":29,
-                  "phase":"regular season"
-               },
-               "season":{ 
-                  "id":"sr:season:200",
-                  "name":"Bundesliga 16\/17",
-                  "start_date":"2016-12-08",
-                  "end_date":"2017-06-18",
-                  "year":"16\/17",
-                  "tournament_id":"sr:tournament:35"
-               },
-               "tournament":{ 
-                  "id":"sr:tournament:35",
-                  "name":"Bundesliga",
-                  "sport":{ 
-                     "id":"sr:sport:1",
-                     "name":"Soccer"
-                  },
-                  "category":{ 
-                     "id":"sr:category:1",
-                     "name":"Germany",
-                     "country_code":"DEU"
-                  }
-               },
-               "competitors":[ 
-                  { 
-                     "id":"sr:competitor:17",
-                     "name":"Manchester City",
-                     "country":"England",
-                     "country_code":"ENG",
-                     "abbreviation":"MNC",
-                     "qualifier":"home"
-                  },
-                  { 
-                     "id":"sr:competitor:40",
-                     "name":"Aston Villa",
-                     "country":"England",
-                     "country_code":"ENG",
-                     "abbreviation":"VIL",
-                     "qualifier":"away"
-                  }
-               ],
-               "venue":{ 
-                  "id":"sr:venue:606",
-                  "name":"Etihad Stadium",
-                  "capacity":46708,
-                  "city_name":"Manchester",
-                  "country_name":"England",
-                  "map_coordinates":"53.484592,-2.202695",
-                  "country_code":"ENG"
-               }
-            },
-            "sport_event_status":{ 
-               "status":"closed",
-               "home_score":3,
-               "away_score":3,
-               "aggregate_home_score":4,
-               "aggregate_away_score":3,
-               "aggregate_winner_id":"sr:competitor:17",
-               "period_scores":[ 
-                  { 
-                     "home_score":2,
-                     "away_score":1,
-                     "type":"regular_period",
-                     "number":1
-                  },
-                  { 
-                     "home_score":1,
-                     "away_score":2,
-                     "type":"regular_period",
-                     "number":2
-                  }
-               ]
-            }
-         },
-         { 
-            "sport_event":{ 
-               "id":"sr:match:281007",
-               "scheduled":"2017-05-12T09:00:00+00:00",
-               "start_time_tbd":false,
-               "tournament_round":{ 
-                  "type":"group",
-                  "number":29,
-                  "phase":"regular season"
-               },
-               "season":{ 
-                  "id":"sr:season:200",
-                  "name":"Bundesliga 16\/17",
-                  "start_date":"2016-12-08",
-                  "end_date":"2017-06-18",
-                  "year":"16\/17",
-                  "tournament_id":"sr:tournament:35"
-               },
-               "tournament":{ 
-                  "id":"sr:tournament:35",
-                  "name":"Bundesliga",
-                  "sport":{ 
-                     "id":"sr:sport:1",
-                     "name":"Soccer"
-                  },
-                  "category":{ 
-                     "id":"sr:category:1",
-                     "name":"Germany",
-                     "country_code":"DEU"
-                  }
-               },
-               "competitors":[ 
-                  { 
-                     "id":"sr:competitor:17",
-                     "name":"Manchester City",
-                     "country":"England",
-                     "country_code":"ENG",
-                     "abbreviation":"MNC",
-                     "qualifier":"home"
-                  },
-                  { 
-                     "id":"sr:competitor:40",
-                     "name":"Aston Villa",
-                     "country":"England",
-                     "country_code":"ENG",
-                     "abbreviation":"VIL",
-                     "qualifier":"away"
-                  }
-               ],
-               "venue":{ 
-                  "id":"sr:venue:606",
-                  "name":"Etihad Stadium",
-                  "capacity":46708,
-                  "city_name":"Manchester",
-                  "country_name":"England",
-                  "map_coordinates":"53.484592,-2.202695",
-                  "country_code":"ENG"
-               }
-            },
-            "sport_event_status":{ 
-               "status":"closed",
-               "match_status":"ap",
-               "home_score":3,
-               "away_score":3,
-			   "winner_id":"sr:competitor:17"
-               "period_scores":[ 
-                  { 
-                     "home_score":2,
-                     "away_score":1,
-                     "type":"regular_period",
-                     "number":1
-                  },
-                  { 
-                     "home_score":1,
-                     "away_score":2,
-                     "type":"regular_period",
-                     "number":2
-                  },
-                  { 
-                     "home_score":4,
-                     "away_score":3,
-                     "type":"penalties"
-                  }
-               ]
-            }
-         }
-      ]
-   },
-   "next_meetings":[ 
-      { 
-         "sport_event":{ 
-            "id":"sr:match:282009",
-            "scheduled":"2020-07-12T02:00:00+00:00",
-            "start_time_tbd":false,
-            "tournament_round":{ 
-               "type":"group",
-               "number":29,
-               "phase":"regular season"
-            },
-            "season":{ 
-               "id":"sr:season:200",
-               "name":"Bundesliga 20\/21",
-               "start_date":"2020-5-08",
-               "end_date":"2021-06-18",
-               "year":"20\/21",
-               "tournament_id":"sr:tournament:35"
-            },
-            "tournament":{ 
-               "id":"sr:tournament:35",
-               "name":"Bundesliga",
-               "sport":{ 
-                  "id":"sr:sport:1",
-                  "name":"Soccer"
-               },
-               "category":{ 
-                  "id":"sr:category:1",
-                  "name":"Germany",
-                  "country_code":"DEU"
-               }
-            },
-            "competitors":[ 
-               { 
-                  "id":"sr:competitor:17",
-                  "name":"Manchester City",
-                  "country":"England",
-                  "country_code":"ENG",
-                  "abbreviation":"MNC",
-                  "qualifier":"home"
-               },
-               { 
-                  "id":"sr:competitor:40",
-                  "name":"Aston Villa",
-                  "country":"England",
-                  "country_code":"ENG",
-                  "abbreviation":"VIL",
-                  "qualifier":"away"
-               }
-            ],
-            "venue":{ 
-               "id":"sr:venue:606",
-               "name":"Etihad Stadium",
-               "capacity":46708,
-               "city_name":"Manchester",
-               "country_name":"England",
-               "map_coordinates":"53.484592,-2.202695",
-               "country_code":"ENG"
-            }
-         }
+          ]
+        }
       },
-      { 
-         "sport_event":{ 
-            "id":"sr:match:282010",
-            "scheduled":"2019-12-12T03:00:00+00:00",
-            "start_time_tbd":false,
-            "tournament_round":{ 
-               "type":"group",
-               "number":29,
-               "phase":"regular season"
+      {
+        "sport_event": {
+          "id": "sr:match:281001",
+          "scheduled": "2016-09-05T12:00:00+00:00",
+          "start_time_tbd": false,
+          "tournament_round": {
+            "type": "group",
+            "number": 29,
+            "phase": "regular season"
+          },
+          "season": {
+            "id": "sr:season:100",
+            "name": "LaLiga 16\/17",
+            "start_date": "2016-01-08",
+            "end_date": "2017-02-18",
+            "year": "16\/17",
+            "tournament_id": "sr:tournament:8"
+          },
+          "tournament": {
+            "id": "sr:tournament:8",
+            "name": "LaLiga",
+            "sport": {
+              "id": "sr:sport:1",
+              "name": "Soccer"
             },
-            "season":{ 
-               "id":"sr:season:102",
-               "name":"LaLiga 19\/20",
-               "start_date":"2019-02-08",
-               "end_date":"2020-06-18",
-               "year":"19\/20",
-               "tournament_id":"sr:tournament:8"
-            },
-            "tournament":{ 
-               "id":"sr:tournament:8",
-               "name":"LaLiga",
-               "sport":{ 
-                  "id":"sr:sport:1",
-                  "name":"Soccer"
-               },
-               "category":{ 
-                  "id":"sr:category:1",
-                  "name":"Spain",
-                  "country_code":"ESP"
-               }
-            },
-            "competitors":[ 
-               { 
-                  "id":"sr:competitor:17",
-                  "name":"Manchester City",
-                  "country":"England",
-                  "country_code":"ENG",
-                  "abbreviation":"MNC",
-                  "qualifier":"home"
-               },
-               { 
-                  "id":"sr:competitor:40",
-                  "name":"Aston Villa",
-                  "country":"England",
-                  "country_code":"ENG",
-                  "abbreviation":"VIL",
-                  "qualifier":"away"
-               }
-            ],
-            "venue":{ 
-               "id":"sr:venue:606",
-               "name":"Etihad Stadium",
-               "capacity":46708,
-               "city_name":"Manchester",
-               "country_name":"England",
-               "map_coordinates":"53.484592,-2.202695",
-               "country_code":"ENG"
+            "category": {
+              "id": "sr:category:1",
+              "name": "Spain",
+              "country_code": "ESP"
             }
-         }
+          },
+          "competitors": [
+            {
+              "id": "sr:competitor:17",
+              "name": "Manchester City",
+              "country": "England",
+              "country_code": "ENG",
+              "abbreviation": "MNC",
+              "qualifier": "home"
+            },
+            {
+              "id": "sr:competitor:40",
+              "name": "Aston Villa",
+              "country": "England",
+              "country_code": "ENG",
+              "abbreviation": "VIL",
+              "qualifier": "away"
+            }
+          ],
+          "venue": {
+            "id": "sr:venue:606",
+            "name": "Etihad Stadium",
+            "capacity": 46708,
+            "city_name": "Manchester",
+            "country_name": "England",
+            "map_coordinates": "53.484592,-2.202695",
+            "country_code": "ENG"
+          }
+        },
+        "sport_event_status": {
+          "status": "closed",
+          "match_status": "aet",
+          "home_score": 3,
+          "away_score": 4,
+          "winner_id": "sr:competitor:40",
+          "period_scores": [
+            {
+              "home_score": 2,
+              "away_score": 2,
+              "type": "regular_period",
+              "number": 1
+            },
+            {
+              "home_score": 1,
+              "away_score": 1,
+              "type": "regular_period",
+              "number": 2
+            },
+            {
+              "home_score": 0,
+              "away_score": 1,
+              "type": "overtime"
+            }
+          ]
+        }
+      },
+      {
+        "sport_event": {
+          "id": "sr:match:281002",
+          "scheduled": "2015-06-05T11:00:00+00:00",
+          "start_time_tbd": false,
+          "tournament_round": {
+            "type": "group",
+            "number": 29,
+            "phase": "regular season"
+          },
+          "season": {
+            "id": "sr:season:101",
+            "name": "LaLiga 15\/16",
+            "start_date": "2015-01-08",
+            "end_date": "2016-01-18",
+            "year": "15\/16",
+            "tournament_id": "sr:tournament:8"
+          },
+          "tournament": {
+            "id": "sr:tournament:8",
+            "name": "LaLiga",
+            "sport": {
+              "id": "sr:sport:1",
+              "name": "Soccer"
+            },
+            "category": {
+              "id": "sr:category:1",
+              "name": "Spain",
+              "country_code": "ESP"
+            }
+          },
+          "competitors": [
+            {
+              "id": "sr:competitor:17",
+              "name": "Manchester City",
+              "country": "England",
+              "country_code": "ENG",
+              "abbreviation": "MNC",
+              "qualifier": "home"
+            },
+            {
+              "id": "sr:competitor:40",
+              "name": "Aston Villa",
+              "country": "England",
+              "country_code": "ENG",
+              "abbreviation": "VIL",
+              "qualifier": "away"
+            }
+          ],
+          "venue": {
+            "id": "sr:venue:606",
+            "name": "Etihad Stadium",
+            "capacity": 46708,
+            "city_name": "Manchester",
+            "country_name": "England",
+            "map_coordinates": "53.484592,-2.202695",
+            "country_code": "ENG"
+          }
+        },
+        "sport_event_status": {
+          "status": "closed",
+          "home_score": 3,
+          "away_score": 2,
+          "winner_id": "sr:competitor:17",
+          "period_scores": [
+            {
+              "home_score": 2,
+              "away_score": 0,
+              "type": "regular_period",
+              "number": 1
+            },
+            {
+              "home_score": 1,
+              "away_score": 2,
+              "type": "regular_period",
+              "number": 2
+            }
+          ]
+        }
+      },
+      {
+        "sport_event": {
+          "id": "sr:match:281003",
+          "scheduled": "2017-07-12T03:00:00+00:00",
+          "start_time_tbd": false,
+          "tournament_round": {
+            "type": "group",
+            "number": 29,
+            "phase": "regular season"
+          },
+          "season": {
+            "id": "sr:season:102",
+            "name": "LaLiga 17\/18",
+            "start_date": "2017-02-08",
+            "end_date": "2018-06-18",
+            "year": "17\/18",
+            "tournament_id": "sr:tournament:8"
+          },
+          "tournament": {
+            "id": "sr:tournament:8",
+            "name": "LaLiga",
+            "sport": {
+              "id": "sr:sport:1",
+              "name": "Soccer"
+            },
+            "category": {
+              "id": "sr:category:1",
+              "name": "Spain",
+              "country_code": "ESP"
+            }
+          },
+          "competitors": [
+            {
+              "id": "sr:competitor:17",
+              "name": "Manchester City",
+              "country": "England",
+              "country_code": "ENG",
+              "abbreviation": "MNC",
+              "qualifier": "home"
+            },
+            {
+              "id": "sr:competitor:40",
+              "name": "Aston Villa",
+              "country": "England",
+              "country_code": "ENG",
+              "abbreviation": "VIL",
+              "qualifier": "away"
+            }
+          ],
+          "venue": {
+            "id": "sr:venue:606",
+            "name": "Etihad Stadium",
+            "capacity": 46708,
+            "city_name": "Manchester",
+            "country_name": "England",
+            "map_coordinates": "53.484592,-2.202695",
+            "country_code": "ENG"
+          }
+        },
+        "sport_event_status": {
+          "status": "closed",
+          "home_score": 4,
+          "away_score": 3,
+          "aggregate_home_score": 4,
+          "aggregate_away_score": 3,
+          "aggregate_winner_id": "sr:competitor:17",
+          "winner_id": "sr:competitor:17",
+          "period_scores": [
+            {
+              "home_score": 2,
+              "away_score": 1,
+              "type": "regular_period",
+              "number": 1
+            },
+            {
+              "home_score": 2,
+              "away_score": 2,
+              "type": "regular_period",
+              "number": 2
+            }
+          ]
+        }
+      },
+      {
+        "sport_event": {
+          "id": "sr:match:281004",
+          "scheduled": "2018-12-12T01:00:00+00:00",
+          "start_time_tbd": false,
+          "tournament_round": {
+            "type": "group",
+            "number": 29,
+            "phase": "regular season"
+          },
+          "season": {
+            "id": "sr:season:102",
+            "name": "LaLiga 17\/18",
+            "start_date": "2017-02-08",
+            "end_date": "2018-12-30",
+            "year": "17\/18",
+            "tournament_id": "sr:tournament:8"
+          },
+          "tournament": {
+            "id": "sr:tournament:8",
+            "name": "LaLiga",
+            "sport": {
+              "id": "sr:sport:1",
+              "name": "Soccer"
+            },
+            "category": {
+              "id": "sr:category:1",
+              "name": "Spain",
+              "country_code": "ESP"
+            }
+          },
+          "competitors": [
+            {
+              "id": "sr:competitor:17",
+              "name": "Manchester City",
+              "country": "England",
+              "country_code": "ENG",
+              "abbreviation": "MNC",
+              "qualifier": "home"
+            },
+            {
+              "id": "sr:competitor:40",
+              "name": "Aston Villa",
+              "country": "England",
+              "country_code": "ENG",
+              "abbreviation": "VIL",
+              "qualifier": "away"
+            }
+          ],
+          "venue": {
+            "id": "sr:venue:606",
+            "name": "Etihad Stadium",
+            "capacity": 46708,
+            "city_name": "Manchester",
+            "country_name": "England",
+            "map_coordinates": "53.484592,-2.202695",
+            "country_code": "ENG"
+          }
+        },
+        "sport_event_status": {
+          "status": "closed",
+          "match_status": "ap",
+          "home_score": 1,
+          "away_score": 1,
+          "winner_id": "sr:competitor:17",
+          "period_scores": [
+            {
+              "home_score": 0,
+              "away_score": 0,
+              "type": "regular_period",
+              "number": 1
+            },
+            {
+              "home_score": 1,
+              "away_score": 1,
+              "type": "regular_period",
+              "number": 2
+            },
+            {
+              "home_score": 0,
+              "away_score": 0,
+              "type": "overtime"
+            },
+            {
+              "home_score": 3,
+              "away_score": 2,
+              "type": "penalties"
+            }
+          ]
+        }
+      },
+      {
+        "sport_event": {
+          "id": "sr:match:281005",
+          "scheduled": "2019-01-12T04:00:00+00:00",
+          "start_time_tbd": false,
+          "tournament_round": {
+            "type": "group",
+            "number": 29,
+            "phase": "regular season"
+          },
+          "season": {
+            "id": "sr:season:102",
+            "name": "LaLiga 18\/19",
+            "start_date": "2018-02-08",
+            "end_date": "2019-10-18",
+            "year": "18\/19",
+            "tournament_id": "sr:tournament:8"
+          },
+          "tournament": {
+            "id": "sr:tournament:8",
+            "name": "LaLiga",
+            "sport": {
+              "id": "sr:sport:1",
+              "name": "Soccer"
+            },
+            "category": {
+              "id": "sr:category:1",
+              "name": "Spain",
+              "country_code": "ESP"
+            }
+          },
+          "competitors": [
+            {
+              "id": "sr:competitor:17",
+              "name": "Manchester City",
+              "country": "England",
+              "country_code": "ENG",
+              "abbreviation": "MNC",
+              "qualifier": "home"
+            },
+            {
+              "id": "sr:competitor:40",
+              "name": "Aston Villa",
+              "country": "England",
+              "country_code": "ENG",
+              "abbreviation": "VIL",
+              "qualifier": "away"
+            }
+          ],
+          "venue": {
+            "id": "sr:venue:606",
+            "name": "Etihad Stadium",
+            "capacity": 46708,
+            "city_name": "Manchester",
+            "country_name": "England",
+            "map_coordinates": "53.484592,-2.202695",
+            "country_code": "ENG"
+          }
+        },
+        "sport_event_status": {
+          "status": "closed",
+          "home_score": 3,
+          "away_score": 3,
+          "period_scores": [
+            {
+              "home_score": 1,
+              "away_score": 1,
+              "type": "regular_period",
+              "number": 1
+            },
+            {
+              "home_score": 1,
+              "away_score": 2,
+              "type": "regular_period",
+              "number": 2
+            }
+          ]
+        }
+      },
+      {
+        "sport_event": {
+          "id": "sr:match:281006",
+          "scheduled": "2016-07-12T02:00:00+00:00",
+          "start_time_tbd": false,
+          "tournament_round": {
+            "type": "group",
+            "number": 29,
+            "phase": "regular season"
+          },
+          "season": {
+            "id": "sr:season:200",
+            "name": "Bundesliga 16\/17",
+            "start_date": "2016-12-08",
+            "end_date": "2017-06-18",
+            "year": "16\/17",
+            "tournament_id": "sr:tournament:35"
+          },
+          "tournament": {
+            "id": "sr:tournament:35",
+            "name": "Bundesliga",
+            "sport": {
+              "id": "sr:sport:1",
+              "name": "Soccer"
+            },
+            "category": {
+              "id": "sr:category:1",
+              "name": "Germany",
+              "country_code": "DEU"
+            }
+          },
+          "competitors": [
+            {
+              "id": "sr:competitor:17",
+              "name": "Manchester City",
+              "country": "England",
+              "country_code": "ENG",
+              "abbreviation": "MNC",
+              "qualifier": "home"
+            },
+            {
+              "id": "sr:competitor:40",
+              "name": "Aston Villa",
+              "country": "England",
+              "country_code": "ENG",
+              "abbreviation": "VIL",
+              "qualifier": "away"
+            }
+          ],
+          "venue": {
+            "id": "sr:venue:606",
+            "name": "Etihad Stadium",
+            "capacity": 46708,
+            "city_name": "Manchester",
+            "country_name": "England",
+            "map_coordinates": "53.484592,-2.202695",
+            "country_code": "ENG"
+          }
+        },
+        "sport_event_status": {
+          "status": "closed",
+          "home_score": 3,
+          "away_score": 3,
+          "aggregate_home_score": 4,
+          "aggregate_away_score": 3,
+          "aggregate_winner_id": "sr:competitor:17",
+          "period_scores": [
+            {
+              "home_score": 2,
+              "away_score": 1,
+              "type": "regular_period",
+              "number": 1
+            },
+            {
+              "home_score": 1,
+              "away_score": 2,
+              "type": "regular_period",
+              "number": 2
+            }
+          ]
+        }
+      },
+      {
+        "sport_event": {
+          "id": "sr:match:281007",
+          "scheduled": "2017-05-12T09:00:00+00:00",
+          "start_time_tbd": false,
+          "tournament_round": {
+            "type": "group",
+            "number": 29,
+            "phase": "regular season"
+          },
+          "season": {
+            "id": "sr:season:200",
+            "name": "Bundesliga 16\/17",
+            "start_date": "2016-12-08",
+            "end_date": "2017-06-18",
+            "year": "16\/17",
+            "tournament_id": "sr:tournament:35"
+          },
+          "tournament": {
+            "id": "sr:tournament:35",
+            "name": "Bundesliga",
+            "sport": {
+              "id": "sr:sport:1",
+              "name": "Soccer"
+            },
+            "category": {
+              "id": "sr:category:1",
+              "name": "Germany",
+              "country_code": "DEU"
+            }
+          },
+          "competitors": [
+            {
+              "id": "sr:competitor:17",
+              "name": "Manchester City",
+              "country": "England",
+              "country_code": "ENG",
+              "abbreviation": "MNC",
+              "qualifier": "home"
+            },
+            {
+              "id": "sr:competitor:40",
+              "name": "Aston Villa",
+              "country": "England",
+              "country_code": "ENG",
+              "abbreviation": "VIL",
+              "qualifier": "away"
+            }
+          ],
+          "venue": {
+            "id": "sr:venue:606",
+            "name": "Etihad Stadium",
+            "capacity": 46708,
+            "city_name": "Manchester",
+            "country_name": "England",
+            "map_coordinates": "53.484592,-2.202695",
+            "country_code": "ENG"
+          }
+        },
+        "sport_event_status": {
+          "status": "closed",
+          "match_status": "ap",
+          "home_score": 3,
+          "away_score": 3,
+          "winner_id": "sr:competitor:17",
+          "period_scores": [
+            {
+              "home_score": 2,
+              "away_score": 1,
+              "type": "regular_period",
+              "number": 1
+            },
+            {
+              "home_score": 1,
+              "away_score": 2,
+              "type": "regular_period",
+              "number": 2
+            },
+            {
+              "home_score": 4,
+              "away_score": 3,
+              "type": "penalties"
+            }
+          ]
+        }
       }
-   ]
+    ]
+  },
+  "next_meetings": [
+    {
+      "sport_event": {
+        "id": "sr:match:282009",
+        "scheduled": "2020-07-12T02:00:00+00:00",
+        "start_time_tbd": false,
+        "tournament_round": {
+          "type": "group",
+          "number": 29,
+          "phase": "regular season"
+        },
+        "season": {
+          "id": "sr:season:200",
+          "name": "Bundesliga 20\/21",
+          "start_date": "2020-5-08",
+          "end_date": "2021-06-18",
+          "year": "20\/21",
+          "tournament_id": "sr:tournament:35"
+        },
+        "tournament": {
+          "id": "sr:tournament:35",
+          "name": "Bundesliga",
+          "sport": {
+            "id": "sr:sport:1",
+            "name": "Soccer"
+          },
+          "category": {
+            "id": "sr:category:1",
+            "name": "Germany",
+            "country_code": "DEU"
+          }
+        },
+        "competitors": [
+          {
+            "id": "sr:competitor:17",
+            "name": "Manchester City",
+            "country": "England",
+            "country_code": "ENG",
+            "abbreviation": "MNC",
+            "qualifier": "home"
+          },
+          {
+            "id": "sr:competitor:40",
+            "name": "Aston Villa",
+            "country": "England",
+            "country_code": "ENG",
+            "abbreviation": "VIL",
+            "qualifier": "away"
+          }
+        ],
+        "venue": {
+          "id": "sr:venue:606",
+          "name": "Etihad Stadium",
+          "capacity": 46708,
+          "city_name": "Manchester",
+          "country_name": "England",
+          "map_coordinates": "53.484592,-2.202695",
+          "country_code": "ENG"
+        }
+      }
+    },
+    {
+      "sport_event": {
+        "id": "sr:match:282010",
+        "scheduled": "2019-12-12T03:00:00+00:00",
+        "start_time_tbd": false,
+        "tournament_round": {
+          "type": "group",
+          "number": 29,
+          "phase": "regular season"
+        },
+        "season": {
+          "id": "sr:season:102",
+          "name": "LaLiga 19\/20",
+          "start_date": "2019-02-08",
+          "end_date": "2020-06-18",
+          "year": "19\/20",
+          "tournament_id": "sr:tournament:8"
+        },
+        "tournament": {
+          "id": "sr:tournament:8",
+          "name": "LaLiga",
+          "sport": {
+            "id": "sr:sport:1",
+            "name": "Soccer"
+          },
+          "category": {
+            "id": "sr:category:1",
+            "name": "Spain",
+            "country_code": "ESP"
+          }
+        },
+        "competitors": [
+          {
+            "id": "sr:competitor:17",
+            "name": "Manchester City",
+            "country": "England",
+            "country_code": "ENG",
+            "abbreviation": "MNC",
+            "qualifier": "home"
+          },
+          {
+            "id": "sr:competitor:40",
+            "name": "Aston Villa",
+            "country": "England",
+            "country_code": "ENG",
+            "abbreviation": "VIL",
+            "qualifier": "away"
+          }
+        ],
+        "venue": {
+          "id": "sr:venue:606",
+          "name": "Etihad Stadium",
+          "capacity": 46708,
+          "city_name": "Manchester",
+          "country_name": "England",
+          "map_coordinates": "53.484592,-2.202695",
+          "country_code": "ENG"
+        }
+      }
+    }
+  ]
 }
