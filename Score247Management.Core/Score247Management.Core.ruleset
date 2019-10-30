@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RuleSet Name="SonarQube - Score247/ Score247 Backend Nexcel CSharp" ToolsVersion="16.0">
+  <Include Path="..\.sonarlint\score247-backendcsharp.ruleset" Action="Default" />
+</RuleSet>

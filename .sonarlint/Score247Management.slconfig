@@ -1,0 +1,12 @@
+{
+  "ServerUri": "https://sonarqube.nexdev.net",
+  "Organization": null,
+  "ProjectKey": "Score247-Backend",
+  "ProjectName": "Score247/ Score247 Backend",
+  "Profiles": {
+    "CSharp": {
+      "ProfileKey": "cs-sonar-way-80515",
+      "ProfileTimestamp": "2019-10-01T13:55:11+07:00"
+    }
+  }
+}
