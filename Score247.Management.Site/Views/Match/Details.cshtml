@@ -88,13 +88,19 @@
                     <label class="match-info-name">Coverage Info:</label>
                     @if (@Model.Match.Coverage != null && @Model.Match.Coverage.Live == true)
                     {
-                        <label class="match-value">Enable</label>
-                        <button asp-controller="Match" asp-action="EnableDisableCoverage" asp-route-id="@Model.Match.Id" class="btn-default">Disable Coverage</button>
+                        <div>
+                            <label class="match-value">Enable</label>
+                            (<a asp-controller="Match" asp-action="EnableDisableCoverage" asp-route-id="@Model.Match.Id">Disable Coverage</a>)
+                        </div>
+
                     }
                     else
                     {
-                        <label class="match-value">Disabled</label>
-                        <button asp-controller="Match" asp-action="EnableDisableCoverage" asp-route-id="@Model.Match.Id" class="btn-default">Enable Coverage</button>
+                        <div>
+                            <label class="match-value">Disabled</label>
+                            (<a asp-controller="Match" asp-action="EnableDisableCoverage" asp-route-id="@Model.Match.Id">Enable Coverage</a>)
+                        </div>
+
                     }
                 </div>
             </form>
