@@ -53,7 +53,7 @@ header {
 .contents {
   padding: 16px; }
 
-.btn-submit, .btn-default, .btn-cancel, .btn-delete, .btn-default-outline, .btn-datebar {
+.btn-submit, .btn-default, .btn-cancel, .btn-delete, .btn-default-outline, .btn-datebar, .btn-view-data {
   border: none;
   cursor: pointer;
   min-height: 30px;
@@ -65,10 +65,10 @@ header {
   white-space: nowrap;
   -webkit-appearance: none;
   font-size: 13px; }
-  .btn-submit:disabled, .btn-default:disabled, .btn-cancel:disabled, .btn-delete:disabled, .btn-default-outline:disabled, .btn-datebar:disabled, .btn-submit .disabled, .btn-default .disabled, .btn-cancel .disabled, .btn-delete .disabled, .btn-default-outline .disabled, .btn-datebar .disabled {
+  .btn-submit:disabled, .btn-default:disabled, .btn-cancel:disabled, .btn-delete:disabled, .btn-default-outline:disabled, .btn-datebar:disabled, .btn-view-data:disabled, .btn-submit .disabled, .btn-default .disabled, .btn-cancel .disabled, .btn-delete .disabled, .btn-default-outline .disabled, .btn-datebar .disabled, .btn-view-data .disabled {
     opacity: .4;
     pointer-events: none; }
-  .btn-submit:focus, .btn-default:focus, .btn-cancel:focus, .btn-delete:focus, .btn-default-outline:focus, .btn-datebar:focus {
+  .btn-submit:focus, .btn-default:focus, .btn-cancel:focus, .btn-delete:focus, .btn-default-outline:focus, .btn-datebar:focus, .btn-view-data:focus {
     outline: none; }
 
 .btn-submit {
@@ -131,6 +131,16 @@ header {
     background-color: #FF7246; }
   .btn-datebar:disabled, .btn-datebar .disabled {
     background-color: #0B0D14 !important;
+    color: #fff !important; }
+
+.btn-view-data {
+  background-color: #30C2FF;
+  color: #fff; }
+  .btn-view-data:hover, .btn-view-data.active {
+    color: #fff;
+    background-color: #17baff; }
+  .btn-view-data:disabled, .btn-view-data .disabled {
+    background-color: #30C2FF !important;
     color: #fff !important; }
 
 .list-quick-action {

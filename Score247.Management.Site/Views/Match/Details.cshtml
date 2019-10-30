@@ -86,22 +86,21 @@
             <form>
                 <div class="match-info coverage-container">
                     <label class="match-info-name">Coverage Info:</label>
-                    @if (@Model.Match.Coverage != null)
+                    @if (@Model.Match.Coverage != null && @Model.Match.Coverage.Live == true)
                     {
-                        <label class="match-value">@Model.Match.Coverage.Live</label>
+                        <label class="match-value">Enable</label>
+                        <button asp-controller="Match" asp-action="EnableDisableCoverage" asp-route-id="@Model.Match.Id" class="btn-default">Disable Coverage</button>
                     }
                     else
                     {
-                        <label class="match-value">false</label>
+                        <label class="match-value">Disabled</label>
+                        <button asp-controller="Match" asp-action="EnableDisableCoverage" asp-route-id="@Model.Match.Id" class="btn-default">Enable Coverage</button>
                     }
-                    <button asp-controller="Match" asp-action="EnableDisableCoverage" asp-route-id="@Model.Match.Id" class="btn-default">Enable/Disable Coverage</button>
                 </div>
             </form>
-            <form>
-                <div class="match-info coverage-container">
-                    <button id="btnGetH2H" onclick="getMatchH2H('@Model.Match.Id', event)" class="btn-default">Head To Head</button>
-                    <button id="btnGetLineups" onclick="getMatchLineups('@Model.Match.Id', event)" class="btn-default">LineUps</button>
-                </div>
+            <form class="view-json-data">
+                <button id="btnGetH2H" onclick="getMatchH2H('@Model.Match.Id', event)" class="btn-view-data">H2H Data</button>
+                <button id="btnGetLineups" onclick="getMatchLineups('@Model.Match.Id', event)" class="btn-view-data">LineUps Data</button>
             </form>
         </div>
         <div id="accordion">

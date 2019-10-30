@@ -11,6 +11,11 @@
     font-weight: bold;
     margin-left: 8px; }
 
+.view-json-data {
+  margin-top: 16px; }
+  .view-json-data [class^="btn"]:first-child {
+    margin-right: 16px; }
+
 .coverage-container .btn-default {
   margin-left: 16px; }
 
@@ -64,3 +69,7 @@
 
 .statistic-form .row {
   margin-bottom: 15px; }
+
+.lineupsImage {
+  height: 550px;
+  overflow: auto; }

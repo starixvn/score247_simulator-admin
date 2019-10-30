@@ -195,6 +195,22 @@ header {
     }
 }
 
+.btn-view-data {
+    @extend %btn;
+    background-color: $btn-view-data-bg;
+    color: $btn-view-data-color;
+
+    &:hover, &.active {
+        color: $btn-view-data-color-hover;
+        background-color: $btn-view-data-bg-hover;
+    }
+
+    &:disabled, .disabled {
+        background-color: $btn-view-data-bg !important;
+        color: $btn-view-data-color !important;
+    }
+}
+
 .list-quick-action {
     display: flex;
     margin-bottom: 10px;

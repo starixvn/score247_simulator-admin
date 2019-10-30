@@ -7,17 +7,17 @@
     <div class="collapse" aria-labelledby="h2hEventHeading" data-parent="#accordion" id="h2h">
         <div class="card-body create-form">
             <form id="generateH2HData">
-                <div class="input-group mb-3">
-                    <select class="custom-select" name="h2hCase">
+                <div class="form-group">
+                    <select class="form-control" name="h2hCase">
                         <option value="default" selected>Default</option>
                         <option value="Case1">Case 1</option>
                         <option value="Case2">Case 2</option>
                         <option value="Case3">Case 3</option>
                         <option value="Case4">Case 4</option>
                     </select>
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" onclick="generateH2HData(`@ViewBag.MatchId`, event)">Generate H2H Data</button>
-                    </div>
+                </div>
+                <div class="form-group">
+                    <button class="btn-submit" onclick="generateH2HData(`@ViewBag.MatchId`, event)">Apply</button>
                 </div>
             </form>
         </div>
@@ -35,8 +35,8 @@
                     <pre id="H2HRequestContent"></pre>
                 </div>
                 <div class="modal-footer">
-                    <button id="btnApplyH2H" type="button" class="btn btn-primary" data-dismiss="modal">Accept</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button id="btnApplyH2H" type="button" class="btn-default" data-dismiss="modal">Accept</button>
+                    <button type="button" class="btn-cancel" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -54,7 +54,7 @@
                     <pre id="h2hDataContent"></pre>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn-cancel" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>

@@ -3,25 +3,30 @@ $font-family: Arial, Helvetica, sans-serif;
 
 $btn-submit-bg: #F24822;
 $btn-submit-color: #fff;
-$btn-submit-bg-hover: darken(#F24822, 5%);
+$btn-submit-bg-hover: darken($btn-submit-bg, 5%);
 $btn-submit-color-hover: #fff;
 
 $btn-default-bg: #3EC28F;
 $btn-default-color: #fff;
-$btn-default-bg-hover: darken(#3EC28F, 5%);
+$btn-default-bg-hover: darken($btn-default-bg, 5%);
 $btn-default-color-hover: #fff;
 
 $btn-cancel-bg: #82878E;
 $btn-cancel-color: #fff;
-$btn-cancel-bg-hover: darken(#82878E, 5%);
+$btn-cancel-bg-hover: darken($btn-cancel-bg, 5%);
 $btn-cancel-color-hover: #fff;
 
 $btn-delete-bg: #FF0000;
 $btn-delete-color: #fff;
-$btn-delete-bg-hover: darken(#FF0000, 5%);
+$btn-delete-bg-hover: darken($btn-delete-bg, 5%);
 $btn-delete-color-hover: #fff;
 
 $btn-datebar-bg: #0B0D14;
 $btn-datebar-color: #fff;
 $btn-datebar-bg-hover: #FF7246;
 $btn-datebar-color-hover: #fff;
+
+$btn-view-data-bg: #30C2FF;
+$btn-view-data-color: #fff;
+$btn-view-data-bg-hover: darken($btn-view-data-bg, 5%);
+$btn-view-data-color-hover: #fff;
