@@ -619,7 +619,7 @@ namespace Score247.Management.Site.Services.Matches
             await SendDailySchedule(matches, createDate);
             await UpdateMatchInitInfo(matches);
             await triggerJobService.TriggerCreateMatchJobs();
-            await CheckIfMatchInserted(matches.LastOrDefault()?.id);
+            await CheckIfMatchHasCoverageInfo(matches.LastOrDefault()?.id);
 
             await ApplyRandomFormation(matches);
 
@@ -665,6 +665,19 @@ namespace Score247.Management.Site.Services.Matches
                 await scenarioService.RandomScenario(liveMatch.sport_event.id, 0, true);
 
                 await UpdateLiveMatch(liveMatch.sport_event.id);
+            }
+        }
+
+        private async Task CheckIfMatchHasCoverageInfo(string id)
+        {
+            var matchRepository = new MatchRepository();
+
+            var match = await matchRepository.GetMatchById(id);
+
+            while (match == null || match.Coverage == null)
+            {
+                await Task.Delay(300);
+                match = await matchRepository.GetMatchById(id);
             }
         }
 
