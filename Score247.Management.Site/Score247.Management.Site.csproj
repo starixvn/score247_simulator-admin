@@ -200,7 +200,7 @@
     <Content Update="App_Data\lineups\NoFormation.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="App_Data\team-result\TeamHistory.json">
+    <Content Update="App_Data\team-result\default.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

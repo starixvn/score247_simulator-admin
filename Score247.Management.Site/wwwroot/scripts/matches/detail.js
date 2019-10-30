@@ -116,6 +116,45 @@ function getMatchH2H(matchId, e) {
         }
     });
 }
+
+function generateTeamResultData(matchId, e) {
+    e.preventDefault();
+    var values = $("#generateTeamResultData").serialize();
+    $.ajax({
+        type: "POST",
+        url: urlPrefix() + '/Team/Results/Generate?matchId=' + matchId + '&' + values,
+        contentType: "application/json; charset=utf-8",
+        success: function (teamResultDto) {
+            $('#btnApplyH2H').on("click", function () {
+                applyTeamResult(matchId, teamResultDto);
+            });
+            $("#H2HRequestContent").text("");
+            let target = '#H2HRequestContent';
+            jsonView.format(teamResultDto, target);
+            $('#h2hRequest').modal();
+        },
+        error: function () {
+            console.log("generate team result failed");
+        }
+    });
+}
+
+function applyTeamResult(matchId, teamResultDto) {
+    $.ajax({
+        type: "POST",
+        url: urlPrefix() + '/Team/Results/Apply/' + matchId,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify(teamResultDto),
+        success: function () {
+            console.log("success");
+        },
+        error: function () {
+            console.log("apply team result failed");
+        }
+    });
+}
+
 function getRootUrl() {
     return window.location.origin
         ? window.location.origin + '/'

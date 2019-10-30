@@ -40,6 +40,8 @@
 
         Task SendMatchTimelines(MatchTimelineDto matchTimeline);
 
+        Task SendTeamResult(TeamResultDto teamResultDto);
+
         Task SendLineups(LineUpsDto lineUpsDto);
 
         Task SendH2H(H2HDto h2HDto);
@@ -208,6 +210,17 @@
                 var requestPath = configuration.GetValue<string>("Simulator:H2H");
 
                 await client.PostAsJsonAsync(requestPath, h2HDto);
+            }
+        }
+
+        public async Task SendTeamResult(TeamResultDto teamResultDto)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(configuration.GetValue<string>("Simulator:Url"));
+                var requestPath = configuration.GetValue<string>("Simulator:TeamResult");
+
+                await client.PostAsJsonAsync(requestPath, teamResultDto);
             }
         }
 

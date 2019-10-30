@@ -93,6 +93,7 @@ namespace Score247.Management.Site
             services.AddSingleton<IMatchFileService, MatchFileService>();
             services.AddSingleton<ICreateMatchesService, CreateMatchesService>();
             services.AddSingleton<IH2HService, H2HService>();
+            services.AddSingleton<ITeamService, TeamService>();
         }
 
         private void RegisterScheduledJobs(IServiceCollection services)

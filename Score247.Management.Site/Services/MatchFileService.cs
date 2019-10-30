@@ -24,8 +24,6 @@ namespace Score247.Management.Site.Services
 
         Task<DailyResultDto> ReadResult(DateTime scheduleDate);
 
-        Task UpdateTeamResult(TeamResultDto result);
-
         Task<TeamResultDto> ReadTeamResult(string teamId);
     }
 
@@ -109,9 +107,23 @@ namespace Score247.Management.Site.Services
             }
         }
 
-        public Task<TeamResultDto> ReadTeamResult(string teamId)
+        public async Task<TeamResultDto> ReadTeamResult(string teamId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var resultFolder = $"{DirectoryRoot}/team-result";
+                Directory.CreateDirectory(resultFolder);
+
+                var path = $"{resultFolder}/{teamId}.json";
+                var jsonData = await File.ReadAllTextAsync(path);
+                var content = JsonConvert.DeserializeObject<TeamResultDto>(jsonData);
+
+                return content;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
         public void SaveLiveMatchToFile(DailyResultDto content)
@@ -150,11 +162,6 @@ namespace Score247.Management.Site.Services
             Directory.CreateDirectory(resultFolder);
             File.Delete(path);
             File.WriteAllText(path, json);
-        }
-
-        public Task UpdateTeamResult(TeamResultDto result)
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -20,6 +20,21 @@
                     <button class="btn-submit" onclick="generateH2HData(`@ViewBag.MatchId`, event)">Apply</button>
                 </div>
             </form>
+            <form id="generateTeamResultData">
+                <label>Team Result</label>
+                <div class="input-group mb-3">
+                    <select class="custom-select" name="teamResultCase">
+                        <option value="default" selected>Default</option>
+                    </select>
+                    <select class="custom-select" name="teamQualifier">
+                        <option value="home" selected>Home</option>
+                        <option value="away" selected>Away</option>
+                    </select>
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" onclick="generateTeamResultData(`@ViewBag.MatchId`, event)">Generate Team Result Data</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
     <div id="h2hRequest" class="modal" tabindex="-1" role="dialog">
