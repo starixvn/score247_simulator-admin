@@ -668,7 +668,7 @@ namespace Score247.Management.Site.Services.Matches
             }
         }
 
-        private async Task CheckIfMatchHasCoverageInfo(string id)
+        private static async Task CheckIfMatchHasCoverageInfo(string id)
         {
             var matchRepository = new MatchRepository();
 

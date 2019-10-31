@@ -79,7 +79,15 @@ namespace Score247.Management.Site.Models.DataMappers
             var tournament = new Tournament
             {
                 id = league.Id,
-                category = new Category() { country_code = league.CountryCode, name = league.Country }
+                category = new Category { country_code = league.CountryCode, name = league.Country },
+                name = league.Name,
+                current_season = new Current_Season(),
+                season_coverage_info = new Season_Coverage_Info(),
+                sport = new Sport
+                {
+                    id = "sr:sport:1",
+                    name = "soccer"
+                }
             };
 
             return tournament;

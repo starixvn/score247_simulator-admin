@@ -56,7 +56,7 @@ namespace Score247.Management.Site.Repositories.Leagues
                 var leagueCategory = leagueCategorys.FirstOrDefault(x => x.Id == league.CategoryId);
                 if (leagueCategory == null)
                 {
-                    league.LeagueCategory = new LeagueCategory()
+                    league.LeagueCategory = new LeagueCategory
                     {
                         Name = league.Country,
                         CountryCode = league.CountryCode

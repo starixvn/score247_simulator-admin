@@ -4,10 +4,9 @@ namespace Score247Management.Core.Leagues.Models
 {
     public class League
     {
-        private string name;
         public string Id { get; set; }
 
-        public string Name { get => name.Trim().TrimStart('*'); set => name = value; }
+        public string Name { get; set; }
 
         public int Order { get; set; }
 
