@@ -5,11 +5,17 @@
     using Score247.Management.Site.Helpers;
     using Score247.Management.Site.Models;
     using Score247.Management.Site.Models.DataMappers;
+    using Score247.Management.Site.Models.Events;
     using Score247.Management.Site.Repositories.Matches;
+    using Score247Management.Core.Matches.Models;
 
     public interface IH2HService
     {
         Task<H2HDto> GenerateH2HData(string matchId, string h2hCase = "default");
+
+        Task<H2HDto> GenerateH2HData(Match match, string h2hCase = "default");
+
+        Task<H2HDto> GenerateH2HData(Sport_Event match, string h2hCase = "default");
     }
 
     public class H2HService : IH2HService
@@ -25,10 +31,23 @@
         {
             var matchRepository = new MatchRepository();
             var match = await matchRepository.GetMatchById(matchId);
+
+            return await GenerateH2HData(match, h2hCase);
+        }
+
+        public async Task<H2HDto> GenerateH2HData(Match match, string h2hCase = "default")
+        {
+            var sportEvent = SportEventMapper.MapSportEvent(match);
+
+            return await GenerateH2HData(sportEvent, h2hCase);
+        }
+
+        public async Task<H2HDto> GenerateH2HData(Sport_Event match, string h2hCase = "default")
+        {
             var h2hDto = await matchFileService.ReadH2HFromFile(h2hCase);
             var oldHomeId = h2hDto.teams.ToList()[0].id;
             var oldAwayId = h2hDto.teams.ToList()[1].id;
-            var competitors = match.Teams.Select(SportEventMapper.MapCompetitor).ToList();
+            var competitors = match.competitors.ToList();
             var newHomeTeam = competitors.FirstOrDefault(x => x.qualifier == "home");
             var newAwayTeam = competitors.FirstOrDefault(x => x.qualifier == "away");
 

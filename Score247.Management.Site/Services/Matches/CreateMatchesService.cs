@@ -48,6 +48,7 @@ namespace Score247.Management.Site.Services.Matches
         private readonly IMatchFileService matchFileService;
         private readonly IScenarioService scenarioService;
         private readonly ILineupService lineupService;
+        private readonly IH2HService h2HService;
 
         public CreateMatchesService(ISimulatorService simulatorService,
             ITriggerJobService triggerJobService,
@@ -55,7 +56,8 @@ namespace Score247.Management.Site.Services.Matches
             ITimelineService timelineService,
             IMatchFileService matchFileService,
             IScenarioService scenarioService,
-            ILineupService lineupService)
+            ILineupService lineupService,
+            IH2HService h2HService)
         {
             this.simulatorService = simulatorService;
             this.triggerJobService = triggerJobService;
@@ -64,6 +66,7 @@ namespace Score247.Management.Site.Services.Matches
             this.matchFileService = matchFileService;
             this.scenarioService = scenarioService;
             this.lineupService = lineupService;
+            this.h2HService = h2HService;
         }
 
         public async Task CreateMatchForActiveLeagues(DateTime createDate, TimeSpan offset)
@@ -375,7 +378,7 @@ namespace Score247.Management.Site.Services.Matches
         {
             var dailyResults = new List<Result>();
 
-            var matchWithResult = new Result()
+            var matchWithResult = new Result
             {
                 sport_event = SportEventMapper.MapSportEvent(newMatch),
                 sport_event_status = GenerateDefaultEventStatusFromMatchEntity(newMatch)
@@ -616,6 +619,8 @@ namespace Score247.Management.Site.Services.Matches
                 return result;
             }).ToList();
 
+            await ApplyRandomH2H(matches);
+
             await SendDailySchedule(matches, createDate);
             await UpdateMatchInitInfo(matches);
             await triggerJobService.TriggerCreateMatchJobs();
@@ -665,6 +670,20 @@ namespace Score247.Management.Site.Services.Matches
                 await scenarioService.RandomScenario(liveMatch.sport_event.id, 0, true);
 
                 await UpdateLiveMatch(liveMatch.sport_event.id);
+            }
+        }
+
+        private async Task ApplyRandomH2H(IEnumerable<Sport_Event> matches)
+        {
+            var h2hFile = new List<string>
+            {
+                "Case1", "Case2", "Case3", "Case4", "Case5_Prematch_Status", "Case6_AB_Not_Count", "Case7_No_Lastmeeting", "Case8_No_Nextmeeting"
+            };
+            var rand = new Random();
+            foreach (var match in matches)
+            {
+                var h2hData = await h2HService.GenerateH2HData(match, h2hFile[rand.Next(h2hFile.Count)]);
+                await simulatorService.SendH2H(h2hData);
             }
         }
 
@@ -805,19 +824,6 @@ namespace Score247.Management.Site.Services.Matches
         private static DateTime GetEventForLiveDate(DateTime eventDate, int minute)
         {
             return eventDate.AddMinutes(minute);
-        }
-
-        private static async Task CheckIfMatchInserted(string id)
-        {
-            var matchRepository = new MatchRepository();
-
-            var match = await matchRepository.GetMatchById(id);
-
-            while (match == null)
-            {
-                await Task.Delay(300);
-                match = await matchRepository.GetMatchById(id);
-            }
         }
 
         private async Task SendDailySchedule(IEnumerable<Sport_Event> matches, DateTime eventDate)
