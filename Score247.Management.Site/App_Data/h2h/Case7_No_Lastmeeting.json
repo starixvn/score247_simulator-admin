@@ -1,206 +1,203 @@
-{ 
-   "generated_at":"2019-10-25T07:52:03+00:00",
-   "schema":"http:\/\/schemas.sportradar.com\/bsa\/soccer\/v1\/json\/endpoints\/soccer\/team_versus_matches.json",
-   "teams":[ 
-      { 
-         "id":"220400",
-         "name":"AZ Picerno ",
-         "country":"England",
-         "country_code":"ENG",
-         "abbreviation":"MNC"
-      },
-      { 
-         "id":"238400",
-         "name":"Vietnam U18",
-         "country":"England",
-         "country_code":"ENG",
-         "abbreviation":"VIL"
+{
+  "generated_at": "2019-10-25T07:52:03+00:00",
+  "schema": "http:\/\/schemas.sportradar.com\/bsa\/soccer\/v1\/json\/endpoints\/soccer\/team_versus_matches.json",
+  "teams": [
+    {
+      "id": "220400",
+      "name": "AZ Picerno ",
+      "country": "England",
+      "country_code": "ENG",
+      "abbreviation": "MNC"
+    },
+    {
+      "id": "238400",
+      "name": "Vietnam U18",
+      "country": "England",
+      "country_code": "ENG",
+      "abbreviation": "VIL"
+    }
+  ],
+  "last_meetings": [],
+  "next_meetings": [
+    {
+      "sport_event": {
+        "id": "sr:match:2019131",
+        "scheduled": "2019-10-31T12:00:00+00:00",
+        "start_time_tbd": false,
+        "tournament_round": {
+          "type": "group",
+          "number": 29,
+          "phase": "regular season"
+        },
+        "season": {
+          "id": "sr:season:779",
+          "name": "K-League 1 19\/20",
+          "start_date": "2019-01-08",
+          "end_date": "2020-01-18",
+          "year": "16\/17",
+          "tournament_id": "sr:tournament:410"
+        },
+        "tournament": {
+          "id": "sr:tournament:410",
+          "name": "K-League 1",
+          "sport": {
+            "id": "sr:sport:1",
+            "name": "Soccer"
+          },
+          "category": {
+            "id": "sr:category:1",
+            "name": "Republic of Korea",
+            "country_code": "KOR"
+          }
+        },
+        "competitors": [
+          {
+            "id": "220400",
+            "name": "AZ Picerno ",
+            "country": "England",
+            "country_code": "ENG",
+            "abbreviation": "MNC",
+            "qualifier": "home"
+          },
+          {
+            "id": "238400",
+            "name": "Vietnam U18",
+            "country": "England",
+            "country_code": "ENG",
+            "abbreviation": "VIL",
+            "qualifier": "away"
+          }
+        ],
+        "venue": {
+          "id": "sr:venue:606",
+          "name": "Etihad Stadium",
+          "capacity": 46708,
+          "city_name": "Manchester",
+          "country_name": "England",
+          "map_coordinates": "53.484592,-2.202695",
+          "country_code": "ENG"
+        }
       }
-   ],
-   "last_meetings":{ 
-      "results":[ 
-      ]
-   },
-   "next_meetings":[ 
-      { 
-         "sport_event":{ 
-            "id":"sr:match:2019131",
-            "scheduled":"2019-10-30T10:00:00+00:00",
-            "start_time_tbd":false,
-            "tournament_round":{ 
-               "type":"group",
-               "number":29,
-               "phase":"regular season"
-            },
-            "season":{ 
-               "id":"sr:season:779",
-               "name":"K-League 1 19\/20",
-               "start_date":"2019-01-08",
-               "end_date":"2020-01-18",
-               "year":"16\/17",
-               "tournament_id":"sr:tournament:410"
-            },
-            "tournament":{ 
-               "id":"sr:tournament:410",
-               "name":"K-League 1",
-               "sport":{ 
-                  "id":"sr:sport:1",
-                  "name":"Soccer"
-               },
-               "category":{ 
-                  "id":"sr:category:1",
-                  "name":"Republic of Korea",
-                  "country_code":"KOR"
-               }
-            },
-            "competitors":[ 
-               { 
-                  "id":"220400",
-                  "name":"AZ Picerno ",
-                  "country":"England",
-                  "country_code":"ENG",
-                  "abbreviation":"MNC",
-                  "qualifier":"home"
-               },
-               { 
-                  "id":"238400",
-                  "name":"Vietnam U18",
-                  "country":"England",
-                  "country_code":"ENG",
-                  "abbreviation":"VIL",
-                  "qualifier":"away"
-               }
-            ],
-            "venue":{ 
-               "id":"sr:venue:606",
-               "name":"Etihad Stadium",
-               "capacity":46708,
-               "city_name":"Manchester",
-               "country_name":"England",
-               "map_coordinates":"53.484592,-2.202695",
-               "country_code":"ENG"
-            }
-         }
-      },
-      { 
-         "sport_event":{ 
-            "id":"sr:match:201914",
-            "scheduled":"2019-12-12T11:00:00+00:00",
-            "start_time_tbd":false,
-            "tournament_round":{ 
-               "type":"group",
-               "number":29,
-               "phase":"regular season"
-            },
-            "season":{ 
-               "id":"sr:season:780",
-               "name":"K-League 1 19\/20",
-               "start_date":"2019-01-08",
-               "end_date":"2020-11-18",
-               "year":"19\/20",
-               "tournament_id":"sr:tournament:410"
-            },
-            "tournament":{ 
-               "id":"sr:tournament:410",
-               "name":"K-League 1",
-               "sport":{ 
-                  "id":"sr:sport:1",
-                  "name":"Soccer"
-               },
-               "category":{ 
-                  "id":"sr:category:1",
-                  "name":"Republic of Korea",
-                  "country_code":"KOR"
-               }
-            },
-            "competitors":[ 
-               { 
-                  "id":"220400",
-                  "name":"AZ Picerno ",
-                  "country":"England",
-                  "country_code":"ENG",
-                  "abbreviation":"MNC",
-                  "qualifier":"home"
-               },
-               { 
-                  "id":"238400",
-                  "name":"Vietnam U18",
-                  "country":"England",
-                  "country_code":"ENG",
-                  "abbreviation":"VIL",
-                  "qualifier":"away"
-               }
-            ],
-            "venue":{ 
-               "id":"sr:venue:606",
-               "name":"Etihad Stadium",
-               "capacity":46708,
-               "city_name":"Manchester",
-               "country_name":"England",
-               "map_coordinates":"53.484592,-2.202695",
-               "country_code":"ENG"
-            }
-         }
-      },
-      { 
-         "sport_event":{ 
-            "id":"sr:match:2019153",
-            "scheduled":"2020-03-15T14:00:00+00:00",
-            "start_time_tbd":false,
-            "tournament_round":{ 
-               "type":"group",
-               "number":29,
-               "phase":"regular season"
-            },
-            "season":{ 
-               "id":"sr:season:601",
-               "name":"Primera Division 18\/19",
-               "start_date":"2018-01-08",
-               "end_date":"2019-01-18",
-               "year":"16\/17",
-               "tournament_id":"sr:tournament:278"
-            },
-            "tournament":{ 
-               "id":"sr:tournament:278",
-               "name":"Primera Division",
-               "sport":{ 
-                  "id":"sr:sport:1",
-                  "name":"Soccer"
-               },
-               "category":{ 
-                  "id":"sr:category:1",
-                  "name":"Uruguay",
-                  "country_code":"URY"
-               }
-            },
-            "competitors":[ 
-               { 
-                  "id":"220400",
-                  "name":"AZ Picerno ",
-                  "country":"England",
-                  "country_code":"ENG",
-                  "abbreviation":"MNC",
-                  "qualifier":"home"
-               },
-               { 
-                  "id":"238400",
-                  "name":"Vietnam U18",
-                  "country":"England",
-                  "country_code":"ENG",
-                  "abbreviation":"VIL",
-                  "qualifier":"away"
-               }
-            ],
-            "venue":{ 
-               "id":"sr:venue:606",
-               "name":"Etihad Stadium",
-               "capacity":46708,
-               "city_name":"Manchester",
-               "country_name":"England",
-               "map_coordinates":"53.484592,-2.202695",
-               "country_code":"ENG"
-            }
-         }
+    },
+    {
+      "sport_event": {
+        "id": "sr:match:201914",
+        "scheduled": "2019-12-12T11:00:00+00:00",
+        "start_time_tbd": false,
+        "tournament_round": {
+          "type": "group",
+          "number": 29,
+          "phase": "regular season"
+        },
+        "season": {
+          "id": "sr:season:780",
+          "name": "K-League 1 19\/20",
+          "start_date": "2019-01-08",
+          "end_date": "2020-11-18",
+          "year": "19\/20",
+          "tournament_id": "sr:tournament:410"
+        },
+        "tournament": {
+          "id": "sr:tournament:410",
+          "name": "K-League 1",
+          "sport": {
+            "id": "sr:sport:1",
+            "name": "Soccer"
+          },
+          "category": {
+            "id": "sr:category:1",
+            "name": "Republic of Korea",
+            "country_code": "KOR"
+          }
+        },
+        "competitors": [
+          {
+            "id": "220400",
+            "name": "AZ Picerno ",
+            "country": "England",
+            "country_code": "ENG",
+            "abbreviation": "MNC",
+            "qualifier": "home"
+          },
+          {
+            "id": "238400",
+            "name": "Vietnam U18",
+            "country": "England",
+            "country_code": "ENG",
+            "abbreviation": "VIL",
+            "qualifier": "away"
+          }
+        ],
+        "venue": {
+          "id": "sr:venue:606",
+          "name": "Etihad Stadium",
+          "capacity": 46708,
+          "city_name": "Manchester",
+          "country_name": "England",
+          "map_coordinates": "53.484592,-2.202695",
+          "country_code": "ENG"
+        }
       }
-   ]
+    },
+    {
+      "sport_event": {
+        "id": "sr:match:2019153",
+        "scheduled": "2020-03-15T14:00:00+00:00",
+        "start_time_tbd": false,
+        "tournament_round": {
+          "type": "group",
+          "number": 29,
+          "phase": "regular season"
+        },
+        "season": {
+          "id": "sr:season:601",
+          "name": "Primera Division 18\/19",
+          "start_date": "2018-01-08",
+          "end_date": "2019-01-18",
+          "year": "16\/17",
+          "tournament_id": "sr:tournament:278"
+        },
+        "tournament": {
+          "id": "sr:tournament:278",
+          "name": "Primera Division",
+          "sport": {
+            "id": "sr:sport:1",
+            "name": "Soccer"
+          },
+          "category": {
+            "id": "sr:category:1",
+            "name": "Uruguay",
+            "country_code": "URY"
+          }
+        },
+        "competitors": [
+          {
+            "id": "220400",
+            "name": "AZ Picerno ",
+            "country": "England",
+            "country_code": "ENG",
+            "abbreviation": "MNC",
+            "qualifier": "home"
+          },
+          {
+            "id": "238400",
+            "name": "Vietnam U18",
+            "country": "England",
+            "country_code": "ENG",
+            "abbreviation": "VIL",
+            "qualifier": "away"
+          }
+        ],
+        "venue": {
+          "id": "sr:venue:606",
+          "name": "Etihad Stadium",
+          "capacity": 46708,
+          "city_name": "Manchester",
+          "country_name": "England",
+          "map_coordinates": "53.484592,-2.202695",
+          "country_code": "ENG"
+        }
+      }
+    }
+  ]
 }
