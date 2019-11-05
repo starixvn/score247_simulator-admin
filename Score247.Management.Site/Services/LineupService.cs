@@ -85,10 +85,12 @@ namespace Score247.Management.Site.Services
                 var content = JsonConvert.DeserializeObject<LineUp>(jsonData);
                 foreach (var player in content.starting_lineup)
                 {
+                    player.id = UniqueGenerator.GetIdWithPattern("sr:player:");
                     player.name = NameGenerator.GeneratePlayerName();
                 }
                 foreach (var player in content.substitutes)
                 {
+                    player.id = UniqueGenerator.GetIdWithPattern("sr:player:");
                     player.name = NameGenerator.GeneratePlayerName();
                 }
                 content.manager.name = NameGenerator.GeneratePlayerName();
