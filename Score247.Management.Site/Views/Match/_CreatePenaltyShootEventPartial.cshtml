@@ -28,16 +28,28 @@
                     </div>
                     <div class="form-group ">
                         <label asp-for="payload.timeline.team" class="control-label">Team</label>
-                        <select asp-for="payload.timeline.team" class="form-control">
+                        <select asp-for="payload.timeline.team" class="form-control" onchange="penaltyTeamChange(this)">
                             <option value="home">Home</option>
                             <option value="away">Away</option>
                         </select>
                         <span asp-validation-for="payload.timeline.team" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="payload.timeline.goal_scorer.name" class="control-label">Player Shoot</label>
-                        <input asp-for="payload.timeline.goal_scorer.name" class="form-control" />
-                        <span asp-validation-for="payload.timeline.goal_scorer.name" class="text-danger"></span>
+                        <label asp-for="payload.timeline.goal_scorer.id" class="control-label">Player</label>
+                        <input id="penaltyGoalScorerId" asp-for="payload.timeline.goal_scorer.id" class="form-control" />
+                        <span asp-validation-for="payload.timeline.goal_scorer.id" class="text-danger"></span>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label asp-for="payload.timeline.goal_scorer.name" class="control-label">Player</label>
+                            <input id="penaltyGoalScorerName" asp-for="payload.timeline.goal_scorer.name" class="form-control" />
+                            <span asp-validation-for="payload.timeline.goal_scorer.name" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="control-label">Player Options</label>
+                            <select id="penaltyHomeGoalScorerOptions" asp-items="@ViewBag.HomePlayers" class="form-control" onchange="penaltyGoalScorerChange(this)"></select>
+                            <select id="penaltyAwayGoalScorerOptions" asp-items="@ViewBag.AwayPlayers" class="form-control d-none" onchange="penaltyGoalScorerChange(this)"></select>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label asp-for="payload.timeline.status" class="control-label">Scored/Missed</label>

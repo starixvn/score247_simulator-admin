@@ -100,22 +100,49 @@
                     </div>
                     <div class="form-group ">
                         <label asp-for="payload.timeline.team" class="control-label">Team</label>
-                        <select asp-for="payload.timeline.team" class="form-control">
+                        <select asp-for="payload.timeline.team" class="form-control" onchange="scoreTeamChange(this)">
                             <option value="home">Home</option>
                             <option value="away">Away</option>
                         </select>
                         <span asp-validation-for="payload.timeline.team" class="text-danger"></span>
                     </div>
                     <div class="form-group ">
-                        <label asp-for="payload.timeline.goal_scorer.name" class="control-label">Player Scored</label>
-                        <input asp-for="payload.timeline.goal_scorer.name" class="form-control" />
-                        <span asp-validation-for="payload.timeline.goal_scorer.name" class="text-danger"></span>
+                        <label asp-for="payload.timeline.goal_scorer.id" class="control-label">Player Scorer Id:</label>
+                        <input id="scoreGoalScorerId" asp-for="payload.timeline.goal_scorer.id" class="form-control" />
+                        <span asp-validation-for="payload.timeline.goal_scorer.id" class="text-danger"></span>
                     </div>
-                    <div class="form-group" id="scoreAssist">
-                        <label asp-for="payload.timeline.assist.name" class="control-label">Player Assist</label>
-                        <input asp-for="payload.timeline.assist.name" class="form-control" />
-                        <span asp-validation-for="payload.timeline.assist.name" class="text-danger"></span>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label asp-for="payload.timeline.goal_scorer.name" class="control-label">Player Scorer Name:</label>
+                            <input id="scoreGoalScorerName" asp-for="payload.timeline.goal_scorer.name" class="form-control" />
+                            <span asp-validation-for="payload.timeline.goal_scorer.name" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="control-label">Player Options</label>
+                            <select id="scoreHomeScorerOptions" asp-items="@ViewBag.HomePlayers" class="form-control" onchange="scoreScorerChange(this)"></select>
+                            <select id="scoreAwayScorerOptions" asp-items="@ViewBag.AwayPlayers" class="form-control d-none" onchange="scoreScorerChange(this)"></select>
+                        </div>
                     </div>
+                    <div id="scoreAssist">
+                        <div class="form-group">
+                            <label asp-for="payload.timeline.assist.id" class="control-label">Player Assist Id:</label>
+                            <input id="scoreAssistId" asp-for="payload.timeline.assist.id" class="form-control" />
+                            <span asp-validation-for="payload.timeline.assist.id" class="text-danger"></span>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label asp-for="payload.timeline.assist.name" class="control-label">Player Assist Name:</label>
+                                <input id="scoreAssistName" asp-for="payload.timeline.assist.name" class="form-control" />
+                                <span asp-validation-for="payload.timeline.assist.name" class="text-danger"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="control-label">Player Options</label>
+                                <select id="scoreHomeAssistOptions" asp-items="@ViewBag.HomePlayers" class="form-control" onchange="scoreAssistChange(this)"></select>
+                                <select id="scoreAwayAssistOptions" asp-items="@ViewBag.AwayPlayers" class="form-control d-none" onchange="scoreAssistChange(this)"></select>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <div class="form-group">
                         <label for="commentary1" class="control-label">Commentary 1</label>
                         <textarea id="commentary1" type="text" name="commentary1" class="form-control" rows="3"></textarea>

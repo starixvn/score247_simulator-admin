@@ -129,21 +129,45 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="payload.timeline.team" class="control-label">Team</label>
-                    <select asp-for="payload.timeline.team" class="form-control">
+                    <select asp-for="payload.timeline.team" class="form-control" onclick="substituteTeamChange(this)">
                         <option value="home">Home</option>
                         <option value="away">Away</option>
                     </select>
                     <span asp-validation-for="payload.timeline.team" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="payload.timeline.player_in.name" class="control-label">Player In:</label>
-                    <input asp-for="payload.timeline.player_in.name" class="form-control" />
-                    <span asp-validation-for="payload.timeline.player_in.name" class="text-danger"></span>
+                    <label asp-for="payload.timeline.player_in.id" class="control-label">Player In Id:</label>
+                    <input id="subPlayerInId" asp-for="payload.timeline.player_in.id" class="form-control" />
+                    <span asp-validation-for="payload.timeline.player_in.id" class="text-danger"></span>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label asp-for="payload.timeline.player_in.name" class="control-label">Player In Name:</label>
+                        <input id="subPlayerInName" asp-for="payload.timeline.player_in.name" class="form-control" />
+                        <span asp-validation-for="payload.timeline.player_in.name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="control-label">Player Options</label>
+                        <select id="subHomePlayerInOptions" asp-items="@ViewBag.HomePlayers" class="form-control" onchange="subPlayerInChange(this)"></select>
+                        <select id="subAwayPlayerInOptions" asp-items="@ViewBag.AwayPlayers" class="form-control d-none" onchange="subPlayerInChange(this)"></select>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label asp-for="payload.timeline.player_out.name" class="control-label">Player Out:</label>
-                    <input asp-for="payload.timeline.player_out.name" class="form-control" />
-                    <span asp-validation-for="payload.timeline.player_out.name" class="text-danger"></span>
+                    <label asp-for="payload.timeline.player_out.id" class="control-label">Player Out Id:</label>
+                    <input id="subPlayerOutId" asp-for="payload.timeline.player_out.id" class="form-control" />
+                    <span asp-validation-for="payload.timeline.player_out.id" class="text-danger"></span>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label asp-for="payload.timeline.player_out.name" class="control-label">Player Out Name:</label>
+                        <input id="subPlayerOutName" asp-for="payload.timeline.player_out.name" class="form-control" />
+                        <span asp-validation-for="payload.timeline.player_out.name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="control-label">Player Options</label>
+                        <select id="subHomePlayerOutOptions" asp-items="@ViewBag.HomePlayers" class="form-control" onchange="subPlayerOutChange(this)"></select>
+                        <select id="subAwayPlayerOutOptions" asp-items="@ViewBag.AwayPlayers" class="form-control d-none" onchange="subPlayerOutChange(this)"></select>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label asp-for="payload.timeline.time" class="control-label">Date</label>

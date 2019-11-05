@@ -20,19 +20,19 @@
         awayPlayers.AddRange(Model.MatchPitchViewLineups.Away?.Substitutions?.ToList());
     }
 
-    IEnumerable<SelectListItem> homePlayersSelection = homePlayers?
+    List<SelectListItem> homePlayersSelection = homePlayers?
                                            .Select(i => new SelectListItem()
                                            {
                                                Text = i.Name,
                                                Value = i.Id
-                                           });
+                                           }).ToList();
 
-    IEnumerable<SelectListItem> awayPlayersSelection = awayPlayers?
+    List<SelectListItem> awayPlayersSelection = awayPlayers?
                                            .Select(i => new SelectListItem()
                                            {
                                                Text = i.Name,
                                                Value = i.Id
-                                           });
+                                           }).ToList();
 
     var eventViewData = new ViewDataDictionary(
         new Microsoft.AspNetCore.Mvc.ModelBinding.EmptyModelMetadataProvider(),

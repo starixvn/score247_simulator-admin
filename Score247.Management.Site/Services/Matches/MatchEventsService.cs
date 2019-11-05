@@ -156,15 +156,15 @@ namespace Score247.Management.Site.Services.Matches
             var commentaries = new List<CommentaryDto>();
             if (!string.IsNullOrWhiteSpace(commentary1))
             {
-                commentaries.Add(new CommentaryDto() { text = commentary1 });
+                commentaries.Add(new CommentaryDto { text = commentary1 });
             }
             if (!string.IsNullOrWhiteSpace(commentary2))
             {
-                commentaries.Add(new CommentaryDto() { text = commentary2 });
+                commentaries.Add(new CommentaryDto { text = commentary2 });
             }
             if (!string.IsNullOrWhiteSpace(commentary3))
             {
-                commentaries.Add(new CommentaryDto() { text = commentary3 });
+                commentaries.Add(new CommentaryDto { text = commentary3 });
             }
             requestBody.payload.timeline.commentaries = commentaries;
 
@@ -177,14 +177,14 @@ namespace Score247.Management.Site.Services.Matches
             requestBody.payload.timeline.player_in =
                 new Player_In
                 {
-                    id = UniqueGenerator.GetIdWithPattern("sr:player:"),
+                    id = collection["payload.timeline.player_in.id"],
                     name = collection["payload.timeline.player_in.name"]
                 };
 
             requestBody.payload.timeline.player_out =
                 new Player_Out
                 {
-                    id = UniqueGenerator.GetIdWithPattern("sr:player:"),
+                    id = collection["payload.timeline.player_out.id"],
                     name = collection["payload.timeline.player_out.name"]
                 };
             requestBody.payload.timeline.type = EventType.Substitution.DisplayName;
@@ -210,7 +210,7 @@ namespace Score247.Management.Site.Services.Matches
             {
                 requestBody.payload.timeline.player = new TimelinePlayer
                 {
-                    id = UniqueGenerator.GetIdWithPattern("sr:player:"),
+                    id = collection["payload.timeline.goal_scorer.id"],
                     name = collection["payload.timeline.goal_scorer.name"]
                 };
             }
@@ -242,7 +242,7 @@ namespace Score247.Management.Site.Services.Matches
             {
                 requestBody.payload.timeline.assist = new Assist
                 {
-                    id = UniqueGenerator.GetIdWithPattern("sr:player:"),
+                    id = collection["payload.timeline.assist.id"],
                     name = collection["payload.timeline.assist.name"],
                     type = "primary"
                 };
@@ -250,9 +250,9 @@ namespace Score247.Management.Site.Services.Matches
 
             if (requestBody.payload.timeline.type == EventType.PenaltyMissed.DisplayName)
             {
-                requestBody.payload.timeline.player = new TimelinePlayer()
+                requestBody.payload.timeline.player = new TimelinePlayer
                 {
-                    id = UniqueGenerator.GetIdWithPattern("sr:player:"),
+                    id = collection["payload.timeline.goal_scorer.id"],
                     name = collection["payload.timeline.goal_scorer.name"]
                 };
             }
@@ -260,7 +260,7 @@ namespace Score247.Management.Site.Services.Matches
             {
                 requestBody.payload.timeline.goal_scorer = new Goal_Scorer
                 {
-                    id = UniqueGenerator.GetIdWithPattern("sr:player:"),
+                    id = collection["payload.timeline.goal_scorer.id"],
                     name = collection["payload.timeline.goal_scorer.name"]
                 };
             }

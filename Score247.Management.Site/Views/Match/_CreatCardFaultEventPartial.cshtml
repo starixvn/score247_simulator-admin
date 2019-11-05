@@ -54,6 +54,7 @@
     }
 }
 @{
+
 }
 <div class="card">
     <div class="card-header" id="matchCardEventHeading">
@@ -102,7 +103,7 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="payload.timeline.team" class="control-label">Team</label>
-                        <select asp-for="payload.timeline.team" class="form-control">
+                        <select asp-for="payload.timeline.team" class="form-control" onchange="cardTeamChange(this)">
                             <option value="home">Home</option>
                             <option value="away">Away</option>
                         </select>
@@ -110,14 +111,22 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="payload.timeline.player.id" class="control-label">Player</label>
-                        <input asp-for="payload.timeline.player.id" class="form-control" />
+                        <input id="cardPlayerId" asp-for="payload.timeline.player.id" class="form-control" />
                         <span asp-validation-for="payload.timeline.player.id" class="text-danger"></span>
                     </div>
-                    <div class="form-group">
-                        <label asp-for="payload.timeline.player.name" class="control-label">Player</label>
-                        <input asp-for="payload.timeline.player.name" class="form-control" />
-                        <span asp-validation-for="payload.timeline.player.name" class="text-danger"></span>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label asp-for="payload.timeline.player.name" class="control-label">Player</label>
+                            <input id="cardPlayerName" asp-for="payload.timeline.player.name" class="form-control" />
+                            <span asp-validation-for="payload.timeline.player.name" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="control-label">Player Options</label>
+                            <select id="cardHomePlayerOptions" asp-items="@ViewBag.HomePlayers" class="form-control" onchange="cardPlayerChange(this)"></select>
+                            <select id="cardAwayPlayerOptions" asp-items="@ViewBag.AwayPlayers" class="form-control d-none" onchange="cardPlayerChange(this)"></select>
+                        </div>
                     </div>
+
                     <div class="form-group">
                         <label for="commentary1" class="control-label">Commentary 1</label>
                         <textarea id="commentary1" type="text" name="commentary1" class="form-control" rows="3"></textarea>
