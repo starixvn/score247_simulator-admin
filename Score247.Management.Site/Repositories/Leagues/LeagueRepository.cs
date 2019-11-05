@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Fanex.Data.Repository;
@@ -112,6 +113,21 @@ namespace Score247.Management.Site.Repositories.Leagues
         public async Task<int> CreateLeageCategory(CreateLeagueCategoryCriteria criteria)
         {
             return await repository.ExecuteAsync(criteria);
+        }
+
+        public async Task<int> EnableMajorLeagues(EnableMajorLeaguesCommand command)
+        {
+            return await repository.ExecuteAsync(command);
+        }
+
+        public async Task<int> UpdateLeagueActiveStatus(UpdateActiveStatusCommand command)
+        {
+            return await repository.ExecuteAsync(command);
+        }
+
+        public async Task<int> EnableAllLeagues(EnableAllLeaguesCommand command)
+        {
+            return await repository.ExecuteAsync(command);
         }
     }
 }

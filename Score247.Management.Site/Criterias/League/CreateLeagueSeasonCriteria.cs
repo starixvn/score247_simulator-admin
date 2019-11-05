@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Fanex.Data.Repository;
-
-namespace Score247.Management.Site.Criterias.League
+﻿namespace Score247.Management.Site.Criterias.League
 {
+    using System;
+    using Fanex.Data.Repository;
+
     public class CreateLeagueSeasonCriteria : NonQueryCommand
     {
         public string SeasonId { get; set; }

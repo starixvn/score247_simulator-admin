@@ -8,7 +8,8 @@
 <div class="row">
     <form class="list-quick-action col-sm-2">
         <button asp-action="Create" class="btn-default">New League</button>
-        <button asp-action="SyncLeagues" class="btn-default">Sync League</button>
+        <button asp-action="EnableMajorLeagues" class="btn-default">Enable Major Leagues</button>
+        <button asp-action="EnableAllLeagues" class="btn-default">Enable All Leagues</button>
     </form>
     @*<button class="list-quick-action btn-danger" data-toggle="modal" data-target="#confirmCloneAndSyncCountryFlag">Sync Flag League</button>*@
 </div>
@@ -45,35 +46,46 @@
             <th>
                 Flag
             </th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td></td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Order)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IsActive)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Country)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CountryCode)
-                </td>
-                <td>
-                    <img style="max-height: 25px;" src="@item.Flag" />
-                </td>
-            </tr>
+        <tr>
+            <td></td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Order)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Country)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CountryCode)
+            </td>
+            <td>
+                <img style="max-height: 25px;" src="@item.Flag" />
+            </td>
+            <td style="font-size:x-small;">
+                @if (item.IsActive == true)
+                    {
+                @Html.ActionLink("Disable", "EnableOrDisableLeague", new { id = item.Id })
+                    }
+                    else
+                    {
+                @Html.ActionLink("Enable", "EnableOrDisableLeague", new { id = item.Id })
+                    }
+            </td>
+        </tr>
         }
     </tbody>
 </table>

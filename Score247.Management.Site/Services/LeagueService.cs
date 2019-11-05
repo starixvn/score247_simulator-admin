@@ -14,6 +14,12 @@ namespace Score247.Management.Site.Services
     public interface ILeagueService
     {
         Task<bool> SyncSportradarLeague();
+
+        Task EnableDisableLeague(string id);
+
+        Task EnableMajorLeague();
+
+        Task EnableAllLeague();
     }
 
     public class LeagueService : ILeagueService
@@ -85,6 +91,30 @@ namespace Score247.Management.Site.Services
             };
 
             await repo.CreateLeague(criteria);
+        }
+
+        public async Task EnableDisableLeague(string id)
+        {
+            var leagueRepository = new LeagueRepository();
+            var league = await leagueRepository.GetLeagueById(id);
+            var command = new UpdateActiveStatusCommand { IsActive = !league.IsActive, LeagueId = id };
+            await leagueRepository.UpdateLeagueActiveStatus(command);
+        }
+
+        public async Task EnableMajorLeague()
+        {
+            var leagueRepository = new LeagueRepository();
+            var command = new EnableMajorLeaguesCommand();
+
+            await leagueRepository.EnableMajorLeagues(command);
+        }
+
+        public async Task EnableAllLeague()
+        {
+            var leagueRepository = new LeagueRepository();
+            var command = new EnableAllLeaguesCommand();
+
+            await leagueRepository.EnableAllLeagues(command);
         }
     }
 }

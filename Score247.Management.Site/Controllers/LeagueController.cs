@@ -69,18 +69,26 @@ namespace Score247.Management.Site.Controllers
             }
         }
 
-        public ActionResult SyncFlagLeague(IFormCollection collection)
+        public ActionResult EnableOrDisableLeague(string id)
         {
-            try
-            {
-                CountryFlagCrawlerService.GetAndInsertImageToDataBase();
+            leagueService.EnableDisableLeague(id);
 
-                return RedirectToAction(nameof(Index));
-            }
-            catch (Exception)
-            {
-                return RedirectToAction(nameof(Index));
-            }
+            return RedirectToAction(nameof(Index));
+        }
+
+        public ActionResult EnableMajorLeagues()
+
+        {
+            leagueService.EnableMajorLeague();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public ActionResult EnableAllLeagues()
+        {
+            leagueService.EnableAllLeague();
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }
