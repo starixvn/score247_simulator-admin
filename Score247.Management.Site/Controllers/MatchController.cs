@@ -130,7 +130,8 @@ namespace Score247.Management.Site.Controllers
             var viewModel = new EventMatchViewModel(match, timelines, offset)
             {
                 Scenarios = await scenarioRepo.GetScenarios(),
-                Statistic = await queryService.GetMatchStatistic(id, "en-US")
+                Statistic = await queryService.GetMatchStatistic(id, "en-US"),
+                MatchPitchViewLineups = await queryService.GetLineUps(id, "en-US")
             };
 
             TempData["Timezone"] = offset.ToString(@"hh\:mm");

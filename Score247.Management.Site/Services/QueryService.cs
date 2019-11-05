@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using MessagePack;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using Score247Management.Core.Matches.Models;
 using Score247Management.Core.Statistics.Models;
 

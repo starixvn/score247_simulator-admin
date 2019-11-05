@@ -23,6 +23,7 @@ namespace Score247.Management.Site.ViewModels.Matches
 
         public IEnumerable<Scenario> Scenarios { get; set; }
         public Statistic Statistic { get; set; }
+        public MatchPitchViewLineups MatchPitchViewLineups { get; set; }
 
         public EventMatchViewModel()
         {
@@ -30,24 +31,26 @@ namespace Score247.Management.Site.ViewModels.Matches
 
         public EventMatchViewModel(Match match, IEnumerable<TimelineEvent> timelineEvents, TimeSpan offset)
         {
-            var ran = new Random();
             Match = match;
             TimelineEvents = timelineEvents;
             MatchCardEventDto = new MatchPushEventDto(match, offset);
 
             MatchCardEventDto.payload.timeline.player = new TimelinePlayer
             {
+                id = UniqueGenerator.GetIdWithPattern("sr:player:"),
                 name = NameGenerator.GeneratePlayerName()
             };
             MatchGoalEventDto = new MatchPushEventDto(match, offset);
             MatchGoalEventDto.payload.timeline.goal_scorer = new Goal_Scorer
             {
+                id = UniqueGenerator.GetIdWithPattern("sr:player:"),
                 name = NameGenerator.GeneratePlayerName()
             };
             MatchInjuryExtraEventDto = new MatchPushEventDto(match, offset);
             MatchPenaltyEventDto = new MatchPushEventDto(match, offset);
             MatchPenaltyEventDto.payload.timeline.goal_scorer = new Goal_Scorer
             {
+                id = UniqueGenerator.GetIdWithPattern("sr:player:"),
                 name = NameGenerator.GeneratePlayerName()
             };
             MatchTimeEventDto = new MatchPushEventDto(match, offset);
@@ -57,10 +60,12 @@ namespace Score247.Management.Site.ViewModels.Matches
             MatchSubstitutionEventDto = new MatchPushEventDto(match, offset);
             MatchSubstitutionEventDto.payload.timeline.player_in = new Player_In
             {
+                id = UniqueGenerator.GetIdWithPattern("sr:player:"),
                 name = NameGenerator.GeneratePlayerName()
             };
-            MatchSubstitutionEventDto.payload.timeline.player_out = new Player_Out()
+            MatchSubstitutionEventDto.payload.timeline.player_out = new Player_Out
             {
+                id = UniqueGenerator.GetIdWithPattern("sr:player:"),
                 name = NameGenerator.GeneratePlayerName()
             };
         }

@@ -17,7 +17,9 @@
       "abbreviation": "VIL"
     }
   ],
-  "last_meetings": [],
+  "last_meetings": {
+    "results": []
+  },
   "next_meetings": [
     {
       "sport_event": {

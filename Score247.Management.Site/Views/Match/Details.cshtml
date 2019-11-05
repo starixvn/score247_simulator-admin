@@ -7,8 +7,39 @@
 @{
     ViewData["Title"] = "Match Events";
 }
+
 @{
-    var eventViewData = new ViewDataDictionary(new Microsoft.AspNetCore.Mvc.ModelBinding.EmptyModelMetadataProvider(), new Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary()) { { "MatchId", Model.Match.Id } };
+    var homePlayers = Model.MatchPitchViewLineups.Home?.Players?.ToList();
+    if (homePlayers != null && Model.MatchPitchViewLineups.Home.Substitutions != null)
+    {
+        homePlayers.AddRange(Model.MatchPitchViewLineups.Home?.Substitutions?.ToList());
+    }
+    var awayPlayers = Model.MatchPitchViewLineups.Away?.Players?.ToList();
+    if (awayPlayers != null && Model.MatchPitchViewLineups.Away.Substitutions != null)
+    {
+        awayPlayers.AddRange(Model.MatchPitchViewLineups.Away?.Substitutions?.ToList());
+    }
+
+    IEnumerable<SelectListItem> homePlayersSelection = homePlayers?
+                                           .Select(i => new SelectListItem()
+                                           {
+                                               Text = i.Name,
+                                               Value = i.Id
+                                           });
+
+    IEnumerable<SelectListItem> awayPlayersSelection = awayPlayers?
+                                           .Select(i => new SelectListItem()
+                                           {
+                                               Text = i.Name,
+                                               Value = i.Id
+                                           });
+
+    var eventViewData = new ViewDataDictionary(
+        new Microsoft.AspNetCore.Mvc.ModelBinding.EmptyModelMetadataProvider(),
+        new Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary()){ { "MatchId", Model.Match.Id },
+            { "HomePlayers", homePlayersSelection },
+            { "AwayPlayers", awayPlayersSelection }
+    };
     IEnumerable<SelectListItem> scenariosSelected = Model.Scenarios
                                            .Select(i => new SelectListItem()
                                            {

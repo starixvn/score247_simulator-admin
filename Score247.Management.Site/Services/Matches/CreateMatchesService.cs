@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Fanex.Logging;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
@@ -49,6 +50,7 @@ namespace Score247.Management.Site.Services.Matches
         private readonly IScenarioService scenarioService;
         private readonly ILineupService lineupService;
         private readonly IH2HService h2HService;
+        private readonly ILogger logger;
 
         public CreateMatchesService(ISimulatorService simulatorService,
             ITriggerJobService triggerJobService,
@@ -57,7 +59,8 @@ namespace Score247.Management.Site.Services.Matches
             IMatchFileService matchFileService,
             IScenarioService scenarioService,
             ILineupService lineupService,
-            IH2HService h2HService)
+            IH2HService h2HService,
+            ILogger logger)
         {
             this.simulatorService = simulatorService;
             this.triggerJobService = triggerJobService;
@@ -67,6 +70,7 @@ namespace Score247.Management.Site.Services.Matches
             this.scenarioService = scenarioService;
             this.lineupService = lineupService;
             this.h2HService = h2HService;
+            this.logger = logger;
         }
 
         public async Task CreateMatchForActiveLeagues(DateTime createDate, TimeSpan offset)
@@ -112,8 +116,15 @@ namespace Score247.Management.Site.Services.Matches
 
         public async Task CreateLiveMatches(CreateLiveMatchModel createLiveMatchModel)
         {
-            await simulatorService.SyncLiveMatches();
-            await CreateLiveMatches(createLiveMatchModel.PostCount, createLiveMatchModel.LiveCount, createLiveMatchModel.PreCount, createLiveMatchModel.LeagueLimit);
+            try
+            {
+                await simulatorService.SyncLiveMatches();
+                await CreateLiveMatches(createLiveMatchModel.PostCount, createLiveMatchModel.LiveCount, createLiveMatchModel.PreCount, createLiveMatchModel.LeagueLimit);
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+            }
         }
 
         public async Task<int> CreateAllMatchesSite(List<CreateDeleteMatchesModel> createDeleteMatchesModels, TimeSpan offset)

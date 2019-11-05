@@ -1,4 +1,5 @@
 ﻿@using  Score247Management.Core._Shared.Enumerations
+@using Score247Management.Core.Matches.Models;
 
 @model Score247.Management.Site.Models.Events.MatchPushEventDto
 @{
@@ -52,6 +53,8 @@
         });
     }
 }
+@{
+}
 <div class="card">
     <div class="card-header" id="matchCardEventHeading">
         <div class="card-title collapsed" data-toggle="collapse" data-target="#matchCardEvent" aria-expanded="true" aria-controls="matchCardEvent">
@@ -104,6 +107,11 @@
                             <option value="away">Away</option>
                         </select>
                         <span asp-validation-for="payload.timeline.team" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="payload.timeline.player.id" class="control-label">Player</label>
+                        <input asp-for="payload.timeline.player.id" class="form-control" />
+                        <span asp-validation-for="payload.timeline.player.id" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="payload.timeline.player.name" class="control-label">Player</label>

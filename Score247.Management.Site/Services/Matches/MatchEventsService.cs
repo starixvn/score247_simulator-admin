@@ -49,9 +49,9 @@ namespace Score247.Management.Site.Services.Matches
                 requestBody.payload.timeline.stoppage_time = collection["payload.timeline.stoppage_time"];
             }
 
-            requestBody.payload.timeline.player = new TimelinePlayer()
+            requestBody.payload.timeline.player = new TimelinePlayer
             {
-                id = UniqueGenerator.GetIdWithPattern("sr:player:"),
+                id = collection["payload.timeline.player.id"],
                 name = collection["payload.timeline.player.name"]
             };
 
@@ -105,7 +105,14 @@ namespace Score247.Management.Site.Services.Matches
             var requestBody = new MatchPushEventDto(match);
             var eventDate = Convert.ToDateTime(collection["payload.timeline.time"]);
             var eventTimeSpan = TimeSpan.Parse(collection["payload.timeline.hour"]);
-            var eventTime = new DateTime(eventDate.Year, eventDate.Month, eventDate.Day, eventTimeSpan.Hours, eventTimeSpan.Minutes, eventTimeSpan.Seconds, DateTimeKind.Utc).Subtract(offset).ToUniversalTime();
+            var eventTime = new DateTime(eventDate.Year,
+                                        eventDate.Month,
+                                        eventDate.Day,
+                                        eventTimeSpan.Hours,
+                                        eventTimeSpan.Minutes,
+                                        eventTimeSpan.Seconds,
+                                        DateTimeKind.Utc)
+                                .Subtract(offset).ToUniversalTime();
             var isSuccessParseMatchTime = int.TryParse(collection["payload.timeline.match_time"], out var matchTime);
             var isNotDuplicateEvent = string.IsNullOrWhiteSpace(collection["payload.timeline.id"]);
             requestBody.payload.timeline = new TimelineDto
@@ -129,7 +136,11 @@ namespace Score247.Management.Site.Services.Matches
             {
                 foreach (var matchPeriod in match.MatchResult.MatchPeriods)
                 {
-                    if (matchPeriod.PeriodType.IsPenalties()) continue;
+                    if (matchPeriod.PeriodType.IsPenalties())
+                    {
+                        continue;
+                    }
+
                     requestBody.payload.timeline.home_score += matchPeriod.HomeScore;
                     requestBody.payload.timeline.away_score += matchPeriod.AwayScore;
                 }
@@ -164,14 +175,14 @@ namespace Score247.Management.Site.Services.Matches
         {
             var requestBody = await InitEvent(id, collection, offset);
             requestBody.payload.timeline.player_in =
-                new Player_In()
+                new Player_In
                 {
                     id = UniqueGenerator.GetIdWithPattern("sr:player:"),
                     name = collection["payload.timeline.player_in.name"]
                 };
 
             requestBody.payload.timeline.player_out =
-                new Player_Out()
+                new Player_Out
                 {
                     id = UniqueGenerator.GetIdWithPattern("sr:player:"),
                     name = collection["payload.timeline.player_out.name"]
@@ -197,7 +208,7 @@ namespace Score247.Management.Site.Services.Matches
 
             if (!string.IsNullOrWhiteSpace(collection["payload.timeline.goal_scorer.name"]))
             {
-                requestBody.payload.timeline.player = new TimelinePlayer()
+                requestBody.payload.timeline.player = new TimelinePlayer
                 {
                     id = UniqueGenerator.GetIdWithPattern("sr:player:"),
                     name = collection["payload.timeline.goal_scorer.name"]
