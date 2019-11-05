@@ -7,13 +7,14 @@ using Score247Management.Core.Scenarios.Models;
 
 namespace Score247.Management.Site.Models.DataMappers
 {
+    using System;
     using System.Linq;
     using Score247Management.Core.Matches.Models;
     using Score247Management.Core.Teams.Models;
 
     public static class SportEventMapper
     {
-        public static MatchPushEventDto MapEvent(ScenarioEvent scenarioEvent, Match match, Scenario scenario)
+        public static MatchPushEventDto MapEvent(ScenarioEvent scenarioEvent, Match match, Scenario scenario, MatchPitchViewLineups matchPitchViewLineups = null)
         {
             var homeId = match.Teams.FirstOrDefault(x => x.IsHome)?.Id;
             var awayId = match.Teams.FirstOrDefault(x => !x.IsHome)?.Id;
@@ -28,7 +29,57 @@ namespace Score247.Management.Site.Models.DataMappers
             if (preEvent.payload.sport_event_status.aggregate_winner_id == scenario.AwayId) preEvent.payload.sport_event_status.aggregate_winner_id = awayId;
             if (preEvent.payload.sport_event_status.winner_id == scenario.AwayId) preEvent.payload.sport_event_status.winner_id = awayId;
 
+            if (matchPitchViewLineups != null && matchPitchViewLineups.Home?.Players != null)
+            {
+                preEvent.payload.timeline = UpdateTimelinePlayer(preEvent.payload.timeline, matchPitchViewLineups);
+            }
+
             return preEvent;
+        }
+
+        private static TimelineDto UpdateTimelinePlayer(TimelineDto timeline, MatchPitchViewLineups matchPitchViewLineups)
+        {
+            var rand = new Random();
+            var lineUp = timeline.team == "home" ? matchPitchViewLineups.Home : matchPitchViewLineups.Away;
+            var players = lineUp.Players.ToList();
+            var subs = lineUp.Substitutions.ToList();
+
+            if (timeline.goal_scorer != null)
+            {
+                var player = players[rand.Next(players.Count)];
+                timeline.goal_scorer.id = player.Id;
+                timeline.goal_scorer.name = player.Name;
+            }
+
+            if (timeline.player != null)
+            {
+                var player = players[rand.Next(players.Count)];
+                timeline.player.id = player.Id;
+                timeline.player.name = player.Name;
+            }
+
+            if (timeline.assist != null)
+            {
+                var player = players[rand.Next(players.Count)];
+                timeline.assist.id = player.Id;
+                timeline.assist.name = player.Name;
+            }
+
+            if (timeline.player_out != null)
+            {
+                var player = players[rand.Next(players.Count)];
+                timeline.player_out.id = player.Id;
+                timeline.player_out.name = player.Name;
+            }
+
+            if (timeline.player_in != null)
+            {
+                var player = subs[rand.Next(subs.Count)];
+                timeline.player_in.id = player.Id;
+                timeline.player_in.name = player.Name;
+            }
+
+            return timeline;
         }
 
         public static Sport_Event MapSportEvent(MatchEntity match)
