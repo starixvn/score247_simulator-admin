@@ -103,7 +103,6 @@ namespace Score247.Management.Site.Services
             var league = await leagueRepository.GetLeagueById(id);
             var command = new UpdateActiveStatusCommand { IsActive = !league.IsActive, LeagueId = id };
             await leagueRepository.UpdateLeagueActiveStatus(command);
-            await ApplyMajorLeagues();
         }
 
         public async Task EnableMajorLeague()
@@ -112,7 +111,6 @@ namespace Score247.Management.Site.Services
             var command = new EnableMajorLeaguesCommand();
 
             await leagueRepository.EnableMajorLeagues(command);
-            await ApplyMajorLeagues();
         }
 
         public async Task EnableAllLeague()
@@ -121,7 +119,6 @@ namespace Score247.Management.Site.Services
             var command = new EnableAllLeaguesCommand();
 
             await leagueRepository.EnableAllLeagues(command);
-            //ApplyMajorLeagues();
         }
 
         public async Task ApplyMajorLeagues()
