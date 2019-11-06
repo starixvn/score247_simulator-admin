@@ -102,7 +102,7 @@ namespace Score247.Management.Site.Services
 
         public async Task TriggerFetchCleanMajorLeagueCache()
         {
-            var jobs = new List<string> { "FetchCleanMajorLeaguesCache" };
+            var jobs = new List<string> { "CleanMajorLeaguesCache" };
 
             await TriggerJobs(jobs);
         }

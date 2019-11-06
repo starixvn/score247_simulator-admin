@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using Newtonsoft.Json;
     using Score247Management.Core._Shared.Enumerations;
     using Score247Management.Core.Base;
@@ -12,6 +13,7 @@
         public EventType Type { get; set; }
         public DateTime Time { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm:ss}")]
         public DateTime LocalTime => Time.ToUniversalTime();
 
         public int MatchTime { get; set; }

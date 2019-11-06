@@ -55,7 +55,7 @@ namespace Score247.Management.Site.Repositories.Matches
         {
             var timelinesLogs = await repository.FetchAsync<TimelineLog>(new GetMatchTimelineLogCriteria() { Id = id });
             var timelines = await repository.FetchAsync<TimelineEvent>(new GetMatchTimelineCriteria() { MatchId = id });
-            var result = timelines.Select(x => x.DeserialValue(offset)).OrderBy(x => x.Time).ToList();
+            var result = timelines.Select(x => x.DeserialValue(offset)).OrderByDescending(x => x.Time).ToList();
             result.ForEach(x =>
             {
                 var log = timelinesLogs.FirstOrDefault(y => y.TimelineId == x.Id);
