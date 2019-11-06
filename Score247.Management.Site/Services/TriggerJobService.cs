@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -11,6 +10,8 @@ namespace Score247.Management.Site.Services
     {
         Task TriggerJobs(IEnumerable<string> jobsName);
 
+        Task TriggerFetchPostMatchJobs();
+
         Task TriggerCreateMatchJobs();
 
         Task TriggerFetchOddsJobs();
@@ -20,6 +21,8 @@ namespace Score247.Management.Site.Services
         Task TriggerFetchLiveMatch();
 
         Task TriggerFetchLiveMatchTimeline();
+
+        Task TriggerFetchCleanMajorLeagueCache();
     }
 
     public class TriggerJobService : ITriggerJobService
@@ -38,7 +41,7 @@ namespace Score247.Management.Site.Services
                 BaseAddress = new Uri(configuration.GetValue<string>("Simulator:FetchUrl"))
             })
             {
-                var request = new HttpRequestMessage(HttpMethod.Post, "");
+                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "");
 
                 var content = new List<KeyValuePair<string, string>>();
                 foreach (var jobName in jobsName)
@@ -64,35 +67,49 @@ namespace Score247.Management.Site.Services
 
         public async Task TriggerCreateMatchJobs()
         {
-            var jobs = new List<string>() { "FetchPreMatch", "FetchPostMatch" };
+            var jobs = new List<string> { "FetchPreMatch", "FetchPostMatch" };
 
             await TriggerJobs(jobs);
         }
 
         public async Task TriggerFetchOddsJobs()
         {
-            var jobs = new List<string>() { "FetchOdds" };
+            var jobs = new List<string> { "FetchOdds" };
 
             await TriggerJobs(jobs);
         }
 
         public async Task TriggerFetchOddsChangeLogsJobs()
         {
-            var jobs = new List<string>() { "FetchOddsChangeLogs" };
+            var jobs = new List<string> { "FetchOddsChangeLogs" };
 
             await TriggerJobs(jobs);
         }
 
         public async Task TriggerFetchLiveMatch()
         {
-            var jobs = new List<string>() { "FetchLiveMatch" };
+            var jobs = new List<string> { "FetchLiveMatch" };
 
             await TriggerJobs(jobs);
         }
 
         public async Task TriggerFetchLiveMatchTimeline()
         {
-            var jobs = new List<string>() { "FetchLiveMatchTimeline" };
+            var jobs = new List<string> { "FetchLiveMatchTimeline" };
+
+            await TriggerJobs(jobs);
+        }
+
+        public async Task TriggerFetchCleanMajorLeagueCache()
+        {
+            var jobs = new List<string> { "FetchCleanMajorLeaguesCache" };
+
+            await TriggerJobs(jobs);
+        }
+
+        public async Task TriggerFetchPostMatchJobs()
+        {
+            var jobs = new List<string> { "FetchPostMatch" };
 
             await TriggerJobs(jobs);
         }

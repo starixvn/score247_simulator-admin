@@ -12,7 +12,7 @@ namespace Score247.Management.Site.Services.Matches
         public static MatchPushEventDto CreateMatchStart(Match match, DateTime eventTime)
         {
             var matchEvent = new MatchPushEventDto(match);
-            matchEvent.payload.timeline = new TimelineDto()
+            matchEvent.payload.timeline = new TimelineDto
             {
                 id = UniqueGenerator.GetIntId(),
                 time = eventTime.ToUniversalTime(),
@@ -31,7 +31,7 @@ namespace Score247.Management.Site.Services.Matches
         public static MatchPushEventDto CreateFirstPeriodStart(Match match, DateTime eventTime)
         {
             var matchEvent = new MatchPushEventDto(match);
-            matchEvent.payload.timeline = new TimelineDto()
+            matchEvent.payload.timeline = new TimelineDto
             {
                 id = UniqueGenerator.GetIntId(),
                 time = eventTime.ToUniversalTime(),

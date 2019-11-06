@@ -25,10 +25,12 @@ namespace Score247.Management.Site.Services
     public class LeagueService : ILeagueService
     {
         private IConfiguration configuration { get; }
+        private readonly ITriggerJobService triggerJobService;
 
-        public LeagueService(IConfiguration configuration)
+        public LeagueService(IConfiguration configuration, ITriggerJobService triggerJobService)
         {
             this.configuration = configuration;
+            this.triggerJobService = triggerJobService;
         }
 
         public async Task<bool> SyncSportradarLeague()
@@ -99,6 +101,7 @@ namespace Score247.Management.Site.Services
             var league = await leagueRepository.GetLeagueById(id);
             var command = new UpdateActiveStatusCommand { IsActive = !league.IsActive, LeagueId = id };
             await leagueRepository.UpdateLeagueActiveStatus(command);
+            await ApplyMajorLeagues();
         }
 
         public async Task EnableMajorLeague()
@@ -107,6 +110,7 @@ namespace Score247.Management.Site.Services
             var command = new EnableMajorLeaguesCommand();
 
             await leagueRepository.EnableMajorLeagues(command);
+            await ApplyMajorLeagues();
         }
 
         public async Task EnableAllLeague()
@@ -115,6 +119,14 @@ namespace Score247.Management.Site.Services
             var command = new EnableAllLeaguesCommand();
 
             await leagueRepository.EnableAllLeagues(command);
+            ApplyMajorLeagues();
+        }
+
+        private async Task ApplyMajorLeagues()
+        {
+            await triggerJobService.TriggerFetchCleanMajorLeagueCache();
+            await Task.Delay(10000);
+            await triggerJobService.TriggerFetchPostMatchJobs();
         }
     }
 }
