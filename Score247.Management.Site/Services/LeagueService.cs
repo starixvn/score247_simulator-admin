@@ -126,7 +126,7 @@ namespace Score247.Management.Site.Services
         {
             await triggerJobService.TriggerFetchCleanMajorLeagueCache();
             await Task.Delay(10000);
-            await triggerJobService.TriggerFetchPostMatchJobs();
+            await triggerJobService.TriggerCreateMatchJobs();
         }
     }
 }
