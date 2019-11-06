@@ -18,6 +18,7 @@ namespace Score247Management.Core.Matches.Models
         public DateTimeOffset CurrentPeriodStartTime { get; set; }
         public IEnumerable<Team> Teams { get; set; }
 
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public MatchResult MatchResult { get; set; }
 
         public League League { get; set; }
