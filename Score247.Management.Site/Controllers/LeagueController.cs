@@ -90,5 +90,12 @@ namespace Score247.Management.Site.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+        public async Task<ActionResult> FetchMatches()
+        {
+            await leagueService.ApplyMajorLeagues();
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

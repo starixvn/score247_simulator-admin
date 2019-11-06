@@ -20,6 +20,8 @@ namespace Score247.Management.Site.Services
         Task EnableMajorLeague();
 
         Task EnableAllLeague();
+
+        Task ApplyMajorLeagues();
     }
 
     public class LeagueService : ILeagueService
@@ -119,10 +121,10 @@ namespace Score247.Management.Site.Services
             var command = new EnableAllLeaguesCommand();
 
             await leagueRepository.EnableAllLeagues(command);
-            ApplyMajorLeagues();
+            //ApplyMajorLeagues();
         }
 
-        private async Task ApplyMajorLeagues()
+        public async Task ApplyMajorLeagues()
         {
             await triggerJobService.TriggerFetchCleanMajorLeagueCache();
             await Task.Delay(10000);
