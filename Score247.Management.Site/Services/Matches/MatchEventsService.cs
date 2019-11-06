@@ -202,6 +202,13 @@ namespace Score247.Management.Site.Services.Matches
                 };
             requestBody.payload.timeline.type = EventType.Substitution.DisplayName;
 
+            var periodType = collection["payload.timeline.period_type"];
+            if (periodType == "extra_time")
+            {
+                requestBody.payload.timeline.period_type = "overtime";
+                requestBody.payload.timeline.stoppage_time = collection["payload.timeline.stoppage_time"];
+            }
+
             await simulatorService.SendMatchEvent(requestBody);
             await timelineService.SendMatchTimeline(id);
         }
@@ -209,6 +216,13 @@ namespace Score247.Management.Site.Services.Matches
         public async Task CreateMinorEventPartial(string id, IFormCollection collection, TimeSpan offset)
         {
             var requestBody = await InitEvent(id, collection, offset);
+
+            var periodType = collection["payload.timeline.period_type"];
+            if (periodType == "extra_time")
+            {
+                requestBody.payload.timeline.period_type = "overtime";
+                requestBody.payload.timeline.stoppage_time = collection["payload.timeline.stoppage_time"];
+            }
 
             await simulatorService.SendMatchEvent(requestBody);
             await timelineService.SendMatchTimeline(id);
