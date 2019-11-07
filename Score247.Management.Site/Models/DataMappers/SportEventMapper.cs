@@ -42,6 +42,10 @@ namespace Score247.Management.Site.Models.DataMappers
         {
             var rand = new Random();
             var lineUp = matchPitchViewLineups.lineups.FirstOrDefault(team => team.team == timeline.team);
+            if (lineUp == null)
+            {
+                return timeline;
+            }
             var players = lineUp.starting_lineup.ToList();
             var subs = lineUp.substitutes.ToList();
 

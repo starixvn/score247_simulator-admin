@@ -303,8 +303,8 @@ namespace Score247.Management.Site.Services
         public async Task ApplyLineups(LineUpsDto lineUpsDto)
         {
             await simulatorService.SendLineups(lineUpsDto);
-            triggerJobService.TriggerFetchLiveMatchTimeline();
-            triggerJobService.TriggerFetchMatchLineups();
+            await triggerJobService.TriggerFetchLiveMatchTimeline();
+            await triggerJobService.TriggerFetchMatchLineups();
         }
 
         public async Task ApplyH2H(H2HDto h2HDto)
