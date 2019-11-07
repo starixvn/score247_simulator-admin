@@ -23,6 +23,8 @@ namespace Score247.Management.Site.Services
         Task TriggerFetchLiveMatchTimeline();
 
         Task TriggerFetchCleanMajorLeagueCache();
+
+        Task TriggerFetchMatchLineups();
     }
 
     public class TriggerJobService : ITriggerJobService
@@ -67,7 +69,7 @@ namespace Score247.Management.Site.Services
 
         public async Task TriggerCreateMatchJobs()
         {
-            var jobs = new List<string> { "FetchPreMatch", "FetchPostMatch" };
+            var jobs = new List<string> { "FetchPreMatches", "FetchPostMatches" };
 
             await TriggerJobs(jobs);
         }
@@ -88,14 +90,14 @@ namespace Score247.Management.Site.Services
 
         public async Task TriggerFetchLiveMatch()
         {
-            var jobs = new List<string> { "FetchLiveMatch" };
+            var jobs = new List<string> { "FetchLiveMatches" };
 
             await TriggerJobs(jobs);
         }
 
         public async Task TriggerFetchLiveMatchTimeline()
         {
-            var jobs = new List<string> { "FetchLiveMatchTimeline" };
+            var jobs = new List<string> { "FetchLiveMatchesTimeline" };
 
             await TriggerJobs(jobs);
         }
@@ -109,7 +111,14 @@ namespace Score247.Management.Site.Services
 
         public async Task TriggerFetchPostMatchJobs()
         {
-            var jobs = new List<string> { "FetchPostMatch" };
+            var jobs = new List<string> { "FetchPostMatches" };
+
+            await TriggerJobs(jobs);
+        }
+
+        public async Task TriggerFetchMatchLineups()
+        {
+            var jobs = new List<string> { "FetchMatchLineups" };
 
             await TriggerJobs(jobs);
         }

@@ -304,6 +304,7 @@ namespace Score247.Management.Site.Services
         {
             await simulatorService.SendLineups(lineUpsDto);
             triggerJobService.TriggerFetchLiveMatchTimeline();
+            triggerJobService.TriggerFetchMatchLineups();
         }
 
         public async Task ApplyH2H(H2HDto h2HDto)
