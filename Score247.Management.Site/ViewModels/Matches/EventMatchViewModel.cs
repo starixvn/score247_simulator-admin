@@ -5,6 +5,7 @@ namespace Score247.Management.Site.ViewModels.Matches
 {
     using System.Collections.Generic;
     using Score247.Management.Site.Helpers;
+    using Score247.Management.Site.Models;
     using Score247.Management.Site.Models.Events;
     using Score247Management.Core.Matches.Models;
     using Score247Management.Core.Scenarios.Models;
@@ -24,6 +25,7 @@ namespace Score247.Management.Site.ViewModels.Matches
         public IEnumerable<Scenario> Scenarios { get; set; }
         public Statistic Statistic { get; set; }
         public MatchPitchViewLineups MatchPitchViewLineups { get; set; }
+        public LineUpsDto LineUpsDto { get; set; }
 
         public EventMatchViewModel()
         {

@@ -34,6 +34,8 @@
 
         Task<DailyResultDto> GetLiveResult();
 
+        Task<LineUpsDto> GetLineUpsDto(string matchId);
+
         Task SendMatchEvent(MatchPushEventDto matchPushEvent, int delay = 2000);
 
         Task SyncLiveMatches();
@@ -316,6 +318,24 @@
             }
             simulatorSchedule.sport_events = matches;
             return simulatorSchedule;
+        }
+
+        public async Task<LineUpsDto> GetLineUpsDto(string matchId)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(configuration.GetValue<string>("Simulator:Url"));
+                var response = await client.GetAsync($"api/soccer-t3/other/en-US/matches/{matchId}/lineups.json");
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new LineUpsDto();
+                }
+
+                var responseBody = await response.Content.ReadAsStringAsync();
+                var lineupsDto = JsonConvert.DeserializeObject<LineUpsDto>(responseBody);
+
+                return lineupsDto;
+            }
         }
     }
 }

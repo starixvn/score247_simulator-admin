@@ -14,7 +14,7 @@ namespace Score247.Management.Site.Models.DataMappers
 
     public static class SportEventMapper
     {
-        public static MatchPushEventDto MapEvent(ScenarioEvent scenarioEvent, Match match, Scenario scenario, MatchPitchViewLineups matchPitchViewLineups = null)
+        public static MatchPushEventDto MapEvent(ScenarioEvent scenarioEvent, Match match, Scenario scenario, LineUpsDto matchPitchViewLineups = null)
         {
             var homeId = match.Teams.FirstOrDefault(x => x.IsHome)?.Id;
             var awayId = match.Teams.FirstOrDefault(x => !x.IsHome)?.Id;
@@ -29,54 +29,55 @@ namespace Score247.Management.Site.Models.DataMappers
             if (preEvent.payload.sport_event_status.aggregate_winner_id == scenario.AwayId) preEvent.payload.sport_event_status.aggregate_winner_id = awayId;
             if (preEvent.payload.sport_event_status.winner_id == scenario.AwayId) preEvent.payload.sport_event_status.winner_id = awayId;
 
-            if (matchPitchViewLineups != null && matchPitchViewLineups.Home?.Players != null)
+            if (matchPitchViewLineups?.lineups != null && matchPitchViewLineups.lineups.Any())
             {
                 preEvent.payload.timeline = UpdateTimelinePlayer(preEvent.payload.timeline, matchPitchViewLineups);
-            }
 
+                return preEvent;
+            }
             return preEvent;
         }
 
-        private static TimelineDto UpdateTimelinePlayer(TimelineDto timeline, MatchPitchViewLineups matchPitchViewLineups)
+        private static TimelineDto UpdateTimelinePlayer(TimelineDto timeline, LineUpsDto matchPitchViewLineups)
         {
             var rand = new Random();
-            var lineUp = timeline.team == "home" ? matchPitchViewLineups.Home : matchPitchViewLineups.Away;
-            var players = lineUp.Players.ToList();
-            var subs = lineUp.Substitutions.ToList();
+            var lineUp = matchPitchViewLineups.lineups.FirstOrDefault(team => team.team == timeline.team);
+            var players = lineUp.starting_lineup.ToList();
+            var subs = lineUp.substitutes.ToList();
 
             if (timeline.goal_scorer != null)
             {
                 var player = players[rand.Next(players.Count)];
-                timeline.goal_scorer.id = player.Id;
-                timeline.goal_scorer.name = player.Name;
+                timeline.goal_scorer.id = player.id;
+                timeline.goal_scorer.name = player.name;
             }
 
             if (timeline.player != null)
             {
                 var player = players[rand.Next(players.Count)];
-                timeline.player.id = player.Id;
-                timeline.player.name = player.Name;
+                timeline.player.id = player.id;
+                timeline.player.name = player.name;
             }
 
             if (timeline.assist != null)
             {
                 var player = players[rand.Next(players.Count)];
-                timeline.assist.id = player.Id;
-                timeline.assist.name = player.Name;
+                timeline.assist.id = player.id;
+                timeline.assist.name = player.name;
             }
 
             if (timeline.player_out != null)
             {
                 var player = players[rand.Next(players.Count)];
-                timeline.player_out.id = player.Id;
-                timeline.player_out.name = player.Name;
+                timeline.player_out.id = player.id;
+                timeline.player_out.name = player.name;
             }
 
             if (timeline.player_in != null)
             {
                 var player = subs[rand.Next(subs.Count)];
-                timeline.player_in.id = player.Id;
-                timeline.player_in.name = player.Name;
+                timeline.player_in.id = player.id;
+                timeline.player_in.name = player.name;
             }
 
             return timeline;

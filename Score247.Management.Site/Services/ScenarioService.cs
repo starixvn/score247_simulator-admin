@@ -60,7 +60,7 @@ namespace Score247.Management.Site.Services
                 var scenarioRepo = new ScenarioRepository();
                 var match = await matchRepo.GetMatchById(matchId);
                 var scenario = await scenarioRepo.GetScenario(int.Parse(collection["scenarioId"]));
-                var matchLineups = await queryService.GetLineUps(matchId, "en-US");
+                var matchLineups = await simulatorService.GetLineUpsDto(matchId);
 
                 await ProcessScenario(match, scenario, matchLineups, delay);
 
@@ -81,7 +81,7 @@ namespace Score247.Management.Site.Services
             var scenarios = (await scenarioRepo.GetScenarios()).ToList();
             var match = await matchRepo.GetMatchById(matchId);
             var scenario = scenarios[ran.Next(scenarios.Count)];
-            var matchLineups = await queryService.GetLineUps(matchId, "en-US");
+            var matchLineups = await simulatorService.GetLineUpsDto(matchId);
             if (limitedEvent)
             {
                 var events = scenario.ScenarioEvents.ToList();
@@ -96,7 +96,7 @@ namespace Score247.Management.Site.Services
             return scenario;
         }
 
-        private async Task ProcessScenario(Match match, Scenario scenario, MatchPitchViewLineups matchLineups = null, int delay = 2000)
+        private async Task ProcessScenario(Match match, Scenario scenario, LineUpsDto matchLineups = null, int delay = 2000)
         {
             foreach (var scenarioEvent in scenario.ScenarioEvents)
             {

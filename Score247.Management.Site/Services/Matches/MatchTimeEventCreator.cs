@@ -60,7 +60,7 @@ namespace Score247.Management.Site.Services.Matches
         public static MatchPushEventDto CreateHalfTimeBreakStart(Match match, DateTime eventTime)
         {
             var matchEvent = new MatchPushEventDto(match);
-            matchEvent.payload.timeline = new TimelineDto()
+            matchEvent.payload.timeline = new TimelineDto
             {
                 id = UniqueGenerator.GetIntId(),
                 time = eventTime.ToUniversalTime(),

@@ -9,29 +9,34 @@
 }
 
 @{
-    var homePlayers = Model.MatchPitchViewLineups.Home?.Players?.ToList();
-    if (homePlayers != null && Model.MatchPitchViewLineups.Home.Substitutions != null)
+    var homeTeam = Model.LineUpsDto.lineups?.FirstOrDefault(x => x.team == "home");
+    var awayTeam = Model.LineUpsDto.lineups?.FirstOrDefault(x => x.team == "away");
+    var homePlayers = new List<LineupPlayer>();
+    var awayPlayers = new List<LineupPlayer>();
+    if (homeTeam != null)
     {
-        homePlayers.AddRange(Model.MatchPitchViewLineups.Home?.Substitutions?.ToList());
+        homePlayers.AddRange(homeTeam.starting_lineup);
+        homePlayers.AddRange(homeTeam.substitutes);
     }
-    var awayPlayers = Model.MatchPitchViewLineups.Away?.Players?.ToList();
-    if (awayPlayers != null && Model.MatchPitchViewLineups.Away.Substitutions != null)
+
+    if (awayTeam != null)
     {
-        awayPlayers.AddRange(Model.MatchPitchViewLineups.Away?.Substitutions?.ToList());
+        awayPlayers.AddRange(awayTeam.starting_lineup);
+        awayPlayers.AddRange(awayTeam.substitutes);
     }
 
     List<SelectListItem> homePlayersSelection = homePlayers?
                                            .Select(i => new SelectListItem()
                                            {
-                                               Text = i.Name,
-                                               Value = i.Id
+                                               Text = i.name,
+                                               Value = i.id
                                            }).ToList();
 
     List<SelectListItem> awayPlayersSelection = awayPlayers?
                                            .Select(i => new SelectListItem()
                                            {
-                                               Text = i.Name,
-                                               Value = i.Id
+                                               Text = i.name,
+                                               Value = i.id
                                            }).ToList();
 
     var eventViewData = new ViewDataDictionary(
