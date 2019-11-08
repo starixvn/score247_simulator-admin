@@ -235,8 +235,23 @@ function subPlayerOutChange(selectObject) {
 }
 
 //Score Event Change
+
+function scoreEventTypeChange(selectObject) {
+    var scoreEventType = $('#scoreEventType').find('option:selected').val();
+    scoreTeamChange(null);
+    if (scoreEventType === 'normal_goal') {
+        $('#scoreAssist').removeClass('d-none');
+    } else {
+        $('#scoreAssist').addClass('d-none');
+    }
+}
+
 function scoreTeamChange(selectObject) {
-    if (selectObject.value === "away") {
+    var scoreEventType = $('#scoreEventType').find('option:selected').val();
+    var scoreEventTeam = $('#scoreEventTeam').find('option:selected').val();
+    var shouldShowAway = scoreEventTeam === "away" && scoreEventType !== "own_goal" || scoreEventTeam === "home" && scoreEventType === "own_goal";
+    console.log(shouldShowAway);
+    if (shouldShowAway === true) {
         $('#scoreHomeScorerOptions').addClass("d-none");
         $('#scoreAwayScorerOptions').removeClass("d-none");
         scoreScorerChange($('#scoreAwayScorerOptions'));
@@ -256,7 +271,6 @@ function scoreTeamChange(selectObject) {
 }
 
 function scoreScorerChange(selectObject) {
-    console.log(selectObject);
     $('#scoreGoalScorerId').val(selectObject.value);
     $('#scoreGoalScorerName').val($(selectObject).find('option:selected').text());
 }

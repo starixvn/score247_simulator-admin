@@ -267,14 +267,6 @@ function timezoneChange(selectTimezone) {
     $('#timezoneSelection').submit();
 }
 
-function scoreEventTypeChange(selectObject) {
-    console.log(selectObject.value);
-    if (selectObject.value === 'normal_goal') {
-        $('#scoreAssist').removeClass('d-none');
-    } else {
-        $('#scoreAssist').addClass('d-none');
-    }
-}
 
 function scoreTimeEventTypeChange(selectObject) {
     console.log(selectObject.value);

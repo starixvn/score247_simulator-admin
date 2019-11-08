@@ -300,10 +300,16 @@ namespace Score247.Management.Site.Services.Matches
                 requestBody.payload.timeline.goal_scorer.method = requestBody.payload.timeline.type;
             }
             var periodType = collection["payload.timeline.period_type"];
+
             if (periodType == "extra_time")
             {
                 requestBody.payload.timeline.period_type = "overtime";
                 requestBody.payload.timeline.stoppage_time = collection["payload.timeline.stoppage_time"];
+            }
+
+            if (requestBody.payload.timeline.type != "normal_goal")
+            {
+                requestBody.payload.timeline.assist = null;
             }
 
             requestBody.payload.timeline.type = requestBody.payload.timeline.type != EventType.PenaltyMissed.DisplayName ?
