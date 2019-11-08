@@ -829,6 +829,7 @@
             "match_status":"ended",
             "home_score":2,
             "away_score":1,
+			"winner_id":"sr:competitor:35",
             "period_scores":[ 
                { 
                   "home_score":1,
