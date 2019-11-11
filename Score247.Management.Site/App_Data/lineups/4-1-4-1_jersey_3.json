@@ -1,0 +1,157 @@
+{
+    "team": "home",
+    "formation": "4-1-4-1",
+    "manager": {
+        "id": "sr:player:52951",
+        "name": "Hodgson, Roy",
+        "nationality": "England",
+        "country_code": "ENG"
+    },
+    "jersey": {
+        "type": "home",
+        "base": "ca0000",
+        "sleeve": "ca0000",
+        "number": "ffffff",
+        "squares": false,
+        "stripes": true,
+        "stripes_color": "0062c4",
+        "horizontal_stripes": false,
+        "split": false,
+        "shirt_type": "short_sleeves",
+        "sleeve_detail": "ffffff"
+    },
+    "starting_lineup": [
+        {
+            "id": "sr:player:16620",
+            "name": "Hennessey, Wayne",
+            "type": "goalkeeper",
+            "jersey_number": 133,
+            "position": "Goalkeeper",
+            "order": 1
+        },
+        {
+            "id": "sr:player:39183",
+            "name": "Ward, Joel",
+            "type": "defender",
+            "jersey_number": 2,
+            "position": "Right back",
+            "order": 2
+        },
+        {
+            "id": "sr:player:9628",
+            "name": "Cahill, Gary",
+            "type": "defender",
+            "jersey_number": 204,
+            "position": "Central defender",
+            "order": 3
+        },
+        {
+            "id": "sr:player:32124",
+            "name": "Tomkins, James",
+            "type": "defender",
+            "jersey_number": 5,
+            "position": "Central defender",
+            "order": 4
+        },
+        {
+            "id": "sr:player:74577",
+            "name": "Van Aanholt, Patrick",
+            "type": "defender",
+            "jersey_number": 3,
+            "position": "Left back",
+            "order": 5
+        },
+        {
+            "id": "sr:player:111850",
+            "name": "Zaha, Wilfried",
+            "type": "forward",
+            "jersey_number": 111,
+            "position": "Right winger",
+            "order": 7
+        },
+        {
+            "id": "sr:player:50294",
+            "name": "Milivojevic, Luka",
+            "type": "midfielder",
+            "jersey_number": 4,
+            "position": "Central midfielder",
+            "order": 6
+        },
+        {
+            "id": "sr:player:39282",
+            "name": "McArthur, James",
+            "type": "midfielder",
+            "jersey_number": 128,
+            "position": "Central midfielder",
+            "order": 9
+        },
+        {
+            "id": "sr:player:45944",
+            "name": "Kouyate, Cheikhou",
+            "type": "midfielder",
+            "jersey_number": 8,
+            "position": "Central midfielder",
+            "order": 8
+        },
+        {
+            "id": "sr:player:148710",
+            "name": "Schlupp, Jeffrey",
+            "type": "defender",
+            "jersey_number": 15,
+            "position": "Left winger",
+            "order": 10
+        },
+        {
+            "id": "sr:player:103045",
+            "name": "Ayew, Jordan",
+            "type": "forward",
+            "jersey_number": 9,
+            "position": "Striker",
+            "order": 11
+        }
+    ],
+    "substitutes": [
+        {
+            "id": "sr:player:26986",
+            "name": "Henderson, Stephen",
+            "type": "goalkeeper",
+            "jersey_number": 19
+        },
+        {
+            "id": "sr:player:20278",
+            "name": "Dann, Scott",
+            "type": "defender",
+            "jersey_number": 6
+        },
+        {
+            "id": "sr:player:285989",
+            "name": "Riedewald, Jairo",
+            "type": "defender",
+            "jersey_number": 404
+        },
+        {
+            "id": "sr:player:39283",
+            "name": "McCarthy, James",
+            "type": "midfielder",
+            "jersey_number": 22
+        },
+        {
+            "id": "sr:player:187431",
+            "name": "Meyer, Max",
+            "type": "midfielder",
+            "jersey_number": 707
+        },
+        {
+            "id": "sr:player:47992",
+            "name": "Townsend, Andros",
+            "type": "midfielder",
+            "jersey_number": 109
+        },
+        {
+            "id": "sr:player:45970",
+            "name": "Benteke, Christian",
+            "type": "forward",
+            "jersey_number": 17
+        }
+    ]
+}

@@ -17,6 +17,10 @@ namespace Score247.Management.Site.Controllers
 {
     public class MatchController : Controller
     {
+        private const string SearchDate = "SearchDate";
+        private const string HourFormat = @"hh\:mm";
+        private const string Timezone = "Timezone";
+        private const int DelayMilisecoundForJobRun = 2000;
         private readonly IMatchService matchService;
         private readonly ICreateMatchesService createMatchesService;
         private readonly IMatchEventsService matchEventsService;
@@ -51,7 +55,7 @@ namespace Score247.Management.Site.Controllers
             TimeSpan.TryParse(GetTimezone(), out TimeSpan offset);
             var viewModal = new MatchViewModel();
             var timeNow = DateTime.UtcNow.Add(offset);
-            viewModal.DateSearchModel = new DateSearchModel()
+            viewModal.DateSearchModel = new DateSearchModel
             {
                 SearchDate = timeNow,
                 Leagues = leagues,
@@ -62,9 +66,9 @@ namespace Score247.Management.Site.Controllers
             viewModal.CreateDeleteMatchesModels = CreateDeleteMatchesModel.CreateFromToDay();
             viewModal.QuickDateSelectOptions = GenerateQuickDateSelectOptions(offset);
 
-            TempData["SearchDate"] = timeNow;
+            TempData[SearchDate] = timeNow;
             TempData["LeagueId"] = "all";
-            TempData["Timezone"] = offset.ToString(@"hh\:mm");
+            TempData[Timezone] = offset.ToString(HourFormat);
             return View(viewModal);
         }
 
@@ -74,7 +78,7 @@ namespace Score247.Management.Site.Controllers
             var today = DateTime.UtcNow;
             options.Add(new QuickDateSelectOption(today.AddDays(-2).Add(offset)));
             options.Add(new QuickDateSelectOption(today.AddDays(-1).Add(offset)));
-            options.Add(new QuickDateSelectOption() { DisplayName = "TODAY", DisplayDate = today.Add(offset).ToString("MMM dd").ToUpper(), Value = today.Add(offset).ToString("MM/dd/yyyy") });
+            options.Add(new QuickDateSelectOption { DisplayName = "TODAY", DisplayDate = today.Add(offset).ToString("MMM dd").ToUpper(), Value = today.Add(offset).ToString("MM/dd/yyyy") });
             options.Add(new QuickDateSelectOption(today.AddDays(1).Add(offset)));
             options.Add(new QuickDateSelectOption(today.AddDays(2).Add(offset)));
 
@@ -85,7 +89,7 @@ namespace Score247.Management.Site.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> _DateRangeSearch(IFormCollection collection)
         {
-            var eventDate = DateTime.Parse(collection["SearchDate"]);
+            var eventDate = DateTime.Parse(collection[SearchDate]);
             var selectedLeagueId = collection["SelectedLeagueId"];
             return await ProcessToDateSearchView(eventDate, selectedLeagueId);
         }
@@ -102,7 +106,7 @@ namespace Score247.Management.Site.Controllers
             var leagues = await leagueRepository.GetLeagues();
             var viewModal = new MatchViewModel
             {
-                DateSearchModel = new DateSearchModel()
+                DateSearchModel = new DateSearchModel
                 {
                     SearchDate = searchDate,
                     Leagues = leagues,
@@ -115,9 +119,9 @@ namespace Score247.Management.Site.Controllers
             viewModal.CreateDeleteMatchesModels = CreateDeleteMatchesModel.CreateFromToDay();
             viewModal.QuickDateSelectOptions = GenerateQuickDateSelectOptions(offset);
 
-            TempData["SearchDate"] = searchDate;
+            TempData[SearchDate] = searchDate;
             TempData["LeagueId"] = selectedLeagueId;
-            TempData["Timezone"] = offset.ToString(@"hh\:mm");
+            TempData[Timezone] = offset.ToString(HourFormat);
             return View("Index", viewModal);
         }
 
@@ -138,7 +142,7 @@ namespace Score247.Management.Site.Controllers
                 LineUpsDto = await simulatorService.GetLineUpsDto(id)
             };
 
-            TempData["Timezone"] = offset.ToString(@"hh\:mm");
+            TempData[Timezone] = offset.ToString(HourFormat);
 
             return View(viewModel);
         }
@@ -174,7 +178,7 @@ namespace Score247.Management.Site.Controllers
                 {
                     return View();
                 }
-                return RedirectToAction(nameof(Details), new { id = matchId, timeSpan = collection["Timezone"].ToString() });
+                return RedirectToAction(nameof(Details), new { id = matchId, timeSpan = collection[Timezone].ToString() });
             }
             catch (Exception)
             {
@@ -201,7 +205,7 @@ namespace Score247.Management.Site.Controllers
         public async Task<JsonResult> CreateLiveMatches([FromBody] CreateLiveMatchModel createLiveMatchModel)
         {
             await matchService.CreateLiveMatches(createLiveMatchModel);
-            await Task.Delay(2000);
+            await Task.Delay(DelayMilisecoundForJobRun);
 
             return Json(true);
         }
@@ -248,9 +252,9 @@ namespace Score247.Management.Site.Controllers
             TimeSpan.TryParse(GetTimezone(), out TimeSpan offset);
             var matches = await matchService.SearchMatchByDateAndLeague(searchDate, leagueId, offset);
 
-            TempData["SearchDate"] = searchDate;
+            TempData[SearchDate] = searchDate;
             TempData["LeagueId"] = leagueId;
-            TempData["Timezone"] = offset.ToString(@"hh\:mm");
+            TempData[Timezone] = offset.ToString(HourFormat);
 
             return PartialView("NormalMatchListPartial", matches);
         }
@@ -260,7 +264,7 @@ namespace Score247.Management.Site.Controllers
         {
             TimeSpan.TryParse(GetTimezone(), out TimeSpan offset);
             var matches = await matchService.GetLiveMatch("en-US", offset);
-            TempData["Timezone"] = offset.ToString(@"hh\:mm");
+            TempData[Timezone] = offset.ToString(HourFormat);
 
             return PartialView("LiveMatchListPartial", matches);
         }
@@ -277,7 +281,7 @@ namespace Score247.Management.Site.Controllers
         public async Task<ActionResult> CloseAllLiveMatches()
         {
             await matchService.CloseAllLiveMatches();
-            await Task.Delay(2000);
+            await Task.Delay(DelayMilisecoundForJobRun);
 
             return Json(true);
         }
@@ -413,7 +417,7 @@ namespace Score247.Management.Site.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult SetUpTimezone(IFormCollection collection)
         {
-            HttpContext.Session.SetString("Timezone", collection["Timezone"]);
+            HttpContext.Session.SetString(Timezone, collection[Timezone]);
             return RedirectToAction(nameof(Index));
         }
 
@@ -437,7 +441,7 @@ namespace Score247.Management.Site.Controllers
 
         private string GetTimezone()
         {
-            var result = HttpContext.Session.GetString("Timezone");
+            var result = HttpContext.Session.GetString(Timezone);
             if (string.IsNullOrEmpty(result))
             {
                 result = "07:00:00";

@@ -202,6 +202,9 @@
     <Content Update="App_Data\lineups\4-1-4-1.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="App_Data\lineups\4-1-4-1_jersey_3.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="App_Data\lineups\4-2-2-2.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

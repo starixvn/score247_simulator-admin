@@ -159,12 +159,12 @@ namespace Score247.Management.Site.Models.DataMappers
         {
             var venueDto = new VenueDto
             {
-                id = venue.Id,
-                capacity = venue.Capacity,
-                country_code = venue.CountryCode,
-                name = venue.Name,
-                city_name = venue.CityName,
-                country_name = venue.CountryName
+                id = venue?.Id,
+                capacity = venue?.Capacity ?? 0,
+                country_code = venue?.CountryCode,
+                name = venue?.Name,
+                city_name = venue?.CityName,
+                country_name = venue?.CountryName
             };
 
             return venueDto;
