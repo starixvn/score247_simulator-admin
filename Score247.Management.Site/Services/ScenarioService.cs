@@ -123,7 +123,7 @@ namespace Score247.Management.Site.Services
 
         private Result BuildLiveMatchFromMatch(Match match, MatchPushEventDto eventDto)
         {
-            var result = new Result()
+            var result = new Result
             {
                 sport_event = SportEventMapper.MapSportEvent(match),
                 sport_event_status = eventDto.payload.sport_event_status

@@ -235,6 +235,12 @@
     <Content Update="App_Data\team-result\team_result_case_2.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="App_Data\team-result\team_result_case_4.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="App_Data\team-result\team_resutl_case_4.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
