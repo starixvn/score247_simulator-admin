@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Score247.Management.Site.Models;
 using Score247.Management.Site.Models.DataMappers;
 using Score247.Management.Site.Models.Events;
@@ -68,6 +69,9 @@ namespace Score247.Management.Site.Services
         private readonly ICreateMatchesService createMatchesService;
         private readonly IMatchFileService matchFileService;
         private readonly IH2HService h2HService;
+        private readonly bool isMainEnvironment;
+
+#pragma warning disable S107 // Methods should not have too many parameters
 
         public MatchService(
             ISimulatorService simulatorService,
@@ -78,7 +82,9 @@ namespace Score247.Management.Site.Services
             ILineupService lineupService,
             ICreateMatchesService createMatchesService,
             IMatchFileService matchFileService,
-            IH2HService h2HService)
+            IH2HService h2HService,
+            IConfiguration configuration)
+#pragma warning restore S107 // Methods should not have too many parameters
         {
             this.simulatorService = simulatorService;
             this.queryService = queryService;
@@ -89,6 +95,7 @@ namespace Score247.Management.Site.Services
             this.createMatchesService = createMatchesService;
             this.matchFileService = matchFileService;
             this.h2HService = h2HService;
+            isMainEnvironment = (configuration.GetValue<string>("DevelopmentEnvironment") == "main");
         }
 
         public async Task CreateMatchForActiveLeagues(DateTime createDate, TimeSpan offset)
@@ -115,6 +122,11 @@ namespace Score247.Management.Site.Services
 
         public async Task CloseLiveMatch(string matchId)
         {
+            if (isMainEnvironment)
+            {
+                return;
+            }
+
             var content = await matchFileService.ReadLiveMatchFromFile();
             if (content != null)
             {
@@ -139,6 +151,11 @@ namespace Score247.Management.Site.Services
 
         public async Task DeleteMatchesByDate(CreateDeleteMatchesModel createDeleteMatchesRequest, TimeSpan offset)
         {
+            if (isMainEnvironment)
+            {
+                return;
+            }
+
             var matchRepository = new MatchRepository();
             var fromDate = new DateTime(createDeleteMatchesRequest.EventDate.Year, createDeleteMatchesRequest.EventDate.Month, createDeleteMatchesRequest.EventDate.Day, 0, 0, 0, DateTimeKind.Utc).Subtract(offset);
             var toDate = new DateTime(createDeleteMatchesRequest.EventDate.Year, createDeleteMatchesRequest.EventDate.Month, createDeleteMatchesRequest.EventDate.Day, 23, 59, 59, DateTimeKind.Utc).Subtract(offset);
@@ -162,7 +179,12 @@ namespace Score247.Management.Site.Services
 
         public async Task CloseAllLiveMatches()
         {
-            var content = new DailyResultDto()
+            if (isMainEnvironment)
+            {
+                return;
+            }
+
+            var content = new DailyResultDto
             {
                 generated_at = DateTime.UtcNow,
                 schema = "Matches",
@@ -184,6 +206,11 @@ namespace Score247.Management.Site.Services
 
         public async Task SendCustomLiveMatch(string matchId, Sport_Event_Status sportEventStatus)
         {
+            if (isMainEnvironment)
+            {
+                return;
+            }
+
             var result = await GetSimulatorResult(matchId);
             if (result == null)
             {
@@ -213,10 +240,15 @@ namespace Score247.Management.Site.Services
 
         public async Task ApplyMatchStatistic(string matchId, IFormCollection collection)
         {
-            var statistic = new Statistic()
+            if (isMainEnvironment)
+            {
+                return;
+            }
+
+            var statistic = new Statistic
             {
                 MatchId = matchId,
-                HomeStatistic = new TeamStatistic()
+                HomeStatistic = new TeamStatistic
                 {
                     RedCards = int.Parse(collection["HomeStatistic.RedCards"]),
                     Possession = int.Parse(collection["HomeStatistic.Possession"]),
@@ -234,7 +266,7 @@ namespace Score247.Management.Site.Services
                     YellowCards = int.Parse(collection["HomeStatistic.YellowCards"]),
                     YellowRedCards = int.Parse(collection["HomeStatistic.YellowRedCards"])
                 },
-                AwayStatistic = new TeamStatistic()
+                AwayStatistic = new TeamStatistic
                 {
                     RedCards = int.Parse(collection["AwayStatistic.RedCards"]),
                     Possession = int.Parse(collection["AwayStatistic.Possession"]),
@@ -278,6 +310,11 @@ namespace Score247.Management.Site.Services
 
         public async Task DeleteAllMatches()
         {
+            if (isMainEnvironment)
+            {
+                return;
+            }
+
             await simulatorService.SendCleanExistData();
 
             var matchRepository = new MatchRepository();
