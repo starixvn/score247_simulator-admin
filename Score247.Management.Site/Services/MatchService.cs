@@ -279,7 +279,6 @@ namespace Score247.Management.Site.Services
         public async Task DeleteAllMatches()
         {
             await simulatorService.SendCleanExistData();
-            await simulatorService.SendCleanTimelines();
 
             var matchRepository = new MatchRepository();
             await matchRepository.DeleteAllMatches();
@@ -309,7 +308,7 @@ namespace Score247.Management.Site.Services
         public async Task ApplyH2H(H2HDto h2HDto)
         {
             await simulatorService.SendH2H(h2HDto);
-            triggerJobService.TriggerCreateMatchJobs();
+            await triggerJobService.TriggerFetchPreMatchJobs();
         }
 
         public async Task<H2HDto> GenerateH2H(string matchId, string h2hCase = "default")

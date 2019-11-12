@@ -76,7 +76,7 @@ namespace Score247.Management.Site
             services.AddSingleton(Logger.Log);
         }
 
-        private void RegisterServices(IServiceCollection services)
+        private static void RegisterServices(IServiceCollection services)
         {
             services.AddSingleton<ILeagueService, LeagueService>();
             services.AddSingleton<IOddsService, OddsService>();
@@ -96,17 +96,11 @@ namespace Score247.Management.Site
             services.AddSingleton<ITeamService, TeamService>();
         }
 
-        private void RegisterScheduledJobs(IServiceCollection services)
+        private static void RegisterScheduledJobs(IServiceCollection services)
         {
             // Add Quartz services
             services.AddSingleton<IJobFactory, SingletonJobFactory>();
             services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
-
-            // Add our job
-            services.AddSingleton<CleanTimelinesJob>();
-            services.AddSingleton(new JobSchedule(
-                jobType: typeof(CleanTimelinesJob),
-                cronExpression: "0 0 0 * * ?")); // run every 5 seconds
 
             services.AddHostedService<QuartzHostedService>();
         }

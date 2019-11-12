@@ -18,8 +18,6 @@
     {
         Task SendCleanExistData();
 
-        Task SendCleanTimelines();
-
         Task<bool> SendScheduleOdds(OddsScheduleDto oddsSchedule);
 
         Task<HttpResponseMessage> SendDailyResult(DailyResultDto dailyResultDto);
@@ -70,20 +68,7 @@
                 BaseAddress = new Uri(configuration.GetValue<string>("Simulator:Url"))
             })
             {
-                var request = new HttpRequestMessage(HttpMethod.Post, configuration.GetValue<string>("Simulator:CleanMatch"));
-
-                await triggerClient.SendAsync(request);
-            }
-        }
-
-        public async Task SendCleanTimelines()
-        {
-            using (var triggerClient = new HttpClient
-            {
-                BaseAddress = new Uri(configuration.GetValue<string>("Simulator:Url"))
-            })
-            {
-                var request = new HttpRequestMessage(HttpMethod.Post, configuration.GetValue<string>("Simulator:CleanTimelines"));
+                var request = new HttpRequestMessage(HttpMethod.Post, configuration.GetValue<string>("Simulator:CleanMatches"));
 
                 await triggerClient.SendAsync(request);
             }

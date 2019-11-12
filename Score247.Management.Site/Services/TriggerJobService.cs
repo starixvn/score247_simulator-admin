@@ -10,6 +10,8 @@ namespace Score247.Management.Site.Services
     {
         Task TriggerJobs(IEnumerable<string> jobsName);
 
+        Task TriggerFetchPreMatchJobs();
+
         Task TriggerFetchPostMatchJobs();
 
         Task TriggerCreateMatchJobs();
@@ -119,6 +121,13 @@ namespace Score247.Management.Site.Services
         public async Task TriggerFetchMatchLineups()
         {
             var jobs = new List<string> { "FetchMatchLineups" };
+
+            await TriggerJobs(jobs);
+        }
+
+        public async Task TriggerFetchPreMatchJobs()
+        {
+            var jobs = new List<string> { "FetchPreMatches" };
 
             await TriggerJobs(jobs);
         }
