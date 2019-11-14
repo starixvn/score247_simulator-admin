@@ -48,7 +48,7 @@
 
             foreach (var result in teamResultDto.results)
             {
-                result.sport_event.id = UniqueGenerator.GetIdWithPattern("sr:match:");
+                result.sport_event.id = UniqueGenerator.GetIdWithLongPattern("sr:match:");
                 foreach (var competitor in result.sport_event.competitors)
                 {
                     if (competitor.id == oldTeamId)

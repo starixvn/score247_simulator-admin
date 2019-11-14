@@ -9,6 +9,11 @@
             return pattern + Math.Abs((int)DateTime.Now.Ticks).ToString();
         }
 
+        public static string GetIdWithLongPattern(string pattern)
+        {
+            return pattern + Math.Abs(DateTime.Now.Ticks).ToString();
+        }
+
         public static int GetIntId()
         {
             //return Guid.NewGuid().GetHashCode();
