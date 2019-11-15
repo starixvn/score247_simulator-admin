@@ -46,7 +46,7 @@
         </div>
     </div>
     <div id="h2hRequest" class="modal" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Head To Head Request</h5>
@@ -55,6 +55,8 @@
                     </button>
                 </div>
                 <div class="modal-body">
+                    <textarea id="H2HRequestDataRaw" class="col-md-12" rows="20"></textarea>
+                    <button class="btn-primary" onclick="FormatJsonRawData('H2HRequestDataRaw', 'H2HRequestContent')">Format H2H</button>
                     <pre id="H2HRequestContent"></pre>
                 </div>
                 <div class="modal-footer">
@@ -65,7 +67,7 @@
         </div>
     </div>
     <div id="h2hData" class="modal" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Head To Head Data</h5>

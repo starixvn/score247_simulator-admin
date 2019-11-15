@@ -7,9 +7,9 @@
         url: urlPrefix() + '/Match/Lineups?matchId=' + matchId + '&' + values,
         contentType: "application/json; charset=utf-8",
         success: function (lineupsDto) {
+            $("#lineupsDataRaw").val(JSON.stringify(lineupsDto));
             $('#btnApplyLineups').on("click", function () {
-                console.log("ASdasdads");
-                applyLineups(matchId, lineupsDto);
+                applyLineups(matchId);
             });
             $("#lineupsRequestContent").text("");
             let target = '#lineupsRequestContent';
@@ -22,13 +22,14 @@
     });
 }
 
-function applyLineups(matchId, lineUpsDto) {
+function applyLineups(matchId) {
+    var lineUpsDto = $("#lineupsDataRaw").val();
     $.ajax({
         type: "POST",
         url: urlPrefix() + '/Match/Lineups/' + matchId,
         contentType: "application/json; charset=utf-8",
         dataType: "json",
-        data: JSON.stringify(lineUpsDto),
+        data: lineUpsDto,
         success: function () {
             console.log("success");
         },
@@ -68,8 +69,9 @@ function generateH2HData(matchId, e) {
         url: urlPrefix() + '/Team/H2H/Generate?matchId=' + matchId + '&' + values,
         contentType: "application/json; charset=utf-8",
         success: function (h2HDto) {
+            $("#H2HRequestDataRaw").val(JSON.stringify(h2HDto));
             $('#btnApplyH2H').on("click", function () {
-                applyH2H(matchId, h2HDto);
+                applyH2H(matchId);
             });
             $("#H2HRequestContent").text("");
             let target = '#H2HRequestContent';
@@ -82,13 +84,14 @@ function generateH2HData(matchId, e) {
     });
 }
 
-function applyH2H(matchId, h2HDto) {
+function applyH2H(matchId) {
+    var h2HDto = $("#H2HRequestDataRaw").val();
     $.ajax({
         type: "POST",
         url: urlPrefix() + '/Team/H2H/Apply/' + matchId,
         contentType: "application/json; charset=utf-8",
         dataType: "json",
-        data: JSON.stringify(h2HDto),
+        data: h2HDto,
         success: function () {
             console.log("success");
         },
@@ -125,8 +128,9 @@ function generateTeamResultData(matchId, e) {
         url: urlPrefix() + '/Team/Results/Generate?matchId=' + matchId + '&' + values,
         contentType: "application/json; charset=utf-8",
         success: function (teamResultDto) {
+            $("#H2HRequestDataRaw").val(JSON.stringify(teamResultDto));
             $('#btnApplyH2H').on("click", function () {
-                applyTeamResult(matchId, teamResultDto);
+                applyTeamResult(matchId);
             });
             $("#H2HRequestContent").text("");
             let target = '#H2HRequestContent';
@@ -139,13 +143,14 @@ function generateTeamResultData(matchId, e) {
     });
 }
 
-function applyTeamResult(matchId, teamResultDto) {
+function applyTeamResult(matchId) {
+    var teamResultDto = $("#H2HRequestDataRaw").val();
     $.ajax({
         type: "POST",
         url: urlPrefix() + '/Team/Results/Apply/' + matchId,
         contentType: "application/json; charset=utf-8",
         dataType: "json",
-        data: JSON.stringify(teamResultDto),
+        data: teamResultDto,
         success: function () {
             console.log("success");
         },
@@ -279,4 +284,11 @@ function scoreAssistChange(selectObject) {
     console.log(selectObject);
     $('#scoreAssistId').val(selectObject.value);
     $('#scoreAssistName').val($(selectObject).find('option:selected').text());
+}
+
+function FormatJsonRawData(rawDataTextarea, targetDiv) {
+    var jsonRaw = $("#" + rawDataTextarea).val();
+    $("#" + targetDiv).text("");
+    let target = '#' + targetDiv;
+    jsonView.format(jsonRaw, target);
 }

@@ -71,7 +71,7 @@ namespace Score247.Management.Site.Models.Events
 
         public PushEventPayload(Match match, TimeSpan offset)
         {
-            var matchPeriodsScores = match.MatchResult.MatchPeriods == null ?
+            var matchPeriodsScores = match.MatchResult?.MatchPeriods == null ?
                 new List<Period_Scores>() :
                 match.MatchResult.MatchPeriods?.Select(x => new Period_Scores { home_score = x.HomeScore, away_score = x.AwayScore, number = x.Number, type = x.PeriodType.DisplayName });
             sport_event_status = new Sport_Event_Status
