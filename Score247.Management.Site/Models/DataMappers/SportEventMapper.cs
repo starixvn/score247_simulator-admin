@@ -150,6 +150,10 @@ namespace Score247.Management.Site.Models.DataMappers
                 {
                     id = "sr:sport:1",
                     name = "soccer"
+                },
+                coverage_info = new CoverageInfoDto
+                {
+                    live_coverage = true
                 }
             };
 

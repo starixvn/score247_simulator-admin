@@ -18,6 +18,7 @@ namespace Score247.Management.Site.Models.Events
         public Category category { get; set; }
         public Season current_season { get; set; }
         public Season_Coverage_Info season_coverage_info { get; set; }
+        public CoverageInfoDto coverage_info { get; set; }
     }
 
     public class Season_Coverage_Info

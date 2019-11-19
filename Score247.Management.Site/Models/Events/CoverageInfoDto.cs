@@ -1,4 +1,6 @@
-﻿namespace Score247.Management.Site.Models.Events
+﻿using Newtonsoft.Json;
+
+namespace Score247.Management.Site.Models.Events
 {
     public class CoverageDto
     {
@@ -20,8 +22,13 @@
 
     public class CoverageInfoDto
     {
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string level { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public bool live_coverage { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public CoverageDto coverage { get; set; }
 
         public CoverageInfoDto()
