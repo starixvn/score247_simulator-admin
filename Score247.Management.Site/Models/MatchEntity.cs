@@ -62,7 +62,7 @@ namespace Score247.Management.Site.Models
         {
             Scheduled = eventDate;
             ScheduledTime = new TimeSpan(Scheduled.Hour, 0, 0);
-            Venue = new Venue()
+            Venue = new Venue
             {
                 Name = "Default Venue"
             };
@@ -74,12 +74,13 @@ namespace Score247.Management.Site.Models
                 Group = "A"
             };
             Tournament = league;
+            Season = league.LeagueSeason;
             Id = UniqueGenerator.GetIdWithPattern("sr:match:");
             homeTeam.Statistic = new TeamStatistic();
             homeTeam.qualifier = "home";
             awayTeam.Statistic = new TeamStatistic();
             awayTeam.qualifier = "away";
-            Competitors = new List<Team>() { homeTeam, awayTeam };
+            Competitors = new List<Team> { homeTeam, awayTeam };
             Coverage = new Coverage(true, "", true, true, true, true, true);
         }
     }

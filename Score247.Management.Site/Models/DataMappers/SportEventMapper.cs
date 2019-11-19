@@ -102,6 +102,7 @@ namespace Score247.Management.Site.Models.DataMappers
                 scheduled = match.Scheduled,
                 tournament = MapTournament(match.Tournament),
                 venue = MapVenueDto(match.Venue),
+                season = MapSeason(match.Season)
             };
 
             return sportEvent;

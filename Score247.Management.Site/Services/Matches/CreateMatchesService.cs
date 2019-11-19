@@ -319,7 +319,7 @@ namespace Score247.Management.Site.Services.Matches
 
                     foreach (var match in matches)
                     {
-                        var matchWithResult = new Result()
+                        var matchWithResult = new Result
                         {
                             sport_event = match,
                             sport_event_status = RandomMatchEventStatus(match.competitors.ElementAtOrDefault(0).id, match.competitors.ElementAtOrDefault(1).id)
