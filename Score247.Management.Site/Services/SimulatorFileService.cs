@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Score247.Management.Site.Models;
+using Score247.Management.Site.Models.Dtos;
 using Score247.Management.Site.Models.Events;
 
 namespace Score247.Management.Site.Services
 {
-    public interface IMatchFileService
+    public interface ISimulatorFileService
     {
         Task<DailyResultDto> ReadLiveMatchFromFile();
 
@@ -25,11 +25,30 @@ namespace Score247.Management.Site.Services
         Task<DailyResultDto> ReadResult(DateTime scheduleDate);
 
         Task<TeamResultDto> ReadTeamResult(string teamId);
+
+        Task<TournamentStandingDto> ReadDefaultStanding();
     }
 
-    public class MatchFileService : IMatchFileService
+    public class SimulatorFileService : ISimulatorFileService
     {
         private static readonly string DirectoryRoot = AppDomain.CurrentDomain.BaseDirectory + "/App_Data";
+
+        public async Task<TournamentStandingDto> ReadDefaultStanding()
+        {
+            try
+            {
+                var path = $"{DirectoryRoot}/standing/default.json";
+
+                var jsonData = await File.ReadAllTextAsync(path);
+                var content = JsonConvert.DeserializeObject<TournamentStandingDto>(jsonData);
+
+                return content;
+            }
+            catch
+            {
+                return null;
+            }
+        }
 
         public async Task<H2HDto> ReadH2HFromFile(string h2hName)
         {

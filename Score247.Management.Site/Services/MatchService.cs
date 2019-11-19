@@ -67,7 +67,7 @@ namespace Score247.Management.Site.Services
         private readonly ITimelineService timelineService;
         private readonly ILineupService lineupService;
         private readonly ICreateMatchesService createMatchesService;
-        private readonly IMatchFileService matchFileService;
+        private readonly ISimulatorFileService matchFileService;
         private readonly IH2HService h2HService;
         private readonly bool isMainEnvironment;
 
@@ -81,7 +81,7 @@ namespace Score247.Management.Site.Services
             ITimelineService timelineService,
             ILineupService lineupService,
             ICreateMatchesService createMatchesService,
-            IMatchFileService matchFileService,
+            ISimulatorFileService matchFileService,
             IH2HService h2HService,
             IConfiguration configuration)
 #pragma warning restore S107 // Methods should not have too many parameters

@@ -46,7 +46,7 @@ namespace Score247.Management.Site.Services.Matches
         private readonly ITriggerJobService triggerJobService;
         private readonly IConfiguration configuration;
         private readonly ITimelineService timelineService;
-        private readonly IMatchFileService matchFileService;
+        private readonly ISimulatorFileService matchFileService;
         private readonly IScenarioService scenarioService;
         private readonly ILineupService lineupService;
         private readonly IH2HService h2HService;
@@ -56,7 +56,7 @@ namespace Score247.Management.Site.Services.Matches
             ITriggerJobService triggerJobService,
             IConfiguration configuration,
             ITimelineService timelineService,
-            IMatchFileService matchFileService,
+            ISimulatorFileService matchFileService,
             IScenarioService scenarioService,
             ILineupService lineupService,
             IH2HService h2HService,

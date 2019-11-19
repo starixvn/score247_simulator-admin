@@ -16,17 +16,8 @@ namespace Score247.Management.Site.Models.Events
         public string name { get; set; }
         public Sport sport { get; set; }
         public Category category { get; set; }
-        public Current_Season current_season { get; set; }
+        public Season current_season { get; set; }
         public Season_Coverage_Info season_coverage_info { get; set; }
-    }
-
-    public class Current_Season
-    {
-        public string id { get; set; }
-        public string name { get; set; }
-        public string start_date { get; set; }
-        public string end_date { get; set; }
-        public string year { get; set; }
     }
 
     public class Season_Coverage_Info

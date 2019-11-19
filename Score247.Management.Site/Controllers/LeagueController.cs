@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Score247.Management.Site.Criterias.League;
 using Score247.Management.Site.Helpers;
+using Score247.Management.Site.Models.Dtos;
 using Score247.Management.Site.Repositories.Leagues;
 using Score247.Management.Site.Services;
-using Score247.Management.Site.Services.Crawlers;
 using Score247.Management.Site.ViewModels.League;
 
 namespace Score247.Management.Site.Controllers
@@ -96,6 +96,20 @@ namespace Score247.Management.Site.Controllers
             await leagueService.ApplyMajorLeagues();
 
             return RedirectToAction(nameof(Index));
+        }
+
+        [Route("League/Standing")]
+        [HttpGet]
+        public async Task<ActionResult> GetLeagueStandingInitData([FromQuery] string matchId)
+        {
+            var standing = await leagueService.GetDefaultLeagueStanding(matchId);
+            return Json(standing);
+        }
+
+        [HttpPost("League/Standing/Apply")]
+        public async Task<ActionResult> ApplyLeagueStandingInitData([FromBody] TournamentStandingDto tournamentStandingDto)
+        {
+            return Json(true);
         }
     }
 }

@@ -33,14 +33,14 @@ namespace Score247.Management.Site.Services
         private readonly ISimulatorService simulatorService;
         private readonly ITimelineService timelineService;
         private readonly ITriggerJobService triggerJobService;
-        private readonly IMatchFileService matchFileService;
+        private readonly ISimulatorFileService matchFileService;
         private readonly IQueryService queryService;
         private readonly ILogger logger;
 
         public ScenarioService(ISimulatorService simulatorService,
             ITimelineService timelineService,
             ITriggerJobService triggerJobService,
-            IMatchFileService matchFileService,
+            ISimulatorFileService matchFileService,
             IQueryService queryService,
             ILogger logger)
         {

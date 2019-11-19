@@ -143,7 +143,7 @@ namespace Score247.Management.Site.Models.DataMappers
                 id = league.Id,
                 category = new Category { country_code = league.CountryCode, name = league.Country },
                 name = league.Name,
-                current_season = new Current_Season(),
+                current_season = MapSeason(league.LeagueSeason),
                 season_coverage_info = new Season_Coverage_Info(),
                 sport = new Sport
                 {
@@ -153,6 +153,26 @@ namespace Score247.Management.Site.Models.DataMappers
             };
 
             return tournament;
+        }
+
+        internal static Season MapSeason(LeagueSeason leagueSeason)
+        {
+            if (leagueSeason == null)
+            {
+                return new Season();
+            }
+
+            var season = new Season
+            {
+                id = leagueSeason.Id,
+                name = leagueSeason.Name,
+                end_date = leagueSeason.EndDate,
+                start_date = leagueSeason.StartDate,
+                tournament_id = leagueSeason.TournamentId,
+                year = leagueSeason.Year
+            };
+
+            return season;
         }
 
         public static VenueDto MapVenueDto(Venue venue)
@@ -172,17 +192,22 @@ namespace Score247.Management.Site.Models.DataMappers
 
         public static CoverageInfoDto MapCoverageInfoDto(Coverage coverage)
         {
+            if (coverage == null)
+            {
+                return new CoverageInfoDto();
+            }
+
             var coverageInfoDto = new CoverageInfoDto
             {
-                live_coverage = coverage?.Live ?? false,
+                live_coverage = coverage.Live,
                 level = "bronze",
-                coverage = new CoverageDto()
+                coverage = new CoverageDto
                 {
-                    commentary = coverage?.Commentary ?? false,
-                    basic_score = coverage?.BasicScore ?? false,
-                    key_events = coverage?.KeyEvents ?? false,
-                    detailed_events = coverage?.DetailedEvents ?? false,
-                    lineups = coverage?.Lineups ?? false
+                    commentary = coverage.Commentary,
+                    basic_score = coverage.BasicScore,
+                    key_events = coverage.KeyEvents,
+                    detailed_events = coverage.DetailedEvents,
+                    lineups = coverage.Lineups
                 }
             };
 

@@ -1,0 +1,55 @@
+﻿<div class="card">
+    <div class="card-header" id="leagueStanding">
+        <div class="card-title collapsed" data-toggle="collapse" data-target="#leagueStanding" aria-expanded="true" aria-controls="leagueStandingEvent">
+            League Standings
+        </div>
+    </div>
+    <div class="collapse" aria-labelledby="leagueStanding" data-parent="#accordion" id="leagueStanding">
+        <div class="card-body create-form">
+            <form id="generateStandingData">
+                <div class="form-group">
+                    <button class="btn-submit" onclick="generateStandingData(`@ViewBag.MatchId`, event)">Apply</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="leagueStandingRequest" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">League Standing Request</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <textarea id="leagueStandingDataRaw" class="col-md-12" rows="20"></textarea>
+                    <button class="btn-primary" onclick="FormatJsonRawData('leagueStandingDataRaw', 'leagueStandingContent')">Format Standing</button>
+                    <pre id="leagueStandingContent"></pre>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnApplyStanding" type="button" class="btn-default" data-dismiss="modal">Accept</button>
+                    <button type="button" class="btn-cancel" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="leagueStandingData" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Standings Data</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <pre id="leagueStandingDataContent"></pre>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-cancel" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

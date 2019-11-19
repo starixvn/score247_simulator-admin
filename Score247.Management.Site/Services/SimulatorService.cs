@@ -50,11 +50,11 @@
     public class SimulatorService : ISimulatorService
     {
         private readonly IConfiguration configuration;
-        private readonly IMatchFileService matchFileService;
+        private readonly ISimulatorFileService matchFileService;
 
         private readonly ILogger logger;
 
-        public SimulatorService(IConfiguration config, IMatchFileService matchFileService, ILogger logger)
+        public SimulatorService(IConfiguration config, ISimulatorFileService matchFileService, ILogger logger)
         {
             configuration = config;
             this.matchFileService = matchFileService;

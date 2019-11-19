@@ -20,9 +20,9 @@
 
     public class H2HService : IH2HService
     {
-        private readonly IMatchFileService matchFileService;
+        private readonly ISimulatorFileService matchFileService;
 
-        public H2HService(IMatchFileService matchFileService)
+        public H2HService(ISimulatorFileService matchFileService)
         {
             this.matchFileService = matchFileService;
         }

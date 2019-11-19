@@ -43,8 +43,8 @@
     {
         public string id { get; set; }
         public string name { get; set; }
-        public string start_date { get; set; }
-        public string end_date { get; set; }
+        public DateTimeOffset start_date { get; set; }
+        public DateTimeOffset end_date { get; set; }
         public string year { get; set; }
         public string tournament_id { get; set; }
     }

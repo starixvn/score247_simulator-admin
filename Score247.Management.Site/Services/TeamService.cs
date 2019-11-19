@@ -18,11 +18,11 @@
 
     public class TeamService : ITeamService
     {
-        private readonly IMatchFileService matchFileService;
+        private readonly ISimulatorFileService matchFileService;
         private readonly ISimulatorService simulatorService;
         private readonly ITriggerJobService triggerJobService;
 
-        public TeamService(IMatchFileService matchFileService,
+        public TeamService(ISimulatorFileService matchFileService,
             ISimulatorService simulatorService,
             ITriggerJobService triggerJobService)
         {

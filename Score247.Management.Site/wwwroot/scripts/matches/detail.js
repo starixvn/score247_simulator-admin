@@ -292,3 +292,44 @@ function FormatJsonRawData(rawDataTextarea, targetDiv) {
     let target = '#' + targetDiv;
     jsonView.format(jsonRaw, target);
 }
+
+//league standing
+function generateStandingData(matchId, e) {
+    e.preventDefault();
+    $.ajax({
+        type: "GET",
+        url: urlPrefix() + '/League/Standing?matchId=' + matchId,
+        contentType: "application/json; charset=utf-8",
+        success: function (tournamentStandingDto) {
+            $("#leagueStandingDataRaw").val(JSON.stringify(tournamentStandingDto));
+            $('#btnApplyStanding').on("click", function () {
+                applyStanding();
+            });
+            $("#leagueStandingContent").text("");
+            let target = '#leagueStandingContent';
+            jsonView.format(tournamentStandingDto, target);
+            $('#leagueStandingRequest').modal();
+        },
+        error: function () {
+            console.log("failed");
+        }
+    });
+}
+
+function applyStanding() {
+    var tournamentStandingDto = $("#leagueStandingDataRaw").val();
+    console.log(tournamentStandingDto);
+    $.ajax({
+        type: "POST",
+        url: urlPrefix() + '/League/Standing/Apply',
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: tournamentStandingDto,
+        success: function () {
+            console.log("success");
+        },
+        error: function () {
+            console.log("failed");
+        }
+    });
+}

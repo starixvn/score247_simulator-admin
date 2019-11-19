@@ -223,6 +223,9 @@
     <Content Update="App_Data\lineups\NoFormation.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="App_Data\standing\default.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="App_Data\team-result\default.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

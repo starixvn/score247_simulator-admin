@@ -5,7 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Score247.Management.Site.Criterias.League;
+using Score247.Management.Site.Models.DataMappers;
+using Score247.Management.Site.Models.Dtos;
 using Score247.Management.Site.Repositories.Leagues;
+using Score247.Management.Site.Repositories.Matches;
 using Score247Management.Core.Leagues.Dtos;
 using Score247Management.Core.Leagues.Models;
 
@@ -22,17 +25,21 @@ namespace Score247.Management.Site.Services
         Task EnableAllLeague();
 
         Task ApplyMajorLeagues();
+
+        Task<TournamentStandingDto> GetDefaultLeagueStanding(string matchId);
     }
 
     public class LeagueService : ILeagueService
     {
         private IConfiguration configuration { get; }
         private readonly ITriggerJobService triggerJobService;
+        private readonly ISimulatorFileService simulatorFileService;
 
-        public LeagueService(IConfiguration configuration, ITriggerJobService triggerJobService)
+        public LeagueService(IConfiguration configuration, ITriggerJobService triggerJobService, ISimulatorFileService simulatorFileService)
         {
             this.configuration = configuration;
             this.triggerJobService = triggerJobService;
+            this.simulatorFileService = simulatorFileService;
         }
 
         public async Task<bool> SyncSportradarLeague()
@@ -127,6 +134,22 @@ namespace Score247.Management.Site.Services
         public async Task ApplyMajorLeagues()
         {
             await triggerJobService.TriggerCreateMatchJobs();
+        }
+
+        public async Task<TournamentStandingDto> GetDefaultLeagueStanding(string matchId)
+        {
+            var matchRepository = new MatchRepository();
+            var standing = await simulatorFileService.ReadDefaultStanding();
+            var match = await matchRepository.GetMatchById(matchId);
+            if (match == null)
+            {
+                return standing;
+            }
+
+            standing.tournament = SportEventMapper.MapTournament(match.League);
+            standing.season = SportEventMapper.MapSeason(match.League.LeagueSeason);
+
+            return standing;
         }
     }
 }
