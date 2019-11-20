@@ -38,6 +38,9 @@ namespace Score247Management.Core.Leagues.Models
         [JsonProperty("current_season")]
         public LeagueSeason LeagueSeason { get; set; }
 
+        [JsonProperty("round")]
+        public LeagueRound Round { get; set; }
+
         public bool IsActive { get; set; }
     }
 }

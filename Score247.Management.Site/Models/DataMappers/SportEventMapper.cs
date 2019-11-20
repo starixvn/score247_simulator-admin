@@ -102,10 +102,22 @@ namespace Score247.Management.Site.Models.DataMappers
                 scheduled = match.Scheduled,
                 tournament = MapTournament(match.Tournament),
                 venue = MapVenueDto(match.Venue),
-                season = MapSeason(match.Season)
+                season = MapSeason(match.Season),
+                tournament_round = MapTournamentRound(match.TournamentRound)
             };
 
             return sportEvent;
+        }
+
+        private static Tournament_Round MapTournamentRound(LeagueRound leagueRound)
+        {
+            var tournamentRRound = new Tournament_Round
+            {
+                type = leagueRound?.Type?.DisplayName ?? "group",
+                name = leagueRound?.Name
+            };
+
+            return tournamentRRound;
         }
 
         public static Sport_Event MapSportEvent(Match match)

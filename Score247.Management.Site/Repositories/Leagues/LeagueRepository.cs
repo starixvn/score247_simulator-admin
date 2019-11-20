@@ -45,6 +45,7 @@ namespace Score247.Management.Site.Repositories.Leagues
                 }
 
                 league.LeagueSeason = RandomeLeagueSeason(league);
+                league.Round = new LeagueRound();
             }
 
             return leagues;
@@ -91,6 +92,7 @@ namespace Score247.Management.Site.Repositories.Leagues
                     }
                 }
                 league.LeagueSeason = RandomeLeagueSeason(league);
+                league.Round = new LeagueRound();
             }
             return leagues.Where(x => x.IsActive);
         }
@@ -113,6 +115,7 @@ namespace Score247.Management.Site.Repositories.Leagues
             }
 
             league.LeagueSeason = RandomeLeagueSeason(league);
+            league.Round = new LeagueRound();
 
             return league;
         }
