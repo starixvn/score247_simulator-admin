@@ -161,10 +161,11 @@ namespace Score247.Management.Site.Models.DataMappers
 
         public static Tournament MapTournament(League league)
         {
+            var countryCode = league.Country == "International" ? null : league.CountryCode;
             var tournament = new Tournament
             {
                 id = league.Id,
-                category = new Category { country_code = league.CountryCode, name = league.Country },
+                category = new Category { country_code = countryCode, name = league.Country },
                 name = league.Name,
                 current_season = MapSeason(league.LeagueSeason),
                 season_coverage_info = new Season_Coverage_Info(),
