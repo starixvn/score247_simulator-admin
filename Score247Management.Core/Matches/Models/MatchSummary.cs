@@ -44,7 +44,13 @@
             string countryName,
             DateTimeOffset modifiedTime,
             bool isInternationalLeague,
-            int leagueOrder)
+            int leagueOrder,
+            string leagueSeasonId,
+            LeagueRoundType leagueRoundType,
+            string leagueRoundName,
+            int leagueRoundNumber,
+            string leagueRoundGroup,
+            string leagueGroupName)
 #pragma warning restore S107 // Methods should not have too many parameters
         {
             Id = id;
@@ -78,6 +84,12 @@
             ModifiedTime = modifiedTime;
             IsInternationalLeague = isInternationalLeague;
             LeagueOrder = leagueOrder;
+            LeagueSeasonId = leagueSeasonId;
+            LeagueRoundType = leagueRoundType;
+            LeagueRoundName = leagueRoundName;
+            LeagueRoundNumber = leagueRoundNumber;
+            LeagueRoundGroup = leagueRoundGroup;
+            LeagueGroupName = leagueGroupName;
         }
 
         public MatchSummary()
@@ -176,6 +188,24 @@
 
         [Key(30)]
         public int LeagueOrder { get; private set; }
+
+        [Key(31)]
+        public string LeagueSeasonId { get; private set; }
+
+        [Key(32)]
+        public LeagueRoundType LeagueRoundType { get; private set; }
+
+        [Key(33)]
+        public string LeagueRoundName { get; private set; }
+
+        [Key(34)]
+        public int LeagueRoundNumber { get; private set; }
+
+        [Key(35)]
+        public string LeagueRoundGroup { get; private set; }
+
+        [Key(36)]
+        public string LeagueGroupName { get; private set; }
 
         [IgnoreMember]
         public string DisplayResult

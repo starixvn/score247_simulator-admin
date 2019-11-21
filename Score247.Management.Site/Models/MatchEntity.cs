@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
 using Score247.Management.Site.Helpers;
+using Score247Management.Core._Shared.Enumerations;
 using Score247Management.Core.Leagues.Models;
 using Score247Management.Core.Matches.Models;
 using Score247Management.Core.Matches.Models.Soccer.Core.Matches.Models;
@@ -44,12 +45,13 @@ namespace Score247.Management.Site.Models
         {
             Scheduled = DateTime.Now;
             ScheduledTime = new TimeSpan(Scheduled.Hour, 0, 0);
-            Venue = new Venue()
+            Venue = new Venue
             {
                 Name = "Default Venue"
             };
-            TournamentRound = new LeagueRound()
+            TournamentRound = new LeagueRound
             {
+                Type = LeagueRoundType.GroupRound,
                 Name = "Round",
                 Number = 2,
                 Phase = "Round",
@@ -66,8 +68,9 @@ namespace Score247.Management.Site.Models
             {
                 Name = "Default Venue"
             };
-            TournamentRound = new LeagueRound()
+            TournamentRound = new LeagueRound
             {
+                Type = LeagueRoundType.GroupRound,
                 Name = "Round",
                 Number = 2,
                 Phase = "Round",

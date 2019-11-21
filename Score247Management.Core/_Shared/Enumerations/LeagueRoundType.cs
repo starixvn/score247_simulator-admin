@@ -1,7 +1,9 @@
 ﻿namespace Score247Management.Core._Shared.Enumerations
 {
+    using MessagePack;
     using Score247Management.Core.Enumerations;
 
+    [MessagePackObject]
     public class LeagueRoundType : Enumeration
     {
         public const string Cup = "cup";
