@@ -104,6 +104,16 @@
                     <span asp-validation-for="Match.TournamentRound.Group" class="text-danger"></span>
                 </div>
                 <div class="form-group col-md-6">
+                    <label asp-for="Match.TournamentRound.CupRoundMatches" class="control-label">Tournament Cup Round Matches</label>
+                    <input asp-for="Match.TournamentRound.CupRoundMatches" class="form-control" />
+                    <span asp-validation-for="Match.TournamentRound.CupRoundMatches" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="Match.TournamentRound.CupRoundMatchNumber" class="control-label">Tournament Cup Round Match Number</label>
+                    <input asp-for="Match.TournamentRound.CupRoundMatchNumber" class="form-control" />
+                    <span asp-validation-for="Match.TournamentRound.CupRoundMatchNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
                     <label asp-for="HomeTeam.Id" class="control-label">Home</label>
                     <select asp-for="HomeTeam.Id" asp-items="teams" class="form-control"></select>
                     <span asp-validation-for="HomeTeam.Id" class="text-danger"></span>
@@ -161,7 +171,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="form-group col-md-6">
             <input type="submit" value="Save" class="btn-submit" />
             <button asp-action="Index" value="Cancel" class="btn-cancel">Cancel</button>

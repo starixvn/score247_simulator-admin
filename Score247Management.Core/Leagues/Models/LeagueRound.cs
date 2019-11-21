@@ -9,14 +9,14 @@
 
         public string Name { get; set; }
 
-        public int Number { get; set; }
+        public int? Number { get; set; }
 
         public string Phase { get; set; }
 
         public string Group { get; set; }
 
-        public int CupRoundMatchNumber { get; set; }
-        public int CupRoundMatches { get; set; }
+        public int? CupRoundMatchNumber { get; set; }
+        public int? CupRoundMatches { get; set; }
         public string OtherMatchId { get; set; }
     }
 }

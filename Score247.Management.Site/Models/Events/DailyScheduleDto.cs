@@ -28,14 +28,28 @@
 
     public class Tournament_Round
     {
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string type { get; set; }
-        public int number { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public int? number { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string name { get; set; }
-        public int cup_round_match_number { get; set; }
-        public int cup_round_matches { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public int? cup_round_match_number { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public int? cup_round_matches { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string other_match_id { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string phase { get; set; }
 
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string group { get; set; }
     }
 

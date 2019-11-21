@@ -111,10 +111,20 @@ namespace Score247.Management.Site.Models.DataMappers
 
         private static Tournament_Round MapTournamentRound(LeagueRound leagueRound)
         {
+            if (leagueRound == null)
+            {
+                return null;
+            }
+
             var tournamentRRound = new Tournament_Round
             {
-                type = leagueRound?.Type?.DisplayName ?? "group",
-                name = leagueRound?.Name
+                type = leagueRound.Type.DisplayName,
+                name = string.IsNullOrEmpty(leagueRound.Name) ? null : leagueRound.Name,
+                cup_round_matches = leagueRound.CupRoundMatches,
+                cup_round_match_number = leagueRound.CupRoundMatchNumber,
+                group = string.IsNullOrEmpty(leagueRound.Group) ? null : leagueRound.Group,
+                number = leagueRound.Number,
+                phase = string.IsNullOrEmpty(leagueRound.Phase) ? null : leagueRound.Phase
             };
 
             return tournamentRRound;

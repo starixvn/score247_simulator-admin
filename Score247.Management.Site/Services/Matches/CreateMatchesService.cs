@@ -203,13 +203,19 @@ namespace Score247.Management.Site.Services.Matches
             var dateTime = Convert.ToDateTime(collection["Match.Scheduled"]);
             var timeSpan = TimeSpan.Parse(collection["Match.ScheduledTime"]);
             newMatch.Scheduled = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds, DateTimeKind.Utc).Subtract(offset);
+
+            var haveNumber = int.TryParse(collection["Match.TournamentRound.Number"], out var tournamentNumber);
+            var haveCupRoundMatches = int.TryParse(collection["Match.TournamentRound.CupRoundMatches"], out var tournamentCupRoundMatches);
+            var haveCupRoundMatchNumber = int.TryParse(collection["Match.TournamentRound.CupRoundMatchNumber"], out var tournamentCupRoundMatchNumber);
             newMatch.TournamentRound = new Score247Management.Core.Leagues.Models.LeagueRound
             {
                 Type = Enumeration.FromDisplayName<LeagueRoundType>(collection["Match.TournamentRound.Type.Value"]),
                 Name = collection["Match.TournamentRound.Name"],
-                Number = int.Parse(collection["Match.TournamentRound.Number"]),
+                Number = haveNumber ? (int?)tournamentNumber : null,
                 Phase = collection["Match.TournamentRound.Phase"],
-                Group = collection["Match.TournamentRound.Group"]
+                Group = collection["Match.TournamentRound.Group"],
+                CupRoundMatches = haveCupRoundMatches ? (int?)tournamentCupRoundMatches : null,
+                CupRoundMatchNumber = haveCupRoundMatchNumber ? (int?)tournamentCupRoundMatchNumber : null
             };
             var beginningUtcToday = DateTimeHelper.GetBeginingOfDate(DateTime.UtcNow);
             if (newMatch.Scheduled < beginningUtcToday)
