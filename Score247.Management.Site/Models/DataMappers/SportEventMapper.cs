@@ -161,7 +161,17 @@ namespace Score247.Management.Site.Models.DataMappers
 
         public static Tournament MapTournament(League league)
         {
-            var countryCode = league.Country.Contains("International") ? null : league.CountryCode;
+            if (league == null)
+            {
+                return null;
+            }
+
+            string countryCode = null;
+            if (league.Country != null)
+            {
+                countryCode = league.Country.Contains("International") ? null : league.CountryCode;
+            }
+
             var tournament = new Tournament
             {
                 id = league.Id,
