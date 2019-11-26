@@ -106,7 +106,7 @@
     </div>
     <div class="collapse" aria-labelledby="substitutionEventHeading" data-parent="#accordion" id="substitudeEvent">
         <div class="card-body create-form">
-            <form asp-action="CreateSubstitutionEventPartial" asp-route-id="@ViewBag.MatchId">
+            <form id="EventSubstitutionForm">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="payload.timeline.id" class="control-label">Event Id:</label>
@@ -192,7 +192,7 @@
                     <textarea id="commentary3" type="text" name="commentary3" class="form-control" rows="3"></textarea>
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="Create" class="btn-submit" />
+                    <button class="btn btn-primary" onclick="generateEventData(`@ViewBag.MatchId`, 'EventSubstitutionForm', 'SubstitutionEvent', event)">Process</button>
                 </div>
             </form>
         </div>

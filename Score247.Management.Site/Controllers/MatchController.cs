@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 using Score247.Management.Site.Models;
+using Score247.Management.Site.Models.Events;
 using Score247.Management.Site.Repositories.Leagues;
 using Score247.Management.Site.Repositories.Matches;
 using Score247.Management.Site.Repositories.Scenarios;
@@ -301,89 +302,75 @@ namespace Score247.Management.Site.Controllers
             return await ProcessToDateSearchView(searchDate, leagueId);
         }
 
-        [HttpGet("/Match/AutoCreateEvent")]
-        public async Task<ActionResult> AutoCreateMatchEvent(string matchId, string eventName, DateTimeOffset time)
-            => await _CreateTimeEventPartial(matchId, new FormCollection(new Dictionary<string, StringValues>
-            {
-                { "payload.timeline.type", new StringValues(eventName) },
-                { "payload.timeline.time", new StringValues(time.Date.ToString()) },
-                { "payload.timeline.hour", new StringValues(new TimeSpan(time.Hour, time.Minute, time.Second).ToString()) }
-            }), true);
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> _CreateTimeEventPartial(string id, IFormCollection collection, bool isFromAjax = false)
+        [HttpPost("Match/CreateTimeEventPartial/{id}")]
+        public async Task<ActionResult> CreateTimeEventPartial(string id, IFormCollection collection)
         {
             TimeSpan.TryParse(GetTimezone(), out TimeSpan offset);
-            await matchEventsService.CreateTimeEventPartial(id, collection, offset);
+            var eventDto = await matchEventsService.CreateTimeEventPartial(id, collection, offset);
 
-            if (isFromAjax)
-            {
-                return Json(new { message = "OK" });
-            }
-
-            return RedirectToAction(nameof(Details), new { id });
+            return Json(eventDto);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> _CreateScoreEventPartial(string id, IFormCollection collection)
+        [HttpPost("Match/CreateScoreEventPartial/{id}")]
+        public async Task<ActionResult> CreateScoreEventPartial(string id, IFormCollection collection)
         {
-            TimeSpan.TryParse(GetTimezone(), out var offset);
-            await matchEventsService.CreateScoreEventPartial(id, collection, offset);
+            TimeSpan.TryParse(GetTimezone(), out TimeSpan offset);
+            var eventDto = await matchEventsService.CreateScoreEventPartial(id, collection, offset);
 
-            return RedirectToAction(nameof(Details), new { id });
+            return Json(eventDto);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> _CreatePenaltyShootEventPartial(string id, IFormCollection collection)
+        [HttpPost("Match/CreatePenaltyShootEventPartial/{id}")]
+        public async Task<ActionResult> CreatePenaltyShootEventPartial(string id, IFormCollection collection)
         {
-            TimeSpan.TryParse(GetTimezone(), out var offset);
-            await matchEventsService.CreatePenaltyShootEventPartial(id, collection, offset);
+            TimeSpan.TryParse(GetTimezone(), out TimeSpan offset);
+            var eventDto = await matchEventsService.CreatePenaltyShootEventPartial(id, collection, offset);
 
-            return RedirectToAction(nameof(Details), new { id });
+            return Json(eventDto);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost("Match/CreateCardFaultEventPartial/{id}")]
         public async Task<ActionResult> CreateCardFaultEventPartial(string id, IFormCollection collection)
         {
-            TimeSpan.TryParse(GetTimezone(), out var offset);
+            TimeSpan.TryParse(GetTimezone(), out TimeSpan offset);
+            var eventDto = await matchEventsService.CreateCardFaultEventPartial(id, collection, offset);
 
-            await matchEventsService.CreateCardFaultEventPartial(id, collection, offset);
-
-            return RedirectToAction(nameof(Details), new { id });
+            return Json(eventDto);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost("Match/CreateInjuryExtraTimeEventPartial/{id}")]
         public async Task<ActionResult> CreateInjuryExtraTimeEventPartial(string id, IFormCollection collection)
         {
-            TimeSpan.TryParse(GetTimezone(), out var offset);
-            await matchEventsService.CreateInjuryExtraTimeEventPartial(id, collection, offset);
+            TimeSpan.TryParse(GetTimezone(), out TimeSpan offset);
+            var eventDto = await matchEventsService.CreateInjuryExtraTimeEventPartial(id, collection, offset);
 
-            return RedirectToAction(nameof(Details), new { id });
+            return Json(eventDto);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost("Match/CreateSubstitutionEventPartial/{id}")]
         public async Task<ActionResult> CreateSubstitutionEventPartial(string id, IFormCollection collection)
         {
-            TimeSpan.TryParse(GetTimezone(), out var offset);
-            await matchEventsService.CreateSubstitutionEventPartial(id, collection, offset);
+            TimeSpan.TryParse(GetTimezone(), out TimeSpan offset);
+            var eventDto = await matchEventsService.CreateSubstitutionEventPartial(id, collection, offset);
 
-            return RedirectToAction(nameof(Details), new { id });
+            return Json(eventDto);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost("Match/CreateMinorEventPartial/{id}")]
         public async Task<ActionResult> CreateMinorEventPartial(string id, IFormCollection collection)
         {
-            TimeSpan.TryParse(GetTimezone(), out var offset);
-            await matchEventsService.CreateMinorEventPartial(id, collection, offset);
+            TimeSpan.TryParse(GetTimezone(), out TimeSpan offset);
+            var eventDto = await matchEventsService.CreateMinorEventPartial(id, collection, offset);
 
-            return RedirectToAction(nameof(Details), new { id });
+            return Json(eventDto);
+        }
+
+        [HttpPost("/Match/Event/Apply")]
+        public async Task<ActionResult> ApplyEventTimeline([FromBody] MatchPushEventDto matchPushEventDto, [FromQuery] bool eventMissed)
+        {
+            await matchEventsService.SendEventTimeline(matchPushEventDto, eventMissed);
+
+            return RedirectToAction(nameof(Details), new { matchPushEventDto.metadata.sport_event_id });
         }
 
         [HttpPost]

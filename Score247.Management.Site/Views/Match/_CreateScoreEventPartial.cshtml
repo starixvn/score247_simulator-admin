@@ -61,7 +61,7 @@
     </div>
     <div class="collapse" aria-labelledby="matchScoreEventHeading" data-parent="#accordion" id="matchScoreEvent">
         <div class="card-body create-form">
-            <form asp-action="_CreateScoreEventPartial" asp-route-id="@ViewBag.MatchId">
+            <form id="EventScoreForm">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="column">
                     <div class="form-group">
@@ -142,7 +142,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="commentary1" class="control-label">Commentary 1</label>
                         <textarea id="commentary1" type="text" name="commentary1" class="form-control" rows="3"></textarea>
@@ -157,7 +157,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="Create" class="btn-submit" />
+                    <button class="btn btn-primary" onclick="generateEventData(`@ViewBag.MatchId`, 'EventScoreForm', 'ScoreEvent', event)">Process</button>
                 </div>
             </form>
         </div>

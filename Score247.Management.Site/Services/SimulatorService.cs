@@ -34,7 +34,7 @@
 
         Task<LineUpsDto> GetLineUpsDto(string matchId);
 
-        Task SendMatchEvent(MatchPushEventDto matchPushEvent, int delay = 2000);
+        Task SendMatchEvent(MatchPushEventDto matchPushEvent, bool eventMissed = false, int delay = 2000);
 
         Task SyncLiveMatches();
 
@@ -144,18 +144,22 @@
             }
         }
 
-        public async Task SendMatchEvent(MatchPushEventDto matchPushEvent, int delay = 2000)
+        public async Task SendMatchEvent(MatchPushEventDto matchPushEvent, bool eventMissed = false, int delay = 2000)
         {
             var matchRepository = new MatchRepository();
-            using (var client = new HttpClient())
+            if (!eventMissed)
             {
-                client.BaseAddress = new Uri(configuration.GetValue<string>("Simulator:Url"));
-                var response = await client.PostAsJsonAsync(configuration.GetValue<string>("Simulator:PushEvent"), matchPushEvent);
-                if (!response.IsSuccessStatusCode)
+                using (var client = new HttpClient())
                 {
-                    return;
+                    client.BaseAddress = new Uri(configuration.GetValue<string>("Simulator:Url"));
+                    var response = await client.PostAsJsonAsync(configuration.GetValue<string>("Simulator:PushEvent"), matchPushEvent);
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        return;
+                    }
                 }
             }
+
             await matchRepository.InsertTimelineLog(matchPushEvent);
             await Task.Delay(delay);
         }

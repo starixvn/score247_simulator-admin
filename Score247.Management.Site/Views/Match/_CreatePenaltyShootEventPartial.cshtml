@@ -9,7 +9,7 @@
     </div>
     <div class="collapse" aria-labelledby="matchPenaltyShootEventHeading" data-parent="#accordion" id="matchPenaltyShootEvent">
         <div class="card-body create-form">
-            <form asp-action="_CreatePenaltyShootEventPartial" asp-route-id="@ViewBag.MatchId">
+            <form id="EventPenaltyShootForm">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="column">
                     <div class="form-group">
@@ -73,7 +73,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="Create" class="btn-submit" />
+                    <button class="btn btn-primary" onclick="generateEventData(`@ViewBag.MatchId`, 'EventPenaltyShootForm', 'PenaltyShootEvent', event)">Process</button>
                 </div>
             </form>
         </div>

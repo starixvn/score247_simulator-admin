@@ -333,3 +333,43 @@ function applyStanding() {
         }
     });
 }
+
+function generateEventData(matchId, formId, eventType, e) {
+    e.preventDefault();
+    var form = $(`#${formId}`).serialize();
+    console.log(form);
+    console.log(matchId);
+    $.ajax({
+        type: 'POST',
+        url: `/Match/Create${eventType}Partial/${matchId}`,
+        data: form,
+        dataType: 'json',
+        success: function (eventData) {
+            $("#eventDataRaw").val(JSON.stringify(eventData));
+            $("#eventRequestContent").text("");
+            let target = '#eventRequestContent';
+            jsonView.format(eventData, target);
+            $('#eventRequest').modal();
+        },
+        error: function () {
+            console.log("failed");
+        }
+    });
+}
+
+function applyEvent(missing) {
+    var matchPushEventDto = $("#eventDataRaw").val();
+    $.ajax({
+        type: "POST",
+        url: urlPrefix() + `/Match/Event/Apply?eventMissed=${missing}`,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: matchPushEventDto,
+        success: function () {
+            console.log("success");
+        },
+        error: function () {
+            console.log("failed");
+        }
+    });
+}

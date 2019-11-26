@@ -12,19 +12,21 @@ namespace Score247.Management.Site.Services.Matches
 {
     public interface IMatchEventsService
     {
-        Task CreateTimeEventPartial(string id, IFormCollection collection, TimeSpan offset);
+        Task<MatchPushEventDto> CreateTimeEventPartial(string id, IFormCollection collection, TimeSpan offset);
 
-        Task CreateScoreEventPartial(string id, IFormCollection collection, TimeSpan offset);
+        Task<MatchPushEventDto> CreateScoreEventPartial(string id, IFormCollection collection, TimeSpan offset);
 
-        Task CreatePenaltyShootEventPartial(string id, IFormCollection collection, TimeSpan offset);
+        Task<MatchPushEventDto> CreatePenaltyShootEventPartial(string id, IFormCollection collection, TimeSpan offset);
 
-        Task CreateCardFaultEventPartial(string id, IFormCollection collection, TimeSpan offset);
+        Task<MatchPushEventDto> CreateCardFaultEventPartial(string id, IFormCollection collection, TimeSpan offset);
 
-        Task CreateInjuryExtraTimeEventPartial(string id, IFormCollection collection, TimeSpan offset);
+        Task<MatchPushEventDto> CreateInjuryExtraTimeEventPartial(string id, IFormCollection collection, TimeSpan offset);
 
-        Task CreateSubstitutionEventPartial(string id, IFormCollection collection, TimeSpan offset);
+        Task<MatchPushEventDto> CreateSubstitutionEventPartial(string id, IFormCollection collection, TimeSpan offset);
 
-        Task CreateMinorEventPartial(string id, IFormCollection collection, TimeSpan offset);
+        Task<MatchPushEventDto> CreateMinorEventPartial(string id, IFormCollection collection, TimeSpan offset);
+
+        Task SendEventTimeline(MatchPushEventDto matchPushEventDto, bool eventMissed);
     }
 
     public class MatchEventsService : IMatchEventsService
@@ -40,7 +42,7 @@ namespace Score247.Management.Site.Services.Matches
             this.createMatchesService = createMatchesService;
         }
 
-        public async Task CreateCardFaultEventPartial(string id, IFormCollection collection, TimeSpan offset)
+        public async Task<MatchPushEventDto> CreateCardFaultEventPartial(string id, IFormCollection collection, TimeSpan offset)
         {
             var requestBody = await InitEvent(id, collection, offset);
             if (collection["payload.timeline.period_type"] == "overtime")
@@ -55,12 +57,10 @@ namespace Score247.Management.Site.Services.Matches
                 name = collection["payload.timeline.player.name"]
             };
 
-            await simulatorService.SendMatchEvent(requestBody);
-            await timelineService.SendMatchTimeline(id);
-            await createMatchesService.UpdateLiveMatch(id);
+            return requestBody;
         }
 
-        public async Task CreateInjuryExtraTimeEventPartial(string id, IFormCollection collection, TimeSpan offset)
+        public async Task<MatchPushEventDto> CreateInjuryExtraTimeEventPartial(string id, IFormCollection collection, TimeSpan offset)
         {
             var requestBody = await InitEvent(id, collection, offset);
 
@@ -93,10 +93,7 @@ namespace Score247.Management.Site.Services.Matches
                 requestBody.payload.timeline.period_type = "overtime";
             }
 
-            await simulatorService.SendMatchEvent(requestBody);
-
-            await timelineService.SendMatchTimeline(id);
-            await createMatchesService.UpdateLiveMatch(id);
+            return requestBody;
         }
 
         public async Task<MatchPushEventDto> InitEvent(string id, IFormCollection collection, TimeSpan offset)
@@ -190,7 +187,7 @@ namespace Score247.Management.Site.Services.Matches
             return requestBody;
         }
 
-        public async Task CreateSubstitutionEventPartial(string id, IFormCollection collection, TimeSpan offset)
+        public async Task<MatchPushEventDto> CreateSubstitutionEventPartial(string id, IFormCollection collection, TimeSpan offset)
         {
             var requestBody = await InitEvent(id, collection, offset);
             requestBody.payload.timeline.player_in =
@@ -215,11 +212,10 @@ namespace Score247.Management.Site.Services.Matches
                 requestBody.payload.timeline.stoppage_time = collection["payload.timeline.stoppage_time"];
             }
 
-            await simulatorService.SendMatchEvent(requestBody);
-            await timelineService.SendMatchTimeline(id);
+            return requestBody;
         }
 
-        public async Task CreateMinorEventPartial(string id, IFormCollection collection, TimeSpan offset)
+        public async Task<MatchPushEventDto> CreateMinorEventPartial(string id, IFormCollection collection, TimeSpan offset)
         {
             var requestBody = await InitEvent(id, collection, offset);
 
@@ -230,11 +226,10 @@ namespace Score247.Management.Site.Services.Matches
                 requestBody.payload.timeline.stoppage_time = collection["payload.timeline.stoppage_time"];
             }
 
-            await simulatorService.SendMatchEvent(requestBody);
-            await timelineService.SendMatchTimeline(id);
+            return requestBody;
         }
 
-        public async Task CreatePenaltyShootEventPartial(string id, IFormCollection collection, TimeSpan offset)
+        public async Task<MatchPushEventDto> CreatePenaltyShootEventPartial(string id, IFormCollection collection, TimeSpan offset)
         {
             var requestBody = await InitEvent(id, collection, offset);
             var isNotDuplicateEvent = string.IsNullOrWhiteSpace(collection["payload.timeline.id"]);
@@ -265,11 +260,10 @@ namespace Score247.Management.Site.Services.Matches
             requestBody.payload.timeline.period = null;
             requestBody.payload.sport_event_status.period = null;
 
-            await simulatorService.SendMatchEvent(requestBody);
-            await timelineService.SendMatchTimeline(id);
+            return requestBody;
         }
 
-        public async Task CreateScoreEventPartial(string id, IFormCollection collection, TimeSpan offset)
+        public async Task<MatchPushEventDto> CreateScoreEventPartial(string id, IFormCollection collection, TimeSpan offset)
         {
             var requestBody = await InitEvent(id, collection, offset);
             var isNotDuplicateEvent = string.IsNullOrWhiteSpace(collection["payload.timeline.id"]);
@@ -326,13 +320,10 @@ namespace Score247.Management.Site.Services.Matches
                 requestBody = await UpdateScoreChange(requestBody, periodType, id);
             }
 
-            await simulatorService.SendMatchEvent(requestBody);
-            await timelineService.SendMatchTimeline(id);
-
-            await createMatchesService.UpdateLiveMatch(id);
+            return requestBody;
         }
 
-        public async Task CreateTimeEventPartial(string id, IFormCollection collection, TimeSpan offset)
+        public async Task<MatchPushEventDto> CreateTimeEventPartial(string id, IFormCollection collection, TimeSpan offset)
         {
             var matchRepository = new MatchRepository();
             var match = await matchRepository.GetMatchById(id);
@@ -677,13 +668,10 @@ namespace Score247.Management.Site.Services.Matches
                         break;
                     }
                 default:
-                    return;
+                    return requestBody;
             }
 
-            await simulatorService.SendMatchEvent(requestBody);
-            await timelineService.SendMatchTimeline(id);
-
-            await createMatchesService.UpdateLiveMatch(match.Id);
+            return requestBody;
         }
 
         private static async Task<MatchPushEventDto> UpdateScoreChange(MatchPushEventDto requestBody, string periodType, string matchId)
@@ -777,6 +765,14 @@ namespace Score247.Management.Site.Services.Matches
             requestBody.payload.sport_event_status.period_scores = periodScores;
 
             return requestBody;
+        }
+
+        public async Task SendEventTimeline(MatchPushEventDto matchPushEventDto, bool eventMissed)
+        {
+            await simulatorService.SendMatchEvent(matchPushEventDto, eventMissed);
+            await timelineService.SendMatchTimeline(matchPushEventDto.metadata.sport_event_id);
+
+            await createMatchesService.UpdateLiveMatch(matchPushEventDto.metadata.sport_event_id);
         }
     }
 }

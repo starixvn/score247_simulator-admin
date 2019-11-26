@@ -95,7 +95,7 @@
     </div>
     <div class="collapse" aria-labelledby="matchTimeEventHeading" data-parent="#accordion" id="matchTimeEvent">
         <div class="card-body create-form">
-            <form asp-action="_CreateTimeEventPartial" asp-route-id="@ViewBag.MatchId">
+            <form id="EventTimeForm">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="column">
                     <div class="form-group">
@@ -139,7 +139,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="Create" class="btn-submit" />
+                    <button class="btn btn-primary" onclick="generateEventData(`@ViewBag.MatchId`, 'EventTimeForm', 'TimeEvent', event)">Process</button>
                 </div>
             </form>
         </div>

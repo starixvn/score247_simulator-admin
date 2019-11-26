@@ -184,7 +184,7 @@ namespace Score247.Management.Site.Services
             var matchRepository = new MatchRepository();
             var match = await matchRepository.GetMatchById(matchId);
             var matchStartEvent = MatchTimeEventCreator.CreateMatchStart(match, match.EventDate);
-            await simulatorService.SendMatchEvent(matchStartEvent, 1000);
+            await simulatorService.SendMatchEvent(matchStartEvent, delay: 1000);
         }
 
         private static Statistics BuildStatisticFormTimelineDto(MatchTimelineDto timelineDto)

@@ -102,7 +102,7 @@ namespace Score247.Management.Site.Services
             {
                 var preEvent = SportEventMapper.MapEvent(scenarioEvent, match, scenario, matchLineups);
 
-                await simulatorService.SendMatchEvent(preEvent, delay);
+                await simulatorService.SendMatchEvent(preEvent, delay: delay);
 
                 var content = await matchFileService.ReadLiveMatchFromFile() ?? new DailyResultDto
                 {
