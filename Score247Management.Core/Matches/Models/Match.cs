@@ -24,6 +24,7 @@ namespace Score247Management.Core.Matches.Models
         public League League { get; set; }
 
         public LeagueRound LeagueRound { get; set; }
+        public LeagueSeason LeagueSeason { get; set; }
 
         public IEnumerable<TimelineEvent> TimeLines { get; set; }
 

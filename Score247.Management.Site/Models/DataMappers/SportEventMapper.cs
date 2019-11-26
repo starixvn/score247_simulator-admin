@@ -24,10 +24,25 @@ namespace Score247.Management.Site.Models.DataMappers
             preEvent.metadata.sport_event_id = match.Id;
             preEvent.metadata.tournament_id = match.League.Id;
             preEvent.payload.timeline.time = preEvent.payload.timeline.time + differTime;
-            if (preEvent.payload.sport_event_status.aggregate_winner_id == scenario.HomeId) preEvent.payload.sport_event_status.aggregate_winner_id = homeId;
-            if (preEvent.payload.sport_event_status.winner_id == scenario.HomeId) preEvent.payload.sport_event_status.winner_id = homeId;
-            if (preEvent.payload.sport_event_status.aggregate_winner_id == scenario.AwayId) preEvent.payload.sport_event_status.aggregate_winner_id = awayId;
-            if (preEvent.payload.sport_event_status.winner_id == scenario.AwayId) preEvent.payload.sport_event_status.winner_id = awayId;
+            if (preEvent.payload.sport_event_status.aggregate_winner_id == scenario.HomeId)
+            {
+                preEvent.payload.sport_event_status.aggregate_winner_id = homeId;
+            }
+
+            if (preEvent.payload.sport_event_status.winner_id == scenario.HomeId)
+            {
+                preEvent.payload.sport_event_status.winner_id = homeId;
+            }
+
+            if (preEvent.payload.sport_event_status.aggregate_winner_id == scenario.AwayId)
+            {
+                preEvent.payload.sport_event_status.aggregate_winner_id = awayId;
+            }
+
+            if (preEvent.payload.sport_event_status.winner_id == scenario.AwayId)
+            {
+                preEvent.payload.sport_event_status.winner_id = awayId;
+            }
 
             if (matchPitchViewLineups?.lineups != null && matchPitchViewLineups.lineups.Any())
             {

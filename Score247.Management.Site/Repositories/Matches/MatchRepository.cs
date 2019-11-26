@@ -37,9 +37,14 @@ namespace Score247.Management.Site.Repositories.Matches
             return match?.DeserialValue(offset);
         }
 
+        public Task<IEnumerable<TimelineLog>> GetMatchTimelineLogs(string matchId)
+        {
+            return repository.FetchAsync<TimelineLog>(new GetMatchTimelineLogCriteria { Id = matchId });
+        }
+
         public async Task<IEnumerable<TimelineEvent>> GetMatchTimelines(string id)
         {
-            var timelinesLogs = await repository.FetchAsync<TimelineLog>(new GetMatchTimelineLogCriteria() { Id = id });
+            var timelinesLogs = await GetMatchTimelineLogs(id);
             var timelines = await repository.FetchAsync<TimelineEvent>(new GetMatchTimelineCriteria() { MatchId = id });
             var result = timelines.Select(x => x.DeserialValue()).OrderBy(x => x.Time).ToList();
             result.ForEach(x =>

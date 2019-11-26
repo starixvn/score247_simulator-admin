@@ -103,6 +103,12 @@ namespace Score247.Management.Site.Services.Matches
         {
             var matchRepository = new MatchRepository();
             var match = await matchRepository.GetMatchById(id);
+            var matchResult = await timelineService.GetMatchLatestResult(id);
+            if (matchResult != null)
+            {
+                match.MatchResult = matchResult;
+            }
+
             var requestBody = new MatchPushEventDto(match);
             var eventDate = Convert.ToDateTime(collection["payload.timeline.time"]);
             var eventTimeSpan = TimeSpan.Parse(collection["payload.timeline.hour"]);
