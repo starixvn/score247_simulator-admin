@@ -343,7 +343,7 @@ function generateEventData(matchId, formId, eventType, e) {
     console.log(matchId);
     $.ajax({
         type: 'POST',
-        url: `/Match/Create${eventType}Partial/${matchId}`,
+        url: urlPrefix() + `/Match/Create${eventType}Partial/${matchId}`,
         data: form,
         dataType: 'json',
         success: function (eventData) {
