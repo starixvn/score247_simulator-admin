@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Score247.Management.Site.Criterias.League;
+using Score247.Management.Site.Helpers;
 using Score247.Management.Site.Models.DataMappers;
 using Score247.Management.Site.Models.Dtos;
+using Score247.Management.Site.Models.Events;
 using Score247.Management.Site.Repositories.Leagues;
 using Score247.Management.Site.Repositories.Matches;
 using Score247Management.Core.Leagues.Dtos;
@@ -30,11 +32,16 @@ namespace Score247.Management.Site.Services
         Task<TournamentStandingDto> GetDefaultLeagueStanding(string matchId);
 
         Task ApplyStanding(TournamentStandingDto tournamentStandingDto);
+
+        Task<IEnumerable<League>> GetActiveLeagues();
+
+        Task GenerateLeagueFixture(string leagueId);
     }
 
     public class LeagueService : ILeagueService
     {
         private IConfiguration configuration { get; }
+
         private readonly ITriggerJobService triggerJobService;
         private readonly ISimulatorFileService simulatorFileService;
         private readonly ISimulatorService simulatorService;
@@ -182,6 +189,46 @@ namespace Score247.Management.Site.Services
         {
             await simulatorService.SendTournamentStanding(tournamentStandingDto);
             await triggerJobService.TriggerFetchLiveMatch();
+        }
+
+        public Task<IEnumerable<League>> GetActiveLeagues()
+        {
+            var leagueRepository = new LeagueRepository();
+
+            return leagueRepository.GetActiveLeagues();
+        }
+
+        public async Task GenerateLeagueFixture(string leagueId)
+        {
+            var leagueRepository = new LeagueRepository();
+            var league = await leagueRepository.GetLeagueById(leagueId);
+            var tournament = SportEventMapper.MapTournament(league);
+
+            var schedule = await simulatorFileService.GetTournamentSchedule();
+            schedule.generated_at = DateTime.Now;
+            schedule.tournament = tournament;
+            foreach (var sportEveht in schedule.sport_events)
+            {
+                sportEveht.tournament = tournament;
+                sportEveht.season.tournament_id = tournament.id;
+                sportEveht.id = UniqueGenerator.GetIdWithPattern("sr:match:");
+
+                if (sportEveht.status == "closed")
+                {
+                    await SendTimelineForMatch(sportEveht);
+                }
+            }
+
+            await simulatorService.SendTournamentSchedule(schedule);
+        }
+
+        private async Task SendTimelineForMatch(Sport_Event sportEveht)
+        {
+            var timeline = await simulatorFileService.GetRandomTimelime();
+
+            var sportTimeline = TimelineMapper.MapTimelinetoSportEvent(sportEveht, timeline);
+
+            await simulatorService.SendMatchTimelines(sportTimeline);
         }
     }
 }

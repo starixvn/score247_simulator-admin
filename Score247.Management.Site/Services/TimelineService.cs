@@ -103,7 +103,10 @@ namespace Score247.Management.Site.Services
         public async Task<MatchResult> GetMatchLatestResult(string matchId)
         {
             var matchRepo = new MatchRepository();
-            var timelines = (await matchRepo.GetMatchTimelineLogs(matchId)).Select(timelineLog => JsonConvert.DeserializeObject<MatchPushEventDto>(timelineLog.Value)).ToList();
+            var timelines = (await matchRepo.GetMatchTimelineLogs(matchId))
+                .Select(timelineLog => JsonConvert.DeserializeObject<MatchPushEventDto>(timelineLog.Value))
+                .OrderBy(timeline => timeline.payload.timeline.time)
+                .ToList();
             var lastTimelinewithPeriodScores = timelines.LastOrDefault(timeline => timeline?.payload?.sport_event_status?.period_scores != null);
 
             if (lastTimelinewithPeriodScores == null || lastTimelinewithPeriodScores?.payload == null)

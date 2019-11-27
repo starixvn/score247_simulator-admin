@@ -48,6 +48,8 @@
         Task SendH2H(H2HDto h2HDto);
 
         Task SendTournamentStanding(TournamentStandingDto tournamentStandingDto);
+
+        Task SendTournamentSchedule(TournamentScheduleDto schedule);
     }
 
     public class SimulatorService : ISimulatorService
@@ -338,6 +340,17 @@
                 var lineupsDto = JsonConvert.DeserializeObject<LineUpsDto>(responseBody);
 
                 return lineupsDto;
+            }
+        }
+
+        public async Task SendTournamentSchedule(TournamentScheduleDto schedule)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(configuration.GetValue<string>("Simulator:Url"));
+                var requestPath = configuration.GetValue<string>("Simulator:TournamentSchedule");
+
+                await client.PostAsJsonAsync(requestPath, schedule);
             }
         }
     }

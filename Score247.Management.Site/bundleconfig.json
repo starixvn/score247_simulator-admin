@@ -2,7 +2,8 @@
   {
     "outputFileName": "wwwroot/bundles/site.min.js",
     "inputFiles": [
-      "wwwroot/scripts/site.js"
+      "wwwroot/scripts/site.js",
+      "wwwroot/scripts/matches/match.js"
     ]
   },
   {

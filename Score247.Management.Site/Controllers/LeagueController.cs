@@ -112,5 +112,28 @@ namespace Score247.Management.Site.Controllers
             await leagueService.ApplyStanding(tournamentStandingDto);
             return Json(true);
         }
+
+        [HttpGet("League/GetActives")]
+        public async Task<ActionResult> GetActiveLeagues()
+        {
+            var leagues = await leagueService.GetActiveLeagues();
+
+            return Json(leagues);
+        }
+
+        [HttpPost("League/GenerateFixture")]
+        public async Task<ActionResult> GenerateLeagueFixture([FromQuery] string leagueId)
+        {
+            try
+            {
+                await leagueService.GenerateLeagueFixture(leagueId);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+            return Json(true);
+        }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Score247.Management.Site.Models;
@@ -27,11 +29,49 @@ namespace Score247.Management.Site.Services
         Task<TeamResultDto> ReadTeamResult(string teamId);
 
         Task<TournamentStandingDto> ReadDefaultStanding();
+
+        Task<IEnumerable<MatchTimelineDto>> GetAllTimelimeSample();
+
+        Task<MatchTimelineDto> GetRandomTimelime();
+
+        Task<TournamentScheduleDto> GetTournamentSchedule();
     }
 
     public class SimulatorFileService : ISimulatorFileService
     {
-        private static readonly string DirectoryRoot = AppDomain.CurrentDomain.BaseDirectory + "/App_Data";
+        private static readonly string DirectoryRoot = AppDomain.CurrentDomain.BaseDirectory + "App_Data";
+
+        public async Task<IEnumerable<MatchTimelineDto>> GetAllTimelimeSample()
+        {
+            var path = $"{DirectoryRoot}\\timelines";
+            var timelines = new List<MatchTimelineDto>();
+            var fileTimelines = Directory.GetFiles(path);
+            foreach (var timelineFile in fileTimelines)
+            {
+                var jsonData = await File.ReadAllTextAsync(timelineFile);
+                var content = JsonConvert.DeserializeObject<MatchTimelineDto>(jsonData);
+                timelines.Add(content);
+            }
+
+            return timelines;
+        }
+
+        public async Task<MatchTimelineDto> GetRandomTimelime()
+        {
+            var rand = new Random();
+            var timelines = (await GetAllTimelimeSample()).ToList();
+
+            return timelines[rand.Next(timelines.Count)];
+        }
+
+        public async Task<TournamentScheduleDto> GetTournamentSchedule()
+        {
+            var path = $"{DirectoryRoot}/fixture/schedule.json";
+            var jsonData = await File.ReadAllTextAsync(path);
+            var content = JsonConvert.DeserializeObject<TournamentScheduleDto>(jsonData);
+
+            return content;
+        }
 
         public async Task<TournamentStandingDto> ReadDefaultStanding()
         {
