@@ -468,7 +468,7 @@ namespace Score247.Management.Site.Controllers
         {
             await matchService.ApplyLineups(lineUpsDto);
 
-            return RedirectToAction(nameof(Details), new { matchId });
+            return Json(true);
         }
 
         [HttpGet("/Match/Lineups/{matchId}")]
@@ -494,7 +494,7 @@ namespace Score247.Management.Site.Controllers
         {
             await matchService.ApplyH2H(h2HDto);
 
-            return RedirectToAction(nameof(Details), new { matchId });
+            return Json(true);
         }
 
         [HttpGet("/Team/H2H/{matchId}")]

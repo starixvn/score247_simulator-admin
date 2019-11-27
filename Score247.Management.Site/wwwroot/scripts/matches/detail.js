@@ -32,6 +32,7 @@ function applyLineups(matchId) {
         data: JSON.stringify(lineUpsDto),
         success: function () {
             console.log("success");
+            location.reload();
         },
         error: function () {
             console.log("failed");
@@ -94,6 +95,7 @@ function applyH2H(matchId) {
         data: JSON.stringify(h2HDto),
         success: function () {
             console.log("success");
+            location.reload();
         },
         error: function () {
             console.log("failed");
@@ -329,6 +331,7 @@ function applyStanding() {
         data: JSON.stringify(tournamentStandingDto),
         success: function () {
             console.log("success");
+            location.reload();
         },
         error: function () {
             console.log("failed");
