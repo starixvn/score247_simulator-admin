@@ -20,6 +20,7 @@
 
 function GenerateLeagueFixture(e) {
     e.preventDefault();
+    $("#CreateFixtureSpinner").removeClass("d-none");
     var leagueId = $("#LeagueFixtureSelect").val();
     console.log(leagueId);
     $.ajax({
@@ -27,6 +28,9 @@ function GenerateLeagueFixture(e) {
         url: urlPrefix() + '/League/GenerateFixture?leagueId=' + leagueId,
         contentType: "application/json; charset=utf-8",
         success: function () {
+            $("#CreateFixtureSpinner").addClass("d-none");
+            
+            $("#CreateLeagueFixtureModal").modal("hide");
             console.log("success");
         },
         error: function () {
