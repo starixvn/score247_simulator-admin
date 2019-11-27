@@ -2,7 +2,7 @@
     e.preventDefault();
     $.ajax({
         type: "GET",
-        url: urlPrefix() + 'League/GetActives',
+        url: urlPrefix() + '/League/GetActives',
         contentType: "application/json; charset=utf-8",
         success: function (leagues) {
             $("#LeagueFixtureSelect").text = "";
@@ -16,7 +16,7 @@
             console.log("failed");
         }
     });
-} 
+}
 
 function GenerateLeagueFixture(e) {
     e.preventDefault();
@@ -24,10 +24,9 @@ function GenerateLeagueFixture(e) {
     console.log(leagueId);
     $.ajax({
         type: "POST",
-        url: urlPrefix() + 'League/GenerateFixture?leagueId=' + leagueId,
+        url: urlPrefix() + '/League/GenerateFixture?leagueId=' + leagueId,
         contentType: "application/json; charset=utf-8",
         success: function () {
-
             console.log("success");
         },
         error: function () {
