@@ -369,6 +369,7 @@ function applyEvent(missing) {
         data: JSON.stringify(matchPushEventDto),
         success: function () {
             console.log("success");
+            location.reload();
         },
         error: function () {
             console.log("failed");

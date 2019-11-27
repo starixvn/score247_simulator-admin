@@ -370,7 +370,7 @@ namespace Score247.Management.Site.Controllers
         {
             await matchEventsService.SendEventTimeline(matchPushEventDto, eventMissed);
 
-            return RedirectToAction(nameof(Details), new { matchPushEventDto.metadata.sport_event_id });
+            return Json(true);
         }
 
         [HttpPost]
