@@ -23,13 +23,13 @@
 }
 
 function applyLineups(matchId) {
-    var lineUpsDto = $("#lineupsDataRaw").val();
+    var lineUpsDto = JSON.parse($("#lineupsDataRaw").val());
     $.ajax({
         type: "POST",
         url: urlPrefix() + '/Match/Lineups/' + matchId,
         contentType: "application/json; charset=utf-8",
         dataType: "json",
-        data: lineUpsDto,
+        data: JSON.stringify(lineUpsDto),
         success: function () {
             console.log("success");
         },
@@ -85,13 +85,13 @@ function generateH2HData(matchId, e) {
 }
 
 function applyH2H(matchId) {
-    var h2HDto = $("#H2HRequestDataRaw").val();
+    var h2HDto = JSON.parse($("#H2HRequestDataRaw").val());
     $.ajax({
         type: "POST",
         url: urlPrefix() + '/Team/H2H/Apply/' + matchId,
         contentType: "application/json; charset=utf-8",
         dataType: "json",
-        data: h2HDto,
+        data: JSON.stringify(h2HDto),
         success: function () {
             console.log("success");
         },
@@ -144,13 +144,13 @@ function generateTeamResultData(matchId, e) {
 }
 
 function applyTeamResult(matchId) {
-    var teamResultDto = $("#H2HRequestDataRaw").val();
+    var teamResultDto = JSON.parse($("#H2HRequestDataRaw").val());
     $.ajax({
         type: "POST",
         url: urlPrefix() + '/Team/Results/Apply/' + matchId,
         contentType: "application/json; charset=utf-8",
         dataType: "json",
-        data: teamResultDto,
+        data: JSON.stringify(teamResultDto),
         success: function () {
             console.log("success");
         },
@@ -319,14 +319,14 @@ function generateStandingData(matchId, e) {
 }
 
 function applyStanding() {
-    var tournamentStandingDto = $("#leagueStandingDataRaw").val();
+    var tournamentStandingDto = JSON.parse($("#leagueStandingDataRaw").val());
     console.log(tournamentStandingDto);
     $.ajax({
         type: "POST",
         url: urlPrefix() + '/League/Standing/Apply',
         contentType: "application/json; charset=utf-8",
         dataType: "json",
-        data: tournamentStandingDto,
+        data: JSON.stringify(tournamentStandingDto),
         success: function () {
             console.log("success");
         },
@@ -360,13 +360,13 @@ function generateEventData(matchId, formId, eventType, e) {
 }
 
 function applyEvent(missing) {
-    var matchPushEventDto = $("#eventDataRaw").val();
+    var matchPushEventDto = JSON.parse($("#eventDataRaw").val());
     $.ajax({
         type: "POST",
         url: urlPrefix() + `/Match/Event/Apply?eventMissed=${missing}`,
         contentType: "application/json; charset=utf-8",
         dataType: "json",
-        data: matchPushEventDto,
+        data: JSON.stringify(matchPushEventDto),
         success: function () {
             console.log("success");
         },

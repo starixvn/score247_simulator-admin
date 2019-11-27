@@ -150,6 +150,7 @@
         public async Task SendMatchEvent(MatchPushEventDto matchPushEvent, bool eventMissed = false, int delay = 2000)
         {
             var matchRepository = new MatchRepository();
+            await matchRepository.InsertTimelineLog(matchPushEvent);
             if (!eventMissed)
             {
                 using (var client = new HttpClient())
@@ -163,7 +164,6 @@
                 }
             }
 
-            await matchRepository.InsertTimelineLog(matchPushEvent);
             await Task.Delay(delay);
         }
 
