@@ -150,6 +150,16 @@
         <div class="col-md-6">
             <div class="col-md-6">
                 <div class="form-group">
+                    <label asp-for="Match.Season.Id" class="control-label">Season Id</label>
+                    <input asp-for="Match.Season.Id" class="form-control" />
+                    <span asp-validation-for="Match.Season.Id" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Match.Season.Name" class="control-label">Season Name</label>
+                    <input asp-for="Match.Season.Name" class="form-control" />
+                    <span asp-validation-for="Match.Season.Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
                     <label asp-for="Match.Venue.Name" class="control-label">Venue Name</label>
                     <input asp-for="Match.Venue.Name" class="form-control" />
                     <span asp-validation-for="Match.Venue.Name" class="text-danger"></span>

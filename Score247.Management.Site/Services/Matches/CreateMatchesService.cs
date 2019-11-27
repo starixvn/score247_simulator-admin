@@ -52,6 +52,8 @@ namespace Score247.Management.Site.Services.Matches
         private readonly IH2HService h2HService;
         private readonly ILogger logger;
 
+#pragma warning disable S107 // Methods should not have too many parameters
+
         public CreateMatchesService(ISimulatorService simulatorService,
             ITriggerJobService triggerJobService,
             IConfiguration configuration,
@@ -61,6 +63,7 @@ namespace Score247.Management.Site.Services.Matches
             ILineupService lineupService,
             IH2HService h2HService,
             ILogger logger)
+#pragma warning restore S107 // Methods should not have too many parameters
         {
             this.simulatorService = simulatorService;
             this.triggerJobService = triggerJobService;
@@ -79,6 +82,7 @@ namespace Score247.Management.Site.Services.Matches
             var leagueRepo = new LeagueRepository();
             var teamsRepository = new TeamRepository();
             var teams = (await teamsRepository.GetTeams())
+#pragma warning disable S1067 // Expressions should not be too complex
                  .Where(x => !x.Name.Contains("+")
                              && !x.Name.Contains("-")
                              && !x.Name.Contains("(PEN)")
@@ -87,6 +91,7 @@ namespace Score247.Management.Site.Services.Matches
                              && !x.Name.Contains("(R)")
                              && !x.Name.Contains("Kick")
                              && !x.Name.Contains("Corner"))
+#pragma warning restore S1067 // Expressions should not be too complex
                  .ToList();
             var activeLeagues = await leagueRepo.GetActiveLeagues();
             var splitTeamPosition = (teams.Count - 1) / 2;
@@ -216,6 +221,15 @@ namespace Score247.Management.Site.Services.Matches
                 Group = collection["Match.TournamentRound.Group"],
                 CupRoundMatches = haveCupRoundMatches ? (int?)tournamentCupRoundMatches : null,
                 CupRoundMatchNumber = haveCupRoundMatchNumber ? (int?)tournamentCupRoundMatchNumber : null
+            };
+            newMatch.Season = new Score247Management.Core.Leagues.Models.LeagueSeason
+            {
+                Id = collection["Match.Season.Id"],
+                Name = collection["Match.Season.Name"],
+                TournamentId = leagueId,
+                StartDate = DateTime.Now,
+                EndDate = DateTime.Now,
+                Year = DateTime.Now.Year.ToString()
             };
             var beginningUtcToday = DateTimeHelper.GetBeginingOfDate(DateTime.UtcNow);
             if (newMatch.Scheduled < beginningUtcToday)

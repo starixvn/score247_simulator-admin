@@ -57,6 +57,11 @@ namespace Score247.Management.Site.Models
                 Phase = "Round",
                 Group = "A"
             };
+            Season = new LeagueSeason
+            {
+                Id = UniqueGenerator.GetIdWithPattern("sr:season:"),
+                Name = "Season 1"
+            };
             Coverage = new Coverage(true, "", true, true, true, true, true);
         }
 
