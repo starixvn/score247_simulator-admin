@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
@@ -27,6 +28,8 @@ namespace Score247.Management.Site.Services
         Task ApplyMajorLeagues();
 
         Task<TournamentStandingDto> GetDefaultLeagueStanding(string matchId);
+
+        Task ApplyStanding(TournamentStandingDto tournamentStandingDto);
     }
 
     public class LeagueService : ILeagueService
@@ -34,12 +37,14 @@ namespace Score247.Management.Site.Services
         private IConfiguration configuration { get; }
         private readonly ITriggerJobService triggerJobService;
         private readonly ISimulatorFileService simulatorFileService;
+        private readonly ISimulatorService simulatorService;
 
-        public LeagueService(IConfiguration configuration, ITriggerJobService triggerJobService, ISimulatorFileService simulatorFileService)
+        public LeagueService(IConfiguration configuration, ITriggerJobService triggerJobService, ISimulatorFileService simulatorFileService, ISimulatorService simulatorService)
         {
             this.configuration = configuration;
             this.triggerJobService = triggerJobService;
             this.simulatorFileService = simulatorFileService;
+            this.simulatorService = simulatorService;
         }
 
         public async Task<bool> SyncSportradarLeague()
@@ -148,8 +153,35 @@ namespace Score247.Management.Site.Services
 
             standing.tournament = SportEventMapper.MapTournament(match.League);
             standing.season = SportEventMapper.MapSeason(match.League.LeagueSeason);
+            var rand = new Random();
+
+            foreach (var groupStanding in standing.standings)
+            {
+                var groups = groupStanding.groups.ToList();
+                var group = groups[rand.Next(groups.Count)];
+
+                var teams = group.team_standings.ToList();
+                var posHome = rand.Next(teams.Count);
+                var posAway = rand.Next(teams.Count);
+                while (posAway == posHome)
+                {
+                    posAway = rand.Next(teams.Count);
+                }
+
+                teams[posHome].team.id = match.Teams.ElementAt(0).Id;
+                teams[posHome].team.name = match.Teams.ElementAt(0).Name;
+
+                teams[posAway].team.id = match.Teams.ElementAt(1).Id;
+                teams[posAway].team.name = match.Teams.ElementAt(1).Name;
+            }
 
             return standing;
+        }
+
+        public async Task ApplyStanding(TournamentStandingDto tournamentStandingDto)
+        {
+            await simulatorService.SendTournamentStanding(tournamentStandingDto);
+            await triggerJobService.TriggerFetchLiveMatch();
         }
     }
 }

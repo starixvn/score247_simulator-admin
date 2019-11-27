@@ -13,6 +13,7 @@
     using Score247.Management.Site.Models;
     using System.Linq;
     using System.Collections.Generic;
+    using Score247.Management.Site.Models.Dtos;
 
     public interface ISimulatorService
     {
@@ -45,6 +46,8 @@
         Task SendLineups(LineUpsDto lineUpsDto);
 
         Task SendH2H(H2HDto h2HDto);
+
+        Task SendTournamentStanding(TournamentStandingDto tournamentStandingDto);
     }
 
     public class SimulatorService : ISimulatorService
@@ -212,6 +215,17 @@
                 var requestPath = configuration.GetValue<string>("Simulator:TeamResult");
 
                 await client.PostAsJsonAsync(requestPath, teamResultDto);
+            }
+        }
+
+        public async Task SendTournamentStanding(TournamentStandingDto tournamentStandingDto)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(configuration.GetValue<string>("Simulator:Url"));
+                var requestPath = configuration.GetValue<string>("Simulator:TournamentStandings");
+
+                await client.PostAsJsonAsync(requestPath, tournamentStandingDto);
             }
         }
 

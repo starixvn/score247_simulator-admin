@@ -15,7 +15,7 @@ namespace Score247.Management.Site.Controllers
     {
         private ILeagueService leagueService { get; }
 
-        public LeagueController(ILeagueService leagueService)
+        public LeagueController(ILeagueService leagueService, ISimulatorService simulatorService)
         {
             this.leagueService = leagueService;
         }
@@ -109,6 +109,7 @@ namespace Score247.Management.Site.Controllers
         [HttpPost("League/Standing/Apply")]
         public async Task<ActionResult> ApplyLeagueStandingInitData([FromBody] TournamentStandingDto tournamentStandingDto)
         {
+            await leagueService.ApplyStanding(tournamentStandingDto);
             return Json(true);
         }
     }
