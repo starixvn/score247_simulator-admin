@@ -7,7 +7,7 @@
         url: urlPrefix() + '/Match/Lineups?matchId=' + matchId + '&' + values,
         contentType: "application/json; charset=utf-8",
         success: function (lineupsDto) {
-            $("#lineupsDataRaw").val(JSON.stringify(lineupsDto));
+            $("#lineupsDataRaw").val(JSON.stringify(lineupsDto, null, '\t'));
             $('#btnApplyLineups').on("click", function () {
                 applyLineups(matchId);
             });
@@ -69,7 +69,7 @@ function generateH2HData(matchId, e) {
         url: urlPrefix() + '/Team/H2H/Generate?matchId=' + matchId + '&' + values,
         contentType: "application/json; charset=utf-8",
         success: function (h2HDto) {
-            $("#H2HRequestDataRaw").val(JSON.stringify(h2HDto));
+            $("#H2HRequestDataRaw").val(JSON.stringify(h2HDto, null, '\t'));
             $('#btnApplyH2H').on("click", function () {
                 applyH2H(matchId);
             });
@@ -128,7 +128,7 @@ function generateTeamResultData(matchId, e) {
         url: urlPrefix() + '/Team/Results/Generate?matchId=' + matchId + '&' + values,
         contentType: "application/json; charset=utf-8",
         success: function (teamResultDto) {
-            $("#H2HRequestDataRaw").val(JSON.stringify(teamResultDto));
+            $("#H2HRequestDataRaw").val(JSON.stringify(teamResultDto, null, '\t'));
             $('#btnApplyH2H').on("click", function () {
                 applyTeamResult(matchId);
             });
@@ -288,9 +288,11 @@ function scoreAssistChange(selectObject) {
 
 function FormatJsonRawData(rawDataTextarea, targetDiv) {
     var jsonRaw = $("#" + rawDataTextarea).val();
+    var jsonObj = JSON.parse(jsonRaw);
+    console.log(jsonObj);
     $("#" + targetDiv).text("");
     let target = '#' + targetDiv;
-    jsonView.format(jsonRaw, target);
+    jsonView.format(jsonObj, target);
 }
 
 //league standing
@@ -301,7 +303,7 @@ function generateStandingData(matchId, e) {
         url: urlPrefix() + '/League/Standing?matchId=' + matchId,
         contentType: "application/json; charset=utf-8",
         success: function (tournamentStandingDto) {
-            $("#leagueStandingDataRaw").val(JSON.stringify(tournamentStandingDto));
+            $("#leagueStandingDataRaw").val(JSON.stringify(tournamentStandingDto, null, '\t'));
             $('#btnApplyStanding').on("click", function () {
                 applyStanding();
             });
@@ -345,7 +347,7 @@ function generateEventData(matchId, formId, eventType, e) {
         data: form,
         dataType: 'json',
         success: function (eventData) {
-            $("#eventDataRaw").val(JSON.stringify(eventData));
+            $("#eventDataRaw").val(JSON.stringify(eventData, null, '\t'));
             $("#eventRequestContent").text("");
             let target = '#eventRequestContent';
             jsonView.format(eventData, target);
