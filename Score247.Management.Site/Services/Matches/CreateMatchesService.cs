@@ -231,6 +231,9 @@ namespace Score247.Management.Site.Services.Matches
                 EndDate = DateTime.Now,
                 Year = DateTime.Now.Year.ToString()
             };
+
+            newMatch.Tournament.LeagueSeason = newMatch.Season;
+
             var beginningUtcToday = DateTimeHelper.GetBeginingOfDate(DateTime.UtcNow);
             if (newMatch.Scheduled < beginningUtcToday)
             {
