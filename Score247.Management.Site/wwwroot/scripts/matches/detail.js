@@ -353,8 +353,8 @@ function generateEventData(matchId, formId, eventType, e) {
             jsonView.format(eventData, target);
             $('#eventRequest').modal();
         },
-        error: function () {
-            console.log("failed");
+        error: function (error) {
+            console.log("failed" + error);
         }
     });
 }
