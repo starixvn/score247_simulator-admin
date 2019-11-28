@@ -159,7 +159,8 @@ namespace Score247.Management.Site.Services
             }
 
             standing.tournament = SportEventMapper.MapTournament(match.League);
-            standing.season = SportEventMapper.MapSeason(match.League.LeagueSeason);
+            standing.tournament.current_season = SportEventMapper.MapSeason(match.LeagueSeason);
+            standing.season = SportEventMapper.MapSeason(match.LeagueSeason);
             var rand = new Random();
 
             foreach (var groupStanding in standing.standings)
