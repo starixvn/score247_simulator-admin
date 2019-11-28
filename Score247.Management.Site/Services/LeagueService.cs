@@ -207,10 +207,12 @@ namespace Score247.Management.Site.Services
 
             var schedule = await simulatorFileService.GetTournamentSchedule();
             schedule.generated_at = DateTime.Now;
-            schedule.tournament = tournament;
+            schedule.tournament.id = tournament.id;
+            schedule.tournament.name = tournament.name;
             foreach (var sportEveht in schedule.sport_events)
             {
-                sportEveht.tournament = tournament;
+                sportEveht.tournament.id = tournament.id;
+                sportEveht.tournament.name = tournament.name;
                 sportEveht.season.tournament_id = tournament.id;
                 sportEveht.id = UniqueGenerator.GetIdWithPattern("sr:match:");
 

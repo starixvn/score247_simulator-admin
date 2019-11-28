@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Score247.Management.Site.Models.Events
 {
@@ -14,10 +15,20 @@ namespace Score247.Management.Site.Models.Events
     {
         public string id { get; set; }
         public string name { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Sport sport { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Category category { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Season current_season { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Season_Coverage_Info season_coverage_info { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public CoverageInfoDto coverage_info { get; set; }
     }
 
