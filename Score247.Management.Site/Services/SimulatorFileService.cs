@@ -35,6 +35,8 @@ namespace Score247.Management.Site.Services
         Task<MatchTimelineDto> GetRandomTimelime();
 
         Task<TournamentScheduleDto> GetTournamentSchedule();
+
+        Task<MatchTimelineDto> GetNotStartTimelime();
     }
 
     public class SimulatorFileService : ISimulatorFileService
@@ -54,6 +56,14 @@ namespace Score247.Management.Site.Services
             }
 
             return timelines;
+        }
+
+        public async Task<MatchTimelineDto> GetNotStartTimelime()
+        {
+            var path = $"{DirectoryRoot}\\timeline-notstart.json";
+            var jsonData = await File.ReadAllTextAsync(path);
+
+            return JsonConvert.DeserializeObject<MatchTimelineDto>(jsonData);
         }
 
         public async Task<MatchTimelineDto> GetRandomTimelime()

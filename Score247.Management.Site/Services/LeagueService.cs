@@ -220,9 +220,22 @@ namespace Score247.Management.Site.Services
                 {
                     await SendTimelineForMatch(sportEveht);
                 }
+                else
+                {
+                    await SendNotStartTimelineForMatch(sportEveht);
+                }
             }
 
             await simulatorService.SendTournamentSchedule(schedule);
+        }
+
+        private async Task SendNotStartTimelineForMatch(Sport_Event sportEveht)
+        {
+            var timeline = await simulatorFileService.GetNotStartTimelime();
+
+            var sportTimeline = TimelineMapper.MapTimelinetoSportEvent(sportEveht, timeline);
+
+            await simulatorService.SendMatchTimelines(sportTimeline);
         }
 
         private async Task SendTimelineForMatch(Sport_Event sportEveht)

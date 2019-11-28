@@ -93,6 +93,7 @@ namespace Score247.Management.Site.Models.Events
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Clock clock { get; set; }
 
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public IEnumerable<Period_Scores> period_scores { get; set; }
     }
 

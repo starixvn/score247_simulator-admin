@@ -1,0 +1,87 @@
+{
+  "generated_at": "2019-11-28T06:56:12+00:00",
+  "schema": "http:\/\/schemas.sportradar.com\/bsa\/soccer\/v1\/json\/endpoints\/soccer\/match_timeline.json",
+  "sport_event": {
+    "id": "sr:match:18428238",
+    "scheduled": "2020-05-02T14:00:00+00:00",
+    "start_time_tbd": true,
+    "tournament_round": {
+      "type": "group",
+      "number": 36,
+      "phase": "regular season"
+    },
+    "season": {
+      "id": "sr:season:66441",
+      "name": "Premier League 19\/20",
+      "start_date": "2019-08-09",
+      "end_date": "2020-05-18",
+      "year": "19\/20",
+      "tournament_id": "sr:tournament:17"
+    },
+    "tournament": {
+      "id": "sr:tournament:17",
+      "name": "Premier League",
+      "sport": {
+        "id": "sr:sport:1",
+        "name": "Soccer"
+      },
+      "category": {
+        "id": "sr:category:1",
+        "name": "England",
+        "country_code": "ENG"
+      }
+    },
+    "competitors": [
+      {
+        "id": "sr:competitor:38",
+        "name": "Chelsea FC",
+        "country": "England",
+        "country_code": "ENG",
+        "abbreviation": "CFC",
+        "qualifier": "home"
+      },
+      {
+        "id": "sr:competitor:263",
+        "name": "Norwich City",
+        "country": "England",
+        "country_code": "ENG",
+        "abbreviation": "NOR",
+        "qualifier": "away"
+      }
+    ],
+    "venue": {
+      "id": "sr:venue:799",
+      "name": "Stamford Bridge",
+      "capacity": 41798,
+      "city_name": "London",
+      "country_name": "England",
+      "map_coordinates": "51.481579,-0.191094",
+      "country_code": "ENG"
+    }
+  },
+  "sport_event_conditions": {
+    "venue": {
+      "id": "sr:venue:799",
+      "name": "Stamford Bridge",
+      "capacity": 41798,
+      "city_name": "London",
+      "country_name": "England",
+      "map_coordinates": "51.481579,-0.191094",
+      "country_code": "ENG"
+    }
+  },
+  "sport_event_status": {
+    "status": "not_started"
+  },
+  "coverage_info": {
+    "level": "gold",
+    "live_coverage": true,
+    "coverage": {
+      "basic_score": true,
+      "key_events": true,
+      "detailed_events": true,
+      "lineups": true,
+      "commentary": true
+    }
+  }
+}
