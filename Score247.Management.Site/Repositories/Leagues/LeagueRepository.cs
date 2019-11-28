@@ -135,6 +135,11 @@ namespace Score247.Management.Site.Repositories.Leagues
             return await repository.ExecuteAsync(criteria);
         }
 
+        public async Task<int> RemoveLeagueSeason(RemoveLeagueSeasonCommand command)
+        {
+            return await repository.ExecuteAsync(command);
+        }
+
         public async Task<int> CreateLeageCategory(CreateLeagueCategoryCriteria criteria)
         {
             return await repository.ExecuteAsync(criteria);

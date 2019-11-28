@@ -11,6 +11,7 @@
     <Setting Key="Admin_League_UpdateActiveStatus" SpName="Admin_League_UpdateActiveStatus" DbName="DevConnection" />
     <Setting Key="Admin_League_EnableAll" SpName="Admin_League_EnableAll" DbName="DevConnection" />
     <Setting Key="Admin_League_EnableMajor" SpName="Admin_League_EnableMajor" DbName="DevConnection" />
+    <Setting Key="Admin_League_RemoveLeagueSeason" SpName="Admin_League_RemoveLeagueSeason" DbName="DevConnection" />
   </Function>
   <Function Name="Team">
     <Setting Key="Team_GetTeam" SpName="Team_GetTeam" DbName="DefaultConnection">

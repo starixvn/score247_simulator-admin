@@ -123,6 +123,12 @@ namespace Score247.Management.Site.Services
             var command = new UpdateActiveStatusCommand { IsActive = !league.IsActive, LeagueId = id };
             await leagueRepository.UpdateLeagueActiveStatus(command);
             await triggerJobService.TriggerFetchCleanMajorLeagueCache();
+            if (league.IsActive)
+            {
+                var removeSeasonCommand = new RemoveLeagueSeasonCommand(id);
+                await leagueRepository.RemoveLeagueSeason(removeSeasonCommand);
+            }
+            await triggerJobService.TriggerFetchLeaguesSeason();
         }
 
         public async Task EnableMajorLeague()
