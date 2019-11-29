@@ -107,7 +107,9 @@ namespace Score247.Management.Site.Models.Events
         public int home_score { get; set; }
         public int away_score { get; set; }
         public string type { get; set; }
-        public int number { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public int? number { get; set; }
     }
 
     public class Statistics

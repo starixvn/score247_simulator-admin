@@ -16,6 +16,6 @@
         public PeriodType PeriodType { get; set; }
 
         [Key(3)]
-        public int Number { get; set; }
+        public int? Number { get; set; }
     }
 }

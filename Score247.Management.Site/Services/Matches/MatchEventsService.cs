@@ -247,7 +247,7 @@ namespace Score247.Management.Site.Services.Matches
 
             requestBody.payload.timeline.match_time = 120;
             requestBody.payload.timeline.match_clock = "120:00";
-            requestBody.payload.sport_event_status.clock = new Clock()
+            requestBody.payload.sport_event_status.clock = new Clock
             {
                 match_time = "120:00"
             };

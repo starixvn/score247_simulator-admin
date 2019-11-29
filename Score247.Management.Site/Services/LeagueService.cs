@@ -100,7 +100,7 @@ namespace Score247.Management.Site.Services
         private async Task InseartLeague(League league, string region)
         {
             var repo = new LeagueRepository();
-            var criteria = new CreateLeagueCriteria()
+            var criteria = new CreateLeagueCriteria
             {
                 LeagueId = league.Id,
                 CategoryId = league.LeagueCategory?.Id,

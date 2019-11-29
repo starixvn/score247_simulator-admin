@@ -44,5 +44,6 @@
     <Setting Key="Admin_Match_DeleteLiveMatch" SpName="Admin_Match_DeleteLiveMatch" DbName="DevConnection" />
     <Setting Key="Admin_Match_DeleteAll" SpName="Admin_Match_DeleteAll" DbName="DevConnection" />
     <Setting Key="Admin_Match_DeleteById" SpName="Admin_Match_DeleteById" DbName="DevConnection" />
+    <Setting Key="Match_DeleteTimelineById" SpName="Match_DeleteTimelineById" DbName="DefaultConnection" />
   </Function>
 </Functions>

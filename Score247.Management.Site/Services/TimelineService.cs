@@ -13,7 +13,6 @@ namespace Score247.Management.Site.Services
     using System.Threading.Tasks;
     using Newtonsoft.Json;
     using Score247.Management.Site.Models;
-    using Score247Management.Core.Enumerations;
     using Score247Management.Core.Matches.Models;
     using Score247Management.Core.Scenarios.Models;
 
@@ -30,6 +29,8 @@ namespace Score247.Management.Site.Services
         Task UpdatePreMatchInfo(Match match);
 
         Task<MatchResult> GetMatchLatestResult(string matchId);
+
+        Task RemoveTimeline(string matchId, string timelineId);
     }
 
     public class TimelineService : ITimelineService
@@ -89,7 +90,7 @@ namespace Score247.Management.Site.Services
             var matchTimelineDto = new MatchTimelineDto
             {
                 generated_at = match.EventDate,
-                schema = "http://schemas.sportradar.com/bsa/soccer/v1/json/endpoints/soccer/match_timeline.json",
+                schema = "",
                 sport_event = SportEventMapper.MapSportEvent(match),
                 sport_event_status = null,
                 timeline = null,
@@ -118,6 +119,73 @@ namespace Score247.Management.Site.Services
             var result = MatchMapper.MapMatchResult(payload);
 
             return result;
+        }
+
+        public async Task RemoveTimeline(string matchId, string timelineId)
+        {
+            var matchRepo = new MatchRepository();
+            var timelines = (await matchRepo.GetMatchTimelineLogs(matchId))
+                .Select(timelineLog => JsonConvert.DeserializeObject<MatchPushEventDto>(timelineLog.Value))
+                .OrderBy(tl => tl.payload.timeline.time)
+                .ToList();
+
+            var timelinePos = timelines.FindLastIndex(tl => tl.payload.timeline.id.ToString() == timelineId);
+            var deleteTimeline = timelines[timelinePos];
+            if (deleteTimeline.payload.timeline.type == "scored_change")
+            {
+                var teamAward = deleteTimeline.payload.timeline.team;
+                for (int i = timelinePos + 1; i < timelines.Count; i++)
+                {
+                    timelines[i] = UpdateScore(-1, teamAward, (int)deleteTimeline.payload.timeline.period, deleteTimeline.payload.timeline.period_type, timelines[i]);
+                }
+            }
+
+            if (deleteTimeline.payload.timeline.period_type == PeriodType.Penalties.DisplayName)
+            {
+                var teamAward = deleteTimeline.payload.timeline.team;
+                var pointChange = deleteTimeline.payload.timeline.status == "scored" ? -1 : 0;
+                for (int i = timelinePos + 1; i < timelines.Count; i++)
+                {
+                    timelines[i] = UpdatePenaltyScore(pointChange, teamAward, timelines[i]);
+                }
+            }
+
+            await matchRepo.DeleteTimeline(timelineId);
+            await SendMatchTimeline(matchId);
+        }
+
+        private static MatchPushEventDto UpdatePenaltyScore(int scoreCount, string team, MatchPushEventDto timeline)
+        {
+            var homeScoreChange = team == "home" ? scoreCount : 0;
+            var awayScoreChange = team == "away" ? scoreCount : 0;
+
+            var preiodScore = timeline.payload.sport_event_status.period_scores.FirstOrDefault(pc => pc.type == "penalties");
+            if (preiodScore != null)
+            {
+                preiodScore.home_score += homeScoreChange;
+                preiodScore.away_score += awayScoreChange;
+            }
+
+            return timeline;
+        }
+
+        private static MatchPushEventDto UpdateScore(int scoreCount, string team, int period, string periodType, MatchPushEventDto timeline)
+        {
+            var homeScoreChange = team == "home" ? scoreCount : 0;
+            var awayScoreChange = team == "away" ? scoreCount : 0;
+            timeline.payload.sport_event_status.home_score += homeScoreChange;
+            timeline.payload.sport_event_status.away_score += awayScoreChange;
+            timeline.payload.timeline.home_score += homeScoreChange;
+            timeline.payload.timeline.away_score += awayScoreChange;
+
+            var preiodScore = timeline.payload.sport_event_status.period_scores.FirstOrDefault(pc => pc.number == period && pc.type == periodType);
+            if (preiodScore != null)
+            {
+                preiodScore.home_score += homeScoreChange;
+                preiodScore.away_score += awayScoreChange;
+            }
+
+            return timeline;
         }
 
         private async Task<MatchTimelineDto> BuildCurrentMatchTimeline(string matchId)
@@ -161,7 +229,7 @@ namespace Score247.Management.Site.Services
             return matchTimelineDto;
         }
 
-        private Statistics BuildStatisticFormCustomStatistic(Statistic customStatistic, Statistics statistics)
+        private static Statistics BuildStatisticFormCustomStatistic(Statistic customStatistic, Statistics statistics)
         {
             var newStatistics = statistics.teams.Select(team =>
             {
@@ -174,7 +242,7 @@ namespace Score247.Management.Site.Services
             return statistics;
         }
 
-        private async Task<bool> CheckMatchNotStart(string matchId)
+        private static async Task<bool> CheckMatchNotStart(string matchId)
         {
             var matchRepository = new MatchRepository();
             var match = await matchRepository.GetMatchById(matchId);
@@ -200,8 +268,7 @@ namespace Score247.Management.Site.Services
 
             var ballPossession = new Random().Next(10, 90);
             statistic.teams.ElementAt(0).statistics.ball_possession = ballPossession;
-            statistic.teams.ElementAt(1).statistics.ball_possession =
-                100 - statistic.teams.ElementAt(0).statistics.ball_possession;
+            statistic.teams.ElementAt(1).statistics.ball_possession = 100 - statistic.teams.ElementAt(0).statistics.ball_possession;
 
             return statistic;
         }
@@ -270,7 +337,7 @@ namespace Score247.Management.Site.Services
 
         private static Team InitTeamStatistic(Competitor competitor)
         {
-            var team = new Team()
+            var team = new Team
             {
                 id = competitor.id,
                 name = competitor.name,
@@ -289,15 +356,15 @@ namespace Score247.Management.Site.Services
                 generated_at = match.Scheduled,
                 schema = "http://schemas.sportradar.com/bsa/soccer/v1/json/endpoints/soccer/match_timeline.json",
                 sport_event = SportEventMapper.MapSportEvent(match),
-                sport_event_conditions = new Sport_Event_Conditions()
+                sport_event_conditions = new Sport_Event_Conditions
                 {
                     venue = SportEventMapper.MapVenueDto(match.Venue),
-                    referee = new Referee()
+                    referee = new Referee
                     {
                         name = match.Referee
                     }
                 },
-                sport_event_status = new Sport_Event_Status()
+                sport_event_status = new Sport_Event_Status
                 {
                     status = "not_started"
                 },

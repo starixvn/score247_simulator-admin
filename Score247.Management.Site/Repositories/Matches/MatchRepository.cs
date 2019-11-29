@@ -45,7 +45,7 @@ namespace Score247.Management.Site.Repositories.Matches
         public async Task<IEnumerable<TimelineEvent>> GetMatchTimelines(string id)
         {
             var timelinesLogs = await GetMatchTimelineLogs(id);
-            var timelines = await repository.FetchAsync<TimelineEvent>(new GetMatchTimelineCriteria() { MatchId = id });
+            var timelines = await repository.FetchAsync<TimelineEvent>(new GetMatchTimelineCriteria { MatchId = id });
             var result = timelines.Select(x => x.DeserialValue()).OrderBy(x => x.Time).ToList();
             result.ForEach(x =>
             {
@@ -58,8 +58,8 @@ namespace Score247.Management.Site.Repositories.Matches
 
         public async Task<IEnumerable<TimelineEvent>> GetMatchTimelines(string id, TimeSpan offset)
         {
-            var timelinesLogs = await repository.FetchAsync<TimelineLog>(new GetMatchTimelineLogCriteria() { Id = id });
-            var timelines = await repository.FetchAsync<TimelineEvent>(new GetMatchTimelineCriteria() { MatchId = id });
+            var timelinesLogs = await repository.FetchAsync<TimelineLog>(new GetMatchTimelineLogCriteria { Id = id });
+            var timelines = await repository.FetchAsync<TimelineEvent>(new GetMatchTimelineCriteria { MatchId = id });
             var result = timelines.Select(x => x.DeserialValue(offset)).OrderByDescending(x => x.Time).ToList();
             result.ForEach(x =>
             {
@@ -72,7 +72,7 @@ namespace Score247.Management.Site.Repositories.Matches
 
         public async Task<IEnumerable<MatchPushEventDto>> GetMatchTimelinesLog(string id)
         {
-            var timelinesLogs = await repository.FetchAsync<TimelineLog>(new GetMatchTimelineLogCriteria() { Id = id });
+            var timelinesLogs = await repository.FetchAsync<TimelineLog>(new GetMatchTimelineLogCriteria { Id = id });
 
             var result = timelinesLogs.Select(timelineLog =>
                 JsonConvert.DeserializeObject<MatchPushEventDto>(timelineLog.Value)).OrderBy(x => x.payload.timeline.time).ToList();
@@ -82,7 +82,7 @@ namespace Score247.Management.Site.Repositories.Matches
 
         public async Task<MatchPushEventDto> GetLatestMatchTimelinesLog(string id)
         {
-            var timelinesLogs = await repository.FetchAsync<TimelineLog>(new GetMatchTimelineLogCriteria() { Id = id });
+            var timelinesLogs = await repository.FetchAsync<TimelineLog>(new GetMatchTimelineLogCriteria { Id = id });
 
             var result = timelinesLogs.Select(timelineLog =>
                 JsonConvert.DeserializeObject<MatchPushEventDto>(timelineLog.Value)).OrderByDescending(x => x.payload.timeline.time).FirstOrDefault();
@@ -97,7 +97,6 @@ namespace Score247.Management.Site.Repositories.Matches
                 Id = eventDto.payload.timeline.id.ToString(),
                 MatchId = eventDto.metadata.sport_event_id,
                 TimelineId = eventDto.payload.timeline.id,
-                RequestBody = JsonConvert.SerializeObject(eventDto),
                 IsTimeline = true
             };
             return await repository.ExecuteAsync(criteria);
@@ -121,7 +120,7 @@ namespace Score247.Management.Site.Repositories.Matches
 
         public async Task<int> DeleteLiveMatches(int count)
         {
-            return await repository.ExecuteAsync(new DeleteLiveMatchCriteria() { LimitCount = count });
+            return await repository.ExecuteAsync(new DeleteLiveMatchCriteria { LimitCount = count });
         }
 
         public async Task<int> DeleteAllMatches()
@@ -131,13 +130,18 @@ namespace Score247.Management.Site.Repositories.Matches
 
         public async Task<int> DeleteMatchByDate(DateTime fromDate, DateTime toDate, int limitCount)
         {
-            var criteria = new DeleteMatchByDateCriteria() { FromDate = fromDate, ToDate = toDate, LimitCount = limitCount };
+            var criteria = new DeleteMatchByDateCriteria { FromDate = fromDate, ToDate = toDate, LimitCount = limitCount };
             return await repository.ExecuteAsync(criteria);
         }
 
         public async Task<int> DeleteMatchById(string id)
         {
-            return await repository.ExecuteAsync(new DeleteMatchByIdCriteria() { Id = id });
+            return await repository.ExecuteAsync(new DeleteMatchByIdCriteria { Id = id });
+        }
+
+        public async Task<int> DeleteTimeline(string timelineId)
+        {
+            return await repository.ExecuteAsync(new DeleteTimelineByIdCriteria { TimelineId = timelineId });
         }
     }
 }
