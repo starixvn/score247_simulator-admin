@@ -329,7 +329,9 @@ namespace Score247.Management.Site.Services.Matches
             var match = await matchRepository.GetMatchById(id);
             var requestBody = await InitEvent(id, collection, offset);
 
-            if (string.IsNullOrWhiteSpace(collection["aggregate_winner_id"]))
+            var winner2ndLeg = (string)collection["aggregate_winner_id"];
+
+            if (winner2ndLeg != "null")
             {
                 requestBody.payload.sport_event_status.aggregate_away_score =
                 collection.ContainsKey("aggregate_away_score")
