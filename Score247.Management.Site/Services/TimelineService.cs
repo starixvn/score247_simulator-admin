@@ -104,21 +104,30 @@ namespace Score247.Management.Site.Services
         public async Task<MatchResult> GetMatchLatestResult(string matchId)
         {
             var matchRepo = new MatchRepository();
-            var timelines = (await matchRepo.GetMatchTimelineLogs(matchId))
+            var timelinelogs = await matchRepo.GetMatchTimelineLogs(matchId);
+            try
+            {
+                var timelines = timelinelogs
+                .Where(tlg => tlg.Value != null)
                 .Select(timelineLog => JsonConvert.DeserializeObject<MatchPushEventDto>(timelineLog.Value))
                 .OrderBy(timeline => timeline.payload.timeline.time)
                 .ToList();
-            var lastTimelinewithPeriodScores = timelines.LastOrDefault(timeline => timeline?.payload?.sport_event_status?.period_scores != null);
+                var lastTimelinewithPeriodScores = timelines.LastOrDefault(timeline => timeline?.payload?.sport_event_status?.period_scores != null);
 
-            if (lastTimelinewithPeriodScores == null || lastTimelinewithPeriodScores?.payload == null)
-            {
-                return null;
+                if (lastTimelinewithPeriodScores == null || lastTimelinewithPeriodScores?.payload == null)
+                {
+                    return null;
+                }
+
+                var payload = lastTimelinewithPeriodScores.payload;
+                var result = MatchMapper.MapMatchResult(payload);
+
+                return result;
             }
-
-            var payload = lastTimelinewithPeriodScores.payload;
-            var result = MatchMapper.MapMatchResult(payload);
-
-            return result;
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         public async Task RemoveTimeline(string matchId, string timelineId)
