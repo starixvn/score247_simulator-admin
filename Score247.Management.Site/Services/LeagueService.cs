@@ -35,7 +35,7 @@ namespace Score247.Management.Site.Services
 
         Task<IEnumerable<League>> GetActiveLeagues();
 
-        Task GenerateLeagueFixture(string leagueId);
+        Task GenerateLeagueFixture(string leagueId, TournamentScheduleDto tournamentScheduleDto);
     }
 
     public class LeagueService : ILeagueService
@@ -205,13 +205,17 @@ namespace Score247.Management.Site.Services
             return leagueRepository.GetActiveLeagues();
         }
 
-        public async Task GenerateLeagueFixture(string leagueId)
+        public async Task GenerateLeagueFixture(string leagueId, TournamentScheduleDto tournamentScheduleDto)
         {
             var leagueRepository = new LeagueRepository();
             var league = await leagueRepository.GetLeagueById(leagueId);
             var tournament = SportEventMapper.MapTournament(league);
+            var schedule = tournamentScheduleDto;
+            if (schedule == null)
+            {
+                schedule = await simulatorFileService.GetTournamentSchedule();
+            }
 
-            var schedule = await simulatorFileService.GetTournamentSchedule();
             schedule.generated_at = DateTime.Now;
             schedule.tournament.id = tournament.id;
             schedule.tournament.name = tournament.name;
@@ -233,6 +237,7 @@ namespace Score247.Management.Site.Services
             }
 
             await simulatorService.SendTournamentSchedule(schedule);
+            await triggerJobService.TriggerFetchLeagueMatches();
         }
 
         private async Task SendNotStartTimelineForMatch(Sport_Event sportEveht)

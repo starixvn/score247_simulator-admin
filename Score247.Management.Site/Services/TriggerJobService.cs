@@ -29,6 +29,8 @@ namespace Score247.Management.Site.Services
         Task TriggerFetchMatchLineups();
 
         Task TriggerFetchLeaguesSeason();
+
+        Task TriggerFetchLeagueMatches();
     }
 
     public class TriggerJobService : ITriggerJobService
@@ -137,6 +139,13 @@ namespace Score247.Management.Site.Services
         public async Task TriggerFetchLeaguesSeason()
         {
             var jobs = new List<string> { "FetchLeaguesSeason" };
+
+            await TriggerJobs(jobs);
+        }
+
+        public async Task TriggerFetchLeagueMatches()
+        {
+            var jobs = new List<string> { "FetchLeagueMatches" };
 
             await TriggerJobs(jobs);
         }

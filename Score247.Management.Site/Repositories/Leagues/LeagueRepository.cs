@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Fanex.Data.Repository;
 using Score247.Management.Site.Criterias.League;
+using Score247.Management.Site.Criterias.League.Criterias;
 using Score247.Management.Site.Helpers;
 using Score247Management.Core.Leagues.Models;
 
@@ -44,21 +45,22 @@ namespace Score247.Management.Site.Repositories.Leagues
                     }
                 }
 
-                league.LeagueSeason = RandomeLeagueSeason(league);
+                var leagueSeasonId = await GetLeagueSeasonId(league.Id);
+                league.LeagueSeason = RandomeLeagueSeason(league, leagueSeasonId);
                 league.Round = new LeagueRound();
             }
 
             return leagues;
         }
 
-        private static LeagueSeason RandomeLeagueSeason(League league)
+        private static LeagueSeason RandomeLeagueSeason(League league, string leagueSeasonId = null)
         {
             var rand = new Random();
             var startDate = DateTime.Now.AddMonths(rand.Next(-12, -3));
             var endDate = DateTime.Now.AddMonths(rand.Next(3, 12));
             return new LeagueSeason
             {
-                Id = UniqueGenerator.GetIdWithPattern("sr:season:"),
+                Id = leagueSeasonId ?? UniqueGenerator.GetIdWithPattern("sr:season:"),
                 Name = "Season" + rand.Next(50),
                 TournamentId = league.Id,
                 Year = $"{startDate.Year}-{endDate.Year}",
@@ -91,7 +93,9 @@ namespace Score247.Management.Site.Repositories.Leagues
                         league.LeagueCategory.CountryCode = league.CountryCode;
                     }
                 }
-                league.LeagueSeason = RandomeLeagueSeason(league);
+
+                var leagueSeasonId = await GetLeagueSeasonId(league.Id);
+                league.LeagueSeason = RandomeLeagueSeason(league, leagueSeasonId);
                 league.Round = new LeagueRound();
             }
             return leagues.Where(x => x.IsActive);
@@ -104,7 +108,7 @@ namespace Score247.Management.Site.Repositories.Leagues
             var leagueCategory = leagueCategorys.FirstOrDefault(x => x.Id == league.CategoryId);
             if (leagueCategory == null)
             {
-                league.LeagueCategory = new LeagueCategory()
+                league.LeagueCategory = new LeagueCategory
                 {
                     Name = league.Country
                 };
@@ -114,7 +118,8 @@ namespace Score247.Management.Site.Repositories.Leagues
                 league.LeagueCategory = leagueCategory;
             }
 
-            league.LeagueSeason = RandomeLeagueSeason(league);
+            var leagueSeasonId = await GetLeagueSeasonId(id);
+            league.LeagueSeason = RandomeLeagueSeason(league, leagueSeasonId);
             league.Round = new LeagueRound();
 
             return league;
@@ -123,6 +128,11 @@ namespace Score247.Management.Site.Repositories.Leagues
         public async Task<IEnumerable<LeagueCategory>> GetLeagueCategory()
         {
             return await repository.FetchAsync<LeagueCategory>(new GetLeagueCategoryCriteria());
+        }
+
+        public async Task<string> GetLeagueSeasonId(string leagueId)
+        {
+            return await repository.GetAsync<string>(new GetLeagueSeasonIdCriteria(leagueId));
         }
 
         public async Task<int> CreateLeague(CreateLeagueCriteria criteria)

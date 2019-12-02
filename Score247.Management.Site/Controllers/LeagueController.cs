@@ -122,11 +122,11 @@ namespace Score247.Management.Site.Controllers
         }
 
         [HttpPost("League/GenerateFixture")]
-        public async Task<ActionResult> GenerateLeagueFixture([FromQuery] string leagueId)
+        public async Task<ActionResult> GenerateLeagueFixture([FromQuery] string leagueId, [FromBody] TournamentScheduleDto tournamentScheduleDto)
         {
             try
             {
-                await leagueService.GenerateLeagueFixture(leagueId);
+                await leagueService.GenerateLeagueFixture(leagueId, tournamentScheduleDto);
             }
             catch (Exception ex)
             {

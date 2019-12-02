@@ -285,5 +285,6 @@
     <Folder Include="App_Data\timelines\" />
     <Folder Include="App_Data\result\" />
     <Folder Include="App_Data\schedule\" />
+    <Folder Include="Criterias\League\Commands\" />
   </ItemGroup>
 </Project>
