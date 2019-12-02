@@ -74,7 +74,7 @@ namespace Score247.Management.Site.Repositories.Matches
         {
             var timelinesLogs = await repository.FetchAsync<TimelineLog>(new GetMatchTimelineLogCriteria { Id = id });
 
-            var result = timelinesLogs.Select(timelineLog =>
+            var result = timelinesLogs.Where(tlg => tlg.Value != null).Select(timelineLog =>
                 JsonConvert.DeserializeObject<MatchPushEventDto>(timelineLog.Value)).OrderBy(x => x.payload.timeline.time).ToList();
 
             return result;
@@ -84,7 +84,7 @@ namespace Score247.Management.Site.Repositories.Matches
         {
             var timelinesLogs = await repository.FetchAsync<TimelineLog>(new GetMatchTimelineLogCriteria { Id = id });
 
-            var result = timelinesLogs.Select(timelineLog =>
+            var result = timelinesLogs.Where(tlg => tlg.Value != null).Select(timelineLog =>
                 JsonConvert.DeserializeObject<MatchPushEventDto>(timelineLog.Value)).OrderByDescending(x => x.payload.timeline.time).FirstOrDefault();
 
             return result;

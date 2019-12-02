@@ -56,6 +56,8 @@ namespace Score247.Management.Site.Services
         Task<MatchPitchViewLineups> GetLineups(string matchId);
 
         Task<IEnumerable<MatchSummary>> GetH2H(string matchId);
+
+        Task RemoveTimeline(string matchId, string timelineId);
     }
 
     public class MatchService : IMatchService
@@ -368,6 +370,11 @@ namespace Score247.Management.Site.Services
             var awayId = match.Teams.FirstOrDefault(x => !x.IsHome)?.Id;
 
             return await queryService.GetH2H(homeId, awayId, "en-US");
+        }
+
+        public async Task RemoveTimeline(string matchId, string timelineId)
+        {
+            await timelineService.RemoveTimeline(matchId, timelineId);
         }
     }
 }

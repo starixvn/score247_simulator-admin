@@ -25,6 +25,7 @@
                 Type
             </th>
             <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -43,6 +44,9 @@
                 </td>
                 <td style="font-size:x-small;">
                     <span id="reservationButton" class="btn-default-outline btn-lg" onclick="@($"OpenModalPopUp('{item.RequestLog}')");">Request</span>
+                </td>
+                <td style="font-size:x-small;">
+                    <span id="reservationButton" class="btn-default-outline btn-lg" onclick="RemoveTimeline('@ViewBag.MatchId', '@item.Id')">Remove</span>
                 </td>
             </tr>
         }

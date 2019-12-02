@@ -504,5 +504,13 @@ namespace Score247.Management.Site.Controllers
 
             return Json(h2hData);
         }
+
+        [HttpPost("/Match/Timeline/Remove/{matchId}/{timelineId}")]
+        public async Task<ActionResult> RemoveTimeline(string matchId, string timelineId)
+        {
+            await matchService.RemoveTimeline(matchId, timelineId);
+
+            return Json(true);
+        }
     }
 }

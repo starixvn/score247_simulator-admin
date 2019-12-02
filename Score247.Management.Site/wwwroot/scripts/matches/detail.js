@@ -379,3 +379,18 @@ function applyEvent(missing) {
         }
     });
 }
+
+function RemoveTimeline(matchId, timelineId) {
+    $.ajax({
+        type: "POST",
+        url: urlPrefix() + `/Match/Timeline/Remove/${matchId}/${timelineId}`,
+        contentType: "application/json; charset=utf-8",
+        success: function () {
+            console.log("success");
+            location.reload();
+        },
+        error: function () {
+            console.log("failed");
+        }
+    });
+}
