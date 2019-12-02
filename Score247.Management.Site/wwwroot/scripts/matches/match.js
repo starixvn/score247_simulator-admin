@@ -21,8 +21,14 @@
 function GenerateLeagueFixture(e) {
     e.preventDefault();
     $("#CreateFixtureSpinner").removeClass("d-none");
+    var tournamentScheduleDto = null;
     var leagueId = $("#LeagueFixtureSelect").val();
-    var tournamentScheduleDto = JSON.parse($("#LeagueFixtureCase").val());
+    try {
+        tournamentScheduleDto = JSON.parse($("#LeagueFixtureCase").val());
+    } catch (e) {
+        console.log(e);
+    }
+
     console.log(leagueId);
     $.ajax({
         type: "POST",
