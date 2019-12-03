@@ -134,6 +134,7 @@ namespace Score247.Management.Site.Services
         {
             var matchRepo = new MatchRepository();
             var timelines = (await matchRepo.GetMatchTimelineLogs(matchId))
+                .Where(tlg => tlg.Value != null)
                 .Select(timelineLog => JsonConvert.DeserializeObject<MatchPushEventDto>(timelineLog.Value))
                 .OrderBy(tl => tl.payload.timeline.time)
                 .ToList();
