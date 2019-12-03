@@ -120,6 +120,8 @@ namespace Score247.Management.Site.Models.Events
     {
         public string id { get; set; }
         public string name { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string method { get; set; }
     }
 

@@ -134,30 +134,13 @@ namespace Score247.Management.Site.Services.Matches
                 type = collection["payload.timeline.type"],
                 match_time = matchTime,
                 match_clock = matchTime != null ? matchTime + ":00" : null,
-                home_score = 0,
-                away_score = 0,
                 team = collection["payload.timeline.team"],
                 period_type = PeriodType.RegularPeriod.DisplayName,
                 status = collection["payload.timeline.status"],
-                period = match.MatchResult?.Period ?? 1,
+                period = match.MatchResult?.Period,
                 hour = null
             };
-            if (match.MatchResult?.MatchPeriods != null)
-            {
-                foreach (var matchPeriod in match.MatchResult.MatchPeriods)
-                {
-                    if (matchPeriod.PeriodType.IsPenalties())
-                    {
-                        continue;
-                    }
 
-                    requestBody.payload.timeline.home_score += matchPeriod.HomeScore;
-                    requestBody.payload.timeline.away_score += matchPeriod.AwayScore;
-                }
-            }
-
-            requestBody.payload.sport_event_status.home_score = requestBody.payload.timeline.home_score;
-            requestBody.payload.sport_event_status.away_score = requestBody.payload.timeline.away_score;
             if (matchTime != null)
             {
                 requestBody.payload.sport_event_status.clock = new Clock
@@ -369,6 +352,7 @@ namespace Score247.Management.Site.Services.Matches
                     requestBody.payload.sport_event_status.period = 1;
                     requestBody.payload.timeline.match_clock = null;
                     requestBody.payload.timeline.match_time = null;
+                    requestBody.payload.timeline.period_type = null;
                     requestBody.payload.timeline.period = null;
                     requestBody.payload.timeline.type = EventType.MatchStarted.DisplayName;
                     requestBody.payload.sport_event_status.period_scores = requestBody.payload.sport_event_status.period_scores.Append(new Period_Scores
@@ -414,6 +398,7 @@ namespace Score247.Management.Site.Services.Matches
                         requestBody.payload.timeline.type = EventType.BreakStart.DisplayName;
                         requestBody.payload.timeline.match_clock = null;
                         requestBody.payload.timeline.match_time = null;
+                        requestBody.payload.timeline.period = null;
                         requestBody.payload.timeline.period_name = MatchStatus.Pause.DisplayName;
                         if (requestBody.payload.sport_event_status.period_scores.FirstOrDefault(x => x.number == 1 && x.type == PeriodType.RegularPeriod.DisplayName) == null)
                         {
@@ -684,11 +669,11 @@ namespace Score247.Management.Site.Services.Matches
 
             if (isHomeScore)
             {
-                requestBody.payload.timeline.home_score++;
+                requestBody.payload.sport_event_status.home_score++;
             }
             else
             {
-                requestBody.payload.timeline.away_score++;
+                requestBody.payload.sport_event_status.away_score++;
             }
             var periodScores = requestBody.payload.sport_event_status.period_scores.ToList();
             if (periodType == PeriodType.Overtime.DisplayName)
@@ -742,8 +727,8 @@ namespace Score247.Management.Site.Services.Matches
             }
 
             requestBody.payload.sport_event_status.period_scores = periodScores;
-            requestBody.payload.sport_event_status.home_score = requestBody.payload.timeline.home_score;
-            requestBody.payload.sport_event_status.away_score = requestBody.payload.timeline.away_score;
+            requestBody.payload.timeline.home_score = requestBody.payload.sport_event_status.home_score;
+            requestBody.payload.timeline.away_score = requestBody.payload.sport_event_status.away_score;
 
             return requestBody;
         }
