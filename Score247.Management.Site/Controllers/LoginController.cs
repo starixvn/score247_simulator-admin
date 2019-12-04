@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Score247.Management.Site.Services;
 
 namespace Score247.Management.Site.Controllers
@@ -15,10 +16,12 @@ namespace Score247.Management.Site.Controllers
     public class LoginController : Controller
     {
         private readonly ILoginService loginService;
+        private readonly IConfiguration configuration;
 
-        public LoginController(ILoginService loginService)
+        public LoginController(ILoginService loginService, IConfiguration configuration)
         {
             this.loginService = loginService;
+            this.configuration = configuration;
         }
 
         [AllowAnonymous]
@@ -66,7 +69,7 @@ namespace Score247.Management.Site.Controllers
                   authProperties);
             }
 
-            return Redirect("/Match");
+            return RedirectToAction("Index", "Match");
         }
     }
 }
