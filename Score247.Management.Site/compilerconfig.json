@@ -10,5 +10,9 @@
   {
     "outputFile": "wwwroot/styles/odds.css",
     "inputFile": "wwwroot/styles/odds.scss"
+  },
+  {
+    "outputFile": "wwwroot/styles/login.css",
+    "inputFile": "wwwroot/styles/login.scss"
   }
 ]
