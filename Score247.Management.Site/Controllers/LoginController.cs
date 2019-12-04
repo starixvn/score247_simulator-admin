@@ -29,7 +29,7 @@ namespace Score247.Management.Site.Controllers
         {
             if (HttpContext.User.Identity.IsAuthenticated)
             {
-                return Redirect("/Match");
+                return RedirectToAction("Index", "Match");
             }
 
             return View();
