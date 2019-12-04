@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
@@ -16,6 +17,7 @@ using Score247.Management.Site.ViewModels.Matches;
 
 namespace Score247.Management.Site.Controllers
 {
+    [Authorize]
     public class MatchController : Controller
     {
         private const string SearchDate = "SearchDate";

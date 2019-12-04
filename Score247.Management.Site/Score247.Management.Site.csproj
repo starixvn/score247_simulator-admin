@@ -16,6 +16,7 @@
   <ItemGroup>
     <Content Remove="bundleconfig.json" />
     <Content Remove="compilerconfig.json" />
+    <Content Remove="Views\Login\Index.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -35,6 +36,7 @@
   <ItemGroup>
     <None Include="bundleconfig.json" />
     <None Include="compilerconfig.json" />
+    <None Include="Views\Login\Index.cshtml" />
     <None Include="wwwroot\bundles\site.min.css" />
     <None Include="wwwroot\bundles\site.min.js" />
     <None Include="wwwroot\scripts\lib\bootstrap\dist\css\bootstrap-grid.css" />

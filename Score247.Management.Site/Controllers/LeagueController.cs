@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Score247.Management.Site.Criterias.League;
@@ -11,6 +12,7 @@ using Score247.Management.Site.ViewModels.League;
 
 namespace Score247.Management.Site.Controllers
 {
+    [Authorize]
     public class LeagueController : Controller
     {
         private ILeagueService leagueService { get; }

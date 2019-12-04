@@ -2,12 +2,14 @@
 {
     using System;
     using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Score247.Management.Site.Helpers;
     using Score247.Management.Site.Services.Odds;
     using Score247.Management.Site.ViewModels.Odds;
 
+    [Authorize]
     public class OddsController : Controller
     {
         private IOddsService oddsService { get; }

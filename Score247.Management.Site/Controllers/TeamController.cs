@@ -1,6 +1,7 @@
 ﻿namespace Score247.Management.Site.Controllers
 {
     using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Score247.Management.Site.Criterias.Team;
@@ -9,6 +10,7 @@
     using Score247.Management.Site.Repositories.Teams;
     using Score247.Management.Site.Services;
 
+    [Authorize]
     public class TeamController : Controller
     {
         private readonly IMatchService matchService;

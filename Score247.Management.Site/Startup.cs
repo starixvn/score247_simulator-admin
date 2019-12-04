@@ -6,10 +6,14 @@ using Fanex.Data.MySql;
 using Fanex.Data.Repository;
 using Fanex.Logging;
 using Fanex.Logging.Sentry.RavenClient;
+using Microsoft.AspNetCore.Antiforgery;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz;
@@ -26,12 +30,14 @@ namespace Score247.Management.Site
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IHostingEnvironment environment)
         {
             Configuration = configuration;
+            Environment = environment;
         }
 
         public IConfiguration Configuration { get; }
+        public IHostingEnvironment Environment { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -50,12 +56,32 @@ namespace Score247.Management.Site
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+              .AddCookie(options =>
+              {
+                  options.Cookie.HttpOnly = true;
+                  options.Cookie.SecurePolicy = Environment.IsDevelopment()
+                    ? CookieSecurePolicy.None : CookieSecurePolicy.Always;
+                  options.Cookie.SameSite = SameSiteMode.Lax;
+                  options.Cookie.Name = "Score247.AuthCookieAdmin";
+                  options.LoginPath = "/Login";
+                  options.LogoutPath = "/Logout";
+                  options.ReturnUrlParameter = "/Match";
+              });
+
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.MinimumSameSitePolicy = SameSiteMode.Strict;
+                options.HttpOnly = HttpOnlyPolicy.None;
+                options.Secure = Environment.IsDevelopment()
+                  ? CookieSecurePolicy.None : CookieSecurePolicy.Always;
+            });
 
             services.AddSingleton(Configuration);
             services.AddSingleton<IDynamicRepository, DynamicRepository>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            services.AddMvc()
+            services.AddMvc(options => options.Filters.Add(new AuthorizeFilter()))
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             RegisterServices(services);
@@ -94,6 +120,7 @@ namespace Score247.Management.Site
             services.AddSingleton<ICreateMatchesService, CreateMatchesService>();
             services.AddSingleton<IH2HService, H2HService>();
             services.AddSingleton<ITeamService, TeamService>();
+            services.AddSingleton<ILoginService, LoginService>();
         }
 
         private static void RegisterScheduledJobs(IServiceCollection services)
@@ -106,7 +133,7 @@ namespace Score247.Management.Site
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IAntiforgery antiforgery)
         {
             string baseDir = env.ContentRootPath;
             AppDomain.CurrentDomain.SetData("DataDirectory", System.IO.Path.Combine(baseDir, "App_Data"));
@@ -119,6 +146,9 @@ namespace Score247.Management.Site
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            app.UseCookiePolicy();
+            app.UseAuthentication();
 
             var connections = Configuration
                  .GetSection("ConnectionStrings")

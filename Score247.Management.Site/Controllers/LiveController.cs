@@ -1,10 +1,12 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Score247.Management.Site.Models.Events;
 using Score247.Management.Site.Services;
 
 namespace Score247.Management.Site.Controllers
 {
+    [Authorize]
     public class LiveController : Controller
     {
         private readonly IMatchService matchService;
