@@ -159,7 +159,7 @@ namespace Score247.Management.Site
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Login}/{action=Index}/{id?}");
+                    template: "{controller=Match}/{action=Index}/{id?}");
             });
         }
     }
