@@ -60,20 +60,20 @@ namespace Score247.Management.Site
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
               .AddCookie(options =>
               {
-                  //options.Cookie.HttpOnly = true;
+                  options.Cookie.HttpOnly = true;
                   options.Cookie.SameSite = SameSiteMode.Lax;
                   options.Cookie.Name = "Score247.AuthCookieAdmin";
                   options.LoginPath = "/Login";
                   options.Cookie.Path = "/";
               });
 
-            //services.Configure<CookiePolicyOptions>(options =>
-            //{
-            //    options.MinimumSameSitePolicy = SameSiteMode.Strict;
-            //    options.HttpOnly = HttpOnlyPolicy.None;
-            //    options.Secure = Environment.IsDevelopment()
-            //      ? CookieSecurePolicy.None : CookieSecurePolicy.Always;
-            //});
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.MinimumSameSitePolicy = SameSiteMode.Strict;
+                options.HttpOnly = HttpOnlyPolicy.None;
+                options.Secure = Environment.IsDevelopment()
+                  ? CookieSecurePolicy.None : CookieSecurePolicy.Always;
+            });
 
             services.AddSingleton(Configuration);
             services.AddSingleton<IDynamicRepository, DynamicRepository>();
@@ -136,14 +136,7 @@ namespace Score247.Management.Site
             string baseDir = env.ContentRootPath;
             AppDomain.CurrentDomain.SetData("DataDirectory", System.IO.Path.Combine(baseDir, "App_Data"));
 
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-            }
+            app.UseDeveloperExceptionPage();
 
             var connections = Configuration
                  .GetSection("ConnectionStrings")
