@@ -60,13 +60,12 @@ namespace Score247.Management.Site
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
               .AddCookie(options =>
               {
-                  options.Cookie.HttpOnly = true;
+                  //options.Cookie.HttpOnly = true;
                   options.Cookie.SameSite = SameSiteMode.Lax;
                   options.Cookie.Name = "Score247.AuthCookieAdmin";
                   options.LoginPath = "/Login";
                   options.Cookie.Path = "/";
-              })
-              .AddJwtBearer();
+              });
 
             //services.Configure<CookiePolicyOptions>(options =>
             //{
