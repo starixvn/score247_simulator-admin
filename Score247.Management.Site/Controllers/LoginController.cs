@@ -24,6 +24,11 @@ namespace Score247.Management.Site.Controllers
         [AllowAnonymous]
         public ActionResult Index()
         {
+            if (HttpContext.User.Identity.IsAuthenticated)
+            {
+                return Redirect("/Match");
+            }
+
             return View();
         }
 
@@ -61,7 +66,7 @@ namespace Score247.Management.Site.Controllers
                   authProperties);
             }
 
-            return Redirect("/");
+            return Redirect("/Match");
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Fanex.Data;
 using Fanex.Data.MySql;
 using Fanex.Data.Repository;
@@ -65,8 +66,7 @@ namespace Score247.Management.Site
                   options.Cookie.SameSite = SameSiteMode.Lax;
                   options.Cookie.Name = "Score247.AuthCookieAdmin";
                   options.LoginPath = "/Login";
-                  options.LogoutPath = "/Logout";
-                  options.ReturnUrlParameter = "/Match";
+                  options.Cookie.Path = "/";
               });
 
             services.Configure<CookiePolicyOptions>(options =>
@@ -173,7 +173,7 @@ namespace Score247.Management.Site
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Match}/{action=Index}/{id?}");
+                    template: "{controller=Login}/{action=Index}/{id?}");
             });
         }
     }
