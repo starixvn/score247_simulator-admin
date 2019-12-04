@@ -147,9 +147,6 @@ namespace Score247.Management.Site
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseCookiePolicy();
-            app.UseAuthentication();
-
             var connections = Configuration
                  .GetSection("ConnectionStrings")
                  .GetChildren()
@@ -168,6 +165,7 @@ namespace Score247.Management.Site
 
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseAuthentication();
             app.UseSession();
             app.UseMvc(routes =>
             {
