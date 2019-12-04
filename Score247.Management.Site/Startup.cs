@@ -65,15 +65,16 @@ namespace Score247.Management.Site
                   options.Cookie.Name = "Score247.AuthCookieAdmin";
                   options.LoginPath = "/Login";
                   options.Cookie.Path = "/";
-              });
+              })
+              .AddJwtBearer();
 
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                options.MinimumSameSitePolicy = SameSiteMode.Strict;
-                options.HttpOnly = HttpOnlyPolicy.None;
-                options.Secure = Environment.IsDevelopment()
-                  ? CookieSecurePolicy.None : CookieSecurePolicy.Always;
-            });
+            //services.Configure<CookiePolicyOptions>(options =>
+            //{
+            //    options.MinimumSameSitePolicy = SameSiteMode.Strict;
+            //    options.HttpOnly = HttpOnlyPolicy.None;
+            //    options.Secure = Environment.IsDevelopment()
+            //      ? CookieSecurePolicy.None : CookieSecurePolicy.Always;
+            //});
 
             services.AddSingleton(Configuration);
             services.AddSingleton<IDynamicRepository, DynamicRepository>();
