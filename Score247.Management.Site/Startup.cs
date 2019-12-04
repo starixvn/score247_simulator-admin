@@ -61,8 +61,6 @@ namespace Score247.Management.Site
               .AddCookie(options =>
               {
                   options.Cookie.HttpOnly = true;
-                  options.Cookie.SecurePolicy = Environment.IsDevelopment()
-                    ? CookieSecurePolicy.None : CookieSecurePolicy.Always;
                   options.Cookie.SameSite = SameSiteMode.Lax;
                   options.Cookie.Name = "Score247.AuthCookieAdmin";
                   options.LoginPath = "/Login";
