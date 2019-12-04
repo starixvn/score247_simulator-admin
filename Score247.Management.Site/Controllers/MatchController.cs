@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Primitives;
 using Score247.Management.Site.Models;
 using Score247.Management.Site.Models.Events;
 using Score247.Management.Site.Repositories.Leagues;

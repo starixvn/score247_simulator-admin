@@ -51,29 +51,25 @@ namespace Score247.Management.Site
                 options.IdleTimeout = TimeSpan.FromSeconds(3600);
                 options.Cookie.IsEssential = true;
             });
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
+
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
               .AddCookie(options =>
               {
-                  options.Cookie.HttpOnly = true;
+                  ////options.Cookie.HttpOnly = true;
+                  //options.Cookie.SecurePolicy = Environment.IsDevelopment()
+                  //  ? CookieSecurePolicy.None : CookieSecurePolicy.Always;
                   options.Cookie.SameSite = SameSiteMode.Lax;
                   options.Cookie.Name = "Score247.AuthCookieAdmin";
                   options.LoginPath = "/Login";
-                  options.Cookie.Path = "/";
               });
 
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                options.MinimumSameSitePolicy = SameSiteMode.Strict;
-                options.HttpOnly = HttpOnlyPolicy.None;
-                options.Secure = Environment.IsDevelopment()
-                  ? CookieSecurePolicy.None : CookieSecurePolicy.Always;
-            });
+            //services.Configure<CookiePolicyOptions>(options =>
+            //{
+            //    options.MinimumSameSitePolicy = SameSiteMode.Strict;
+            //    options.HttpOnly = HttpOnlyPolicy.None;
+            //    options.Secure = Environment.IsDevelopment()
+            //      ? CookieSecurePolicy.None : CookieSecurePolicy.Always;
+            //});
 
             services.AddSingleton(Configuration);
             services.AddSingleton<IDynamicRepository, DynamicRepository>();
@@ -157,6 +153,7 @@ namespace Score247.Management.Site
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseAuthentication();
+
             app.UseSession();
             app.UseMvc(routes =>
             {
