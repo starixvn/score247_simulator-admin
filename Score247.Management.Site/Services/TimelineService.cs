@@ -163,6 +163,7 @@ namespace Score247.Management.Site.Services
 
             await matchRepo.DeleteTimeline(timelineId);
             await SendMatchTimeline(matchId);
+            await triggerJobService.TriggerFetchLiveMatchTimeline();
         }
 
         private static MatchPushEventDto UpdatePenaltyScore(int scoreCount, string team, MatchPushEventDto timeline)
