@@ -3,7 +3,7 @@
     using MessagePack;
     using Score247Management.Core.Enumerations;
 
-    [MessagePackObject]
+    [MessagePackObject(keyAsPropertyName: true)]
     public class LeagueRoundType : Enumeration
     {
         public const string Cup = "cup";

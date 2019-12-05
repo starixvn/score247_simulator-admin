@@ -1,7 +1,9 @@
-﻿using Score247Management.Core.Enumerations;
+﻿using MessagePack;
+using Score247Management.Core.Enumerations;
 
 namespace Score247.Management.Site.Models
 {
+    [MessagePackObject(keyAsPropertyName: true)]
     public class FormationType : Enumeration
     {
         public static readonly FormationType F343 = new FormationType(1, "3-4-3");

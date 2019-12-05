@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MessagePack;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using Score247Management.Core.Matches.Models;
 using Score247Management.Core.Statistics.Models;
 
@@ -76,6 +77,9 @@ namespace Score247.Management.Site.Services
                 {
                     try
                     {
+                        //var bytes = await responseMessage.Content.ReadAsStringAsync();
+
+                        //return JsonConvert.DeserializeObject<MatchPitchViewLineups>(bytes);
                         var bytes = await responseMessage.Content.ReadAsByteArrayAsync();
 
                         return MessagePackSerializer.Deserialize<MatchPitchViewLineups>(bytes);
@@ -142,8 +146,6 @@ namespace Score247.Management.Site.Services
                         var bytes = await responseMessage.Content.ReadAsByteArrayAsync();
                         var matches = MessagePackSerializer.Deserialize<IEnumerable<MatchSummary>>(bytes);
 
-                        //var matchData = await responseMessage.Content.ReadAsStringAsync();
-                        //var matches = JsonConvert.DeserializeObject<IEnumerable<MatchSummary>>(matchData);
                         return matches.Select(match =>
                         {
                             match.DisplayDate = match.EventDate.Add(offset).ToString("dd/MM/yyyy HH:mm:ss");

@@ -1,5 +1,8 @@
-﻿namespace Score247Management.Core.Enumerations
+﻿using MessagePack;
+
+namespace Score247Management.Core.Enumerations
 {
+    [MessagePackObject(keyAsPropertyName: true)]
     public class Sport : Enumeration
     {
         public static readonly Sport Soccer = new Sport(1, "soccer");

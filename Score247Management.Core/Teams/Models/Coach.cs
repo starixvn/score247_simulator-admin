@@ -3,13 +3,11 @@
     using MessagePack;
     using Score247Management.Core.Base;
 
-    [MessagePackObject]
+    [MessagePackObject(keyAsPropertyName: true)]
     public class Coach : BaseModel
     {
-        [Key(2)]
         public string Nationality { get; set; }
 
-        [Key(3)]
         public string CountryCode { get; set; }
     }
 }

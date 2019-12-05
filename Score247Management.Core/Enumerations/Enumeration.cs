@@ -8,7 +8,7 @@
     using MessagePack;
 
     [Serializable]
-    [MessagePackObject]
+    [MessagePackObject(keyAsPropertyName: true)]
     public class Enumeration : IComparable
     {
         protected Enumeration()
@@ -22,11 +22,9 @@
         }
 
         // TODO: private set make hangfire method can not receive data
-        [Key(0)]
         public string DisplayName { get; set; }
 
         // TODO: private set make hangfire method can not receive data
-        [Key(1)]
         public byte Value { get; set; }
 
         public static byte AbsoluteDifference(Enumeration firstValue, Enumeration secondValue)

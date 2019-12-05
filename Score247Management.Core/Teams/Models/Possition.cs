@@ -3,7 +3,7 @@
     using MessagePack;
     using Score247Management.Core.Enumerations;
 
-    [MessagePackObject]
+    [MessagePackObject(keyAsPropertyName: true)]
     public class Position : Enumeration
     {
         public static readonly Position Goalkeeper = new Position(1, "Goalkeeper");

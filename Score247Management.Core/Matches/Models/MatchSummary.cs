@@ -4,9 +4,10 @@
     using System.Collections.Generic;
     using System.Linq;
     using MessagePack;
+    using Newtonsoft.Json;
     using Score247Management.Core._Shared.Enumerations;
 
-    [MessagePackObject]
+    [MessagePackObject(keyAsPropertyName: true)]
 #pragma warning disable S109 // Magic numbers should not be used
     public class MatchSummary
     {
@@ -96,115 +97,115 @@
         {
         }
 
-        [Key(0)]
+        [JsonProperty("id")]
         public string Id { get; private set; }
 
-        [Key(1)]
+        [JsonProperty("eventDate")]
         public DateTimeOffset EventDate { get; private set; }
 
-        [Key(2)]
+        [JsonProperty("currentPeriodStartTime")]
         public DateTimeOffset CurrentPeriodStartTime { get; private set; }
 
-        [Key(3)]
+        [JsonProperty("leagueId")]
         public string LeagueId { get; private set; }
 
-        [Key(4)]
+        [JsonProperty("leagueName")]
         public string LeagueName { get; private set; }
 
-        [Key(5)]
+        [JsonProperty("homeTeamId")]
         public string HomeTeamId { get; private set; }
 
-        [Key(6)]
+        [JsonProperty("homeTeamName")]
         public string HomeTeamName { get; private set; }
 
-        [Key(7)]
+        [JsonProperty("awayTeamId")]
         public string AwayTeamId { get; private set; }
 
-        [Key(8)]
+        [JsonProperty("awayTeamName")]
         public string AwayTeamName { get; private set; }
 
-        [Key(9)]
+        [JsonProperty("matchStatus")]
         public MatchStatus MatchStatus { get; private set; }
 
-        [Key(10)]
+        [JsonProperty("eventStatus")]
         public MatchStatus EventStatus { get; private set; }
 
-        [Key(11)]
+        [JsonProperty("homeScore")]
         public byte HomeScore { get; private set; }
 
-        [Key(12)]
+        [JsonProperty("awayScore")]
         public byte AwayScore { get; private set; }
 
-        [Key(13)]
+        [JsonProperty("ưinnerId")]
         public string WinnerId { get; private set; }
 
-        [Key(14)]
+        [JsonProperty("aggregateWinnerId")]
         public string AggregateWinnerId { get; private set; }
 
-        [Key(15)]
+        [JsonProperty("aggregateHomeScore")]
         public byte AggregateHomeScore { get; private set; }
 
-        [Key(16)]
+        [JsonProperty("aggregateAwayScore")]
         public byte AggregateAwayScore { get; private set; }
 
-        [Key(17)]
+        [JsonProperty("homeRedCards")]
         public byte HomeRedCards { get; private set; }
 
-        [Key(18)]
+        [JsonProperty("homeYellowRedCards")]
         public byte HomeYellowRedCards { get; private set; }
 
-        [Key(19)]
+        [JsonProperty("awayRedCards")]
         public byte AwayRedCards { get; private set; }
 
-        [Key(20)]
+        [JsonProperty("awayYellowRedCards")]
         public byte AwayYellowRedCards { get; private set; }
 
-        [Key(21)]
+        [JsonProperty("matchTime")]
         public byte MatchTime { get; private set; }
 
-        [Key(22)]
+        [JsonProperty("stoppageTime")]
         public string StoppageTime { get; private set; }
 
-        [Key(23)]
+        [JsonProperty("injuryTimeAnnounced")]
         public byte InjuryTimeAnnounced { get; private set; }
 
-        [Key(24)]
+        [JsonProperty("lastTimelineType")]
         public EventType LastTimelineType { get; private set; }
 
-        [Key(25)]
+        [JsonProperty("matchPeriods")]
         public IEnumerable<MatchPeriod> MatchPeriods { get; private set; }
 
-        [Key(26)]
+        [JsonProperty("countryCode")]
         public string CountryCode { get; private set; }
 
-        [Key(27)]
+        [JsonProperty("countryName")]
         public string CountryName { get; private set; }
 
-        [Key(28)]
+        [JsonProperty("modifiedTime")]
         public DateTimeOffset ModifiedTime { get; private set; }
 
-        [Key(29)]
+        [JsonProperty("isInternationalLeague")]
         public bool IsInternationalLeague { get; private set; }
 
-        [Key(30)]
+        [JsonProperty("leagueOrder")]
         public int LeagueOrder { get; private set; }
 
-        [Key(31)]
+        [JsonProperty("leagueSeasonId")]
         public string LeagueSeasonId { get; private set; }
 
-        [Key(32)]
+        [JsonProperty("leagueRoundType")]
         public LeagueRoundType LeagueRoundType { get; private set; }
 
-        [Key(33)]
+        [JsonProperty("leagueRoundName")]
         public string LeagueRoundName { get; private set; }
 
-        [Key(34)]
+        [JsonProperty("leagueRoundNumber")]
         public int LeagueRoundNumber { get; private set; }
 
-        [Key(35)]
+        [JsonProperty("leagueRoundGroup")]
         public string LeagueRoundGroup { get; private set; }
 
-        [Key(36)]
+        [JsonProperty("leagueGroupName")]
         public string LeagueGroupName { get; private set; }
 
         [IgnoreMember]

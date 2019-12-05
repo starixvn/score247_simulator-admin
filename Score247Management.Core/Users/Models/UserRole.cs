@@ -1,7 +1,9 @@
-﻿using Score247Management.Core.Enumerations;
+﻿using MessagePack;
+using Score247Management.Core.Enumerations;
 
 namespace Score247Management.Core.Users.Models
 {
+    [MessagePackObject(keyAsPropertyName: true)]
     public class UserRole : Enumeration
     {
         ////ap – The match has ended after penalties

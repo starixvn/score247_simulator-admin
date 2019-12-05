@@ -3,7 +3,7 @@
     using MessagePack;
     using Score247Management.Core.Enumerations;
 
-    [MessagePackObject]
+    [MessagePackObject(keyAsPropertyName: true)]
     public class PlayerType : Enumeration
     {
         public static readonly PlayerType Goalkeeper = new PlayerType(1, "goalkeeper");
