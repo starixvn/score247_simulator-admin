@@ -13,6 +13,7 @@ namespace Score247.Management.Site.Services
     using System.Threading.Tasks;
     using Newtonsoft.Json;
     using Score247.Management.Site.Models;
+    using Score247Management.Core.Enumerations;
     using Score247Management.Core.Matches.Models;
     using Score247Management.Core.Scenarios.Models;
 
@@ -110,18 +111,28 @@ namespace Score247.Management.Site.Services
                 var timelines = timelinelogs
                 .Where(tlg => tlg.Value != null)
                 .Select(timelineLog => JsonConvert.DeserializeObject<MatchPushEventDto>(timelineLog.Value))
-                .OrderBy(timeline => timeline.payload.timeline.match_time)
+                .Where(tl => tl.payload?.timeline?.period != null)
+                .OrderBy(timeline => timeline.payload.timeline.period)
+                .ThenBy(timeline => timeline.payload.timeline.match_time)
                 .ThenBy(timeline => timeline.payload.timeline.time)
                 .ToList();
                 var lastTimelinewithPeriodScores = timelines.LastOrDefault(timeline => timeline?.payload?.sport_event_status?.period_scores != null);
+                var lastPeriodTimlineStatus = timelines.LastOrDefault();
 
-                if (lastTimelinewithPeriodScores == null || lastTimelinewithPeriodScores?.payload == null)
+                if (lastPeriodTimlineStatus == null || lastPeriodTimlineStatus?.payload == null)
                 {
                     return null;
                 }
 
-                var payload = lastTimelinewithPeriodScores.payload;
+                var payload = lastPeriodTimlineStatus.payload;
                 var result = MatchMapper.MapMatchResult(payload);
+
+                if (lastTimelinewithPeriodScores == null || lastTimelinewithPeriodScores?.payload == null)
+                {
+                    return result;
+                }
+
+                result.MatchPeriods = lastTimelinewithPeriodScores.payload.sport_event_status.period_scores.Select(MatchMapper.MapMatchPeriod);
 
                 return result;
             }

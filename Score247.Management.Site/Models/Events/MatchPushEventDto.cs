@@ -50,8 +50,8 @@ namespace Score247.Management.Site.Models.Events
             sport_event_status = new Sport_Event_Status
             {
                 aggregate_winner_id = match.MatchResult.AggregateWinnerId == "" ? null : match.MatchResult.AggregateWinnerId,
-                away_score = match.LatestTimeline != null ? match.LatestTimeline.AwayScore : 0,
-                home_score = match.LatestTimeline != null ? match.LatestTimeline.HomeScore : 0,
+                away_score = match.MatchResult != null ? match.MatchResult.AwayScore : 0,
+                home_score = match.MatchResult != null ? match.MatchResult.HomeScore : 0,
                 match_status = match.MatchResult.MatchStatus != null ? match.MatchResult.MatchStatus.DisplayName : "1st_half",
                 period = match.MatchResult.Period,
                 period_scores = matchPeriodsScores,
