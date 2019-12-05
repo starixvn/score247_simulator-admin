@@ -182,7 +182,7 @@ namespace Score247.Management.Site.Controllers
                 }
                 return RedirectToAction(nameof(Details), new { id = matchId, timeSpan = collection[Timezone].ToString() });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return View();
             }
