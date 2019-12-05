@@ -1,0 +1,29 @@
+﻿<Functions>
+  <Function Name="League">
+    <Setting Key="Admin_League_GetLeague" SpName="Admin_League_GetLeague" DbName="DevConnection">
+    </Setting>
+    <Setting Key="League_GetById" SpName="League_GetById" DbName="DevConnection">
+    </Setting>
+    <Setting Key="Admin_League_InsertLeague" SpName="Admin_League_InsertLeague" DbName="DevConnection" />
+    <Setting Key="Admin_League_UpdateActiveStatus" SpName="Admin_League_UpdateActiveStatus" DbName="DevConnection" />
+    <Setting Key="Admin_League_EnableAll" SpName="Admin_League_EnableAll" DbName="DevConnection" />
+    <Setting Key="Admin_League_EnableMajor" SpName="Admin_League_EnableMajor" DbName="DevConnection" />
+    <Setting Key="Admin_League_RemoveLeagueSeason" SpName="Admin_League_RemoveLeagueSeason" DbName="DevConnection" />
+    <Setting Key="Admin_League_GetLeagueSeasonId" SpName="Admin_League_GetLeagueSeasonId" DbName="DevConnection" />
+  </Function>
+  <Function Name="TimelineLog">
+    <Setting Key="TimelineLog_InsertLog" SpName="TimelineLog_InsertLog" DbName="DefaultConnection"></Setting>
+    <Setting Key="TimelineLog_GetByMatchId" SpName="TimelineLog_GetByMatchId" DbName="DefaultConnection"></Setting>
+  </Function>
+  <Function Name="Matches">
+    <Setting Key="Match_GetByDateRange" SpName="Match_GetByDateRange" DbName="DevConnection">
+      <Mapping DataField="League" ObjectProperty="LeagueId" Class="League" />
+    </Setting>
+    <Setting Key="Match_GetById" SpName="Match_GetById" DbName="DevConnection" />
+    <Setting Key="Match_GetTimelineEvents" SpName="Match_GetTimelineEvents" DbName="DevConnection" />
+    <Setting Key="Admin_Match_DeleteMatchByDate" SpName="Admin_Match_DeleteMatchByDate" DbName="DevConnection" />
+    <Setting Key="Admin_Match_DeleteLiveMatch" SpName="Admin_Match_DeleteLiveMatch" DbName="DevConnection" />
+    <Setting Key="Admin_Match_DeleteAll" SpName="Admin_Match_DeleteAll" DbName="DevConnection" />
+    <Setting Key="Admin_Match_DeleteById" SpName="Admin_Match_DeleteById" DbName="DevConnection" />
+  </Function>
+</Functions>

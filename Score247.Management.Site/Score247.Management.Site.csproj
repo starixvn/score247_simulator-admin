@@ -19,6 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="App_Data\SPNames\Local\SpNames.xml" />
+    <None Remove="App_Data\SPNames\Pro\SpNames.xml" />
     <None Remove="App_Data\SpNames.xml" />
   </ItemGroup>
 
@@ -27,6 +29,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="App_Data\SPNames\Local\SpNames.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="App_Data\SPNames\Pro\SpNames.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
     <Content Include="App_Data\SpNames.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

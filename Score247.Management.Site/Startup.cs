@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Fanex.Data;
 using Fanex.Data.MySql;
 using Fanex.Data.Repository;
@@ -55,21 +54,10 @@ namespace Score247.Management.Site
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
               .AddCookie(options =>
               {
-                  ////options.Cookie.HttpOnly = true;
-                  //options.Cookie.SecurePolicy = Environment.IsDevelopment()
-                  //  ? CookieSecurePolicy.None : CookieSecurePolicy.Always;
                   options.Cookie.SameSite = SameSiteMode.Lax;
                   options.Cookie.Name = "Score247.AuthCookieAdmin";
                   options.LoginPath = "/Login";
               });
-
-            //services.Configure<CookiePolicyOptions>(options =>
-            //{
-            //    options.MinimumSameSitePolicy = SameSiteMode.Strict;
-            //    options.HttpOnly = HttpOnlyPolicy.None;
-            //    options.Secure = Environment.IsDevelopment()
-            //      ? CookieSecurePolicy.None : CookieSecurePolicy.Always;
-            //});
 
             services.AddSingleton(Configuration);
             services.AddSingleton<IDynamicRepository, DynamicRepository>();
@@ -127,7 +115,7 @@ namespace Score247.Management.Site
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IAntiforgery antiforgery)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             string baseDir = env.ContentRootPath;
             AppDomain.CurrentDomain.SetData("DataDirectory", System.IO.Path.Combine(baseDir, "App_Data"));
@@ -146,7 +134,7 @@ namespace Score247.Management.Site
                .Use(connections)
                // It comes with a default connection string provider, which works well with MySql connections,
                // as well as a default DbSetting provider
-               .WithMySql(resourcePath: AppDomain.CurrentDomain.GetData("DataDirectory").ToString())
+               .WithMySql(resourcePath: AppDomain.CurrentDomain.GetData("DataDirectory") + Configuration.GetValue<string>("AppDataPath"))
                //.UseDefaultConnectionStringProvider()
                .Run();
 

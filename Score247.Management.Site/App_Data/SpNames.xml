@@ -4,32 +4,16 @@
     </Setting>
     <Setting Key="League_GetById" SpName="League_GetById" DbName="DevConnection">
     </Setting>
-    <Setting Key="League_GetCategory" SpName="League_GetCategory" DbName="DefaultConnection" />
     <Setting Key="Admin_League_InsertLeague" SpName="Admin_League_InsertLeague" DbName="DevConnection" />
-    <Setting Key="League_CreateLeagueCategory" SpName="League_CreateLeagueCategory" DbName="DefaultConnection" />
-    <Setting Key="League_CreateLeagueSeason" SpName="League_CreateLeagueSeason" DbName="DefaultConnection" />
     <Setting Key="Admin_League_UpdateActiveStatus" SpName="Admin_League_UpdateActiveStatus" DbName="DevConnection" />
     <Setting Key="Admin_League_EnableAll" SpName="Admin_League_EnableAll" DbName="DevConnection" />
     <Setting Key="Admin_League_EnableMajor" SpName="Admin_League_EnableMajor" DbName="DevConnection" />
     <Setting Key="Admin_League_RemoveLeagueSeason" SpName="Admin_League_RemoveLeagueSeason" DbName="DevConnection" />
     <Setting Key="Admin_League_GetLeagueSeasonId" SpName="Admin_League_GetLeagueSeasonId" DbName="DevConnection" />
   </Function>
-  <Function Name="Team">
-    <Setting Key="Team_GetTeam" SpName="Team_GetTeam" DbName="DefaultConnection">
-    </Setting>
-    <Setting Key="Team_InsertTeam" SpName="Team_InsertTeam" DbName="DefaultConnection" />
-    <Setting Key="Team_GetById" SpName="Team_GetById" DbName="DefaultConnection" />
-  </Function>
   <Function Name="TimelineLog">
     <Setting Key="TimelineLog_InsertLog" SpName="TimelineLog_InsertLog" DbName="DefaultConnection"></Setting>
     <Setting Key="TimelineLog_GetByMatchId" SpName="TimelineLog_GetByMatchId" DbName="DefaultConnection"></Setting>
-  </Function>
-  <Function Name="Scenario">
-    <Setting Key="Scenario_Insert" SpName="Scenario_Insert" DbName="DefaultConnection"></Setting>
-    <Setting Key="Scenario_InsertTimeline" SpName="Scenario_InsertTimeline" DbName="DefaultConnection"></Setting>
-    <Setting Key="Scenario_GetById" SpName="Scenario_GetById" DbName="DefaultConnection"></Setting>
-    <Setting Key="Scenario_GetScenarioEvents" SpName="Scenario_GetScenarioEvents" DbName="DefaultConnection"></Setting>
-    <Setting Key="Scenario_GetAll" SpName="Scenario_GetAll" DbName="DefaultConnection"></Setting>
   </Function>
   <Function Name="Matches">
     <Setting Key="Match_GetByDateRange" SpName="Match_GetByDateRange" DbName="DevConnection">
@@ -41,6 +25,5 @@
     <Setting Key="Admin_Match_DeleteLiveMatch" SpName="Admin_Match_DeleteLiveMatch" DbName="DevConnection" />
     <Setting Key="Admin_Match_DeleteAll" SpName="Admin_Match_DeleteAll" DbName="DevConnection" />
     <Setting Key="Admin_Match_DeleteById" SpName="Admin_Match_DeleteById" DbName="DevConnection" />
-    <Setting Key="Match_DeleteTimelineById" SpName="Match_DeleteTimelineById" DbName="DefaultConnection" />
   </Function>
 </Functions>

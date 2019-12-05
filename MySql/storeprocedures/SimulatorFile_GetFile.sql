@@ -1,27 +1,6 @@
-DROP procedure IF EXISTS `Odds_InsertOdds`;
+DROP procedure IF EXISTS `SimulatorFile_GetFile`;
 
-CREATE DEFINER=`user`@`%` PROCEDURE `Odds_InsertOdds`(
-		IN matchId VARCHAR(45), 
-        IN oddsList TEXT)
+CREATE DEFINER=`dev`@`%` PROCEDURE `SimulatorFile_GetFile`(IN filePath VARCHAR(255), IN environment VARCHAR(45))
 BEGIN
-		DECLARE oddsIndex INT DEFAULT 0;
-		DECLARE totalOdds INT DEFAULT JSON_LENGTH(oddsList);
-		
-		WHILE oddsIndex < totalOdds DO       
-        
-        INSERT INTO `Odds`
-						(`CreatedTime`,
-						`Value`,
-						`matchId`,
-						`BetTypeId`,
-						`BookmakerId`)
-						VALUES
-						(UTC_TIMESTAMP(6),
-						JSON_EXTRACT(oddsList, CONCAT('$[', oddsIndex, ']')),
-						matchId,
-						JSON_EXTRACT(oddsList, CONCAT('$[', oddsIndex, '].Id')),
-						JSON_UNQUOTE(JSON_EXTRACT(oddsList, CONCAT('$[', oddsIndex, '].Bookmaker.Id'))));
-			-- Increment the loop variable                                                                                                                                                        
-			SET oddsIndex = oddsIndex + 1;
-		END WHILE;
-	END
+	SELECT SF.Value FROM `SimulatorFile` as SF WHERE SF.Path = filePath AND SF.Environment = environment;
+END

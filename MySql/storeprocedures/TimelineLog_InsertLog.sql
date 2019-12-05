@@ -1,27 +1,16 @@
-DROP procedure IF EXISTS `Odds_InsertOdds`;
+DROP procedure IF EXISTS `TimelineLog_InsertLog`;
 
-CREATE DEFINER=`user`@`%` PROCEDURE `Odds_InsertOdds`(
-		IN matchId VARCHAR(45), 
-        IN oddsList TEXT)
+CREATE DEFINER=`user`@`%` PROCEDURE `TimelineLog_InsertLog`(IN id bigint(20), IN matchId varchar(45), IN requestBody MEDIUMTEXT, IN timelineId bigint(20), IN isTimeline tinyint)
 BEGIN
-		DECLARE oddsIndex INT DEFAULT 0;
-		DECLARE totalOdds INT DEFAULT JSON_LENGTH(oddsList);
-		
-		WHILE oddsIndex < totalOdds DO       
-        
-        INSERT INTO `Odds`
-						(`CreatedTime`,
-						`Value`,
-						`matchId`,
-						`BetTypeId`,
-						`BookmakerId`)
-						VALUES
-						(UTC_TIMESTAMP(6),
-						JSON_EXTRACT(oddsList, CONCAT('$[', oddsIndex, ']')),
-						matchId,
-						JSON_EXTRACT(oddsList, CONCAT('$[', oddsIndex, '].Id')),
-						JSON_UNQUOTE(JSON_EXTRACT(oddsList, CONCAT('$[', oddsIndex, '].Bookmaker.Id'))));
-			-- Increment the loop variable                                                                                                                                                        
-			SET oddsIndex = oddsIndex + 1;
-		END WHILE;
-	END
+	IF(isTimeline IS NULL) THEN
+		SET isTimeline := 1;
+	END IF;
+	INSERT INTO `TimelineLog`
+	(`Id`, `MatchId`, `Value`, `TimelineId`, `IsTimeline`)
+        VALUE (id, matchId, requestBody, timelineId, isTimeline)
+	ON DUPLICATE KEY UPDATE
+		`MatchId` = matchId,
+        `Value` = requestBody,
+        `TimelineId` = timelineId,
+        `IsTimeline` = isTimeline;
+END

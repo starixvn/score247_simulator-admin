@@ -23,27 +23,14 @@ namespace Score247.Management.Site.Repositories.Leagues
         {
             var criteria = new GetLeagueCriteria();
             var leagues = await repository.FetchAsync<League>(criteria);
-            var leagueCategorys = await GetLeagueCategory();
 
             foreach (var league in leagues)
             {
-                var leagueCategory = leagueCategorys.FirstOrDefault(x => x.Id == league.CategoryId);
-                if (leagueCategory == null)
+                league.LeagueCategory = new LeagueCategory
                 {
-                    league.LeagueCategory = new LeagueCategory()
-                    {
-                        Name = league.Country,
-                        CountryCode = league.CountryCode
-                    };
-                }
-                else
-                {
-                    league.LeagueCategory = leagueCategory;
-                    if (string.IsNullOrWhiteSpace(league.LeagueCategory.CountryCode))
-                    {
-                        league.LeagueCategory.CountryCode = league.CountryCode;
-                    }
-                }
+                    Name = league.Country,
+                    CountryCode = league.CountryCode
+                };
 
                 var leagueSeasonId = await GetLeagueSeasonId(league.Id);
                 league.LeagueSeason = RandomeLeagueSeason(league, leagueSeasonId);
@@ -72,27 +59,14 @@ namespace Score247.Management.Site.Repositories.Leagues
         public async Task<IEnumerable<League>> GetActiveLeagues()
         {
             var leagues = await GetLeagues();
-            var leagueCategorys = await GetLeagueCategory();
 
             foreach (var league in leagues)
             {
-                var leagueCategory = leagueCategorys.FirstOrDefault(x => x.Id == league.CategoryId);
-                if (leagueCategory == null)
+                league.LeagueCategory = new LeagueCategory
                 {
-                    league.LeagueCategory = new LeagueCategory
-                    {
-                        Name = league.Country,
-                        CountryCode = league.CountryCode
-                    };
-                }
-                else
-                {
-                    league.LeagueCategory = leagueCategory;
-                    if (string.IsNullOrWhiteSpace(league.LeagueCategory.CountryCode))
-                    {
-                        league.LeagueCategory.CountryCode = league.CountryCode;
-                    }
-                }
+                    Name = league.Country,
+                    CountryCode = league.CountryCode
+                };
 
                 var leagueSeasonId = await GetLeagueSeasonId(league.Id);
                 league.LeagueSeason = RandomeLeagueSeason(league, leagueSeasonId);
@@ -104,19 +78,12 @@ namespace Score247.Management.Site.Repositories.Leagues
         public async Task<League> GetLeagueById(string id)
         {
             var league = await repository.GetAsync<League>(new GetLeagueByIdCriteria { LeagueId = id });
-            var leagueCategorys = await GetLeagueCategory();
-            var leagueCategory = leagueCategorys.FirstOrDefault(x => x.Id == league.CategoryId);
-            if (leagueCategory == null)
+
+            league.LeagueCategory = new LeagueCategory
             {
-                league.LeagueCategory = new LeagueCategory
-                {
-                    Name = league.Country
-                };
-            }
-            else
-            {
-                league.LeagueCategory = leagueCategory;
-            }
+                Name = league.Country,
+                CountryCode = league.CountryCode
+            };
 
             var leagueSeasonId = await GetLeagueSeasonId(id);
             league.LeagueSeason = RandomeLeagueSeason(league, leagueSeasonId);

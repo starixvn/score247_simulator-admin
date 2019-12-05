@@ -1,27 +1,14 @@
-DROP procedure IF EXISTS `Odds_InsertOdds`;
+DROP procedure IF EXISTS `Team_InsertTeam`;
 
-CREATE DEFINER=`user`@`%` PROCEDURE `Odds_InsertOdds`(
-		IN matchId VARCHAR(45), 
-        IN oddsList TEXT)
+CREATE DEFINER=`user`@`%` PROCEDURE `Team_InsertTeam`(
+	in id varchar(45),
+    in abbreviation varchar(45),
+    in country varchar(255),
+    in countryCode varchar(45),
+    in teamName varchar(255)
+)
 BEGIN
-		DECLARE oddsIndex INT DEFAULT 0;
-		DECLARE totalOdds INT DEFAULT JSON_LENGTH(oddsList);
-		
-		WHILE oddsIndex < totalOdds DO       
-        
-        INSERT INTO `Odds`
-						(`CreatedTime`,
-						`Value`,
-						`matchId`,
-						`BetTypeId`,
-						`BookmakerId`)
-						VALUES
-						(UTC_TIMESTAMP(6),
-						JSON_EXTRACT(oddsList, CONCAT('$[', oddsIndex, ']')),
-						matchId,
-						JSON_EXTRACT(oddsList, CONCAT('$[', oddsIndex, '].Id')),
-						JSON_UNQUOTE(JSON_EXTRACT(oddsList, CONCAT('$[', oddsIndex, '].Bookmaker.Id'))));
-			-- Increment the loop variable                                                                                                                                                        
-			SET oddsIndex = oddsIndex + 1;
-		END WHILE;
-	END
+	INSERT INTO `Team`
+		(`Id`, `Abbreviation`, `Country`, `CountryCode`, `Name`)
+        VALUE (id, abbreviation, country, countryCode, teamName);
+END
