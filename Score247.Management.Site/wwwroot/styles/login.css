@@ -54,7 +54,8 @@
   text-transform: uppercase; }
   .btn:hover {
     background-color: #273647;
-    cursor: pointer; }
+    cursor: pointer;
+    color: #fff; }
 
 .icon {
   position: absolute;
