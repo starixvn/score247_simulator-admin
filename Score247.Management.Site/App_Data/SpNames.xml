@@ -31,10 +31,6 @@
     <Setting Key="Scenario_GetScenarioEvents" SpName="Scenario_GetScenarioEvents" DbName="DefaultConnection"></Setting>
     <Setting Key="Scenario_GetAll" SpName="Scenario_GetAll" DbName="DefaultConnection"></Setting>
   </Function>
-  <Function Name="Image">
-    <Setting Key="Image_Insert" SpName="Image_Insert" DbName="DefaultConnection"></Setting>
-    <Setting Key="Image_GetCountryImages" SpName="Image_GetCountryImages" DbName="DefaultConnection"></Setting>
-  </Function>
   <Function Name="Matches">
     <Setting Key="Match_GetByDateRange" SpName="Match_GetByDateRange" DbName="DevConnection">
       <Mapping DataField="League" ObjectProperty="LeagueId" Class="League" />
