@@ -125,6 +125,11 @@ namespace Score247.Management.Site.Services
                     return null;
                 }
 
+                if (lastPeriodTimlineStatus.payload.sport_event_status.period_scores.FirstOrDefault(pc => pc.type == "penalties") != null)
+                {
+                    lastTimelinewithPeriodScores = lastPeriodTimlineStatus;
+                }
+
                 var payload = lastPeriodTimlineStatus.payload;
                 var result = MatchMapper.MapMatchResult(payload);
 
