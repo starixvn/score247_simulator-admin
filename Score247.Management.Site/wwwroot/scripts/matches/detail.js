@@ -394,3 +394,9 @@ function RemoveTimeline(matchId, timelineId) {
         }
     });
 }
+
+function OpenModalPopUp(reservationDay) {
+    var tmpData = JSON.parse(reservationDay.replace(/(\r\n|\n|\r|\t)/, ""));
+    $(".reservationDay").text(JSON.stringify(tmpData, null, '\t'));
+    $('#logRequest').modal();
+}

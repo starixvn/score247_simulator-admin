@@ -50,7 +50,7 @@ namespace Score247.Management.Site.Repositories.Matches
             result.ForEach(x =>
             {
                 var log = timelinesLogs.FirstOrDefault(y => y.TimelineId == x.Id);
-                x.RequestLog = log?.Value;
+                x.RequestLog = log?.Value.Replace(System.Environment.NewLine, "");
             });
 
             return result;
@@ -64,7 +64,7 @@ namespace Score247.Management.Site.Repositories.Matches
             result.ForEach(x =>
             {
                 var log = timelinesLogs.FirstOrDefault(y => y.TimelineId == x.Id);
-                x.RequestLog = log?.Value;
+                x.RequestLog = log?.Value.Replace(System.Environment.NewLine, "");
             });
 
             return result;
