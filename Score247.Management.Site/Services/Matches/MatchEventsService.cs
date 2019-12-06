@@ -234,13 +234,6 @@ namespace Score247.Management.Site.Services.Matches
             requestBody.payload.timeline.type = EventType.PenaltyShootout.DisplayName;
             requestBody.payload.timeline.period_type = PeriodType.Penalties.DisplayName;
 
-            requestBody.payload.timeline.match_time = 120;
-            requestBody.payload.timeline.match_clock = "120:00";
-            requestBody.payload.sport_event_status.clock = new Clock
-            {
-                match_time = "120:00"
-            };
-
             if (isNotDuplicateEvent)
             {
                 var period = requestBody.payload.sport_event_status.period_scores.FirstOrDefault(ps => ps.type == "penalties");

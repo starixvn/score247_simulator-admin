@@ -111,13 +111,14 @@ namespace Score247.Management.Site.Services
                 var timelines = timelinelogs
                 .Where(tlg => tlg.Value != null)
                 .Select(timelineLog => JsonConvert.DeserializeObject<MatchPushEventDto>(timelineLog.Value))
-                .Where(tl => tl.payload?.timeline?.period != null)
-                .OrderBy(timeline => timeline.payload.timeline.period)
-                .ThenBy(timeline => timeline.payload.timeline.match_time)
-                .ThenBy(timeline => timeline.payload.timeline.time)
                 .ToList();
-                var lastTimelinewithPeriodScores = timelines.LastOrDefault(timeline => timeline?.payload?.sport_event_status?.period_scores != null);
-                var lastPeriodTimlineStatus = timelines.LastOrDefault();
+                var lastTimelinewithPeriodScores = timelines
+                    .Where(tl => tl.payload?.timeline.period != null)
+                    .OrderBy(tl => tl.payload.timeline.match_time)
+                    .ThenBy(tl => tl.payload.timeline.time)
+                    .LastOrDefault(timeline => timeline?.payload?.sport_event_status?.period_scores != null);
+
+                var lastPeriodTimlineStatus = timelines.OrderBy(timeline => timeline.payload.timeline.time).LastOrDefault();
 
                 if (lastPeriodTimlineStatus == null || lastPeriodTimlineStatus?.payload == null)
                 {
