@@ -140,6 +140,12 @@ namespace Score247.Management.Site.Services.Matches
                 period = match.MatchResult?.Period,
                 hour = null
             };
+            if (!isNotDuplicateEvent)
+            {
+                var preMatchPushEventDto = await matchRepository.GetMatchTimelineLog(requestBody.payload.timeline.id);
+                requestBody.payload.timeline.home_score = preMatchPushEventDto?.payload.timeline.home_score;
+                requestBody.payload.timeline.away_score = preMatchPushEventDto?.payload.timeline.away_score;
+            }
 
             if (matchTime != null)
             {
@@ -237,6 +243,16 @@ namespace Score247.Management.Site.Services.Matches
 
             if (isNotDuplicateEvent)
             {
+                var period = requestBody.payload.sport_event_status.period_scores.FirstOrDefault(ps => ps.type == "penalties");
+                if (period == null)
+                {
+                    requestBody.payload.sport_event_status.period_scores = requestBody.payload.sport_event_status.period_scores.Append(new Period_Scores
+                    {
+                        home_score = 0,
+                        away_score = 0,
+                        type = "penalties"
+                    });
+                }
                 requestBody = UpdatePenaltyScore(requestBody);
             }
 

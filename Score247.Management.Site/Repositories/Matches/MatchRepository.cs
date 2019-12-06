@@ -144,5 +144,13 @@ namespace Score247.Management.Site.Repositories.Matches
         {
             return await repository.ExecuteAsync(new DeleteTimelineByIdCriteria { TimelineId = timelineId });
         }
+
+        public async Task<MatchPushEventDto> GetMatchTimelineLog(long timelineId)
+        {
+            var timelineLog = await repository.GetAsync<TimelineLog>(new GetMatchTimelineLogByIdCriteria(timelineId));
+            var timelinelogValue = timelineLog?.Value.Replace(System.Environment.NewLine, "");
+
+            return timelinelogValue != null ? JsonConvert.DeserializeObject<MatchPushEventDto>(timelinelogValue) : null;
+        }
     }
 }

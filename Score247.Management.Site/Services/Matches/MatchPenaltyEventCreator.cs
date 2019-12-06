@@ -12,7 +12,7 @@ namespace Score247.Management.Site.Services.Matches
         public static MatchPushEventDto CreatePenaltyEvent(Match match, DateTime eventTime, string team, string playerName, string status)
         {
             var matchEvent = new MatchPushEventDto(match);
-            matchEvent.payload.timeline = new TimelineDto()
+            matchEvent.payload.timeline = new TimelineDto
             {
                 id = UniqueGenerator.GetIntId(),
                 time = eventTime.ToUniversalTime(),
@@ -24,7 +24,7 @@ namespace Score247.Management.Site.Services.Matches
                 status = status
             };
 
-            matchEvent.payload.timeline.player = new TimelinePlayer()
+            matchEvent.payload.timeline.player = new TimelinePlayer
             {
                 id = UniqueGenerator.GetIdWithPattern("sr:player:"),
                 name = playerName

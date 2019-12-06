@@ -23,6 +23,7 @@
   <Function Name="TimelineLog">
     <Setting Key="TimelineLog_InsertLog" SpName="TimelineLog_InsertLog" DbName="DefaultConnection"></Setting>
     <Setting Key="TimelineLog_GetByMatchId" SpName="TimelineLog_GetByMatchId" DbName="DefaultConnection"></Setting>
+    <Setting Key="TimelineLog_GetById" SpName="TimelineLog_GetById" DbName="DefaultConnection"></Setting>
   </Function>
   <Function Name="Scenario">
     <Setting Key="Scenario_Insert" SpName="Scenario_Insert" DbName="DefaultConnection"></Setting>
