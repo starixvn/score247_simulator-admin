@@ -45,10 +45,14 @@ namespace Score247.Management.Site.Services.Matches
         public async Task<MatchPushEventDto> CreateCardFaultEventPartial(string id, IFormCollection collection, TimeSpan offset)
         {
             var requestBody = await InitEvent(id, collection, offset);
+            if (collection["payload.timeline.period_type"] == "extra_time")
+            {
+                requestBody.payload.timeline.stoppage_time = collection["payload.timeline.stoppage_time"];
+            }
+
             if (collection["payload.timeline.period_type"] == "overtime")
             {
                 requestBody.payload.timeline.period_type = "overtime";
-                requestBody.payload.timeline.stoppage_time = collection["payload.timeline.stoppage_time"];
             }
 
             requestBody.payload.timeline.player = new TimelinePlayer
@@ -197,8 +201,11 @@ namespace Score247.Management.Site.Services.Matches
             var periodType = collection["payload.timeline.period_type"];
             if (periodType == "extra_time")
             {
-                requestBody.payload.timeline.period_type = "overtime";
                 requestBody.payload.timeline.stoppage_time = collection["payload.timeline.stoppage_time"];
+            }
+            if (periodType == "overtime")
+            {
+                requestBody.payload.timeline.period_type = "overtime";
             }
 
             return requestBody;
@@ -211,8 +218,11 @@ namespace Score247.Management.Site.Services.Matches
             var periodType = collection["payload.timeline.period_type"];
             if (periodType == "extra_time")
             {
-                requestBody.payload.timeline.period_type = "overtime";
                 requestBody.payload.timeline.stoppage_time = collection["payload.timeline.stoppage_time"];
+            }
+            if (periodType == "overtime")
+            {
+                requestBody.payload.timeline.period_type = "overtime";
             }
 
             return requestBody;
@@ -297,6 +307,11 @@ namespace Score247.Management.Site.Services.Matches
             {
                 requestBody.payload.timeline.period_type = "overtime";
                 requestBody.payload.timeline.stoppage_time = collection["payload.timeline.stoppage_time"];
+            }
+
+            if (periodType == "overtime")
+            {
+                requestBody.payload.timeline.period_type = "overtime";
             }
 
             if (requestBody.payload.timeline.type != "normal_goal")
