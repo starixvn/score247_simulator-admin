@@ -45,11 +45,9 @@ namespace Score247Management.Core.Matches.Models
 
         public string DisplayResult
         {
-            get => MatchResult.EventStatus.IsClosed() ?
+            get => MatchResult != null ?
                     MatchResult.HomeScore.ToString() + " - " + MatchResult.AwayScore.ToString() :
-                    LatestTimeline != null ?
-                        LatestTimeline.HomeScore.ToString() + " - " + LatestTimeline.AwayScore.ToString() :
-                        "";
+                    "0 - 0";
         }
     }
 }
