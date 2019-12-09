@@ -781,6 +781,7 @@ namespace Score247.Management.Site.Services.Matches
         public async Task SendEventTimeline(MatchPushEventDto matchPushEventDto, bool eventMissed)
         {
             await simulatorService.SendMatchEvent(matchPushEventDto, eventMissed);
+
             await timelineService.SendMatchTimeline(matchPushEventDto.metadata.sport_event_id);
 
             await createMatchesService.UpdateLiveMatch(matchPushEventDto.metadata.sport_event_id);

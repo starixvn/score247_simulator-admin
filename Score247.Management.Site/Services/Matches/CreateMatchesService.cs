@@ -35,7 +35,7 @@ namespace Score247.Management.Site.Services.Matches
 
         Task<string> AutoCreateMatch(DateTimeOffset dateTimeOffset);
 
-        Task UpdateLiveMatch(string matchId);
+        Task UpdateLiveMatch(string matchId, bool isPenaltyShootout = false);
 
         Sport_Event_Status RandomMatchEventStatus(string homeTeamId, string awayTeamId);
     }
@@ -275,7 +275,7 @@ namespace Score247.Management.Site.Services.Matches
             return matches.First().Id;
         }
 
-        public async Task UpdateLiveMatch(string matchId)
+        public async Task UpdateLiveMatch(string matchId, bool isPenaltyShootout = false)
         {
             await simulatorService.SyncLiveMatches();
 
@@ -303,12 +303,17 @@ namespace Score247.Management.Site.Services.Matches
             matchFileService.SaveLiveMatchToFile(content);
             await simulatorService.SendLiveResult(content);
             await triggerJobService.TriggerFetchLiveMatch();
+            if (isPenaltyShootout)
+            {
+                return;
+            }
+
             await triggerJobService.TriggerFetchLiveMatchTimeline();
         }
 
         private Result BuildLiveMatchFromMatch(Match match, MatchPushEventDto latestTimeline)
         {
-            var result = new Result()
+            var result = new Result
             {
                 sport_event = SportEventMapper.MapSportEvent(match),
                 sport_event_status = latestTimeline?.payload.sport_event_status
