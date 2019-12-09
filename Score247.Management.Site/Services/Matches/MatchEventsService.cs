@@ -784,6 +784,8 @@ namespace Score247.Management.Site.Services.Matches
 
             await timelineService.SendMatchTimeline(matchPushEventDto.metadata.sport_event_id);
 
+            var isPenaltyShootout = matchPushEventDto.payload.timeline.type != EventType.PenaltyShootout.DisplayName;
+
             await createMatchesService.UpdateLiveMatch(matchPushEventDto.metadata.sport_event_id);
         }
     }
