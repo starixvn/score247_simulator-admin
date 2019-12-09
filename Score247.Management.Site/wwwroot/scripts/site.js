@@ -305,7 +305,7 @@ function minorPeriodTypeChange(selectObject) {
 
 function cardPeriodTypeChange(selectObject) {
     console.log(selectObject.value);
-    if (selectObject.value === 'overtime') {
+    if (selectObject.value === 'extra_time') {
         $('#cardExtratime').removeClass('d-none');
     } else {
         $('#cardExtratime').addClass('d-none');
