@@ -267,7 +267,6 @@ function timezoneChange(selectTimezone) {
     $('#timezoneSelection').submit();
 }
 
-
 function scoreTimeEventTypeChange(selectObject) {
     console.log(selectObject.value);
     if (selectObject.value === 'match_end_pen' || selectObject.value === 'match_end_normal' || selectObject.value === 'match_end_extra') {
@@ -306,13 +305,11 @@ function minorPeriodTypeChange(selectObject) {
 function cardPeriodTypeChange(selectObject) {
     console.log(selectObject.value);
     if (selectObject.value === 'extra_time') {
-        $('#cardExtratime').removeClass('d-none');
+        $('#cardInjurytime').removeClass('d-none');
     } else {
-        $('#cardExtratime').addClass('d-none');
+        $('#cardInjurytime').addClass('d-none');
     }
 }
-
-
 
 function UpdateLimitMatchInput(limitCount) {
     console.log(limitCount);

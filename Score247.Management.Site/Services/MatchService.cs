@@ -58,6 +58,8 @@ namespace Score247.Management.Site.Services
         Task<IEnumerable<MatchSummary>> GetH2H(string matchId);
 
         Task RemoveTimeline(string matchId, string timelineId);
+
+        Task<Match> GetMatchById(string matchId);
     }
 
     public class MatchService : IMatchService
@@ -71,6 +73,7 @@ namespace Score247.Management.Site.Services
         private readonly ICreateMatchesService createMatchesService;
         private readonly ISimulatorFileService matchFileService;
         private readonly IH2HService h2HService;
+        private readonly IMatchEventsService matchEventsService;
         private readonly bool isMainEnvironment;
 
 #pragma warning disable S107 // Methods should not have too many parameters
@@ -84,6 +87,7 @@ namespace Score247.Management.Site.Services
             ILineupService lineupService,
             ICreateMatchesService createMatchesService,
             ISimulatorFileService matchFileService,
+            IMatchEventsService matchEventsService,
             IH2HService h2HService,
             IConfiguration configuration)
 #pragma warning restore S107 // Methods should not have too many parameters
@@ -96,6 +100,7 @@ namespace Score247.Management.Site.Services
             this.lineupService = lineupService;
             this.createMatchesService = createMatchesService;
             this.matchFileService = matchFileService;
+            this.matchEventsService = matchEventsService;
             this.h2HService = h2HService;
             isMainEnvironment = (configuration.GetValue<string>("DevelopmentEnvironment") == "main");
         }
@@ -128,6 +133,10 @@ namespace Score247.Management.Site.Services
             {
                 return;
             }
+            var match = await GetMatchById(matchId);
+            var timeEvent = MatchTimeEventCreator.CreateMatchEndNormal(match, DateTime.Now);
+
+            await matchEventsService.SendEventTimeline(timeEvent, false);
 
             var content = await matchFileService.ReadLiveMatchFromFile();
             if (content != null)
@@ -138,7 +147,7 @@ namespace Score247.Management.Site.Services
             }
             else
             {
-                content = new DailyResultDto()
+                content = new DailyResultDto
                 {
                     generated_at = DateTime.UtcNow,
                     results = new List<Result>(),
@@ -186,7 +195,19 @@ namespace Score247.Management.Site.Services
                 return;
             }
 
-            var content = new DailyResultDto
+            var content = await matchFileService.ReadLiveMatchFromFile();
+            if (content != null && content.results != null)
+            {
+                foreach (var matchResult in content.results)
+                {
+                    var match = await GetMatchById(matchResult.sport_event.id);
+                    var timeEvent = MatchTimeEventCreator.CreateMatchEndNormal(match, DateTime.Now);
+
+                    await matchEventsService.SendEventTimeline(timeEvent, false);
+                }
+            }
+
+            content = new DailyResultDto
             {
                 generated_at = DateTime.UtcNow,
                 schema = "Matches",
@@ -375,6 +396,13 @@ namespace Score247.Management.Site.Services
         public async Task RemoveTimeline(string matchId, string timelineId)
         {
             await timelineService.RemoveTimeline(matchId, timelineId);
+        }
+
+        public Task<Match> GetMatchById(string matchId)
+        {
+            var repository = new MatchRepository();
+
+            return repository.GetMatchById(matchId, TimeSpan.Zero);
         }
     }
 }
