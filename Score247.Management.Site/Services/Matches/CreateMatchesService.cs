@@ -483,6 +483,7 @@ namespace Score247.Management.Site.Services.Matches
             if (matchStatus == MatchStatus.Ended.DisplayName
                 || matchStatus == MatchStatus.EndedAfterPenalties.DisplayName
                 || matchStatus == MatchStatus.EndedExtraTime.DisplayName
+                || matchStatus == MatchStatus.Interrupted
                 || matchStatus == MatchStatus.Closed.DisplayName
                 || matchStatus == MatchStatus.FullTime.DisplayName)
             {
