@@ -143,6 +143,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="appsettings.local-autotest1.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="appsettings.local-dev.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -152,7 +155,7 @@
     <Content Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="appsettings.local-acceptance-test.json">
+    <Content Update="appsettings.local-autotest.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="appsettings.local-dev1.json">
