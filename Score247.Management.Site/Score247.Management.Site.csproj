@@ -167,6 +167,9 @@
     <Content Update="appsettings.local-test.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="appsettings.local-test1.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="App_Data\h2h\Case 2.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
