@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Fanex.Logging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -242,10 +243,19 @@ namespace Score247.Management.Site.Controllers
         [HttpPost("Match/DeleteAllMatches")]
         public async Task<JsonResult> DeleteAllMatches()
         {
-            await matchService.CloseAllLiveMatches();
-            await matchService.DeleteAllMatches();
+            try
+            {
+                await matchService.CloseAllLiveMatches();
+                await matchService.DeleteAllMatches();
 
-            return Json(true);
+                return Json(true);
+            }
+            catch (Exception ex)
+            {
+                Logger.Log.Error(ex.Message);
+            }
+
+            return Json(false);
         }
 
         [HttpGet("Match/GetMatchesByDate")]

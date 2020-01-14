@@ -201,9 +201,12 @@ namespace Score247.Management.Site.Services
                 foreach (var matchResult in content.results)
                 {
                     var match = await GetMatchById(matchResult.sport_event.id);
-                    var timeEvent = MatchTimeEventCreator.CreateMatchEndNormal(match, DateTime.Now);
+                    if (match != null)
+                    {
+                        var timeEvent = MatchTimeEventCreator.CreateMatchEndNormal(match, DateTime.Now);
 
-                    await matchEventsService.SendEventTimeline(timeEvent, false);
+                        await matchEventsService.SendEventTimeline(timeEvent, false);
+                    }
                 }
             }
 
