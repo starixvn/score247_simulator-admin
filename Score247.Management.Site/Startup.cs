@@ -117,6 +117,12 @@ namespace Score247.Management.Site
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.Use((context, next) =>
+            {
+                context.Request.PathBase = Configuration["HostingVirtualPath"];
+                return next();
+            });
+
             string baseDir = env.ContentRootPath;
             AppDomain.CurrentDomain.SetData("DataDirectory", System.IO.Path.Combine(baseDir, "App_Data"));
 
