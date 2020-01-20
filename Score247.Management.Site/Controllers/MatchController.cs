@@ -81,7 +81,7 @@ namespace Score247.Management.Site.Controllers
             var today = DateTime.UtcNow;
             options.Add(new QuickDateSelectOption(today.AddDays(-2).Add(offset)));
             options.Add(new QuickDateSelectOption(today.AddDays(-1).Add(offset)));
-            options.Add(new QuickDateSelectOption { DisplayName = "TODAY", DisplayDate = today.Add(offset).ToString("MMM dd").ToUpper(), Value = today.Add(offset).ToString("MM/dd/yyyy") });
+            options.Add(new QuickDateSelectOption { DisplayName = "TODAY", DisplayDate = today.Add(offset).ToString("MMM dd").ToUpperInvariant(), Value = today.Add(offset).ToString("MM/dd/yyyy") });
             options.Add(new QuickDateSelectOption(today.AddDays(1).Add(offset)));
             options.Add(new QuickDateSelectOption(today.AddDays(2).Add(offset)));
 
