@@ -26,4 +26,8 @@
     <Setting Key="Admin_Match_DeleteAll" SpName="Admin_Match_DeleteAll" DbName="DevConnection" />
     <Setting Key="Admin_Match_DeleteById" SpName="Admin_Match_DeleteById" DbName="DevConnection" />
   </Function>
+  <Function Name="SportTeams">
+    <Setting Key="SportTeam_GetNotFetched" SpName="SportTeam_GetNotFetched" DbName="DefaultConnection"></Setting>
+    <Setting Key="SportTeam_UpdateFetchStatus" SpName="SportTeam_UpdateFetchStatus" DbName="DefaultConnection"></Setting>
+  </Function>
 </Functions>

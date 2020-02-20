@@ -143,6 +143,18 @@
 
                     }
                 </div>
+                <div>
+                    <label class="match-info-name">Coverage Live: @Model.Match.Coverage.Live</label>
+                </div>
+                <div>
+                    <label class="match-info-name">Coverage DetailEvent: @Model.Match.Coverage.DetailedEvents</label>
+                </div>
+                <div>
+                    <label class="match-info-name">Coverage Commentary: @Model.Match.Coverage.Commentary</label>
+                </div>
+                <div>
+                    <label class="match-info-name">Coverage Lineups: @Model.Match.Coverage.Lineups</label>
+                </div>
             </form>
             <form class="view-json-data">
                 <button id="btnGetH2H" onclick="getMatchH2H('@Model.Match.Id', event)" class="btn-view-data">H2H Data</button>

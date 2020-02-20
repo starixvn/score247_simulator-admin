@@ -44,4 +44,16 @@
     <Setting Key="Admin_Match_DeleteById" SpName="Admin_Match_DeleteById" DbName="DevConnection" />
     <Setting Key="Match_DeleteTimelineById" SpName="Match_DeleteTimelineById" DbName="DefaultConnection" />
   </Function>
+  <Function Name="SportTeams">
+    <Setting Key="SportTeam_GetNotFetched" SpName="SportTeam_GetNotFetched" DbName="DefaultConnection"></Setting>
+    <Setting Key="SportTeam_UpdateFetchStatus" SpName="SportTeam_UpdateFetchStatus" DbName="DefaultConnection"></Setting>
+    <Setting Key="RapidLeague_UpdateStatus" SpName="RapidLeague_UpdateStatus" DbName="DefaultConnection"></Setting>
+    <Setting Key="RabitLeague_GetUnprocess" SpName="RabitLeague_GetUnprocess" DbName="DefaultConnection"></Setting>
+    <Setting Key="RapidTeam_AddTeams" SpName="RapidTeam_AddTeams" DbName="DefaultConnection"></Setting>
+    <Setting Key="RapidTeams_GetUnprocess" SpName="RapidTeams_GetUnprocess" DbName="DefaultConnection"></Setting>
+    <Setting Key="RapidTeams_UpdateStatus" SpName="RapidTeams_UpdateStatus" DbName="DefaultConnection"></Setting>
+    <Setting Key="SportradarTeamsLogo_AddTeams" SpName="SportradarTeamsLogo_AddTeams" DbName="DefaultConnection"></Setting>
+    <Setting Key="SportradarTeamsLogo_GetUnFetched" SpName="SportradarTeamsLogo_GetUnFetched" DbName="DefaultConnection"></Setting>
+    <Setting Key="SportradarTeam_UpdateFetchStatus" SpName="SportradarTeam_UpdateFetchStatus" DbName="DefaultConnection"></Setting>
+  </Function>
 </Functions>

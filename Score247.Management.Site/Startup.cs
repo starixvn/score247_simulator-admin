@@ -21,6 +21,7 @@ using Quartz.Impl;
 using Quartz.Spi;
 using Score247.Management.Site.ScheduledTask;
 using Score247.Management.Site.Services;
+using Score247.Management.Site.Services.Images;
 using Score247.Management.Site.Services.Matches;
 using Score247.Management.Site.Services.Odds;
 using Score247.Management.Site.Services.Schedulers;
@@ -42,6 +43,7 @@ namespace Score247.Management.Site
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpClient();
             services.AddDistributedMemoryCache();
 
             services.AddSession(options =>
@@ -103,6 +105,7 @@ namespace Score247.Management.Site
             services.AddSingleton<IH2HService, H2HService>();
             services.AddSingleton<ITeamService, TeamService>();
             services.AddSingleton<ILoginService, LoginService>();
+            services.AddSingleton<ISportTeamImageService, SportTeamImageService>();
         }
 
         private static void RegisterScheduledJobs(IServiceCollection services)
