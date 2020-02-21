@@ -15,10 +15,10 @@
     <Setting Key="Admin_League_GetLeagueSeasonId" SpName="Admin_League_GetLeagueSeasonId" DbName="DevConnection" />
   </Function>
   <Function Name="Team">
-    <Setting Key="Team_GetTeam" SpName="Team_GetTeam" DbName="DefaultConnection">
-    </Setting>
+    <Setting Key="Team_GetTeam" SpName="Team_GetTeam" DbName="DefaultConnection" />
     <Setting Key="Team_InsertTeam" SpName="Team_InsertTeam" DbName="DefaultConnection" />
     <Setting Key="Team_GetById" SpName="Team_GetById" DbName="DefaultConnection" />
+    <Setting Key="Admin_Team_GetTeams" SpName="Admin_Team_GetTeams" DbName="DevConnection" />
   </Function>
   <Function Name="TimelineLog">
     <Setting Key="TimelineLog_InsertLog" SpName="TimelineLog_InsertLog" DbName="DefaultConnection"></Setting>

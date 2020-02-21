@@ -80,12 +80,11 @@ $(document).ready(function () {
             "targets": 0
         }],
         "order": [[1, 'asc']],
-        "dom": '<"top"if>rt<"bottom"><"clear">',
         aLengthMenu: [
             [25, 50, 100, 200, -1],
             [25, 50, 100, 200, "All"]
         ],
-        iDisplayLength: -1
+        iDisplayLength: 100
     });
 
     t.on('order.dt search.dt', function () {

@@ -9,6 +9,10 @@
     {
         private const char formationSplitChar = '-';
 
+        public TeamLineups(string value) : base(value)
+        {
+        }
+
         public Coach Coach { get; set; }
 
         public string Formation { get; set; }
