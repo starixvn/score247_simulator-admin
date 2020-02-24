@@ -287,6 +287,7 @@ namespace Score247.Management.Site.Services
         public async Task UpdateLeagueInfo(LeagueSportradarInfo leagueSportradarInfo)
         {
             await simulatorService.SendLeagueInfo(leagueSportradarInfo);
+            await triggerJobService.TriggerFetchLeagues();
         }
     }
 }
