@@ -1,0 +1,653 @@
+{
+  "generated_at": "2020-02-24T03:14:37+00:00",
+  "schema": "http://schemas.sportradar.com/bsa/soccer/v1/json/endpoints/soccer/tournament_info.json",
+  "tournament": {
+    "id": "sr:tournament:7",
+    "name": "UEFA Champions League",
+    "sport": {
+      "id": "sr:sport:1",
+      "name": "Soccer"
+    },
+    "category": {
+      "id": "sr:category:393",
+      "name": "International Clubs"
+    },
+    "current_season": {
+      "id": "sr:season:67681",
+      "name": "UEFA Champions League 19/20",
+      "start_date": "2019-06-25",
+      "end_date": "2020-06-01",
+      "year": "19/20"
+    }
+  },
+  "season": {
+    "id": "sr:season:67681",
+    "name": "UEFA Champions League 19/20",
+    "start_date": "2019-06-25",
+    "end_date": "2020-06-01",
+    "year": "19/20",
+    "tournament_id": "sr:tournament:7"
+  },
+  "round": {
+    "type": "cup",
+    "name": "round_of_16",
+    "cup_round_match_number": 1,
+    "cup_round_matches": 2
+  },
+  "season_coverage_info": {
+    "season_id": "sr:season:67681",
+    "scheduled": 204,
+    "played": 191,
+    "max_coverage_level": "platinum",
+    "max_covered": 100,
+    "min_coverage_level": "silver"
+  },
+  "coverage_info": {
+    "live_coverage": true
+  },
+  "groups": [
+    {
+      "name": "A",
+      "id": "sr:group:45054",
+      "teams": [
+        {
+          "id": "sr:competitor:3061",
+          "name": "Galatasaray",
+          "country": "Turkey",
+          "country_code": "TUR",
+          "abbreviation": "GAL"
+        },
+        {
+          "id": "sr:competitor:2829",
+          "name": "Real Madrid",
+          "country": "Spain",
+          "country_code": "ESP",
+          "abbreviation": "RMA"
+        },
+        {
+          "id": "sr:competitor:1644",
+          "name": "Paris Saint-Germain",
+          "country": "France",
+          "country_code": "FRA",
+          "abbreviation": "PSG"
+        },
+        {
+          "id": "sr:competitor:2888",
+          "name": "Club Brugge",
+          "country": "Belgium",
+          "country_code": "BEL",
+          "abbreviation": "BRU"
+        }
+      ]
+    },
+    {
+      "name": "B",
+      "id": "sr:group:45056",
+      "teams": [
+        {
+          "id": "sr:competitor:3245",
+          "name": "Olympiacos Piraeus",
+          "country": "Greece",
+          "country_code": "GRC",
+          "abbreviation": "OLY"
+        },
+        {
+          "id": "sr:competitor:2672",
+          "name": "FC Bayern Munich",
+          "country": "Germany",
+          "country_code": "DEU",
+          "abbreviation": "FCB"
+        },
+        {
+          "id": "sr:competitor:5149",
+          "name": "FK Red Star Belgrade",
+          "country": "Serbia",
+          "country_code": "SRB",
+          "abbreviation": "RSB"
+        },
+        {
+          "id": "sr:competitor:33",
+          "name": "Tottenham Hotspur",
+          "country": "England",
+          "country_code": "ENG",
+          "abbreviation": "TOT"
+        }
+      ]
+    },
+    {
+      "name": "C",
+      "id": "sr:group:45058",
+      "teams": [
+        {
+          "id": "sr:competitor:3313",
+          "name": "FC Shakhtar Donetsk",
+          "country": "Ukraine",
+          "country_code": "UKR",
+          "abbreviation": "SHA"
+        },
+        {
+          "id": "sr:competitor:2032",
+          "name": "GNK Dinamo Zagreb",
+          "country": "Croatia",
+          "country_code": "HRV",
+          "abbreviation": "DIN"
+        },
+        {
+          "id": "sr:competitor:17",
+          "name": "Manchester City",
+          "country": "England",
+          "country_code": "ENG",
+          "abbreviation": "MNC"
+        },
+        {
+          "id": "sr:competitor:2686",
+          "name": "Atalanta Bergamasca Calcio",
+          "country": "Italy",
+          "country_code": "ITA",
+          "abbreviation": "ATA"
+        }
+      ]
+    },
+    {
+      "name": "D",
+      "id": "sr:group:45060",
+      "teams": [
+        {
+          "id": "sr:competitor:2681",
+          "name": "Bayer 04 Leverkusen",
+          "country": "Germany",
+          "country_code": "DEU",
+          "abbreviation": "B04"
+        },
+        {
+          "id": "sr:competitor:2687",
+          "name": "Juventus Turin",
+          "country": "Italy",
+          "country_code": "ITA",
+          "abbreviation": "JUV"
+        },
+        {
+          "id": "sr:competitor:2320",
+          "name": "FC Lokomotiv Moscow",
+          "country": "Russia",
+          "country_code": "RUS",
+          "abbreviation": "LOK"
+        },
+        {
+          "id": "sr:competitor:2836",
+          "name": "Atletico Madrid",
+          "country": "Spain",
+          "country_code": "ESP",
+          "abbreviation": "ATM"
+        }
+      ]
+    },
+    {
+      "name": "E",
+      "id": "sr:group:45062",
+      "teams": [
+        {
+          "id": "sr:competitor:44",
+          "name": "Liverpool FC",
+          "country": "England",
+          "country_code": "ENG",
+          "abbreviation": "LFC"
+        },
+        {
+          "id": "sr:competitor:2890",
+          "name": "KRC Genk",
+          "country": "Belgium",
+          "country_code": "BEL",
+          "abbreviation": "GEN"
+        },
+        {
+          "id": "sr:competitor:2046",
+          "name": "FC Salzburg",
+          "country": "Austria",
+          "country_code": "AUT",
+          "abbreviation": "SAL"
+        },
+        {
+          "id": "sr:competitor:2714",
+          "name": "SSC Napoli",
+          "country": "Italy",
+          "country_code": "ITA",
+          "abbreviation": "NAP"
+        }
+      ]
+    },
+    {
+      "name": "F",
+      "id": "sr:group:45064",
+      "teams": [
+        {
+          "id": "sr:competitor:2817",
+          "name": "FC Barcelona",
+          "country": "Spain",
+          "country_code": "ESP",
+          "abbreviation": "FCB"
+        },
+        {
+          "id": "sr:competitor:2673",
+          "name": "Borussia Dortmund",
+          "country": "Germany",
+          "country_code": "DEU",
+          "abbreviation": "BVB"
+        },
+        {
+          "id": "sr:competitor:2216",
+          "name": "SK Slavia Prague",
+          "country": "Czech Republic",
+          "country_code": "CZE",
+          "abbreviation": "SLA"
+        },
+        {
+          "id": "sr:competitor:2697",
+          "name": "Inter Milano",
+          "country": "Italy",
+          "country_code": "ITA",
+          "abbreviation": "INT"
+        }
+      ]
+    },
+    {
+      "name": "G",
+      "id": "sr:group:45066",
+      "teams": [
+        {
+          "id": "sr:competitor:1649",
+          "name": "Olympique Lyonnais",
+          "country": "France",
+          "country_code": "FRA",
+          "abbreviation": "OL"
+        },
+        {
+          "id": "sr:competitor:3006",
+          "name": "Sl Benfica",
+          "country": "Portugal",
+          "country_code": "PRT",
+          "abbreviation": "BEN"
+        },
+        {
+          "id": "sr:competitor:2321",
+          "name": "FC Zenit St Petersburg",
+          "country": "Russia",
+          "country_code": "RUS",
+          "abbreviation": "ZEN"
+        },
+        {
+          "id": "sr:competitor:36360",
+          "name": "RB Leipzig",
+          "country": "Germany",
+          "country_code": "DEU",
+          "abbreviation": "RBL"
+        }
+      ]
+    },
+    {
+      "name": "H",
+      "id": "sr:group:45068",
+      "teams": [
+        {
+          "id": "sr:competitor:2828",
+          "name": "CF Valencia",
+          "country": "Spain",
+          "country_code": "ESP",
+          "abbreviation": "VCF"
+        },
+        {
+          "id": "sr:competitor:2953",
+          "name": "Ajax Amsterdam",
+          "country": "Netherlands",
+          "country_code": "NLD",
+          "abbreviation": "AJA"
+        },
+        {
+          "id": "sr:competitor:1643",
+          "name": "LOSC Lille",
+          "country": "France",
+          "country_code": "FRA",
+          "abbreviation": "LIL"
+        },
+        {
+          "id": "sr:competitor:38",
+          "name": "Chelsea FC",
+          "country": "England",
+          "country_code": "ENG",
+          "abbreviation": "CFC"
+        }
+      ]
+    },
+    {
+      "teams": [
+        {
+          "id": "sr:competitor:1161",
+          "name": "Rosenborg BK",
+          "country": "Norway",
+          "country_code": "NOR",
+          "abbreviation": "RBK"
+        },
+        {
+          "id": "sr:competitor:1284",
+          "name": "FC Copenhagen",
+          "country": "Denmark",
+          "country_code": "DNK",
+          "abbreviation": "FCC"
+        },
+        {
+          "id": "sr:competitor:1764",
+          "name": "AIK",
+          "country": "Sweden",
+          "country_code": "SWE",
+          "abbreviation": "AIK"
+        },
+        {
+          "id": "sr:competitor:1899",
+          "name": "Valur Reykjavik",
+          "country": "Iceland",
+          "country_code": "ISL",
+          "abbreviation": "VAL"
+        },
+        {
+          "id": "sr:competitor:1925",
+          "name": "Ferencvarosi TC",
+          "country": "Hungary",
+          "country_code": "HUN",
+          "abbreviation": "FTC"
+        },
+        {
+          "id": "sr:competitor:2058",
+          "name": "LASK",
+          "country": "Austria",
+          "country_code": "AUT",
+          "abbreviation": "LASK"
+        },
+        {
+          "id": "sr:competitor:2242",
+          "name": "HJK Helsinki",
+          "country": "Finland",
+          "country_code": "FIN",
+          "abbreviation": "HJK"
+        },
+        {
+          "id": "sr:competitor:2352",
+          "name": "Celtic Glasgow",
+          "country": "Scotland",
+          "country_code": "SCO",
+          "abbreviation": "CEL"
+        },
+        {
+          "id": "sr:competitor:2404",
+          "name": "SK Slovan Bratislava",
+          "country": "Slovakia",
+          "country_code": "SVK",
+          "abbreviation": "SLB"
+        },
+        {
+          "id": "sr:competitor:2420",
+          "name": "NK Maribor",
+          "country": "Slovenia",
+          "country_code": "SVN",
+          "abbreviation": "MAR"
+        },
+        {
+          "id": "sr:competitor:2445",
+          "name": "BSC Young Boys",
+          "country": "Switzerland",
+          "country_code": "CHE",
+          "abbreviation": "YB"
+        },
+        {
+          "id": "sr:competitor:2501",
+          "name": "FC Basel 1893",
+          "country": "Switzerland",
+          "country_code": "CHE",
+          "abbreviation": "FCB"
+        },
+        {
+          "id": "sr:competitor:2952",
+          "name": "PSV Eindhoven",
+          "country": "Netherlands",
+          "country_code": "NLD",
+          "abbreviation": "PSV"
+        },
+        {
+          "id": "sr:competitor:3002",
+          "name": "FC Porto",
+          "country": "Portugal",
+          "country_code": "PRT",
+          "abbreviation": "FCP"
+        },
+        {
+          "id": "sr:competitor:3086",
+          "name": "Istanbul Basaksehir FK",
+          "country": "Turkey",
+          "country_code": "TUR",
+          "abbreviation": "BAS"
+        },
+        {
+          "id": "sr:competitor:3179",
+          "name": "Dundalk FC",
+          "country": "Ireland",
+          "country_code": "IRL",
+          "abbreviation": "DUN"
+        },
+        {
+          "id": "sr:competitor:3251",
+          "name": "PAOK Thessaloniki",
+          "country": "Greece",
+          "country_code": "GRC",
+          "abbreviation": "PAOK"
+        },
+        {
+          "id": "sr:competitor:3305",
+          "name": "FC Dynamo Kiev",
+          "country": "Ukraine",
+          "country_code": "UKR",
+          "abbreviation": "DYK"
+        },
+        {
+          "id": "sr:competitor:3350",
+          "name": "Bate Borisov",
+          "country": "Belarus",
+          "country_code": "BLR",
+          "abbreviation": "BAT"
+        },
+        {
+          "id": "sr:competitor:3398",
+          "name": "APOEL Nikosia",
+          "country": "Cyprus",
+          "country_code": "CYP",
+          "abbreviation": "APO"
+        },
+        {
+          "id": "sr:competitor:4502",
+          "name": "FC Viktoria Plzen",
+          "country": "Czech Republic",
+          "country_code": "CZE",
+          "abbreviation": "VIK"
+        },
+        {
+          "id": "sr:competitor:4921",
+          "name": "The New Saints FC",
+          "country": "Wales",
+          "country_code": "WAL",
+          "abbreviation": "TNS"
+        },
+        {
+          "id": "sr:competitor:5173",
+          "name": "FC Sheriff Tiraspol",
+          "country": "Moldova",
+          "country_code": "MDA",
+          "abbreviation": "SHF"
+        },
+        {
+          "id": "sr:competitor:5187",
+          "name": "HB Torshavn",
+          "country": "Faroe Islands",
+          "country_code": "FRO",
+          "abbreviation": "HB"
+        },
+        {
+          "id": "sr:competitor:5198",
+          "name": "Maccabi Tel Aviv FC",
+          "country": "Israel",
+          "country_code": "ISR",
+          "abbreviation": "MTA"
+        },
+        {
+          "id": "sr:competitor:5207",
+          "name": "F91 Dudelange",
+          "country": "Luxembourg",
+          "country_code": "LUX",
+          "abbreviation": "F91"
+        },
+        {
+          "id": "sr:competitor:5222",
+          "name": "FK Partizani Tirana",
+          "country": "Albania",
+          "country_code": "ALB",
+          "abbreviation": "PTI"
+        },
+        {
+          "id": "sr:competitor:5237",
+          "name": "FK Sarajevo",
+          "country": "Bosnia & Herzegovina",
+          "country_code": "BIH",
+          "abbreviation": "FKS"
+        },
+        {
+          "id": "sr:competitor:5272",
+          "name": "Linfield FC",
+          "country": "Northern Ireland",
+          "country_code": "NIR",
+          "abbreviation": "LIN"
+        },
+        {
+          "id": "sr:competitor:5287",
+          "name": "FC CFR 1907 Cluj",
+          "country": "Romania",
+          "country_code": "ROU",
+          "abbreviation": "CFR"
+        },
+        {
+          "id": "sr:competitor:5332",
+          "name": "Valletta FC",
+          "country": "Malta",
+          "country_code": "MLT",
+          "abbreviation": "VAL"
+        },
+        {
+          "id": "sr:competitor:5343",
+          "name": "FK Suduva Marijampole",
+          "country": "Lithuania",
+          "country_code": "LTU",
+          "abbreviation": "SUD"
+        },
+        {
+          "id": "sr:competitor:5413",
+          "name": "FK Shkendija",
+          "country": "North Macedonia",
+          "country_code": "MKD",
+          "abbreviation": "SHK"
+        },
+        {
+          "id": "sr:competitor:5962",
+          "name": "Qarabag FK",
+          "country": "Azerbaijan",
+          "country_code": "AZE",
+          "abbreviation": "QAR"
+        },
+        {
+          "id": "sr:competitor:6224",
+          "name": "FK Sutjeska",
+          "country": "Montenegro",
+          "country_code": "MNE",
+          "abbreviation": "SUT"
+        },
+        {
+          "id": "sr:competitor:7711",
+          "name": "FC Santa Coloma",
+          "country": "Andorra",
+          "country_code": "AND",
+          "abbreviation": "FCC"
+        },
+        {
+          "id": "sr:competitor:7918",
+          "name": "GKS Piast Gliwice",
+          "country": "Poland",
+          "country_code": "POL",
+          "abbreviation": "PGL"
+        },
+        {
+          "id": "sr:competitor:8091",
+          "name": "Nomme Kalju FC",
+          "country": "Estonia",
+          "country_code": "EST",
+          "abbreviation": "KAL"
+        },
+        {
+          "id": "sr:competitor:34425",
+          "name": "FC Krasnodar",
+          "country": "Russia",
+          "country_code": "RUS",
+          "abbreviation": "KRA"
+        },
+        {
+          "id": "sr:competitor:36155",
+          "name": "FC Astana",
+          "country": "Kazakhstan",
+          "country_code": "KAZ",
+          "abbreviation": "FCA"
+        },
+        {
+          "id": "sr:competitor:37862",
+          "name": "Tre Penne",
+          "country": "San Marino",
+          "country_code": "SMR",
+          "abbreviation": "TRP"
+        },
+        {
+          "id": "sr:competitor:43840",
+          "name": "PFC Ludogorets 1945 Razgrad",
+          "country": "Bulgaria",
+          "country_code": "BGR",
+          "abbreviation": "LUD"
+        },
+        {
+          "id": "sr:competitor:116312",
+          "name": "FC Saburtalo Tbilisi",
+          "country": "Georgia",
+          "country_code": "GEO",
+          "abbreviation": "SAT"
+        },
+        {
+          "id": "sr:competitor:126304",
+          "name": "Lincoln Red Imps FC",
+          "country": "Gibraltar",
+          "country_code": "GIB",
+          "abbreviation": "LIN"
+        },
+        {
+          "id": "sr:competitor:162368",
+          "name": "Riga FC",
+          "country": "Latvia",
+          "country_code": "LVA",
+          "abbreviation": "RFC"
+        },
+        {
+          "id": "sr:competitor:275019",
+          "name": "KF Feronikeli",
+          "abbreviation": "FER"
+        },
+        {
+          "id": "sr:competitor:364472",
+          "name": "FC Ararat-Armenia",
+          "country": "Armenia",
+          "country_code": "ARM",
+          "abbreviation": "ARA"
+        }
+      ]
+    }
+  ]
+}

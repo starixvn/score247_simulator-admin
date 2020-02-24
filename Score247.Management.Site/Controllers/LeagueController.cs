@@ -9,6 +9,7 @@ using Score247.Management.Site.Models.Dtos;
 using Score247.Management.Site.Repositories.Leagues;
 using Score247.Management.Site.Services;
 using Score247.Management.Site.ViewModels.League;
+using Score247Management.Core.Leagues.Dtos;
 
 namespace Score247.Management.Site.Controllers
 {
@@ -136,6 +137,36 @@ namespace Score247.Management.Site.Controllers
             }
 
             return Json(true);
+        }
+
+        [HttpGet("League/DumpLeagueInfo")]
+        public async Task<ActionResult> GenerateLeagueInfo([FromQuery] string leagueId)
+        {
+            try
+            {
+                var leagueInfo = await leagueService.GenerateDumpLeagueInfo(leagueId);
+
+                return Json(leagueInfo);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        [HttpPost("League/UpdateLeagueInfo")]
+        public async Task<ActionResult> UpdateLeagueInfo([FromBody] LeagueSportradarInfo leagueSportradarInfo)
+        {
+            try
+            {
+                await leagueService.UpdateLeagueInfo(leagueSportradarInfo);
+
+                return Json(true);
+            }
+            catch (Exception)
+            {
+                return Json(false);
+            }
         }
     }
 }

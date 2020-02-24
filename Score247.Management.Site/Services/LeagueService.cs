@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -36,10 +37,15 @@ namespace Score247.Management.Site.Services
         Task<IEnumerable<League>> GetActiveLeagues();
 
         Task GenerateLeagueFixture(string leagueId, TournamentScheduleDto tournamentScheduleDto);
+
+        Task<LeagueSportradarInfo> GenerateDumpLeagueInfo(string leagueId);
+
+        Task UpdateLeagueInfo(LeagueSportradarInfo leagueSportradarInfo);
     }
 
     public class LeagueService : ILeagueService
     {
+        private static readonly string DirectoryRoot = AppDomain.CurrentDomain.BaseDirectory + "App_Data";
         private IConfiguration configuration { get; }
 
         private readonly ITriggerJobService triggerJobService;
@@ -256,6 +262,31 @@ namespace Score247.Management.Site.Services
             var sportTimeline = TimelineMapper.MapTimelinetoSportEvent(sportEveht, timeline);
 
             await simulatorService.SendMatchTimelines(sportTimeline);
+        }
+
+        public async Task<LeagueSportradarInfo> GenerateDumpLeagueInfo(string leagueId)
+        {
+            try
+            {
+                var path = $"{DirectoryRoot}/tournaments/dumpInfo.json";
+                var leagueRepository = new LeagueRepository();
+
+                var jsonData = await File.ReadAllTextAsync(path);
+                var content = JsonConvert.DeserializeObject<LeagueSportradarInfo>(jsonData);
+                var league = await leagueRepository.GetLeagueById(leagueId);
+                content.tournament = league;
+
+                return content;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public async Task UpdateLeagueInfo(LeagueSportradarInfo leagueSportradarInfo)
+        {
+            await simulatorService.SendLeagueInfo(leagueSportradarInfo);
         }
     }
 }

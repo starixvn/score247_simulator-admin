@@ -14,6 +14,7 @@
     using System.Linq;
     using System.Collections.Generic;
     using Score247.Management.Site.Models.Dtos;
+    using Score247Management.Core.Leagues.Dtos;
 
     public interface ISimulatorService
     {
@@ -50,6 +51,8 @@
         Task SendTournamentStanding(TournamentStandingDto tournamentStandingDto);
 
         Task SendTournamentSchedule(TournamentScheduleDto schedule);
+
+        Task SendLeagueInfo(LeagueSportradarInfo leagueSportradarInfo);
     }
 
     public class SimulatorService : ISimulatorService
@@ -351,6 +354,21 @@
                 var requestPath = configuration.GetValue<string>("Simulator:TournamentSchedule");
 
                 await client.PostAsJsonAsync(requestPath, schedule);
+            }
+        }
+
+        public async Task SendLeagueInfo(LeagueSportradarInfo leagueSportradarInfo)
+        {
+            var jsonValue = JsonConvert.SerializeObject(leagueSportradarInfo);
+            var requestPath = configuration.GetValue<string>("Simulator:TournamentInfo");
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(configuration.GetValue<string>("Simulator:Url"));
+
+                await client.PostAsync(
+                        string.Format(requestPath),
+                        new StringContent(jsonValue, Encoding.UTF8,
+                        "application/json"));
             }
         }
     }

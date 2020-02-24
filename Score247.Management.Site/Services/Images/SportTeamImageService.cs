@@ -90,7 +90,7 @@ namespace Score247.Management.Site.Services.Images
             var teams = new List<SportRadarTeamLogo>();
             foreach (var asset in assetlist)
             {
-                if (asset.TeamId != null && !asset.Title.Contains("(transparent)"))
+                if (asset.TeamId != null && asset.Title.Contains("(transparent)"))
                 {
                     teams.Add(new SportRadarTeamLogo(asset.TeamId, asset.Title, null, asset.Links.FirstOrDefault(link => link.Type == "original")?.Href));
                 }

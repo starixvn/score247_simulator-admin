@@ -1,9 +1,14 @@
-﻿@model IEnumerable<Score247Management.Core.Leagues.Models.League>
+﻿@using Microsoft.Extensions.Configuration
+
+@inject IConfiguration Configuration
+@model IEnumerable<Score247Management.Core.Leagues.Models.League>
 
 @{
     ViewData["Title"] = "Leagues";
 }
-
+<div class="d-none">
+    <input type="text" id="urlPrefix" name="urlPrefix" value="@Configuration["PagePathPrefix"]" />
+</div>
 <h1 class="page-title">Leagues</h1>
 <div class="row">
     <form class="list-quick-action col-sm-2">
@@ -55,6 +60,7 @@
                 Flag
             </th>
             <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -93,6 +99,9 @@
                         @Html.ActionLink("Enable", "EnableOrDisableLeague", new { id = item.Id })
                     }
                 </td>
+                <td>
+                    <button class="btn btn-primary" onclick="generateLeagueInfoData(`@item.Id`, event)">Add League Info</button>
+                </td>
             </tr>
         }
     </tbody>
@@ -116,3 +125,29 @@
         </div>
     </div>
 </div>
+<div id="leagueInfoRequest" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">League Info Request</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <textarea id="leagueDataRaw" class="col-md-12" rows="20"></textarea>
+                <button id="formatLeagueData" class="btn-primary" onclick="FormatJsonRawData('leagueDataRaw', 'leagueRequestContent')">Format League</button>
+                <pre id="leagueRequestContent"></pre>
+            </div>
+            <div class="modal-footer">
+                <button id="btnSendLeagueInfo" type="button" onclick="updateLeagueInfoData(event)" class="btn-default" data-dismiss="modal">Send League Info</button>
+                <button type="button" class="btn-cancel" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="~/bundles/leagues.min.js"></script>
+}

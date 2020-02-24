@@ -7,6 +7,12 @@
     ]
   },
   {
+    "outputFileName": "wwwroot/bundles/leagues.min.js",
+    "inputFiles": [
+      "wwwroot/scripts/leagues/league.js"
+    ]
+  },
+  {
     "outputFileName": "wwwroot/bundles/matches.min.js",
     "inputFiles": [
       "wwwroot/scripts/matches/detail.js"
