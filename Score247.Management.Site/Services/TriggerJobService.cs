@@ -152,7 +152,7 @@ namespace Score247.Management.Site.Services
             await TriggerJobs(jobs);
         }
 
-        public Task TriggerFetchLeagues()
+        public async Task TriggerFetchLeagues()
         {
             var jobs = new List<string> { "FetchLeagues" };
 
