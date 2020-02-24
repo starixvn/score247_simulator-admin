@@ -275,6 +275,7 @@ namespace Score247.Management.Site.Services
                 var content = JsonConvert.DeserializeObject<LeagueSportradarInfo>(jsonData);
                 var league = await leagueRepository.GetLeagueById(leagueId);
                 content.tournament = league;
+                content.season.TournamentId = league.Id;
 
                 return content;
             }
