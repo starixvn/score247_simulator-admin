@@ -35,6 +35,15 @@ function updateLeagueInfoData(e) {
     });
 }
 
+function FormatJsonRawData(rawDataTextarea, targetDiv) {
+    var jsonRaw = $("#" + rawDataTextarea).val();
+    var jsonObj = JSON.parse(jsonRaw);
+    console.log(jsonObj);
+    $("#" + targetDiv).text("");
+    let target = '#' + targetDiv;
+    jsonView.format(jsonObj, target);
+}
+
 function getRootUrl() {
     return window.location.origin
         ? window.location.origin + '/'
