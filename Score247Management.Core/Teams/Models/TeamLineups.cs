@@ -3,14 +3,26 @@
     using System.Collections.Generic;
     using System.Linq;
     using MessagePack;
+    using Newtonsoft.Json;
 
     [MessagePackObject(keyAsPropertyName: true)]
     public class TeamLineups : Team
     {
-        private const char formationSplitChar = '-';
-
-        public TeamLineups(string value) : base(value)
+        [SerializationConstructor, JsonConstructor]
+        public TeamLineups(
+            string id,
+            string name,
+            bool isHome,
+            Coach coach,
+            string formation,
+            IEnumerable<Player> players,
+            IEnumerable<Player> substitutions)
+            : base(id, name, string.Empty, string.Empty, string.Empty, isHome, default(TeamStatistic), string.Empty)
         {
+            Coach = coach;
+            Formation = formation;
+            Players = players;
+            Substitutions = substitutions;
         }
 
         public Coach Coach { get; set; }
@@ -20,20 +32,5 @@
         public IEnumerable<Player> Players { get; set; }
 
         public IEnumerable<Player> Substitutions { get; set; }
-
-        public IList<byte> ConvertFormationToList()
-        {
-            var tempList = (Formation ?? string.Empty)
-           .Split(formationSplitChar)
-           .Where(fm => !string.IsNullOrWhiteSpace(fm))
-           .Select(fm => byte.Parse(fm))
-           .ToList();
-            var formationList = new List<byte> { 1 };
-            formationList.AddRange(tempList);
-
-            return formationList;
-        }
-
-        public byte CountTotalFormationLine() => (byte)(1 + ConvertFormationToList().Count);
     }
 }

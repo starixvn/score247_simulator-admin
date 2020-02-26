@@ -7,25 +7,34 @@
     [MessagePackObject(keyAsPropertyName: true)]
     public class Team : BaseModel
     {
-        [JsonConstructor]
-        public Team(string id, string name, string country, string countryCode, string abbreviation)
+        [SerializationConstructor, JsonConstructor]
+        public Team(
+            string id,
+            string name,
+            string country,
+            string countryCode,
+            string flag,
+            bool isHome,
+            TeamStatistic statistic,
+            string abbreviation) : base(id, name)
         {
-            Id = id;
-            Name = name;
             Country = country;
             CountryCode = countryCode;
+            Flag = flag;
+            IsHome = isHome;
+            Statistic = statistic;
             Abbreviation = abbreviation;
         }
 
-        public Team(string value)
-        {
-            var match = JsonConvert.DeserializeObject<Team>(value);
-            Id = match.Id;
-            Name = match.Name;
-            Country = match.Country;
-            CountryCode = match.CountryCode;
-            Abbreviation = match.Abbreviation;
-        }
+        //public Team(string value)
+        //{
+        //    var match = JsonConvert.DeserializeObject<Team>(value);
+        //    Id = match.Id;
+        //    Name = match.Name;
+        //    Country = match.Country;
+        //    CountryCode = match.CountryCode;
+        //    Abbreviation = match.Abbreviation;
+        //} : base()
 
         public string Country { get; set; }
 

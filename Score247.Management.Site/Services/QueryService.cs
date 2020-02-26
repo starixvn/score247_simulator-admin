@@ -68,7 +68,7 @@ namespace Score247.Management.Site.Services
             {
                 client.BaseAddress = new Uri(configuration.GetValue<string>("QueryApi:Url"));
 
-                client.DefaultRequestHeaders.Add("Accept", "application/x-msgpack");
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
 
                 var requestPath = $"api/soccer/{language}/matches/{matchId}/lineups";
                 var responseMessage = await client.GetAsync(requestPath);
@@ -77,14 +77,14 @@ namespace Score247.Management.Site.Services
                 {
                     try
                     {
-                        //var bytes = await responseMessage.Content.ReadAsStringAsync();
+                        var bytes = await responseMessage.Content.ReadAsStringAsync();
 
-                        //return JsonConvert.DeserializeObject<MatchPitchViewLineups>(bytes);
-                        var bytes = await responseMessage.Content.ReadAsByteArrayAsync();
+                        return JsonConvert.DeserializeObject<MatchPitchViewLineups>(bytes);
+                        //var bytes = await responseMessage.Content.ReadAsByteArrayAsync();
 
-                        return MessagePackSerializer.Deserialize<MatchPitchViewLineups>(bytes);
+                        //return MessagePackSerializer.Deserialize<MatchPitchViewLineups>(bytes);
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
                     }
                 }
