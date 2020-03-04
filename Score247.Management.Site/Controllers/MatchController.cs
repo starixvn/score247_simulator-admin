@@ -376,6 +376,15 @@ namespace Score247.Management.Site.Controllers
             return Json(eventDto);
         }
 
+        [HttpPost("Match/CreateVAREventPartial/{id}")]
+        public async Task<ActionResult> CreateVAREventPartial(string id, IFormCollection collection)
+        {
+            TimeSpan.TryParse(GetTimezone(), out TimeSpan offset);
+            var eventDto = await matchEventsService.CreateVAREventPartial(id, collection, offset);
+
+            return Json(eventDto);
+        }
+
         [HttpPost("/Match/Event/Apply")]
         public async Task<ActionResult> ApplyEventTimeline([FromBody] MatchPushEventDto matchPushEventDto, [FromQuery] bool eventMissed)
         {

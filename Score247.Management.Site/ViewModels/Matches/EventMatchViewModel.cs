@@ -18,6 +18,7 @@ namespace Score247.Management.Site.ViewModels.Matches
         public MatchPushEventDto MatchPenaltyEventDto { get; set; }
         public MatchPushEventDto MatchGoalEventDto { get; set; }
         public MatchPushEventDto MatchInjuryExtraEventDto { get; set; }
+        public MatchPushEventDto MatchVAREventDto { get; set; }
         public MatchPushEventDto MatchSubstitutionEventDto { get; set; }
         public MatchPushEventDto MatchMinorEventDto { get; set; }
         public IEnumerable<TimelineEvent> TimelineEvents { get; set; }
@@ -58,6 +59,8 @@ namespace Score247.Management.Site.ViewModels.Matches
             MatchTimeEventDto = new MatchPushEventDto(match, offset);
 
             MatchMinorEventDto = new MatchPushEventDto(match, offset);
+
+            MatchVAREventDto = new MatchPushEventDto(match, offset);
 
             MatchSubstitutionEventDto = new MatchPushEventDto(match, offset);
             MatchSubstitutionEventDto.payload.timeline.player_in = new Player_In

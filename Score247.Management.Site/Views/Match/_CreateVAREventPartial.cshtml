@@ -1,0 +1,167 @@
+﻿@using  Score247Management.Core._Shared.Enumerations
+@using Score247Management.Core.Matches.Models;
+
+@model Score247.Management.Site.Models.Events.MatchPushEventDto
+@{
+    List<SelectListItem> eventTypes = new List<SelectListItem>();
+    eventTypes.Add(new SelectListItem()
+    {
+        Text = "VAR Start",
+        Value = "video_assistant_referee"
+    });
+    eventTypes.Add(new SelectListItem()
+    {
+        Text = "VAR Over",
+        Value = "video_assistant_referee_over"
+    });
+    List<SelectListItem> periodTypes = new List<SelectListItem>();
+    periodTypes.Add(new SelectListItem()
+    {
+        Text = "Main time",
+        Value = "regular_period"
+    });
+    periodTypes.Add(new SelectListItem()
+    {
+        Text = "Injury Time",
+        Value = "extra_time"
+    });
+    periodTypes.Add(new SelectListItem()
+    {
+        Text = "OverTime",
+        Value = "overtime"
+    });
+    periodTypes.Add(new SelectListItem()
+    {
+        Text = "Injury OverTime",
+        Value = "over_extra_time"
+    });
+
+    List<SelectListItem> outcomes = new List<SelectListItem>();
+    outcomes.Add(new SelectListItem()
+    {
+        Text = "Goal",
+        Value = "goal"
+    });
+    outcomes.Add(new SelectListItem()
+    {
+        Text = "Penalty",
+        Value = "penalty"
+    });
+    outcomes.Add(new SelectListItem()
+    {
+        Text = "Red Card",
+        Value = "red_card"
+    });
+    outcomes.Add(new SelectListItem()
+    {
+        Text = "No Goal",
+        Value = "no_goal"
+    });
+    outcomes.Add(new SelectListItem()
+    {
+        Text = "No Penalty",
+        Value = "no_penalty"
+    });
+    outcomes.Add(new SelectListItem()
+    {
+        Text = "No Red Card",
+        Value = "no_red_card"
+    });
+
+    List<SelectListItem> matchTimeExtra = new List<SelectListItem>();
+    for (int i = 1; i < 20; i++)
+    {
+        var timeValue = i.ToString();
+        matchTimeExtra.Add(new SelectListItem()
+        {
+            Text = timeValue,
+            Value = timeValue
+        });
+    }
+}
+@{
+
+}
+<div class="card">
+    <div class="card-header" id="matchVAREventHeading">
+        <div class="card-title collapsed" data-toggle="collapse" data-target="#matchVAREvent" aria-expanded="true" aria-controls="matchCardEvent">
+            VAR Event
+        </div>
+    </div>
+    <div class="collapse" aria-labelledby="matchVAREventHeading" data-parent="#accordion" id="matchVAREvent">
+        <div class="card-body create-form">
+            <form id="EventVARForm">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="column">
+                    <div class="form-group">
+                        <label asp-for="payload.timeline.id" class="control-label">Event Id:</label>
+                        <input name="payload.timeline.id" value="" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="payload.timeline.type" class="control-label">Event Type</label>
+                        <select id="eventType" asp-for="payload.timeline.type" asp-items="eventTypes" class="form-control"></select>
+                        <span asp-validation-for="payload.timeline.type" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="payload.timeline.period_type" class="control-label">Period Type</label>
+                        <select id="eventType" asp-for="payload.timeline.period_type" asp-items="periodTypes" class="form-control" onchange="varPeriodTypeChange(this)"></select>
+                        <span asp-validation-for="payload.timeline.period_type" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="payload.timeline.time" class="control-label">Date</label>
+                        <input name="payload.timeline.time" value="@Model.payload.timeline.time" class="form-control customDatepicker" />
+                        <span asp-validation-for="payload.timeline.time" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="payload.timeline.hour" class="control-label">Time</label>
+                        <input asp-for="payload.timeline.hour" class="form-control" />
+                        <span asp-validation-for="payload.timeline.hour" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="payload.timeline.match_time" class="control-label">Match Time</label>
+                        <input asp-for="payload.timeline.match_time" class="form-control" />
+                        <span asp-validation-for="payload.timeline.match_time" class="text-danger"></span>
+                    </div>
+                    <div class="form-group d-none" id="varInjurytime">
+                        <label asp-for="payload.timeline.stoppage_time" class="control-label">Match Injury Time</label>
+                        <select asp-for="payload.timeline.stoppage_time" asp-items="matchTimeExtra" class="form-control"></select>
+                        <span asp-validation-for="payload.timeline.stoppage_time" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="payload.timeline.team" class="control-label">Team</label>
+                        <select asp-for="payload.timeline.team" class="form-control">
+                            <option value="home">Home</option>
+                            <option value="away">Away</option>
+                        </select>
+                        <span asp-validation-for="payload.timeline.team" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="payload.timeline.outcome" class="control-label">Outcome</label>
+                        <select id="outcome" asp-for="payload.timeline.outcome" asp-items="outcomes" class="form-control"></select>
+                        <span asp-validation-for="payload.timeline.outcome" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="commentary1" class="control-label">Commentary 1</label>
+                        <textarea id="commentary1" type="text" name="commentary1" class="form-control" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="commentary2" class="control-label">Commentary 2</label>
+                        <textarea id="commentary2" type="text" name="commentary2" class="form-control" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="commentary3" class="control-label">Commentary 3</label>
+                        <textarea id="commentary3" type="text" name="commentary3" class="form-control" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary" onclick="generateEventData(`@ViewBag.MatchId`, 'EventVARForm', 'VAREvent', event)">Process</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

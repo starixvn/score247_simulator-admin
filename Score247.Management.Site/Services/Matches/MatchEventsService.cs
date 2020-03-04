@@ -26,6 +26,8 @@ namespace Score247.Management.Site.Services.Matches
 
         Task<MatchPushEventDto> CreateMinorEventPartial(string id, IFormCollection collection, TimeSpan offset);
 
+        Task<MatchPushEventDto> CreateVAREventPartial(string id, IFormCollection collection, TimeSpan offset);
+
         Task SendEventTimeline(MatchPushEventDto matchPushEventDto, bool eventMissed);
     }
 
@@ -787,6 +789,32 @@ namespace Score247.Management.Site.Services.Matches
             var isPenaltyShootout = matchPushEventDto.payload.timeline.type != EventType.PenaltyShootout.DisplayName;
 
             await createMatchesService.UpdateLiveMatch(matchPushEventDto.metadata.sport_event_id);
+        }
+
+        public async Task<MatchPushEventDto> CreateVAREventPartial(string id, IFormCollection collection, TimeSpan offset)
+        {
+            var requestBody = await InitEvent(id, collection, offset);
+            if (collection["payload.timeline.period_type"] == "extra_time" || collection["payload.timeline.period_type"] == "over_extra_time")
+            {
+                requestBody.payload.timeline.stoppage_time = collection["payload.timeline.stoppage_time"];
+            }
+
+            if (collection["payload.timeline.period_type"] == "overtime" || collection["payload.timeline.period_type"] == "over_extra_time")
+            {
+                requestBody.payload.timeline.period_type = "overtime";
+            }
+
+            if (requestBody.payload.timeline.type == "video_assistant_referee")
+            {
+                requestBody.payload.timeline.description = collection["payload.timeline.outcome"];
+            }
+            else
+            {
+                requestBody.payload.timeline.outcome = collection["payload.timeline.outcome"];
+                requestBody.payload.timeline.description = requestBody.payload.timeline.outcome.Contains("no_") ? "call_overturned" : "call_stands";
+            }
+
+            return requestBody;
         }
     }
 }

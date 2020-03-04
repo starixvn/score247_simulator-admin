@@ -276,7 +276,7 @@ function scoreTimeEventTypeChange(selectObject) {
 }
 
 function scorePeriodTypeChange(selectObject) {
-    if (selectObject.value === 'extra_time') {
+    if (selectObject.value === 'extra_time' || selectObject.value === 'over_extra_time') {
         $('#scoreExtratime').removeClass('d-none');
     } else {
         $('#scoreExtratime').addClass('d-none');
@@ -294,7 +294,7 @@ function substitudePeriodTypeChange(selectObject) {
 
 function minorPeriodTypeChange(selectObject) {
     console.log(selectObject.value);
-    if (selectObject.value === 'extra_time') {
+    if (selectObject.value === 'extra_time' || selectObject.value === 'over_extra_time') {
         $('#minorExtratime').removeClass('d-none');
     } else {
         $('#minorExtratime').addClass('d-none');
@@ -303,10 +303,19 @@ function minorPeriodTypeChange(selectObject) {
 
 function cardPeriodTypeChange(selectObject) {
     console.log(selectObject.value);
-    if (selectObject.value === 'extra_time') {
+    if (selectObject.value === 'extra_time' || selectObject.value === 'over_extra_time') {
         $('#cardInjurytime').removeClass('d-none');
     } else {
         $('#cardInjurytime').addClass('d-none');
+    }
+}
+
+function varPeriodTypeChange(selectObject) {
+    console.log(selectObject.value);
+    if (selectObject.value === 'extra_time' || selectObject.value === 'over_extra_time') {
+        $('#varInjurytime').removeClass('d-none');
+    } else {
+        $('#varInjurytime').addClass('d-none');
     }
 }
 
