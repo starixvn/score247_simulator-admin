@@ -52,9 +52,11 @@
 
         public int InjuryTimeAnnounced { get; set; }
 
-        public string Description { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public DescriptionType Description { get; set; }
 
-        public string Outcome { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public OutcomeType Outcome { get; set; }
 
         public string StoppageTime { get; set; }
 
